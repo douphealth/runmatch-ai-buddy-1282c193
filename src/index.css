@@ -36,6 +36,9 @@
 
     --radius: 0.75rem;
 
+    --primary-glow: 1 90% 65%;
+    --card-elevated: 220 18% 14%;
+
     --sidebar-background: 220 20% 7%;
     --sidebar-foreground: 0 0% 95%;
     --sidebar-primary: 1 76% 56%;
@@ -59,5 +62,85 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Oswald', sans-serif;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: hsla(220, 18%, 11%, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid hsla(220, 15%, 25%, 0.3);
+  }
+
+  .glass-strong {
+    background: hsla(220, 18%, 11%, 0.85);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid hsla(220, 15%, 25%, 0.4);
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 40px -10px hsl(1 76% 56% / 0.4),
+                0 0 80px -20px hsl(1 76% 56% / 0.2);
+  }
+
+  .glow-primary-sm {
+    box-shadow: 0 0 20px -5px hsl(1 76% 56% / 0.3);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(1 76% 56%), hsl(1 90% 70%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, hsl(1 76% 56%), hsl(1 90% 45%));
+  }
+
+  .bg-gradient-dark {
+    background: linear-gradient(180deg, hsl(220 20% 7%) 0%, hsl(220 25% 4%) 100%);
+  }
+
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsla(0, 0%, 100%, 0.04),
+      transparent
+    );
+    animation: shimmer 3s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px -5px hsl(1 76% 56% / 0.3); }
+    50% { box-shadow: 0 0 40px -5px hsl(1 76% 56% / 0.5); }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
   }
 }
