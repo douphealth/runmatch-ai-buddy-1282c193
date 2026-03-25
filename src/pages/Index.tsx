@@ -23,6 +23,7 @@ const Index = () => {
     const step = quizSteps[currentStep];
     const val = answers[step.id as keyof QuizAnswers];
     if (step.type === 'slider') return true;
+    if (step.type === 'brand-input') return true; // brand is optional
     if (step.type === 'multi') return (val as string[]).length > 0;
     return !!val;
   };
