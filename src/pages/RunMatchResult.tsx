@@ -10,7 +10,6 @@ import { generateFAQSchema, generateProductSchema, generateMetaTitle, generateMe
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
-import { getAmazonLink } from '@/lib/shoe-database';
 import {
   ArrowLeft, ExternalLink, BookOpen, Star, RotateCcw, Target, Share2, Zap,
   ArrowRight, Shield, ShoppingCart, Award, TrendingUp, Heart, Wrench,
@@ -25,6 +24,11 @@ const fadeUp = {
   initial: { opacity: 0, y: 30 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: '-50px' },
+};
+
+const getAmazonProductLink = (brand: string, model: string) => {
+  const query = encodeURIComponent(`${brand} ${model} running shoes`);
+  return `https://www.amazon.com/s?k=${query}&tag=papalex-20`;
 };
 
 const RunMatchResult = () => {
@@ -273,7 +277,7 @@ const RunMatchResult = () => {
 
                   <div className="flex flex-col sm:flex-row gap-3">
                     <a
-                      href={getAmazonLink(primary.shoe.amazonASIN)}
+                      href={getAmazonProductLink(primary.shoe.brand, primary.shoe.model)}
                       target="_blank"
                       rel="noopener noreferrer nofollow"
                       className="inline-flex items-center justify-center gap-2 bg-gradient-primary glow-primary text-primary-foreground font-bold uppercase tracking-wider px-6 h-12 rounded-xl hover:opacity-90 transition-all text-sm"
@@ -336,7 +340,7 @@ const RunMatchResult = () => {
                       </Badge>
                       <div className="flex gap-2 mt-2">
                         <a
-                          href={getAmazonLink(s.shoe.shoe.amazonASIN)}
+                          href={getAmazonProductLink(s.shoe.shoe.brand, s.shoe.shoe.model)}
                           target="_blank"
                           rel="noopener noreferrer nofollow"
                           className="flex-1 flex items-center justify-center gap-1.5 bg-primary/10 text-primary font-semibold text-xs px-3 h-9 rounded-lg hover:bg-primary/20 transition-all"
