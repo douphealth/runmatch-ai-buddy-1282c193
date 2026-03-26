@@ -20,7 +20,21 @@ export function generateProductSchema(rec: ShoeRecommendation, answers: QuizAnsw
     name: `${rec.shoeProfile.category} Running Shoe Recommendation`,
     description: rec.shoeProfile.summary,
     category: 'Running Shoes',
-    brand: answers.brand !== 'no-preference' ? { '@type': 'Brand', name: answers.brand } : undefined,
+    brand: answers.brand !== 'no-preference' && answers.brand ? { '@type': 'Brand', name: answers.brand } : undefined,
+  };
+}
+
+export function generateWebAppSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'RunMatch AI — Running Shoe Recommendation Quiz',
+    url: 'https://runmatch-ai-buddy.lovable.app/',
+    applicationCategory: 'HealthApplication',
+    operatingSystem: 'Web',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Free AI-powered running shoe recommendation quiz. Get personalized shoe profiles, rotation strategies, and training tips in 2 minutes.',
+    creator: { '@type': 'Organization', name: 'GearUpToFit', url: 'https://gearuptofit.com' },
   };
 }
 

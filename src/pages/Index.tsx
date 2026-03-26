@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { quizSteps, QuizAnswers, defaultAnswers, generateSlug, encodeAnswers } from '@/lib/quiz-data';
@@ -6,6 +6,7 @@ import QuizHero from '@/components/quiz/QuizHero';
 import QuizProgress from '@/components/quiz/QuizProgress';
 import QuizStepContent from '@/components/quiz/QuizStepContent';
 import QuizNavigation from '@/components/quiz/QuizNavigation';
+import { Brain } from 'lucide-react';
 
 const Index = () => {
   const [currentStep, setCurrentStep] = useState(-1);
@@ -13,6 +14,23 @@ const Index = () => {
   const navigate = useNavigate();
 
   const progress = currentStep >= 0 ? ((currentStep + 1) / quizSteps.length) * 100 : 0;
+
+  // Count how many answers are filled
+  const answeredCount = useMemo(() => {
+    let count = 0;
+    if (answers.footType) count++;
+    if (answers.pronation) count++;
+    if (answers.weeklyMileage !== 30) count++; // changed from default
+    if (answers.distance) count++;
+    if (answers.terrain) count++;
+    if (answers.paceGoal) count++;
+    if (answers.injuries.length > 0) count++;
+    if (answers.brand) count++;
+    if (answers.budget) count++;
+    return count;
+  }, [answers]);
+
+  const confidencePercent = Math.round((answeredCount / 9) * 100);
 
   const setAnswer = useCallback((key: string, value: string | number | string[]) => {
     setAnswers(prev => ({ ...prev, [key]: value }));
@@ -23,7 +41,7 @@ const Index = () => {
     const step = quizSteps[currentStep];
     const val = answers[step.id as keyof QuizAnswers];
     if (step.type === 'slider') return true;
-    if (step.type === 'brand-input') return true; // brand is optional
+    if (step.type === 'brand-input') return true;
     if (step.type === 'multi') return (val as string[]).length > 0;
     return !!val;
   };
@@ -63,7 +81,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-dark relative overflow-hidden">
-      {/* Background image */}
+      {/* Background effects */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px]" />
@@ -90,6 +108,34 @@ const Index = () => {
               />
             </motion.div>
           </AnimatePresence>
+
+          {/* Confidence Meter */}
+          {currentStep >= 2 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="mt-6 glass rounded-xl p-3 flex items-center gap-3"
+            >
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Brain className="w-4 h-4 text-primary" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">AI Confidence</span>
+                  <span className="text-xs font-bold text-primary">{confidencePercent}%</span>
+                </div>
+                <div className="h-1.5 bg-secondary/50 rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full bg-gradient-primary rounded-full"
+                    initial={false}
+                    animate={{ width: `${confidencePercent}%` }}
+                    transition={{ duration: 0.6, ease: 'easeOut' }}
+                  />
+                </div>
+              </div>
+            </motion.div>
+          )}
         </div>
       </div>
 
