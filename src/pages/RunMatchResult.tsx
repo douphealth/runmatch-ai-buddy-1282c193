@@ -127,6 +127,17 @@ const RunMatchResult = () => {
     }
   };
 
+  const handleDownloadPDF = () => {
+    if (!answers || !recommendation || !rotation) return;
+    generateResultsPDF({
+      answers,
+      recommendation,
+      rotation,
+      radarData,
+    });
+    toast.success('Your RunMatch Report is downloading!');
+  };
+
   const shareOnTwitter = () => {
     const text = `I just found my perfect running shoe match! 🏃‍♂️ Take the free RunMatch AI quiz by @GearUpToFit:`;
     const quizUrl = 'https://runmatch-ai-buddy.lovable.app/';
