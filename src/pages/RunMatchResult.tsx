@@ -163,7 +163,7 @@ const RunMatchResult = () => {
           <div className="flex items-center gap-3">
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary">RunMatch AI</span>
             <Button variant="ghost" size="icon" onClick={handleShare} title="Copy link" className="hover:bg-primary/10">
-              {copied ? <CheckCircle className="w-4 h-4 text-green-500" /> : <Share2 className="w-4 h-4" />}
+              {copied ? <CheckCircle className="w-4 h-4 text-primary" /> : <Share2 className="w-4 h-4" />}
             </Button>
           </div>
         </div>
