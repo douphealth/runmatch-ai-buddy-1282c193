@@ -52,9 +52,11 @@ const QuizHero = ({ onStart }: QuizHeroProps) => {
       {/* Top bar */}
       <div className="relative z-10 flex items-center justify-between px-4 md:px-8 py-4">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
-            <Zap className="w-4 h-4 text-primary-foreground" />
-          </div>
+          <img
+            src="https://gearuptofit.com/wp-content/uploads/2023/03/cropped-Grey-Black-Illustration-Gym-Fitness-Logo.png"
+            alt="GearUpToFit Logo"
+            className="w-8 h-8 rounded-lg object-contain"
+          />
           <span className="text-xs font-bold uppercase tracking-[0.2em]">RunMatch AI</span>
         </div>
         <a
