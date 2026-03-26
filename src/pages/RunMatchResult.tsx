@@ -596,11 +596,33 @@ const RunMatchResult = () => {
           </div>
         </motion.div>
 
-        {/* SECTION 11: Share & Retake */}
+        {/* SECTION 11: Download PDF + Share & Retake */}
         <motion.div {...fadeUp} transition={{ delay: 0.7 }}>
           <div className="text-center pt-8 space-y-6">
+            {/* Download PDF CTA */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+            >
+              <div className="glass rounded-2xl p-6 md:p-8 border border-primary/20 max-w-lg mx-auto">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-primary mx-auto flex items-center justify-center mb-4 glow-primary">
+                  <Download className="w-7 h-7 text-primary-foreground" />
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight mb-2">Download Your Report</h3>
+                <p className="text-sm text-muted-foreground mb-5">Get a beautiful PDF with your full running profile, shoe matches, and personalized resources.</p>
+                <Button
+                  onClick={handleDownloadPDF}
+                  className="bg-gradient-primary glow-primary font-bold uppercase tracking-wider px-8 h-12 rounded-xl text-sm group w-full sm:w-auto"
+                >
+                  <Download className="w-4 h-4 mr-2 group-hover:animate-bounce" />
+                  Download PDF Report
+                </Button>
+              </div>
+            </motion.div>
+
             {/* Social sharing */}
-            <div className="flex items-center justify-center gap-3">
+            <div className="flex items-center justify-center gap-3 flex-wrap">
               <Button variant="outline" size="sm" onClick={handleShare} className="gap-2 rounded-xl">
                 <Copy className="w-4 h-4" /> Copy Link
               </Button>
