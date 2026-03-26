@@ -18,7 +18,6 @@ export interface ShoeRecommendation {
 export function generateRecommendation(answers: QuizAnswers): ShoeRecommendation {
   const { footType, pronation, weeklyMileage, distance, terrain, paceGoal, injuries, brand, budget } = answers;
 
-  // Determine support type
   let supportType = 'Neutral';
   if (pronation === 'overpronation' || footType === 'flat') {
     supportType = injuries.includes('knee-pain') || injuries.includes('shin-splints') ? 'Motion Control' : 'Stability';
@@ -26,7 +25,6 @@ export function generateRecommendation(answers: QuizAnswers): ShoeRecommendation
     supportType = 'Neutral with Cushion';
   }
 
-  // Determine cushioning
   let cushioning = 'Moderate';
   if (distance === 'marathon' || distance === 'ultra' || weeklyMileage > 60) {
     cushioning = 'Maximum';
@@ -37,14 +35,12 @@ export function generateRecommendation(answers: QuizAnswers): ShoeRecommendation
     cushioning = 'Maximum';
   }
 
-  // Determine drop
   let dropRange = '8–10mm';
   if (terrain === 'trail') dropRange = '4–6mm';
   if (paceGoal === 'race' && (distance === '5k' || distance === '10k')) dropRange = '6–8mm';
   if (injuries.includes('achilles')) dropRange = '10–12mm';
   if (injuries.includes('plantar-fasciitis')) dropRange = '8–12mm';
 
-  // Determine category
   let category = 'Daily Trainer';
   if (terrain === 'trail') category = 'Trail Runner';
   else if (paceGoal === 'race' || paceGoal === 'tempo') category = distance === '5k' || distance === '10k' ? 'Racing Flat / Speed Trainer' : 'Performance Trainer';
@@ -55,7 +51,6 @@ export function generateRecommendation(answers: QuizAnswers): ShoeRecommendation
 
   const summary = `A ${cushioning.toLowerCase()}-cushioned ${supportType.toLowerCase()} ${category.toLowerCase()} with a ${dropRange} heel-to-toe drop, optimized for ${terrain === 'trail' ? 'technical terrain' : terrain === 'track' ? 'track sessions' : 'road running'}.`;
 
-  // Category explanation
   const categoryReasons: string[] = [];
   if (supportType !== 'Neutral') categoryReasons.push(`Your ${pronation === 'overpronation' ? 'overpronation' : 'foot type'} benefits from ${supportType.toLowerCase()} features to reduce injury risk.`);
   if (cushioning === 'Maximum') categoryReasons.push(`Higher mileage and ${distance} distance demand maximum cushioning to protect joints over time.`);
@@ -63,7 +58,6 @@ export function generateRecommendation(answers: QuizAnswers): ShoeRecommendation
   if (paceGoal === 'race') categoryReasons.push('A lighter, more responsive build helps you hit goal pace on race day.');
   categoryReasons.push(`This category balances durability and performance for runners logging ${weeklyMileage} km/week.`);
 
-  // Rotation
   const rotation: ShoeRecommendation['rotation'] = [
     { purpose: 'Daily Training', shoeType: `${supportType} ${category}`, description: `Your go-to shoe for ${Math.round(weeklyMileage * 0.6)} km/week of easy and moderate runs.` },
   ];
@@ -77,7 +71,6 @@ export function generateRecommendation(answers: QuizAnswers): ShoeRecommendation
     rotation.push({ purpose: 'Trail Days', shoeType: 'Trail Runner', description: 'Aggressive tread and rock plates for off-road sessions.' });
   }
 
-  // Training emphasis
   const training: string[] = [];
   if (distance === '5k') {
     training.push('Focus on speed intervals (400m–1km repeats) twice per week.');
@@ -105,7 +98,6 @@ export function generateRecommendation(answers: QuizAnswers): ShoeRecommendation
     training.push('Keep 80% of your runs at conversational pace to build aerobic base.');
   }
 
-  // Why it works
   const whyParts = [
     `Based on your ${footType === 'wide' ? 'wide' : footType} foot type and ${pronation} pronation pattern, ${supportType.toLowerCase()} shoes will provide the right balance of guidance and natural movement.`,
     `At ${weeklyMileage} km/week targeting ${distance.replace('-', ' ')} on ${terrain} surfaces, ${cushioning.toLowerCase()} cushioning protects against cumulative impact while keeping the ride responsive.`,
@@ -114,8 +106,9 @@ export function generateRecommendation(answers: QuizAnswers): ShoeRecommendation
     const injuryNames = injuries.map(i => i.replace(/-/g, ' ')).join(', ');
     whyParts.push(`Your history of ${injuryNames} means we prioritized extra protection and a ${dropRange} drop to reduce strain on vulnerable areas.`);
   }
-  if (brand !== 'no-preference' && brand) {
-    whyParts.push(`${brand.charAt(0).toUpperCase() + brand.slice(1)} offers excellent options in this category, so you can stay with a brand you trust.`);
+  if (brand.length > 0) {
+    const brandNames = brand.map(b => b.charAt(0).toUpperCase() + b.slice(1)).join(', ');
+    whyParts.push(`${brandNames} offer${brand.length === 1 ? 's' : ''} excellent options in this category, so you can stay with brand${brand.length > 1 ? 's' : ''} you trust.`);
   }
 
   return {

@@ -641,6 +641,6 @@ export const shoeDatabase: Shoe[] = [
   },
 ];
 
-export function getAmazonLink(asin: string, affiliateTag: string = 'gearuptofit-20'): string {
+export function getAmazonLink(asin: string, affiliateTag: string = 'papalex-20'): string {
   return `https://www.amazon.com/dp/${asin}?tag=${affiliateTag}`;
 }

@@ -20,7 +20,7 @@ export function generateProductSchema(rec: ShoeRecommendation, answers: QuizAnsw
     name: `${rec.shoeProfile.category} Running Shoe Recommendation`,
     description: rec.shoeProfile.summary,
     category: 'Running Shoes',
-    brand: answers.brand !== 'no-preference' && answers.brand ? { '@type': 'Brand', name: answers.brand } : undefined,
+    brand: answers.brand.length > 0 ? { '@type': 'Brand', name: answers.brand.join(', ') } : undefined,
   };
 }
 

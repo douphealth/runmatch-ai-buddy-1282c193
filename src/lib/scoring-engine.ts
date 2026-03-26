@@ -36,19 +36,32 @@ function injuryMatch(userInjuries: string[], shoeInjuryFriendly: string[]): numb
   return matches / userInjuries.length;
 }
 
-function budgetMatch(userBudget: string, price: number): number {
-  switch (userBudget) {
-    case 'under-100': return price <= 100 ? 1 : price <= 120 ? 0.5 : 0;
-    case '100-150': return price >= 100 && price <= 150 ? 1 : price <= 170 ? 0.5 : 0.1;
-    case '150-200': return price >= 150 && price <= 200 ? 1 : price >= 130 ? 0.5 : 0.2;
-    case '200-plus': return price >= 180 ? 1 : 0.3;
-    default: return 0.5;
+function budgetMatch(userBudgets: string[], price: number): number {
+  if (userBudgets.length === 0) return 0.5;
+  // Check if price fits any selected budget range
+  for (const b of userBudgets) {
+    switch (b) {
+      case 'under-100': if (price <= 100) return 1; break;
+      case '100-150': if (price >= 100 && price <= 150) return 1; break;
+      case '150-200': if (price >= 150 && price <= 200) return 1; break;
+      case '200-plus': if (price >= 200) return 1; break;
+    }
   }
+  // Partial match if close
+  for (const b of userBudgets) {
+    switch (b) {
+      case 'under-100': if (price <= 120) return 0.5; break;
+      case '100-150': if (price <= 170) return 0.5; break;
+      case '150-200': if (price >= 130) return 0.5; break;
+      case '200-plus': if (price >= 180) return 0.5; break;
+    }
+  }
+  return 0.1;
 }
 
-function brandMatch(userBrand: string, shoeBrand: string): number {
-  if (!userBrand || userBrand === 'no-preference') return 0.5;
-  return shoeBrand.toLowerCase() === userBrand.toLowerCase() ? 1 : 0.1;
+function brandMatch(userBrands: string[], shoeBrand: string): number {
+  if (userBrands.length === 0) return 0.5; // no preference
+  return userBrands.some(b => shoeBrand.toLowerCase() === b.toLowerCase()) ? 1 : 0.1;
 }
 
 function paceMatch(userPace: string, shoe: Shoe): number {
@@ -126,7 +139,6 @@ export function buildRotation(answers: QuizAnswers): ShoeRotation {
   const scored = scoreShoes(answers);
   const primary = scored[0];
 
-  // Find speed shoe (different from primary)
   let speed: ScoredShoe | null = null;
   if (answers.weeklyMileage > 30 || answers.paceGoal === 'tempo' || answers.paceGoal === 'race') {
     speed = scored.find(s =>
@@ -135,7 +147,6 @@ export function buildRotation(answers: QuizAnswers): ShoeRotation {
     ) || null;
   }
 
-  // Find long run shoe (different from primary and speed)
   let longRun: ScoredShoe | null = null;
   if (answers.weeklyMileage > 40 || ['half-marathon', 'marathon', 'ultra'].includes(answers.distance)) {
     longRun = scored.find(s =>

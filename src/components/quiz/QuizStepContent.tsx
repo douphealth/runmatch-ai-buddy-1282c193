@@ -20,6 +20,17 @@ const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect }: QuizSt
     return popularBrands.filter(b => b.toLowerCase().includes(brandSearch.toLowerCase()));
   }, [brandSearch]);
 
+  const selectedBrands = answers.brand;
+
+  const toggleBrand = (brand: string) => {
+    const lower = brand.toLowerCase();
+    if (selectedBrands.includes(lower)) {
+      setAnswer('brand', selectedBrands.filter(b => b !== lower));
+    } else {
+      setAnswer('brand', [...selectedBrands, lower]);
+    }
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
@@ -53,7 +64,6 @@ const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect }: QuizSt
               height={512}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-            {/* Step number overlay */}
             <div className="absolute bottom-3 left-4 md:left-5">
               <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary/80">
                 Step {(['footType','pronation','weeklyMileage','distance','terrain','paceGoal','injuries','brand','budget'].indexOf(step.id) + 1)} of 9
@@ -71,7 +81,7 @@ const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect }: QuizSt
         <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
           {step.subtitle}
         </p>
-        {step.type === 'multi' && (
+        {(step.type === 'multi' || step.type === 'brand-multi') && (
           <motion.span
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
@@ -116,7 +126,6 @@ const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect }: QuizSt
               {step.sliderConfig.labels.map(l => <span key={l}>{l}</span>)}
             </div>
           )}
-          {/* Quick mileage category */}
           <div className="flex justify-center gap-2 mt-2">
             {[
               { label: 'Beginner', val: 15 },
@@ -140,24 +149,21 @@ const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect }: QuizSt
         </div>
       )}
 
-      {/* Brand Input */}
-      {step.type === 'brand-input' && (
+      {/* Brand Multi-Select */}
+      {step.type === 'brand-multi' && (
         <div className="space-y-4">
           {/* Search input */}
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
-              value={answers.brand === 'no-preference' ? '' : (brandSearch || answers.brand)}
-              onChange={(e) => {
-                setBrandSearch(e.target.value);
-                setAnswer('brand', e.target.value);
-              }}
-              placeholder="Type any brand name..."
+              value={brandSearch}
+              onChange={(e) => setBrandSearch(e.target.value)}
+              placeholder="Search brands..."
               className="pl-11 h-12 md:h-14 text-base bg-card/50 border-border/50 rounded-xl focus:border-primary"
             />
-            {answers.brand && answers.brand !== 'no-preference' && (
+            {brandSearch && (
               <button
-                onClick={() => { setBrandSearch(''); setAnswer('brand', ''); }}
+                onClick={() => setBrandSearch('')}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               >
                 <X className="w-4 h-4" />
@@ -165,13 +171,32 @@ const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect }: QuizSt
             )}
           </div>
 
+          {/* Selected brands display */}
+          {selectedBrands.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {selectedBrands.map(b => (
+                <motion.button
+                  key={b}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  onClick={() => toggleBrand(b)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/20 text-primary text-xs font-semibold border border-primary/30"
+                >
+                  {b.charAt(0).toUpperCase() + b.slice(1)}
+                  <X className="w-3 h-3" />
+                </motion.button>
+              ))}
+            </div>
+          )}
+
           {/* No preference button */}
           <motion.button
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
-            onClick={() => { setBrandSearch(''); setAnswer('brand', 'no-preference'); }}
+            onClick={() => setAnswer('brand', [])}
             className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
-              answers.brand === 'no-preference'
+              selectedBrands.length === 0
                 ? 'border-primary bg-primary/10 glow-primary-sm'
                 : 'border-border/50 bg-card/50 hover:border-muted-foreground/30'
             }`}
@@ -182,7 +207,7 @@ const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect }: QuizSt
                 <span className="font-semibold text-sm">No Preference</span>
                 <span className="block text-xs text-muted-foreground">We'll recommend based on fit, not brand</span>
               </div>
-              {answers.brand === 'no-preference' && (
+              {selectedBrands.length === 0 && (
                 <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="ml-auto w-5 h-5 rounded-full bg-primary flex items-center justify-center">
                   <Check className="w-3 h-3 text-primary-foreground" />
                 </motion.div>
@@ -193,7 +218,7 @@ const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect }: QuizSt
           {/* Popular brands grid */}
           <div>
             <p className="text-xs text-muted-foreground uppercase tracking-wider mb-3 font-medium">
-              {brandSearch ? `Results for "${brandSearch}"` : 'Popular brands'}
+              {brandSearch ? `Results for "${brandSearch}"` : 'Popular brands — select one or more'}
             </p>
             <motion.div
               variants={containerVariants}
@@ -201,15 +226,15 @@ const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect }: QuizSt
               animate="show"
               className="grid grid-cols-3 sm:grid-cols-4 gap-2"
             >
-              {filteredBrands.slice(0, 12).map(brand => {
-                const isSelected = answers.brand.toLowerCase() === brand.toLowerCase();
+              {filteredBrands.slice(0, 16).map(brand => {
+                const isSelected = selectedBrands.includes(brand.toLowerCase());
                 return (
                   <motion.button
                     key={brand}
                     variants={itemVariants}
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
-                    onClick={() => { setBrandSearch(''); setAnswer('brand', brand.toLowerCase()); }}
+                    onClick={() => toggleBrand(brand)}
                     className={`relative p-3 rounded-xl border transition-all text-center ${
                       isSelected
                         ? 'border-primary bg-primary/10 glow-primary-sm'
@@ -227,9 +252,11 @@ const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect }: QuizSt
               })}
             </motion.div>
             {brandSearch && filteredBrands.length === 0 && (
-              <p className="text-center text-sm text-muted-foreground mt-4 py-4 glass rounded-xl">
-                No matches found — we'll use "<span className="text-primary font-medium">{brandSearch}</span>" as your preference
-              </p>
+              <div className="text-center mt-4 py-4 glass rounded-xl">
+                <p className="text-sm text-muted-foreground">
+                  No matches found — try a different search
+                </p>
+              </div>
             )}
           </div>
         </div>
@@ -271,10 +298,8 @@ const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect }: QuizSt
                     : 'border-border/50 bg-card/40 hover:border-muted-foreground/30 hover:bg-card/70'
                 }`}
               >
-                {/* Shimmer on selected */}
                 {isSelected && <div className="absolute inset-0 shimmer pointer-events-none" />}
 
-                {/* Selected check */}
                 {isSelected && (
                   <motion.div
                     initial={{ scale: 0, rotate: -180 }}

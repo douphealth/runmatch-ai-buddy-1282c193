@@ -15,18 +15,17 @@ const Index = () => {
 
   const progress = currentStep >= 0 ? ((currentStep + 1) / quizSteps.length) * 100 : 0;
 
-  // Count how many answers are filled
   const answeredCount = useMemo(() => {
     let count = 0;
     if (answers.footType) count++;
     if (answers.pronation) count++;
-    if (answers.weeklyMileage !== 30) count++; // changed from default
+    if (answers.weeklyMileage !== 30) count++;
     if (answers.distance) count++;
     if (answers.terrain) count++;
     if (answers.paceGoal) count++;
     if (answers.injuries.length > 0) count++;
-    if (answers.brand) count++;
-    if (answers.budget) count++;
+    if (answers.brand.length > 0) count++;
+    if (answers.budget.length > 0) count++;
     return count;
   }, [answers]);
 
@@ -41,7 +40,7 @@ const Index = () => {
     const step = quizSteps[currentStep];
     const val = answers[step.id as keyof QuizAnswers];
     if (step.type === 'slider') return true;
-    if (step.type === 'brand-input') return true;
+    if (step.type === 'brand-multi') return true; // optional
     if (step.type === 'multi') return (val as string[]).length > 0;
     return !!val;
   };
@@ -81,7 +80,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-dark relative overflow-hidden">
-      {/* Background effects */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px]" />
@@ -109,7 +107,6 @@ const Index = () => {
             </motion.div>
           </AnimatePresence>
 
-          {/* Confidence Meter */}
           {currentStep >= 2 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}

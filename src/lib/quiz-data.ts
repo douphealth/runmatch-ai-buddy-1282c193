@@ -9,7 +9,7 @@ export interface QuizStep {
   id: string;
   title: string;
   subtitle: string;
-  type: 'single' | 'multi' | 'slider' | 'brand-input';
+  type: 'single' | 'multi' | 'slider' | 'brand-multi';
   options?: QuizOption[];
   sliderConfig?: { min: number; max: number; step: number; unit: string; labels?: string[] };
   image?: string;
@@ -109,15 +109,15 @@ export const quizSteps: QuizStep[] = [
   {
     id: 'brand',
     title: 'Brand preference',
-    subtitle: "Type any running shoe brand you prefer, or skip if you have no preference.",
-    type: 'brand-input',
+    subtitle: "Select one or more brands you prefer, or skip if you have no preference.",
+    type: 'brand-multi',
     image: '/images/step-brand.jpg',
   },
   {
     id: 'budget',
     title: 'Budget range',
-    subtitle: 'What are you looking to spend on your next pair?',
-    type: 'single',
+    subtitle: 'Select one or more budget ranges you\'re comfortable with.',
+    type: 'multi',
     image: '/images/step-budget.jpg',
     options: [
       { value: 'under-100', label: 'Under $100', description: 'Budget-friendly picks', icon: '💵' },
@@ -143,8 +143,8 @@ export interface QuizAnswers {
   terrain: string;
   paceGoal: string;
   injuries: string[];
-  brand: string;
-  budget: string;
+  brand: string[];
+  budget: string[];
 }
 
 export const defaultAnswers: QuizAnswers = {
@@ -155,8 +155,8 @@ export const defaultAnswers: QuizAnswers = {
   terrain: '',
   paceGoal: '',
   injuries: [],
-  brand: '',
-  budget: '',
+  brand: [],
+  budget: [],
 };
 
 export function generateSlug(answers: QuizAnswers): string {
@@ -175,7 +175,15 @@ export function encodeAnswers(answers: QuizAnswers): string {
 
 export function decodeAnswers(encoded: string): QuizAnswers | null {
   try {
-    return JSON.parse(atob(encoded));
+    const parsed = JSON.parse(atob(encoded));
+    // Backward compat: convert old string brand/budget to arrays
+    if (typeof parsed.brand === 'string') {
+      parsed.brand = parsed.brand && parsed.brand !== 'no-preference' ? [parsed.brand] : [];
+    }
+    if (typeof parsed.budget === 'string') {
+      parsed.budget = parsed.budget ? [parsed.budget] : [];
+    }
+    return parsed;
   } catch {
     return null;
   }
