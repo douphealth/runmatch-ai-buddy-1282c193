@@ -70,9 +70,9 @@ function brandMatch(userBrands: string[], shoeBrand: string): number {
 
 function paceMatch(userPace: string, shoe: Shoe): number {
   switch (userPace) {
-    case 'easy': return shoe.category === 'daily' || shoe.category === 'max-cushion' ? 1 : 0.3;
-    case 'moderate': return shoe.category === 'daily' ? 1 : shoe.category === 'speed' ? 0.6 : 0.5;
-    case 'tempo': return shoe.category === 'speed' ? 1 : shoe.category === 'race' ? 0.8 : 0.3;
+    case 'easy': return shoe.category === 'daily' || shoe.category === 'max-cushion' ? 1 : shoe.category === 'trail' ? 0.7 : 0.3;
+    case 'moderate': return shoe.category === 'daily' || shoe.category === 'hybrid' ? 1 : shoe.category === 'speed' ? 0.6 : 0.5;
+    case 'tempo': return shoe.category === 'speed' ? 1 : shoe.category === 'race' ? 0.8 : shoe.category === 'hybrid' ? 0.5 : 0.3;
     case 'race': return shoe.category === 'race' ? 1 : shoe.category === 'speed' ? 0.7 : 0.2;
     default: return 0.5;
   }
@@ -158,6 +158,14 @@ export function buildRotation(answers: QuizAnswers): ShoeRotation {
       s.shoe.id !== speed?.shoe.id &&
       (s.shoe.category === 'max-cushion' || s.shoe.cushioning >= 8)
     ) || null;
+  }
+
+  // For trail runners, prefer trail shoes in rotation
+  if (answers.terrain === 'trail' && primary.shoe.category !== 'trail') {
+    const trailShoe = scored.find(s => s.shoe.category === 'trail');
+    if (trailShoe) {
+      return { primary: trailShoe, speed, longRun };
+    }
   }
 
   return { primary, speed, longRun };
