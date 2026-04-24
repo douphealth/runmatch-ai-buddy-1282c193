@@ -34,14 +34,14 @@ const sizeMap = {
   lg: { container: 'h-56 md:h-64', icon: 'w-20 h-20', brand: 'text-sm', model: 'text-lg md:text-xl', badge: 'text-[10px] px-2 py-1' },
 };
 
-const ShoeImage = ({ brand, model, imageURL, amazonASIN, size = 'md', className = '', showSourceBadge = true }: ShoeImageProps) => {
-  const resolved = resolveShoeImage({ imageURL: imageURL || '', amazonASIN: amazonASIN || '' });
+const ShoeImage = ({ brand, model, imageURL, amazonASIN: _asin, size = 'md', className = '', showSourceBadge = true }: ShoeImageProps) => {
+  const resolved = resolveShoeImage({ brand, model, imageURL: imageURL || '' });
   const [imgError, setImgError] = useState(false);
 
   const accent = brandAccent[brand] || 'from-primary/30 via-primary/10 to-transparent';
   const s = sizeMap[size];
 
-  // Live source after error fallback (Amazon → studio if Amazon image 404s)
+  // Falls back to studio frame if the scraped/local image fails to load
   const effectiveSource: ImageSource = imgError || !resolved.url ? 'studio-frame' : resolved.source;
   const showRealImage = resolved.url && !imgError;
 
