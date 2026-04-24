@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ScoredShoe } from '@/lib/scoring-engine';
 import { Badge } from '@/components/ui/badge';
+import ShoeImage from './ShoeImage';
 import { ShoppingCart, Star, CheckCircle } from 'lucide-react';
 
 interface ShoeComparisonTableProps {
