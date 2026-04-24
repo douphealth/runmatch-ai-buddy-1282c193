@@ -1,5 +1,7 @@
 import { ShoeRecommendation } from './recommendation-engine';
 import { QuizAnswers } from './quiz-data';
+import { Shoe } from './shoe-database';
+import { resolveShoeImage } from './shoe-images';
 
 export function generateFAQSchema(faqs: Array<{ question: string; answer: string }>) {
   return {
@@ -13,16 +15,75 @@ export function generateFAQSchema(faqs: Array<{ question: string; answer: string
   };
 }
 
-export function generateProductSchema(rec: ShoeRecommendation, answers: QuizAnswers) {
-  return {
+export function generateProductSchema(rec: ShoeRecommendation, answers: QuizAnswers, recommendedShoe?: Shoe) {
+  const base: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: `${rec.shoeProfile.category} Running Shoe Recommendation`,
+    name: recommendedShoe ? `${recommendedShoe.brand} ${recommendedShoe.model}` : `${rec.shoeProfile.category} Running Shoe Recommendation`,
     description: rec.shoeProfile.summary,
     category: 'Running Shoes',
-    brand: answers.brand.length > 0 ? { '@type': 'Brand', name: answers.brand.join(', ') } : undefined,
+    brand: recommendedShoe
+      ? { '@type': 'Brand', name: recommendedShoe.brand }
+      : (answers.brand.length > 0 ? { '@type': 'Brand', name: answers.brand.join(', ') } : undefined),
   };
+
+  if (recommendedShoe) {
+    const img = resolveShoeImage(recommendedShoe);
+    if (img.url) base.image = img.url;
+    base.offers = {
+      '@type': 'Offer',
+      price: String(recommendedShoe.priceUSD),
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      url: `https://www.amazon.com/s?k=${encodeURIComponent(`${recommendedShoe.brand} ${recommendedShoe.model} running shoes`)}&tag=papalex-20`,
+    };
+    if (recommendedShoe.amazonASIN) {
+      base.sku = recommendedShoe.amazonASIN;
+      base.gtin = recommendedShoe.amazonASIN;
+    }
+  }
+
+  return base;
 }
+
+/**
+ * Update <head> with Open Graph + Twitter Card image metadata for the recommended shoe.
+ * Returns a cleanup function that removes the tags it created.
+ */
+export function applyOpenGraphImage(shoe: Shoe, title: string, description: string): () => void {
+  const img = resolveShoeImage(shoe);
+  const imageUrl = img.url || 'https://gearuptofit.com/wp-content/uploads/2023/03/cropped-Grey-Black-Illustration-Gym-Fitness-Logo.png';
+  const url = typeof window !== 'undefined' ? window.location.href : '';
+
+  const metas: Array<[string, string, string]> = [
+    ['property', 'og:title', title],
+    ['property', 'og:description', description],
+    ['property', 'og:image', imageUrl],
+    ['property', 'og:image:alt', `${shoe.brand} ${shoe.model} running shoe`],
+    ['property', 'og:url', url],
+    ['property', 'og:type', 'product'],
+    ['name', 'twitter:card', 'summary_large_image'],
+    ['name', 'twitter:title', title],
+    ['name', 'twitter:description', description],
+    ['name', 'twitter:image', imageUrl],
+    ['name', 'twitter:image:alt', `${shoe.brand} ${shoe.model} running shoe`],
+  ];
+
+  const created: HTMLMetaElement[] = [];
+  for (const [attr, key, value] of metas) {
+    let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
+    if (!el) {
+      el = document.createElement('meta');
+      el.setAttribute(attr, key);
+      document.head.appendChild(el);
+      created.push(el);
+    }
+    el.setAttribute('content', value);
+  }
+
+  return () => created.forEach(el => el.remove());
+}
+
 
 export function generateWebAppSchema() {
   return {
