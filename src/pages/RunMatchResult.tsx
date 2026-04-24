@@ -91,9 +91,14 @@ const RunMatchResult = () => {
 
   useEffect(() => {
     if (!recommendation || !answers) return;
-    document.title = generateMetaTitle(answers);
+    const title = generateMetaTitle(answers);
+    const description = generateMetaDescription(recommendation);
+    document.title = title;
     const desc = document.querySelector('meta[name="description"]');
-    if (desc) desc.setAttribute('content', generateMetaDescription(recommendation));
+    if (desc) desc.setAttribute('content', description);
+
+    const recommendedShoe = rotation?.primary?.shoe;
+    const cleanupOG = recommendedShoe ? applyOpenGraphImage(recommendedShoe, title, description) : () => {};
 
     const faqSchema = document.createElement('script');
     faqSchema.type = 'application/ld+json';
@@ -102,7 +107,7 @@ const RunMatchResult = () => {
 
     const productSchema = document.createElement('script');
     productSchema.type = 'application/ld+json';
-    productSchema.textContent = JSON.stringify(generateProductSchema(recommendation, answers));
+    productSchema.textContent = JSON.stringify(generateProductSchema(recommendation, answers, recommendedShoe));
     document.head.appendChild(productSchema);
 
     const breadcrumbSchema = document.createElement('script');
@@ -118,8 +123,8 @@ const RunMatchResult = () => {
     });
     document.head.appendChild(breadcrumbSchema);
 
-    return () => { faqSchema.remove(); productSchema.remove(); breadcrumbSchema.remove(); };
-  }, [recommendation, answers, faqs]);
+    return () => { faqSchema.remove(); productSchema.remove(); breadcrumbSchema.remove(); cleanupOG(); };
+  }, [recommendation, answers, faqs, rotation]);
 
   const handleShare = async () => {
     try {
