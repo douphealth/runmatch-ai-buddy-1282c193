@@ -286,6 +286,14 @@ const RunMatchResult = () => {
               </div>
 
               <div className="md:flex md:gap-6 md:items-start">
+                <div className="md:w-2/5 mb-5 md:mb-0">
+                  <ShoeImage
+                    brand={primary.shoe.brand}
+                    model={primary.shoe.model}
+                    imageURL={primary.shoe.imageURL}
+                    size="lg"
+                  />
+                </div>
                 <div className="flex-1">
                   <h3 className="text-2xl md:text-4xl font-bold mb-1">{primary.shoe.brand} {primary.shoe.model}</h3>
                   <p className="text-primary font-semibold text-lg mb-3">${primary.shoe.priceUSD}</p>
