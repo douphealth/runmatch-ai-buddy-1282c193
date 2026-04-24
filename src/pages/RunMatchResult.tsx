@@ -15,6 +15,7 @@ import { Badge } from '@/components/ui/badge';
 import ShoeComparisonTable from '@/components/results/ShoeComparisonTable';
 import AnimatedCounter from '@/components/results/AnimatedCounter';
 import MatchScoreBadge from '@/components/results/MatchScoreBadge';
+import ShoeImage from '@/components/results/ShoeImage';
 import {
   ArrowLeft, ExternalLink, BookOpen, Star, RotateCcw, Target, Share2, Zap,
   ArrowRight, Shield, ShoppingCart, Award, TrendingUp, Heart, Wrench,
