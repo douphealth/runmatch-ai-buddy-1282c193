@@ -15,6 +15,7 @@ import { Badge } from '@/components/ui/badge';
 import ShoeComparisonTable from '@/components/results/ShoeComparisonTable';
 import AnimatedCounter from '@/components/results/AnimatedCounter';
 import MatchScoreBadge from '@/components/results/MatchScoreBadge';
+import ShoeImage from '@/components/results/ShoeImage';
 import {
   ArrowLeft, ExternalLink, BookOpen, Star, RotateCcw, Target, Share2, Zap,
   ArrowRight, Shield, ShoppingCart, Award, TrendingUp, Heart, Wrench,
@@ -285,6 +286,14 @@ const RunMatchResult = () => {
               </div>
 
               <div className="md:flex md:gap-6 md:items-start">
+                <div className="md:w-2/5 mb-5 md:mb-0">
+                  <ShoeImage
+                    brand={primary.shoe.brand}
+                    model={primary.shoe.model}
+                    imageURL={primary.shoe.imageURL}
+                    size="lg"
+                  />
+                </div>
                 <div className="flex-1">
                   <h3 className="text-2xl md:text-4xl font-bold mb-1">{primary.shoe.brand} {primary.shoe.model}</h3>
                   <p className="text-primary font-semibold text-lg mb-3">${primary.shoe.priceUSD}</p>
@@ -373,6 +382,13 @@ const RunMatchResult = () => {
                         <div className="text-xs font-bold uppercase tracking-wider text-primary">{s.role}</div>
                         <MatchScoreBadge percent={s.shoe.matchPercent} size="sm" />
                       </div>
+                      <ShoeImage
+                        brand={s.shoe.shoe.brand}
+                        model={s.shoe.shoe.model}
+                        imageURL={s.shoe.shoe.imageURL}
+                        size="sm"
+                        className="mb-3"
+                      />
                       <h4 className="font-bold text-lg mb-1">{s.shoe.shoe.brand} {s.shoe.shoe.model}</h4>
                       <p className="text-xs text-muted-foreground mb-2">{s.desc}</p>
                       <div className="flex flex-wrap gap-1.5 mb-3">
