@@ -47,26 +47,27 @@ const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect, onAutoAd
 
   return (
     <div>
-      {/* Step Image */}
+      {/* Step Image — full editorial-style hero */}
       {step.image && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-6 -mx-4 md:mx-0"
+          className="mb-5 md:mb-7 -mx-4 md:mx-0"
         >
-          <div className="relative rounded-none md:rounded-2xl overflow-hidden h-[140px] md:h-[180px]">
+          <div className="relative rounded-none md:rounded-2xl overflow-hidden bg-card/40 ring-1 ring-border/30 shadow-2xl shadow-primary/5 aspect-[16/8] md:aspect-[16/7] max-h-[260px] md:max-h-[320px]">
             <img
               src={step.image}
               alt={step.title}
-              className="w-full h-full object-cover"
-              loading="lazy"
-              width={800}
-              height={512}
+              className="w-full h-full object-cover object-center"
+              loading="eager"
+              decoding="async"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+            {/* Subtle bottom gradient for the step badge only — keeps imagery visible */}
+            <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background/90 via-background/30 to-transparent pointer-events-none" />
             <div className="absolute bottom-3 left-4 md:left-5">
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary/80">
+              <span className="inline-flex items-center gap-1.5 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-primary bg-background/70 backdrop-blur-md border border-primary/30 px-2.5 py-1 rounded-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                 Step {(['footType','pronation','weeklyMileage','distance','terrain','paceGoal','injuries','brand','budget'].indexOf(step.id) + 1)} of 9
               </span>
             </div>
