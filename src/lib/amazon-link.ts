@@ -1,19 +1,32 @@
 /**
  * Smart Amazon affiliate link builder.
  *
- * Strategy: brand-filtered search inside the Shoes department.
- *  - Always resolves (never 404), unlike unverified /dp/{ASIN}/ links.
+ * IMPORTANT: Most ASINs in our shoe database are unverified placeholders that
+ * happen to match the `B0XXXXXXXX` shape. Linking to /dp/{ASIN} for those
+ * results in 404s. To guarantee every link works, we default to a
+ * brand-filtered search inside the Shoes department, which:
+ *  - Never 404s.
  *  - Lands the user 1 click from the exact product.
  *  - Preserves full affiliate credit via the `papalex-20` tag.
  *
- * If/when verified ASINs are supplied (length 10, starts with "B0", not "SEARCH"),
- * we upgrade to a direct product link automatically.
+ * Only ASINs explicitly listed in `VERIFIED_ASINS` below are upgraded to
+ * direct /dp/ product links. Add ASINs here only after manually confirming
+ * they resolve to the correct live product on amazon.com.
  */
 
 const AFFILIATE_TAG = 'papalex-20';
 
+/**
+ * Allowlist of human-verified ASINs.
+ * Key: uppercase ASIN. Value: short note for maintainer reference.
+ * Add entries ONLY after opening https://www.amazon.com/dp/{ASIN} and
+ * confirming it shows the correct, in-stock product.
+ */
+const VERIFIED_ASINS: Record<string, string> = {
+  // (empty — populate as ASINs are verified on amazon.com)
+};
+
 // Brands we trust to map to Amazon's `p_89` (Brand) refinement filter.
-// Amazon's brand filter uses URL-encoded brand names verbatim.
 const BRAND_FILTER: Record<string, string> = {
   nike: 'Nike',
   adidas: 'adidas',
@@ -32,29 +45,31 @@ const BRAND_FILTER: Record<string, string> = {
   'inov-8': 'Inov-8',
 };
 
-const isLikelyRealAsin = (asin?: string | null): boolean => {
+const isVerifiedAsin = (asin?: string | null): boolean => {
   if (!asin) return false;
   const a = asin.trim().toUpperCase();
   if (a === 'SEARCH' || a.length !== 10) return false;
-  // Must be alphanumeric, typically begins with B0
-  return /^B0[A-Z0-9]{8}$/.test(a);
+  return Object.prototype.hasOwnProperty.call(VERIFIED_ASINS, a);
 };
 
 /**
  * Returns a guaranteed-working Amazon affiliate URL for the given shoe.
- * Prefers a verified /dp/ASIN link when available, otherwise falls back to a
- * brand-filtered search inside the Shoes department.
+ * Uses a verified /dp/ASIN link if (and only if) the ASIN is in our
+ * human-verified allowlist; otherwise falls back to a brand-filtered search
+ * inside the Shoes department.
  */
 export function getAmazonAffiliateLink(
   brand: string,
   model: string,
   asin?: string | null,
 ): string {
-  if (isLikelyRealAsin(asin)) {
+  if (isVerifiedAsin(asin)) {
     return `https://www.amazon.com/dp/${asin!.trim().toUpperCase()}/?tag=${AFFILIATE_TAG}`;
   }
 
-  const query = encodeURIComponent(`${brand} ${model} running shoes`);
+  // Strip parenthetical qualifiers like "(Wide)" that hurt search relevance.
+  const cleanModel = model.replace(/\s*\([^)]*\)\s*/g, ' ').trim();
+  const query = encodeURIComponent(`${brand} ${cleanModel} running shoes`);
   const brandKey = brand.trim().toLowerCase();
   const brandFilter = BRAND_FILTER[brandKey];
 
