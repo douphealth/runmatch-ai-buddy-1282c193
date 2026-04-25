@@ -249,8 +249,10 @@ function addFooter(doc: jsPDF, page: number, total: number) {
   doc.rect(0, PH - 2.5, PW, 2.5, 'F');
 }
 
-function amazonLink(brand: string, model: string): string {
-  return `https://www.amazon.com/s?k=${encodeURIComponent(`${brand} ${model} running shoes`)}&tag=papalex-20`;
+import { getAmazonAffiliateLink } from './amazon-link';
+
+function amazonLink(brand: string, model: string, asin?: string): string {
+  return getAmazonAffiliateLink(brand, model, asin);
 }
 
 // Loads a shoe product image as a base64 PNG/JPG so jsPDF can embed it.
@@ -565,7 +567,7 @@ export async function generateResultsPDF(data: PDFData) {
     doc.setTextColor(255, 255, 255);
     doc.setFont('helvetica', 'bold');
     doc.text('BUY ON AMAZON', btnX + btnW / 2, btnY + 4.4, { align: 'center' });
-    doc.link(btnX, btnY, btnW, 6.5, { url: amazonLink(shoe.brand, shoe.model) });
+    doc.link(btnX, btnY, btnW, 6.5, { url: amazonLink(shoe.brand, shoe.model, shoe.amazonASIN) });
 
     // Review link bottom-left
     link(doc, M + 8, y + cardH - 3, 'Read Full Review on GearUpToFit', shoe.reviewURL, 5.5);
@@ -702,7 +704,7 @@ export async function generateResultsPDF(data: PDFData) {
     doc.setTextColor(255, 255, 255);
     doc.setFont('helvetica', 'bold');
     doc.text('BUY ON AMAZON  ›', btnX + btnW / 2, btnY + 3.7, { align: 'center', charSpace: 0.4 } as any);
-    doc.link(btnX, btnY, btnW, 5.5, { url: amazonLink(item.shoe.shoe.brand, item.shoe.shoe.model) });
+    doc.link(btnX, btnY, btnW, 5.5, { url: amazonLink(item.shoe.shoe.brand, item.shoe.shoe.model, item.shoe.shoe.amazonASIN) });
 
     // Review link bottom-left
     link(doc, M + 8, cy + cardH - 3, 'Read Full Review on GearUpToFit ›', item.shoe.shoe.reviewURL, 5.5);
