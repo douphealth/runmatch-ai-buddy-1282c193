@@ -19,5 +19,367 @@
     "url": "https://www.amazon.com/Womens-Nike-Vomero-Running-Particle/dp/B0FPMT1579/ref=sr_1_34?dib=eyJ2IjoiMSJ9.aRecZsMINv7mLpooVU42-heWe414PO6Kl2nrf4nc6qR9ODd-8C_EwHOMSJGn928agMSqXWhHNClcMqojMmCTVqwZ0j_MOWs1neXclrI1OjVqrtKCZ9jVTuSvQyVy1s6uTKFnA1FVRRsWhMg9SbRFwH1fKp2srD-66NDCllS8qvcx7KU6swKZKhOQz_hcHdslPDL5Unem3CTu2-Vj1esLbzL_rPQt29JE8S6E4VMQ3_5B7zHA999HgLueM0h-_vRki58uP_9M844ZtCmNUaZ_Fdzjc3za7hfFXS9pQrVhGaw.FVnPeaTfQTkgbIl02W4oasVYcgWiBD2QB543xXPf2RQ&dib_tag=se&keywords=Nike+Vomero+Plus+running+shoes&qid=1777148320&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sr=8-34",
     "query": "Nike Vomero Plus running shoes",
     "resolvedAt": "2026-04-25T20:18:41.218Z"
+  },
+  "nike-pegasus-turbo": {
+    "asin": "B0BWTHYS8W",
+    "title": "NIKE PEGASUS TURBO NEXT NATURE - WHITE/UNIVERSITY BLUE-PINKSICLE",
+    "url": "https://www.amazon.com/NIKE-PEGASUS-TURBO-NEXT-NATURE/dp/B0BWTHYS8W/ref=sr_1_39?dib=eyJ2IjoiMSJ9.8_OkoO4JSlYpC0A6nYL6kD9RNXBpg-byemYttR5Fk1MTowQ5OA5mvCNhehQECi3t4_u40MSCQt6gjNPo9HKMzxIWuQypOg6OY1m7am_swYkqz2ULTC69KwT9pBmHgxu2by6V71co5C5BbRyqYlE1eKSuDO8XkGkSua92ds8f8qLQhIzPHlK-eoElJhcO181t9CmHo0O9YiwYmwsisUQYSe5yLcERFmE3bAzYbn_7ZywQbqOKfhqjFZvCsoFHUKhe4NWEd_kyDbDRQkl3vGZ1UgDdibKavjtnNymsNlH1FbA.OLaA-p1BbAuPwtcYXaJd317UzPJK2-3YFfsFfTnzJe4&dib_tag=se&keywords=Nike+Pegasus+Turbo+running+shoes&qid=1777148328&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sr=8-39",
+    "query": "Nike Pegasus Turbo running shoes",
+    "resolvedAt": "2026-04-25T20:18:51.729Z"
+  },
+  "brooks-ghost-17": {
+    "asin": null,
+    "query": "Brooks Ghost 17 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:19:05.341Z"
+  },
+  "brooks-glycerin-max-2": {
+    "asin": null,
+    "query": "Brooks Glycerin Max 2 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:19:09.025Z"
+  },
+  "asics-gel-nimbus-28": {
+    "asin": null,
+    "query": "Asics Gel-Nimbus 28 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:19:13.215Z"
+  },
+  "asics-gel-kayano-32": {
+    "asin": "B0DPLRJMCJ",
+    "title": "Women's GEL-Kayano 32 in Black & Graphite Grey by Asics",
+    "url": "https://www.amazon.com/ASICS-Womens-Gel-Kayano-Running-Graphite/dp/B0DPLRJMCJ/ref=sr_1_24?dib=eyJ2IjoiMSJ9.MxTeKZaQNnYsxxKUtSfWTHvI83KH7CB-ZJvpUbtp6246V2KaE_atg9F_BrQGnLwypnOKrXYTHqGNeZ3Az5y3OUvJBM2-liiHupydCySSDGfT1tOVgNFOpLVdwGrMlBnJKS_clWX5iTVT7wSATPcBIthjzfi0jxUqZwGbFuOlrz_nKOVkwnaoO7WuKflZR81QEN8zaU5U0PO9m7ViIKEZ5r4hAmJX9_50ScUKLoUOslhmflO0sUSLGSGQph2hDx_VGSkBvJxi2Zn0SPzlP3R7lcEPcQV9N8AhA-CnuDGGe88.dRYLdeD6jYWxVIEM1IPf1isEg5panjmse3JnaU82F-Q&dib_tag=se&keywords=Asics+Gel-Kayano+32+running+shoes&qid=1777148355&sr=8-24",
+    "query": "Asics Gel-Kayano 32 running shoes",
+    "resolvedAt": "2026-04-25T20:19:18.212Z"
+  },
+  "asics-novablast-5": {
+    "asin": null,
+    "query": "Asics Novablast 5 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:19:20.326Z"
+  },
+  "asics-novablast-4": {
+    "asin": null,
+    "query": "Asics Novablast 4 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:19:26.946Z"
+  },
+  "asics-superblast-3": {
+    "asin": null,
+    "query": "Asics Superblast 3 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:20:03.948Z"
+  },
+  "asics-sonicblast": {
+    "asin": null,
+    "query": "Asics Sonicblast running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:20:18.664Z"
+  },
+  "asics-megablast": {
+    "asin": null,
+    "query": "Asics Megablast running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:20:21.541Z"
+  },
+  "hoka-bondi-9": {
+    "asin": null,
+    "query": "Hoka Bondi 9 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:26:00.205Z"
+  },
+  "hoka-cielo-x1-3": {
+    "asin": "B0DMTG759T",
+    "title": "Cielo X1 2.0 Running Shoes by Hoka",
+    "url": "https://www.amazon.com/Cielo-2-0-Running-Shoes-Hoka/dp/B0DMTG759T/ref=sr_1_6?dib=eyJ2IjoiMSJ9.tpVIsUjyOKuaZ8qLP8wvcmEfNRk162sM_NFo4yDm8ASoYG9JSNMtMiYC0bYEOWXtTEwbWSHrJSOJnlkdHO0-8SAJjhIVPIcNMgClTK4HWwYyGJDai-rL9CuPfYfqTlVkgkPyS4lmNqtSlHOGhXPkaVicPRiEN_LiGrnAHDVfdAqfOQwOfAURG_8otKyloDcUWqu8rDe61jhn87SOdyi_Pn6GDXguRvAAggqIHAIGZ6nJyIvcfo7kz4tZtJQlqEW-V9uOQhwkKLctC4AkqZsIIXttpp3iihImQEbSIIRXgHU.Y8bNDDn5IwbnZoqwQfiba_d5cFyJOnXveVYLaS41T3s&dib_tag=se&keywords=Hoka+Cielo+X1+3+running+shoes&qid=1777148435&sr=8-6",
+    "query": "Hoka Cielo X1 3 running shoes",
+    "resolvedAt": "2026-04-25T20:20:36.598Z"
+  },
+  "saucony-ride-19": {
+    "asin": null,
+    "query": "Saucony Ride 19 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:20:45.114Z"
+  },
+  "saucony-endorphin-azura": {
+    "asin": null,
+    "query": "Saucony Endorphin Azura running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:20:55.865Z"
+  },
+  "on-cloudsurfer-2": {
+    "asin": "B0D937D8ZP",
+    "title": "On Cloudsurfer Mens Shoes Size 9, Color: Auburn Bright/Frost-Red",
+    "url": "https://www.amazon.com/Cloudsurfer-Mens-Shoes-Size-Color/dp/B0D937D8ZP/ref=sr_1_47?dib=eyJ2IjoiMSJ9.kVoOOuHvnUFTl1i_FkKHjnarbWlvq66PUWrLDTMEMouP4ytqC8GeQCZn4IBfdkfYX__zQerX224nNdH6NiZowSg0sieivi-jmKrU1L95dw5uSDL-XmfHYnTdowLIRK9Glkamzvby0zn3eMUxNmEyplBvcoUuNe6pRVSgpUij0Hmq-wIBXEEpH48o_NgTZuLj-OsKIa7dIciTh-EEuBVEdz0FW04GCsrz5xsVaShn5dnQoiCxfl166wJGBUYfdjTovD-4cZt6OyrbwG11Hd6TA3nz2EjXP9JrC0MGgdmGe5o.IDAGJKaqBuvEWVa7bwcRAusYa84B_zzJOH7vWkhWGdc&dib_tag=se&keywords=On+Cloudsurfer+2+running+shoes&qid=1777148488&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sr=8-47",
+    "query": "On Cloudsurfer 2 running shoes",
+    "resolvedAt": "2026-04-25T20:21:29.311Z"
+  },
+  "adidas-adios-pro-4": {
+    "asin": "B0FRQJBQYP",
+    "title": "Adidas Adizero Adios Pro 4 Men's Shoes",
+    "url": "https://www.amazon.com/Adidas-Adizero-Adios-Mens-Shoes/dp/B0FRQJBQYP/ref=sr_1_42?dib=eyJ2IjoiMSJ9.RD4mEpw4n8RL2BXjfykL5tWWzmcWLjwU9_rX2TazKxBOIJsYjUIUx48M5DQ5ik8rIyeGZajMaL1jPFZw8zL12ZG6cGHvQpg3bTGKIpnbzaTnJ1rdw38_evdE4x1kx0j1nSl3JfIEkprjBPHgMRS9kq7yFZnGeecooVFzxU_qy7l8VIfRDorJGgKC4v2e2NXRruJvz3CwC9mRcpXRREcMN1f5NejKYza9DASOdZj-onZXQv93jf2RKmqKY9Q_J7iBbB0pj2N6h84dnHHxiC0P5c8zSLFXlgx5tUiL7059nkQ.w8jc7Ulrtg01QtQ4m7Hcn50SjSIDTWLAprHEaPGI8dA&dib_tag=se&keywords=Adidas+Adios+Pro+4+running+shoes&qid=1777148496&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sr=8-42",
+    "query": "Adidas Adios Pro 4 running shoes",
+    "resolvedAt": "2026-04-25T20:21:37.973Z"
+  },
+  "adidas-adios-9": {
+    "asin": null,
+    "query": "Adidas Adios 9 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:21:46.852Z"
+  },
+  "adidas-boston-13": {
+    "asin": null,
+    "query": "Adidas Boston 13 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:21:54.111Z"
+  },
+  "adidas-evo-sl": {
+    "asin": null,
+    "query": "Adidas EVO SL running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:22:04.414Z"
+  },
+  "adidas-evo-sl-atr": {
+    "asin": null,
+    "query": "Adidas EVO SL ATR running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:22:07.443Z"
+  },
+  "adidas-takumi-sen-11": {
+    "asin": null,
+    "query": "Adidas Takumi Sen 11 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:22:10.785Z"
+  },
+  "puma-deviate-elite-4": {
+    "asin": null,
+    "query": "Puma Deviate Elite 4 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:22:13.242Z"
+  },
+  "puma-deviate-nitro-elite-2": {
+    "asin": null,
+    "query": "Puma Deviate Nitro Elite 2 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:22:28.199Z"
+  },
+  "puma-magmax-2": {
+    "asin": "B0F9KVPXCD",
+    "title": "Men's Magmax Nitro 2 312125 Running Shoe, 26 Spring/Summer Color PUMA Black/Shadow Gray (09), 8.5",
+    "url": "https://www.amazon.com/PUMA-Magmax-312125-Running-Spring/dp/B0F9KVPXCD/ref=sr_1_33?dib=eyJ2IjoiMSJ9.aIeBZUpkrZFDhBo7b4YgxGhDamWyBseHdCcUzzCoQwpOhurbQya4AaNyFXimaSf4tij3Gf6fatxxPKDrEvahVeWw1CFqE-g-3Bu31bNDuQ8o8a0ypr0qP6XLCuLGvTExMpROaZo1efJrtD4l1JuF6EGTPHjSorpWweYrrWTjnSMwM5Grr9KbFx0QNd_5v-q1MqSRsvQfO-MN3zKFjAos_glU4_3EWCK1VdfsrTiAg-rxzgjB_hOw4LeamOQ7BBggXrrJlCVpkOsPCFZz0YI_6sXGuWiEUhNg_tvt-N6bQcs.9mH7EZEy_Ri02cEbcF50nMaMuHp-JY-D5I96TlWzpTY&dib_tag=se&keywords=Puma+Magmax+2+running+shoes&qid=1777148553&sr=8-33",
+    "query": "Puma Magmax 2 running shoes",
+    "resolvedAt": "2026-04-25T20:22:34.568Z"
+  },
+  "nb-fresh-foam-more-v6": {
+    "asin": null,
+    "query": "New Balance Fresh Foam X More v6 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:22:39.604Z"
+  },
+  "nb-1080-v14": {
+    "asin": "B0FBL9TD97",
+    "title": "Men's New Balance 1080 V14 Fresh Foam X Running Shoe",
+    "url": "https://www.amazon.com/Mens-New-Balance-Fresh-Running/dp/B0FBL9TD97/ref=sr_1_15?dib=eyJ2IjoiMSJ9.kmHwHaowc4POOyRgU9IBIFVILi6trG3q97xSzW_4kuz2hozBvMPejiBc2mWtahzPILFHhxZGyH1XQ4zkk-q5t_TsThv4gMQTXGQlStk_lMPn_KnLI983CXCTDQMdPZaPIB17OGmK9ok99hfJBEbWqnqNSJ7s3zlzCSeOI8SeXmBkVrY970eKkcmRiq2tMi3AUXDCihAGoDTSf2VYRiX7pIctoTUwNx16pSytPh_ZyOYdl9jv-iHShEQvdg5_dG_nOWs3zqXiaDKGxVeAlCIEk0Dkfb1hvpzzD3uuLjrFvNk.j1OzITJ9-KE9YYe4GVgB7b6vR2WMxMIJSsWhe_Mickk&dib_tag=se&keywords=New+Balance+1080+v14+running+shoes&qid=1777148561&sr=8-15",
+    "query": "New Balance 1080 v14 running shoes",
+    "resolvedAt": "2026-04-25T20:22:42.521Z"
+  },
+  "salomon-speedcross-6": {
+    "asin": "B0C46H1Y5P",
+    "title": "Mens Speedcross Peak Climasalomon Waterproof",
+    "url": "https://www.amazon.com/sspa/click?ie=UTF8&spc=MTo0MTMwNzQ0MjEyNzA2ODc4OjE3NzcxNDg1NjM6c3BfbXRmOjMwMDc4OTA1NDAyMTMwMjo6MDo6&url=%2FSalomon-Speedcross-CLIMASALOMON-Waterproof-Phantom%2Fdp%2FB0C46H1Y5P%2Fref%3Dsr_1_21_sspa%3Fdib%3DeyJ2IjoiMSJ9.Kz-V3i_-OzUtuyK-P-yRJtLDx_KAZ0Olp63hnH4byrtY5gU5MoaENVM7QqSL8e9VZ_i_QSBs2Gsof3Kl7iJRwVNScmwm2femRvDGWp0nCwG67QanztMUr9iF5TAx8QGL1fRD4c80Ux-GpZk9xHgKcSKYkGhbz-Qk2aXZid5t4QGj9QJekHcj6zQYA94OahhmgBwGp14VYEbvq43fOfI0urGxuBf08nb2VBlFfpd-oYHqyvtqmv0LWGW-0lYMTHtpLuT8hoqeCDirJr_xi4yLFk8exlDiOBjPw_2gWXGi-Ow.V6kMTGmsY7yhn3_u0qyEGK_tiQu5K90-741tgERaGqQ%26dib_tag%3Dse%26keywords%3DSalomon%2BSpeedcross%2B6%2Brunning%2Bshoes%26qid%3D1777148563%26sr%3D8-21-spons%26sp_csd%3Dd2lkZ2V0TmFtZT1zcF9tdGY%26psc%3D1",
+    "query": "Salomon Speedcross 6 running shoes",
+    "resolvedAt": "2026-04-25T20:22:44.791Z"
+  },
+  "salomon-ultra-glide-3": {
+    "asin": null,
+    "query": "Salomon Ultra Glide 3 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:22:49.625Z"
+  },
+  "salomon-sense-ride-6": {
+    "asin": null,
+    "query": "Salomon Sense Ride 6 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:22:51.947Z"
+  },
+  "altra-lone-peak-8": {
+    "asin": null,
+    "query": "Altra Lone Peak 8 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:23:18.127Z"
+  },
+  "altra-torin-7": {
+    "asin": null,
+    "query": "Altra Torin 7 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:23:37.077Z"
+  },
+  "mizuno-wave-rider-28": {
+    "asin": null,
+    "query": "Mizuno Wave Rider 28 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:23:39.285Z"
+  },
+  "mizuno-wave-inspire-21": {
+    "asin": null,
+    "query": "Mizuno Wave Inspire 21 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:23:54.471Z"
+  },
+  "brooks-adrenaline-gts-25": {
+    "asin": null,
+    "query": "Brooks Adrenaline GTS 25 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:24:06.683Z"
+  },
+  "hoka-speedgoat-6": {
+    "asin": "B0DN5VQ44T",
+    "title": "Women's Speedgoat 6 Black/Neon Hoka Citrus 10 Medium",
+    "url": "https://www.amazon.com/Womens-Speedgoat-Sneaker-Black-Citrus/dp/B0DN5VQ44T/ref=sr_1_10?dib=eyJ2IjoiMSJ9.OWgmucs_G1Y-DdRu5lhX0DxfcPSWXOhkLvf2QuP1ucKokHIDDVfJikVLTJtGiwoB3tc20N5goqg-mhX86nF4wmGDznoLr7XayJTA3Dz3JxFm3USYV_PZTyLbByt81bOER4qNCJ1080sNKElnFGW-K3YAHS0BKPBdZ0eEMp-8GHRoc8o-II-VZqXOWcyrz-rjTHE_59lhoLDbFgFHYW7ZjOsfNf8AfabAnAbS8rFeywueQ8f-iE8oFBL1dOOdb_ya5NtR40IAAWZ4RYWVpesjHDhETUb-6vLYjqc_My_s2pw.Fyfwktg3-kzccHK9cSTxZLLh6pXXH55vhttcoKiFx6s&dib_tag=se&keywords=Hoka+Speedgoat+6+running+shoes&qid=1777148650&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sr=8-10",
+    "query": "Hoka Speedgoat 6 running shoes",
+    "resolvedAt": "2026-04-25T20:24:11.756Z"
+  },
+  "nike-alphafly-3": {
+    "asin": "B0F4MHTW68",
+    "title": "Mens Nike Alphafly 3 Herren-straßenlaufschuh Für Wettkämpfe",
+    "url": "https://www.amazon.com/Nike-Alphafly-FD8311-101-Platinum-Obsidian/dp/B0F4MHTW68/ref=sr_1_1?dib=eyJ2IjoiMSJ9.taM6bG3rB0r4FqsC6U0B8bGzY6cjsMZ8rC9FPtjq8Umun4Wlz-IVFNSJwL7V18y8blNwSclZ3Tt5WxoaJl6CC425R8lm38ffN12tkG21GTLfBf5FTZRuXTluNtun7v4gOwfeaPxvnoKnhuqrTY6KSaocTuSPD4YbZOozgRqcCBW9QAGKXzDFBgyc-Vtdpzu5IUd9s-ZBA6qIS3bHwvFToMlku9e1DKemc-tR1VRb3QTsuFi-TM3gO_YoaPbqj_Q90pEiSENg3DUvD4jeV65yxGGqoo934y0WVL3EWGUD-E0.OCg2UxORr7vVFVC2TY8AUeJnoqV7dK26ygmQ-sOxQiE&dib_tag=se&keywords=Nike+Alphafly+3+running+shoes&qid=1777148675&sr=8-1",
+    "query": "Nike Alphafly 3 running shoes",
+    "resolvedAt": "2026-04-25T20:24:36.490Z"
+  },
+  "nike-vaporfly-3": {
+    "asin": "B0DJGCHD2V",
+    "title": "Mens Nike Vaporfly 3 Herren-straßenlaufschuh Für Wettkämpfe",
+    "url": "https://www.amazon.com/Nike-Vaporfly-Racing-HQ3219-902-Multi-Color/dp/B0DJGCHD2V/ref=sr_1_1_mod_primary_new?dib=eyJ2IjoiMSJ9.lsGA2wU4TXn7muGPVTH2lmZ51BTTT0SN2xpSqSaOaHl2p4GCONWAceYXYjXsBmrNzKA3bykjuf3msFKSps66_YyfG9sstB7wFVPaRPltm3Y3K0BLjDEKevVHCVN0u-8DonExXjB5iudTK7VBAr_nW5S5hnEtgbBSbfqRPZkeMrocA7jUOY-YbqwL5z7cgen4E3TCAC_Njhud9YrxyVtnw34-v8-lm_YCQvcV4FGF57HlkAu1AMjqTEADygOJcjU6o1AkBan0M0WC21R--taeQzXTKGap31UhIDWaRE1I75I.86pO3E9ob7wmUS_lXibU3Iimk0Y2sa_6hdS6eckiyFk&dib_tag=se&keywords=Nike+Vaporfly+3+running+shoes&qid=1777148708&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sr=8-1",
+    "query": "Nike Vaporfly 3 running shoes",
+    "resolvedAt": "2026-04-25T20:25:09.343Z"
+  },
+  "nike-streakfly": {
+    "asin": "B0F68LCVTH",
+    "title": "Unisex Nike Streakfly 2 (600 - Crimson/Lime Blast-Hyper Orange)",
+    "url": "https://www.amazon.com/Unisex-Nike-Streakfly-600-Blast-Hyper/dp/B0F68LCVTH/ref=sr_1_17?dib=eyJ2IjoiMSJ9.M1_sTiLh3CjK0tkf4ECq88fjoEAY1g44NveXqtq6n7a1Lhnjre9B0Hz1g59jPuQYwa0vVMvv_7e_wPyY6cVFTD08uayQjtDUUl0KutOChCuY1-rbQze7HVpLZ5ztgkQAWePh4T6G0Hu-bdrxwEtJWPjcfr9tr6mf9DEjaGn5uXaNmCRy-m7uaJV94hlLR9-eiw6_82i_-UMHh53KE_hm-99bSjrl1yYJ00VtL_HeH4_XcvqPIQOrjs6kgLDrkV8695FpLAsnpuXtoQJR5JSueTY8nE7UZIDQudMB8eak-sw.iBonc8al5v-sSd-xAiUzwSv0C2bndnN9DnqEE0GL_M4&dib_tag=se&keywords=Nike+Streakfly+running+shoes&qid=1777148728&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sr=8-17",
+    "query": "Nike Streakfly running shoes",
+    "resolvedAt": "2026-04-25T20:25:30.207Z"
+  },
+  "adidas-adios-pro-3": {
+    "asin": "B0FRQJBQYP",
+    "title": "Adidas Adizero Adios Pro 4 Men's Shoes",
+    "url": "https://www.amazon.com/Adidas-Adizero-Adios-Mens-Shoes/dp/B0FRQJBQYP/ref=sr_1_51?dib=eyJ2IjoiMSJ9.SQSKEitxzMCIR3L_1n1ya9-1p3-dGAwjht-3cifqwHG0oxemJGztoE-BGvXcj25x7FCwY3yxiXyDdJIZLBG6N2YI8LcB4pfLpL7UL0abdgTM2pXKuGM32EN14DLuWTItNOxOF4-6rCbgi1UrI5mYbzlb5_QFs_8-SzZXyLUJ7QLaoLyjUkAjVBlqxqM5Sr9FRLumIyeWDpB2Gwrlma1DnPwCkCAU6UXYI7ydDM8A8ykS-Od0vJsO9DBt6or5KjhvG6iLlEkf3YBPL-SCejctcId11jeJHUClojir9f6BJ0E.asGvl1d6JtMXHEvVJpvhCZlVszxBZxgpwg__sg6v3Cs&dib_tag=se&keywords=Adidas+Adizero+Adios+Pro+3+running+shoes&qid=1777148731&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sr=8-51",
+    "query": "Adidas Adizero Adios Pro 3 running shoes",
+    "resolvedAt": "2026-04-25T20:25:32.731Z"
+  },
+  "adidas-takumi-sen-10": {
+    "asin": "B0GCJX23F5",
+    "title": "adidas Womens Adizero Takumi Sen 10 Running Sneakers Shoes - Beige",
+    "url": "https://www.amazon.com/adidas-Womens-Adizero-Running-Sneakers/dp/B0GCJX23F5/ref=sr_1_2?dib=eyJ2IjoiMSJ9.HziW6DMj_yPDiiEBC5PhAA57x0TOdZpnAEE6EFI7THdYstcfMH0VP9Fj9sTTcWWEOR0vUKL9x-V2dqHXmx3dVYXtew7PJEY5T6r6NVC91xpTyPAFv_i1EZwRkDrsPK_8UkoWSQB_MdVY5IBjbuZKeBG5EluBQphy7KbmiHflzzUnc81JHOqAV6o7RTdGbpZB569GfH5k3oDKTtflaGoRWtQRLGf2aUl1J8YeqLSbXrBAzIOtOqWsiZEqdVKkAV1Sm1-aAkSXItrFnms4KQ-ADazUONskos_uBLDLmZPqPA4.W3ToZljZrZOcSAMdWZ0NgiJUNvoCZGSP-1Jr8gZSuhQ&dib_tag=se&keywords=Adidas+Adizero+Takumi+Sen+10+running+shoes&qid=1777148735&sr=8-2",
+    "query": "Adidas Adizero Takumi Sen 10 running shoes",
+    "resolvedAt": "2026-04-25T20:25:38.218Z"
+  },
+  "adidas-boston-12": {
+    "asin": null,
+    "query": "Adidas Adizero Boston 12 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:25:56.502Z"
+  },
+  "hoka-mach-6": {
+    "asin": "B0DN459G3C",
+    "title": "Women's Mach 6 White/Neon Hoka Citrus 7 Medium",
+    "url": "https://www.amazon.com/Hoka-Womens-Sneaker-White-Citrus/dp/B0DN459G3C/ref=sr_1_24?dib=eyJ2IjoiMSJ9.85yK2vEuVIfRGruz01G8ITW6XNmuHXLrjidrRljN6BckpDq2xbu-AIagP79Mm6ew_R9aflprDEf-d0Rau-e2UfaPE8bnLND-DLJpZ9EmiZ6dvd8cMiTxwa8hSoK0BgUq-CrvVi5hkuTCo9oypdwUi9vrwTCuAdsJITrC__7OVFath7-833Uy8Y_Hnf0Syl1ro5j2MHCngjn8GgVbj4IP1CYUWwge2JpsJOt48SAwassPzlMQpRW3rkg5gGWbXg3qpU5bRyoJ5cQCvDL9SqsiNzPp6V5W1phHvEEhHKqKmgc.UNXGk1DwiL6H4u-vqf4DMsmNYumCGNCmtgEZb6opEcg&dib_tag=se&keywords=Hoka+Mach+6+running+shoes&qid=1777148758&sr=8-24",
+    "query": "Hoka Mach 6 running shoes",
+    "resolvedAt": "2026-04-25T20:25:59.777Z"
+  },
+  "hoka-rocket-x-2": {
+    "asin": null,
+    "query": "Hoka Rocket X 2 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:26:04.006Z"
+  },
+  "saucony-endorphin-pro-4": {
+    "asin": null,
+    "query": "Saucony Endorphin Pro 4 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:26:09.453Z"
+  },
+  "saucony-triumph-22": {
+    "asin": "B0G12SZT5S",
+    "title": "6MM Running Shoelaces for Saucony Ride 18/17&Guide 18/17&Triumph 23/22, Durable Flat Polyester Replacement Shoe Lace",
+    "url": "https://www.amazon.com/sspa/click?ie=UTF8&spc=MToxNTkwMTA5MzcxOTU5NjU1OjE3NzcxNDg3Nzc6c3BfbXRmOjMwMTE2ODcxMjI1MDkwMjo6MDo6&url=%2FNDTEZUGT-Running-Shoelaces-Polyester-Replacement%2Fdp%2FB0G12SZT5S%2Fref%3Dsr_1_19_sspa%3Fdib%3DeyJ2IjoiMSJ9.YIeqNByb2oZ72pLTn60HKMwmurQ_mYnbFKPtyogG-sEweRtXd3FILOWtPMjkcggjQYRWJ2wwPnY8uTMd-3UNpYYw6byci0aP2QSD-RlPzMzQlcsIqQph-OAzQ8ZGfTn_tWHA1uo_VmXktYPxQGzRSQULDJs5YQnfElztQvCcltnKbssbOGlnwJ-l9IZGhRgNrYStLf97UbQh99kzy-4GJlxzk6rVINIz4LDVLG3kDdM634AtG-GsWitFx_FriSARx3_GUJLYY2LZAIGMU2Sf3BT_GEOGpg3cP3wISxv4oCw.4hRpAfYRUFpucRtviBwzVzFj75KEH7dgj6M3lyYY0QI%26dib_tag%3Dse%26keywords%3DSaucony%2BTriumph%2B22%2Brunning%2Bshoes%26qid%3D1777148777%26sr%3D8-19-spons%26sp_csd%3Dd2lkZ2V0TmFtZT1zcF9tdGY%26psc%3D1",
+    "query": "Saucony Triumph 22 running shoes",
+    "resolvedAt": "2026-04-25T20:26:18.287Z"
+  },
+  "saucony-kinvara-15": {
+    "asin": null,
+    "query": "Saucony Kinvara 15 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:26:20.820Z"
+  },
+  "saucony-peregrine-14": {
+    "asin": null,
+    "query": "Saucony Peregrine 14 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:26:23.861Z"
+  },
+  "on-cloudboom-strike": {
+    "asin": "B0FHVLMQ91",
+    "title": "On Cloudboom Strike Women's Shoe",
+    "url": "https://www.amazon.com/On-Cloudboom-Strike-Womens-Shoe/dp/B0FHVLMQ91/ref=sr_1_1?dib=eyJ2IjoiMSJ9.kY2MA3fOIkzTJLUgJVUMgDCU2EQXoSEEEmOhDzAEAzbRHo1i8lHRbuK2b2PCxQJqkYpFPZlszqrqdCCZ4jxmUXe_EHQ-i345TKalTR1nVbXD9L7sXJvamnGZ5cqmnYVI-3RKjyPh83cSG6f1rkrEmdWN5VjfXHPbAZCsPcMb4Gqjgaq1rmBlXPCfeH7dReSku_uQZvdma4RaN1d-muMkPgRG-rPO_tbb5AOodDiOAqr3L7xWsNtroYfVRUrawa4bfG27x9eV-Domdt1cjGvAdTRn-KBDSvWrwAELpqoZf0s.GOXN5gzvr_HcM6KhNIcFEUQ8YHVxZespGV3LaSnYd0g&dib_tag=se&keywords=On+Cloudboom+Strike+running+shoes&qid=1777148805&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sr=8-1",
+    "query": "On Cloudboom Strike running shoes",
+    "resolvedAt": "2026-04-25T20:26:47.001Z"
+  },
+  "on-cloudsurfer-next": {
+    "asin": "B0F7D9SSP1",
+    "title": "Men's Cloudsurfer Next Sneaker, Stone/Marsh, 15",
+    "url": "https://www.amazon.com/Mens-Cloudsurfer-Sneaker-Stone-Marsh/dp/B0F7D9SSP1/ref=sr_1_12?dib=eyJ2IjoiMSJ9.7KUgl1_a400P7CHqTPAv2F85sGWNrVCdJkqOPSQBCdECBaBxC4rzMdnbvPHRXhcxnloHY_8y6gfheJP3A6a11TDr06k6wwbGI5TxL5_OdGvUqzSpYOEm5QnQQPBiroP_BKlNFH57zXjFjfZDHWsio3LviJVx7UCkHfEVpgUXLXwbTN5V5zCljYAFzI0vrhNe9umEc8KTZTb4r5_1Ezqb3zP83po8hsMPOVTvmJmaxX9TZLbHck4C5QMGMbxQAv3hB5Dbe5Ry8PUuV5OANAvnwzEw2jezXnES-6AdkbjJiB4.CY4A6yiB79W0KXWRvIyzIewuF4ltc2fw2VuKCUf-WRE&dib_tag=se&keywords=On+Cloudsurfer+Next+running+shoes&qid=1777148844&sr=8-12",
+    "query": "On Cloudsurfer Next running shoes",
+    "resolvedAt": "2026-04-25T20:27:26.453Z"
+  },
+  "on-cloudmonster-2": {
+    "asin": "B0C5QJ97HD",
+    "title": "Women's Cloudmonster Sneakers",
+    "url": "https://www.amazon.com/Womens-Cloudmonster-Sneakers-Footwear-Numeric/dp/B0C5QJ97HD/ref=sr_1_1?dib=eyJ2IjoiMSJ9.gQJmqbTswsNU0oq1Ql258s8p9r5PsOHuzRHkIQak7CSfinftwePAA63dcWZcJ8v5Wq5F5u5H9IkzQPrrz2BIcJ0wee-sVKDN4Kc_6MXj2gOfMe925d0gugX9fI8aGYMoveW0eZiyzxRDc1XQlBLxvi4p6wgR8Nn8uRd1N5zE5YfmIxL1jcftguW-VLAtFMVvbgGdQ4mNWg-xWtiSPjlOTH-7QlZyw7chdOKSsItedc15m4baxy-4us4qv32iQJzFHfJyTWtwiGA_OzxN6bYOSgAsLn9BCX44pvok1uvcuMk.GL8QQSvBE7w4UdSXVIvMCmZahEKC-6RQJOCoZRvTvKk&dib_tag=se&keywords=On+Cloudmonster+2+running+shoes&qid=1777148867&sr=8-1",
+    "query": "On Cloudmonster 2 running shoes",
+    "resolvedAt": "2026-04-25T20:27:48.568Z"
+  },
+  "asics-superblast-2": {
+    "asin": null,
+    "query": "ASICS Superblast 2 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:27:54.048Z"
+  },
+  "asics-magic-speed-4": {
+    "asin": null,
+    "query": "ASICS Magic Speed 4 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:28:26.044Z"
+  },
+  "asics-metaspeed-sky-paris": {
+    "asin": null,
+    "query": "ASICS Metaspeed Sky Paris running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:28:31.512Z"
+  },
+  "nb-fuelcell-supercomp-elite-v4": {
+    "asin": null,
+    "query": "New Balance FuelCell SuperComp Elite v4 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:28:33.137Z"
+  },
+  "nb-fresh-foam-x-more-v5": {
+    "asin": null,
+    "query": "New Balance Fresh Foam X More v5 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:28:35.533Z"
+  },
+  "nb-fresh-foam-1080-v14": {
+    "asin": "B0FBL9TD97",
+    "title": "Men's New Balance 1080 V14 Fresh Foam X Running Shoe",
+    "url": "https://www.amazon.com/Mens-New-Balance-Fresh-Running/dp/B0FBL9TD97/ref=sr_1_23?dib=eyJ2IjoiMSJ9.nollNWyO6YKW4QNmM75v9yi1ZPJeI_HE_BLvGzQqdwahDan_qKhTPO9QJj_Md1p24NgAM7pcV9nGjt4Fs7gzSCpb_WVkTL2jyS2qtvFjUTMEZuLh96WigaFvL5LQBWxIDbTiRgwOB7fcG_2E_RMtJ4RYs07DSJeDg45hkED888Fz9RO5tcjd3hG6vSCR0CQVD_WAGFgX0kVr_yw9DthfVleIbzWSz9gThlbFICJ9BLvdFS8S9R-oWrq9HMKbRwhACU-jeDzqkvApSD5milJlO3C9l-qhNkZjJPKzRzBuTow.I-jFN5lB2CrYMJ3r5iYLiuQAwBG7_h1JwXEgqQf8mP0&dib_tag=se&keywords=New+Balance+Fresh+Foam+X+1080+v14+running+shoes&nsdOptOutParam=true&qid=1777148917&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sr=8-23",
+    "query": "New Balance Fresh Foam X 1080 v14 running shoes",
+    "resolvedAt": "2026-04-25T20:28:38.968Z"
+  },
+  "brooks-hyperion-elite-4": {
+    "asin": null,
+    "query": "Brooks Hyperion Elite 4 running shoes",
+    "note": "no plausible match",
+    "resolvedAt": "2026-04-25T20:28:45.328Z"
   }
 }
