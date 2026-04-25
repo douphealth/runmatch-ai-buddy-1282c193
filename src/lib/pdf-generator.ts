@@ -82,14 +82,17 @@ function sectionTitle(doc: jsPDF, y: number, title: string, color: RGB = C.red):
 }
 
 function labelValue(doc: jsPDF, x: number, y: number, label: string, value: string, maxW: number = 35) {
-  doc.setFontSize(5.5);
+  doc.setFontSize(5);
   doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
-  doc.setFont('helvetica', 'normal');
-  doc.text(label, x, y);
+  doc.setFont('helvetica', 'bold');
+  doc.text(label, x, y, { charSpace: 0.4 } as any);
   doc.setFontSize(7.5);
   doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
   doc.setFont('helvetica', 'bold');
-  const val = value.length > 22 ? value.slice(0, 22) + '...' : value;
+  // Auto-truncate based on actual width
+  let val = value;
+  while (doc.getTextWidth(val) > maxW && val.length > 4) val = val.slice(0, -1);
+  if (val !== value) val = val.slice(0, -1) + '…';
   doc.text(val, x, y + 4.5);
 }
 
