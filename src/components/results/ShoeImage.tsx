@@ -46,15 +46,10 @@ const ShoeImage = ({ brand, model, imageURL, amazonASIN: _asin, size = 'md', cla
   const showRealImage = resolved.url && !imgError;
 
   return (
-    <div className={`relative w-full ${s.container} rounded-xl overflow-hidden bg-gradient-to-br from-card via-card to-secondary/30 border border-border/40 ${className}`}>
-      <div className={`absolute inset-0 bg-gradient-to-br ${accent} opacity-80`} />
-      <div
-        className="absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage: 'linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)',
-          backgroundSize: '20px 20px',
-        }}
-      />
+    <div className={`relative w-full ${s.container} rounded-xl overflow-hidden bg-gradient-to-br from-card via-card to-secondary/20 border border-border/40 ${className}`}>
+      {/* Soft brand-colored glow behind shoe — gives the transparent look depth */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${accent} opacity-60 mix-blend-screen`} />
+      <div className="absolute inset-x-4 bottom-2 h-3 bg-black/40 blur-xl rounded-full" />
 
       {showRealImage ? (
         <img
@@ -62,7 +57,8 @@ const ShoeImage = ({ brand, model, imageURL, amazonASIN: _asin, size = 'md', cla
           alt={`${brand} ${model} running shoe`}
           loading="lazy"
           onError={() => setImgError(true)}
-          className="absolute inset-0 w-full h-full object-contain p-3 drop-shadow-2xl"
+          className="absolute inset-0 w-full h-full object-contain p-2 drop-shadow-[0_10px_25px_rgba(0,0,0,0.45)] mix-blend-screen-fallback"
+          style={{ mixBlendMode: 'multiply', filter: 'contrast(1.05) saturate(1.05)' }}
         />
       ) : (
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
@@ -87,7 +83,7 @@ const ShoeImage = ({ brand, model, imageURL, amazonASIN: _asin, size = 'md', cla
               ? 'bg-secondary/70 text-muted-foreground border border-border/40'
               : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
           }`}
-          title={effectiveSource === 'studio-frame' ? 'Branded studio frame fallback' : 'Real product photo from Amazon CDN'}
+          title={effectiveSource === 'studio-frame' ? 'Branded studio frame fallback' : 'Real product photo'}
         >
           {effectiveSource === 'studio-frame' ? (
             <><Sparkles className="w-2.5 h-2.5" /> Studio</>
@@ -97,8 +93,8 @@ const ShoeImage = ({ brand, model, imageURL, amazonASIN: _asin, size = 'md', cla
         </div>
       )}
 
-      <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-white/[0.08] to-transparent pointer-events-none" />
-      <div className="absolute bottom-0 left-0 right-0 h-1/4 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+      {/* Subtle top sheen for premium glass feel */}
+      <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-white/[0.06] to-transparent pointer-events-none" />
     </div>
   );
 };
