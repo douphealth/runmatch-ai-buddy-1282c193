@@ -21,7 +21,7 @@ export const quizSteps: QuizStep[] = [
     title: 'What is your foot type?',
     subtitle: 'This helps us determine the right support and fit for you.',
     type: 'single',
-    image: '/images/step-foot-type.png',
+    image: '/images/step-foot-type.jpg',
     options: [
       { value: 'neutral', label: 'Neutral Arch', description: 'Balanced footprint, medium arch', icon: '🦶' },
       { value: 'flat', label: 'Low Arch / Flat', description: 'Toes to heel almost connect', icon: '📏' },
@@ -34,7 +34,7 @@ export const quizSteps: QuizStep[] = [
     title: 'How do you pronate?',
     subtitle: 'Check the wear pattern on your current shoes if unsure.',
     type: 'single',
-    image: '/images/step-pronation.png',
+    image: '/images/step-pronation.jpg',
     options: [
       { value: 'neutral', label: 'Neutral', description: 'Even wear in the middle', icon: '✅' },
       { value: 'overpronation', label: 'Overpronation', description: 'Inward roll — wear on the inside', icon: '↙️' },
@@ -47,7 +47,7 @@ export const quizSteps: QuizStep[] = [
     title: 'Weekly mileage',
     subtitle: 'How many kilometers do you run per week on average?',
     type: 'slider',
-    image: '/images/step-mileage.png',
+    image: '/images/step-mileage.jpg',
     sliderConfig: { min: 0, max: 120, step: 5, unit: 'km', labels: ['0 km', '30 km', '60 km', '90 km', '120+ km'] },
   },
   {
@@ -55,7 +55,7 @@ export const quizSteps: QuizStep[] = [
     title: 'Preferred race distance',
     subtitle: 'What distance do you train for most often?',
     type: 'single',
-    image: '/images/step-distance.png',
+    image: '/images/step-distance.jpg',
     options: [
       { value: '5k', label: '5K', icon: '🛣️', description: '3.1 miles · Speed focus' },
       { value: '10k', label: '10K', icon: '👟', description: '6.2 miles · Speed + endurance' },
@@ -70,7 +70,7 @@ export const quizSteps: QuizStep[] = [
     title: 'Primary terrain',
     subtitle: 'Where do you do most of your running?',
     type: 'single',
-    image: '/images/step-terrain.png',
+    image: '/images/step-terrain.jpg',
     options: [
       { value: 'road', label: 'Road', description: 'Pavement & sidewalks', icon: '🛣️' },
       { value: 'trail', label: 'Trail', description: 'Dirt, rocks, roots', icon: '🌲' },
@@ -83,7 +83,7 @@ export const quizSteps: QuizStep[] = [
     title: 'Pace goal',
     subtitle: 'What kind of training intensity are you targeting?',
     type: 'single',
-    image: '/images/step-pace.png',
+    image: '/images/step-pace.jpg',
     options: [
       { value: 'easy', label: 'Easy / Recovery', description: 'Comfortable conversational pace', icon: '🍃' },
       { value: 'moderate', label: 'Moderate', description: 'Steady aerobic effort', icon: '💪' },
@@ -96,7 +96,7 @@ export const quizSteps: QuizStep[] = [
     title: 'Injury history',
     subtitle: "Select any injuries you've experienced. This affects our recommendation.",
     type: 'multi',
-    image: '/images/step-injury.png',
+    image: '/images/step-injury.jpg',
     options: [
       { value: 'plantar-fasciitis', label: 'Plantar Fasciitis', icon: '🦶' },
       { value: 'shin-splints', label: 'Shin Splints', icon: '🦴' },
@@ -111,7 +111,7 @@ export const quizSteps: QuizStep[] = [
     title: 'Brand preference',
     subtitle: "Select one or more brands you prefer, or skip if you have no preference.",
     type: 'brand-multi',
-    image: '/images/step-brand.png',
+    image: '/images/step-brand.jpg',
   },
   {
     id: 'budget',
