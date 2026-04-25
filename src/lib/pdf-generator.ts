@@ -721,106 +721,130 @@ export async function generateResultsPDF(data: PDFData) {
   doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
   doc.setFont('helvetica', 'bold');
   doc.text('RECOMMENDED RESOURCES', M, y);
-  y += 4;
 
-  doc.setFontSize(6.5);
+  // Red underline accent
+  doc.setFillColor(C.red[0], C.red[1], C.red[2]);
+  doc.rect(M, y + 2, 28, 0.7, 'F');
+  y += 7;
+
+  doc.setFontSize(7);
   doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
-  doc.setFont('helvetica', 'normal');
-  doc.text('Curated articles and tools from GearUpToFit based on your runner profile', M, y + 3);
-  y += 12;
+  doc.setFont('helvetica', 'italic');
+  doc.text('Curated articles, calculators and free tools from GearUpToFit, hand-picked for your runner profile.', M, y);
+  y += 8;
 
-  // ── Read Before You Buy ──
-  rr(doc, M, y, CW, 34, 3, C.accentBg, C.border);
-  y = sectionTitle(doc, y + 3, 'READ BEFORE YOU BUY', C.accent);
-
+  // ── Read Before You Buy (compact 2-column) ──
   const mustReads = [
     { title: 'How to Choose the Right Running Shoes', url: 'https://gearuptofit.com/running/how-to-choose-the-right-running-shoes/' },
     { title: 'Running Shoes Reviews 2026', url: 'https://gearuptofit.com/review/running-shoes/' },
-    { title: 'Best Running Shoes for Different Distances 2026', url: 'https://gearuptofit.com/review/best-running-shoes-for-different-distances/' },
+    { title: 'Best Shoes for Different Distances 2026', url: 'https://gearuptofit.com/review/best-running-shoes-for-different-distances/' },
     { title: 'Best Running Shoes 2026', url: 'https://gearuptofit.com/review/best-running-shoes/' },
   ];
+  const mrH = 6 + Math.ceil(mustReads.length / 2) * 6 + 4;
+  rr(doc, M, y, CW, mrH, 3, C.accentBg, C.border);
+  y = sectionTitle(doc, y + 3, 'READ BEFORE YOU BUY', C.accent);
 
   mustReads.forEach((item, i) => {
+    const col = i % 2;
+    const row = Math.floor(i / 2);
+    const cx = M + 7 + col * (CW / 2);
+    const cy = y + row * 6;
     doc.setFillColor(C.accent[0], C.accent[1], C.accent[2]);
-    doc.circle(M + 8, y + i * 5.5, 1, 'F');
-    link(doc, M + 12, y + i * 5.5 + 1.5, item.title, item.url, 6.5);
+    doc.circle(cx, cy, 0.9, 'F');
+    link(doc, cx + 3, cy + 1.4, item.title, item.url, 6.5);
   });
-  y += mustReads.length * 5.5 + 6;
+  y += Math.ceil(mustReads.length / 2) * 6 + 6;
 
-  // ── Personalized Articles ──
+  // ── Personalized Articles (2-column compact grid) ──
   const articles = getRecommendedArticles(answers);
   y = sectionTitle(doc, y, 'PERSONALIZED ARTICLES FOR YOU');
 
-  articles.forEach((article) => {
-    if (y > PH - 55) return;
-    rr(doc, M, y, CW, 11, 2, C.bg);
+  const artColW = CW / 2 - 2;
+  const artH = 13;
+  articles.slice(0, 6).forEach((article, i) => {
+    const col = i % 2;
+    const row = Math.floor(i / 2);
+    const ax = M + col * (artColW + 4);
+    const ay = y + row * (artH + 3);
+    if (ay + artH > PH - 60) return;
+    rr(doc, ax, ay, artColW, artH, 2, C.bg, C.border);
 
-    doc.setFontSize(5.5);
-    doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
+    // Category pill
+    doc.setFontSize(5);
+    doc.setTextColor(C.red[0], C.red[1], C.red[2]);
     doc.setFont('helvetica', 'bold');
-    doc.text(article.category.toUpperCase(), M + 4, y + 4);
+    doc.text(article.category.toUpperCase(), ax + 4, ay + 4, { charSpace: 0.5 } as any);
 
     doc.setFontSize(7);
     doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
     doc.setFont('helvetica', 'bold');
-    doc.textWithLink(article.title, M + 4, y + 8.5, { url: article.url });
-    doc.link(M, y, CW, 11, { url: article.url });
+    const tLines = doc.splitTextToSize(article.title, artColW - 8);
+    doc.text(tLines.slice(0, 2), ax + 4, ay + 8.5);
+    doc.link(ax, ay, artColW, artH, { url: article.url });
 
-    y += 14;
+    // Tiny chevron at right
+    doc.setFontSize(7);
+    doc.setTextColor(C.red[0], C.red[1], C.red[2]);
+    doc.text('›', ax + artColW - 4, ay + 8.5, { align: 'right' });
   });
+  y += Math.ceil(Math.min(articles.length, 6) / 2) * (artH + 3) + 4;
 
-  // ── Injury Prevention ──
+  // ── Injury Prevention (compact, only if relevant) ──
   const injuryArticles = getInjuryArticles(answers.injuries);
-  if (injuryArticles.length > 0 && y < PH - 55) {
-    y += 2;
+  if (injuryArticles.length > 0 && y < PH - 60) {
     y = sectionTitle(doc, y, 'INJURY PREVENTION RESOURCES', C.redLight);
-
-    injuryArticles.forEach(article => {
-      if (y > PH - 40) return;
-      rr(doc, M, y, CW, 11, 2, C.redBg);
-
-      doc.setFontSize(5.5);
-      doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
-      doc.setFont('helvetica', 'bold');
-      doc.text(article.category.toUpperCase(), M + 4, y + 4);
-
-      doc.setFontSize(7);
-      doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
-      doc.setFont('helvetica', 'bold');
-      doc.textWithLink(article.title, M + 4, y + 8.5, { url: article.url });
-      doc.link(M, y, CW, 11, { url: article.url });
-
-      y += 14;
-    });
-  }
-
-  // ── Free Tools ──
-  if (y < PH - 50) {
-    y += 2;
-    y = sectionTitle(doc, y, 'FREE TOOLS AND CALCULATORS', C.blue);
-
-    const tools = getToolLinks(answers);
-    const toolColW = CW / 2 - 3;
-    tools.forEach((tool, i) => {
+    const injH = 11;
+    injuryArticles.slice(0, 4).forEach((article, i) => {
       const col = i % 2;
       const row = Math.floor(i / 2);
-      const tx = M + col * (toolColW + 6);
-      const ty = y + row * 16;
+      const ax = M + col * (artColW + 4);
+      const ay = y + row * (injH + 3);
+      if (ay + injH > PH - 50) return;
+      rr(doc, ax, ay, artColW, injH, 2, C.redBg);
 
-      rr(doc, tx, ty, toolColW, 13, 2, C.blueBg);
+      doc.setFontSize(5);
+      doc.setTextColor(C.red[0], C.red[1], C.red[2]);
+      doc.setFont('helvetica', 'bold');
+      doc.text(article.category.toUpperCase(), ax + 4, ay + 4, { charSpace: 0.5 } as any);
+
+      doc.setFontSize(6.5);
+      doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
+      doc.setFont('helvetica', 'bold');
+      const tLines = doc.splitTextToSize(article.title, artColW - 8);
+      doc.text(tLines[0], ax + 4, ay + 8.5);
+      doc.link(ax, ay, artColW, injH, { url: article.url });
+    });
+    y += Math.ceil(Math.min(injuryArticles.length, 4) / 2) * (injH + 3) + 4;
+  }
+
+  // ── Free Tools (always shown, 2-column) ──
+  if (y < PH - 35) {
+    y = sectionTitle(doc, y, 'FREE TOOLS & CALCULATORS', C.blue);
+    const tools = getToolLinks(answers);
+    const toolColW = CW / 2 - 2;
+    const toolH = 13;
+    tools.slice(0, 4).forEach((tool, i) => {
+      const col = i % 2;
+      const row = Math.floor(i / 2);
+      const tx = M + col * (toolColW + 4);
+      const ty = y + row * (toolH + 3);
+      if (ty + toolH > PH - 22) return;
+
+      rr(doc, tx, ty, toolColW, toolH, 2, C.blueBg, C.border);
       doc.setFontSize(7);
       doc.setTextColor(C.blue[0], C.blue[1], C.blue[2]);
       doc.setFont('helvetica', 'bold');
-      doc.textWithLink(tool.title, tx + 4, ty + 5, { url: tool.url });
+      doc.textWithLink(tool.title, tx + 4, ty + 5.5, { url: tool.url });
 
       doc.setFontSize(5.5);
       doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
       doc.setFont('helvetica', 'normal');
-      doc.text(tool.description, tx + 4, ty + 10);
+      const dLines = doc.splitTextToSize(tool.description, toolColW - 8);
+      doc.text(dLines[0], tx + 4, ty + 10);
 
-      doc.link(tx, ty, toolColW, 13, { url: tool.url });
+      doc.link(tx, ty, toolColW, toolH, { url: tool.url });
     });
-    y += Math.ceil(tools.length / 2) * 16 + 4;
+    y += Math.ceil(Math.min(tools.length, 4) / 2) * (toolH + 3) + 4;
   }
 
   addFooter(doc, 3, totalPages);
