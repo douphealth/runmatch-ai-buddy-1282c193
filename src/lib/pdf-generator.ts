@@ -82,14 +82,17 @@ function sectionTitle(doc: jsPDF, y: number, title: string, color: RGB = C.red):
 }
 
 function labelValue(doc: jsPDF, x: number, y: number, label: string, value: string, maxW: number = 35) {
-  doc.setFontSize(5.5);
+  doc.setFontSize(5);
   doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
-  doc.setFont('helvetica', 'normal');
-  doc.text(label, x, y);
+  doc.setFont('helvetica', 'bold');
+  doc.text(label, x, y, { charSpace: 0.4 } as any);
   doc.setFontSize(7.5);
   doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
   doc.setFont('helvetica', 'bold');
-  const val = value.length > 22 ? value.slice(0, 22) + '...' : value;
+  // Auto-truncate based on actual width
+  let val = value;
+  while (doc.getTextWidth(val) > maxW && val.length > 4) val = val.slice(0, -1);
+  if (val !== value) val = val.slice(0, -1) + '…';
   doc.text(val, x, y + 4.5);
 }
 
@@ -365,28 +368,43 @@ export async function generateResultsPDF(data: PDFData) {
     try { doc.addImage(logoData, 'PNG', M, y, 18, 18); } catch {}
   }
 
-  doc.setFontSize(22);
+  // Eyebrow tag above the title
+  doc.setFontSize(6);
+  doc.setTextColor(C.red[0], C.red[1], C.red[2]);
+  doc.setFont('helvetica', 'bold');
+  doc.text('PERSONALIZED REPORT  ·  RUNMATCH AI', M + 22, y + 4, { charSpace: 0.6 } as any);
+
+  doc.setFontSize(20);
   doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
   doc.setFont('helvetica', 'bold');
-  doc.text('YOUR RUNNING SHOE', M + 22, y + 8);
+  doc.text('YOUR RUNNING SHOE', M + 22, y + 11);
   doc.setTextColor(C.red[0], C.red[1], C.red[2]);
-  doc.text('MATCH REPORT', M + 22, y + 16);
-  y += 22;
+  doc.text('MATCH REPORT', M + 22, y + 19);
 
-  // Date
+  // Red underline accent
+  doc.setFillColor(C.red[0], C.red[1], C.red[2]);
+  doc.rect(M + 22, y + 21.5, 32, 0.7, 'F');
+  y += 26;
+
+  // Date + report meta on a single line
   doc.setFontSize(6);
   doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
   doc.setFont('helvetica', 'normal');
-  doc.text(`Generated ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`, M, y + 2);
-  y += 6;
+  const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  doc.text(`GENERATED ${dateStr.toUpperCase()}   ·   ID ${answers.terrain.toUpperCase()}-${answers.distance.toUpperCase()}-${answers.pronation.toUpperCase()}`, M, y, { charSpace: 0.4 } as any);
+  y += 5;
 
-  // Summary
+  // Summary in a soft callout box for emphasis
+  const sumLines = doc.splitTextToSize(rec.shoeProfile.summary, CW - 8);
+  const sumH = sumLines.length * 3.6 + 5;
+  rr(doc, M, y, CW, sumH, 2, C.bg);
+  doc.setFillColor(C.red[0], C.red[1], C.red[2]);
+  doc.rect(M, y, 1.5, sumH, 'F');
   doc.setFontSize(7.5);
   doc.setTextColor(C.text[0], C.text[1], C.text[2]);
-  doc.setFont('helvetica', 'normal');
-  const sumLines = doc.splitTextToSize(rec.shoeProfile.summary, CW);
-  doc.text(sumLines, M, y);
-  y += sumLines.length * 3.5 + 5;
+  doc.setFont('helvetica', 'italic');
+  doc.text(sumLines, M + 5, y + 4);
+  y += sumH + 5;
 
   // ── Runner Profile Card ──
   rr(doc, M, y, CW, 72, 3, C.cardBg, C.border);
@@ -496,15 +514,18 @@ export async function generateResultsPDF(data: PDFData) {
     const nameLines = doc.splitTextToSize(`${shoe.brand} ${shoe.model}`, leftRight - (M + 23));
     doc.text(nameLines.slice(0, 2), M + 23, y + 16);
 
-    doc.setFontSize(10);
+    // Price + meta on a clean two-line block (avoids cramped overflow)
+    doc.setFontSize(11);
     doc.setTextColor(C.red[0], C.red[1], C.red[2]);
     doc.setFont('helvetica', 'bold');
     doc.text(`$${shoe.priceUSD}`, M + 23, y + 24);
 
+    // Meta chips: weight | drop | cushion — small uppercase divider style
     doc.setFontSize(6);
     doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
     doc.setFont('helvetica', 'normal');
-    doc.text(`${shoe.weightGrams}g  |  ${shoe.dropMM}mm drop  |  Cushion: ${shoe.cushioning}/10`, M + 42, y + 24);
+    const metaTxt = `${shoe.weightGrams}G   ·   ${shoe.dropMM}MM DROP   ·   CUSHION ${shoe.cushioning}/10`;
+    doc.text(metaTxt, M + 23, y + 28.5, { charSpace: 0.4 } as any);
 
     // Highlights (left column only)
     const hlY = y + 30;
@@ -580,14 +601,24 @@ export async function generateResultsPDF(data: PDFData) {
   doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
   doc.setFont('helvetica', 'bold');
   doc.text('SHOE ROTATION STRATEGY', M, y);
-  y += 4;
 
-  rr(doc, M, y, CW, 8, 2, C.greenBg);
+  // Red underline accent
+  doc.setFillColor(C.red[0], C.red[1], C.red[2]);
+  doc.rect(M, y + 2, 28, 0.7, 'F');
+  y += 7;
+
+  doc.setFontSize(7);
+  doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
+  doc.setFont('helvetica', 'italic');
+  doc.text('Rotate three purpose-built shoes to reduce injury risk and extend the life of every pair.', M, y);
+  y += 5;
+
+  rr(doc, M, y, CW, 9, 2, C.greenBg);
   doc.setFontSize(6.5);
   doc.setTextColor(C.green[0], C.green[1], C.green[2]);
   doc.setFont('helvetica', 'bold');
-  doc.text('Research shows multi-shoe rotation reduces injury risk by up to 39% (British Journal of Sports Medicine)', M + 4, y + 5.5);
-  y += 14;
+  doc.text('Research shows multi-shoe rotation reduces injury risk by up to 39% (British Journal of Sports Medicine)', M + 4, y + 6);
+  y += 13;
 
   const shoes = [
     { role: 'DAILY TRAINER', color: C.red, colorBg: C.redBg, shoe: rotation?.primary, desc: 'Easy runs, recovery, and general training' },
@@ -595,55 +626,65 @@ export async function generateResultsPDF(data: PDFData) {
     rotation?.longRun ? { role: 'LONG RUN', color: C.purple, colorBg: C.purpleBg, shoe: rotation.longRun, desc: 'Weekly long run (15K+) with max cushion' } : null,
   ].filter(Boolean) as { role: string; color: RGB; colorBg: RGB; shoe: ScoredShoe; desc: string }[];
 
-  const cardH = 56;
+  const cardH = 58;
   shoes.forEach((item, i) => {
-    const cy = y + i * (cardH + 5);
+    const cy = y + i * (cardH + 6);
     rr(doc, M, cy, CW, cardH, 3, C.cardBg, C.border);
 
     // Left accent
     doc.setFillColor(item.color[0], item.color[1], item.color[2]);
     doc.rect(M, cy, 3, cardH, 'F');
 
-    // Image column on the right
+    // Image column on the right (taller, no clash with button)
     const imgW = 46;
-    const imgH = cardH - 14; // leave room for the button below
+    const imgH = cardH - 8;
     const imgX = PW - M - imgW - 4;
     const imgY = cy + 4;
-    const textRight = imgX - 4;
+    const textRight = imgX - 6;
 
     drawShoeFrame(doc, imgX, imgY, imgW, imgH, shoeImageMap.get(item.shoe.shoe.id) ?? null, item.shoe.shoe.brand, item.shoe.shoe.model);
 
-    // Role badge
+    // Role badge (left)
     pill(doc, M + 8, cy + 5, item.role, item.colorBg, item.color);
 
-    // Match % (centered below image)
-    doc.setFontSize(8);
-    doc.setTextColor(item.color[0], item.color[1], item.color[2]);
+    // Match % chip — sits next to the role pill, no overlap with anything
+    const pctText = `${item.shoe.matchPercent}% MATCH`;
+    doc.setFontSize(6);
     doc.setFont('helvetica', 'bold');
-    doc.text(`${item.shoe.matchPercent}% MATCH`, imgX + imgW / 2, imgY + imgH + 3.5, { align: 'center' });
+    const pctW = doc.getTextWidth(pctText) + 6;
+    rr(doc, M + 8 + 30, cy + 5, pctW, 6, 3, C.greenBg);
+    doc.setTextColor(C.green[0], C.green[1], C.green[2]);
+    doc.text(pctText, M + 8 + 30 + pctW / 2, cy + 9.2, { align: 'center' });
 
-    // Shoe name + price (left column, wrapped)
-    doc.setFontSize(12);
+    // Shoe name (left column, wrapped)
+    doc.setFontSize(13);
     doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
     doc.setFont('helvetica', 'bold');
     const nameLines = doc.splitTextToSize(`${item.shoe.shoe.brand} ${item.shoe.shoe.model}`, textRight - (M + 8));
-    doc.text(nameLines.slice(0, 2), M + 8, cy + 17);
+    doc.text(nameLines.slice(0, 2), M + 8, cy + 18);
 
-    doc.setFontSize(9);
+    // Price + meta block
+    doc.setFontSize(10);
     doc.setTextColor(C.red[0], C.red[1], C.red[2]);
     doc.setFont('helvetica', 'bold');
-    doc.text(`$${item.shoe.shoe.priceUSD}`, M + 8, cy + 27);
+    doc.text(`$${item.shoe.shoe.priceUSD}`, M + 8, cy + 28);
 
-    doc.setFontSize(6);
+    doc.setFontSize(5.8);
     doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
     doc.setFont('helvetica', 'normal');
-    const metaLines = doc.splitTextToSize(`${item.shoe.shoe.weightGrams}g  |  ${item.shoe.shoe.dropMM}mm drop  |  ${item.desc}`, textRight - (M + 28));
-    doc.text(metaLines[0], M + 28, cy + 27);
+    doc.text(`${item.shoe.shoe.weightGrams}G   ·   ${item.shoe.shoe.dropMM}MM DROP`, M + 22, cy + 28, { charSpace: 0.4 } as any);
 
-    // Highlights — stacked vertically in left column
-    item.shoe.shoe.highlights.slice(0, 3).forEach((h, hi) => {
-      const hy = cy + 33 + hi * 4.5;
-      doc.setFillColor(C.green[0], C.green[1], C.green[2]);
+    // Use-case description on its own line
+    doc.setFontSize(6.2);
+    doc.setTextColor(C.text[0], C.text[1], C.text[2]);
+    doc.setFont('helvetica', 'italic');
+    const descLines = doc.splitTextToSize(item.desc, textRight - (M + 8));
+    doc.text(descLines[0], M + 8, cy + 33);
+
+    // Highlights — stacked vertically
+    item.shoe.shoe.highlights.slice(0, 2).forEach((h, hi) => {
+      const hy = cy + 39 + hi * 4.8;
+      doc.setFillColor(item.color[0], item.color[1], item.color[2]);
       doc.circle(M + 10, hy, 0.8, 'F');
       doc.setFontSize(6);
       doc.setTextColor(C.text[0], C.text[1], C.text[2]);
@@ -652,22 +693,22 @@ export async function generateResultsPDF(data: PDFData) {
       doc.text(hLines[0], M + 14, hy + 1);
     });
 
-    // Amazon button — under image
-    const btnW = imgW - 2;
-    const btnX = imgX + 1;
-    const btnY = cy + cardH - 7;
-    rr(doc, btnX, btnY, btnW, 6, 2, C.red);
+    // Amazon button — under image (lower so the match% chip up-top is fully visible)
+    const btnW = imgW;
+    const btnX = imgX;
+    const btnY = cy + cardH - 6.5;
+    rr(doc, btnX, btnY, btnW, 5.5, 1.8, C.red);
     doc.setFontSize(6);
     doc.setTextColor(255, 255, 255);
     doc.setFont('helvetica', 'bold');
-    doc.text('BUY ON AMAZON', btnX + btnW / 2, btnY + 4, { align: 'center' });
-    doc.link(btnX, btnY, btnW, 6, { url: amazonLink(item.shoe.shoe.brand, item.shoe.shoe.model) });
+    doc.text('BUY ON AMAZON  ›', btnX + btnW / 2, btnY + 3.7, { align: 'center', charSpace: 0.4 } as any);
+    doc.link(btnX, btnY, btnW, 5.5, { url: amazonLink(item.shoe.shoe.brand, item.shoe.shoe.model) });
 
     // Review link bottom-left
-    link(doc, M + 8, cy + cardH - 3, 'Read Review on GearUpToFit', item.shoe.shoe.reviewURL, 5.5);
+    link(doc, M + 8, cy + cardH - 3, 'Read Full Review on GearUpToFit ›', item.shoe.shoe.reviewURL, 5.5);
   });
 
-  y += shoes.length * (cardH + 5) + 6;
+  y += shoes.length * (cardH + 6) + 6;
 
   // ── Training Emphasis ──
   if (y + 40 < PH - 22) {
@@ -708,106 +749,130 @@ export async function generateResultsPDF(data: PDFData) {
   doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
   doc.setFont('helvetica', 'bold');
   doc.text('RECOMMENDED RESOURCES', M, y);
-  y += 4;
 
-  doc.setFontSize(6.5);
+  // Red underline accent
+  doc.setFillColor(C.red[0], C.red[1], C.red[2]);
+  doc.rect(M, y + 2, 28, 0.7, 'F');
+  y += 7;
+
+  doc.setFontSize(7);
   doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
-  doc.setFont('helvetica', 'normal');
-  doc.text('Curated articles and tools from GearUpToFit based on your runner profile', M, y + 3);
-  y += 12;
+  doc.setFont('helvetica', 'italic');
+  doc.text('Curated articles, calculators and free tools from GearUpToFit, hand-picked for your runner profile.', M, y);
+  y += 8;
 
-  // ── Read Before You Buy ──
-  rr(doc, M, y, CW, 34, 3, C.accentBg, C.border);
-  y = sectionTitle(doc, y + 3, 'READ BEFORE YOU BUY', C.accent);
-
+  // ── Read Before You Buy (compact 2-column) ──
   const mustReads = [
     { title: 'How to Choose the Right Running Shoes', url: 'https://gearuptofit.com/running/how-to-choose-the-right-running-shoes/' },
     { title: 'Running Shoes Reviews 2026', url: 'https://gearuptofit.com/review/running-shoes/' },
-    { title: 'Best Running Shoes for Different Distances 2026', url: 'https://gearuptofit.com/review/best-running-shoes-for-different-distances/' },
+    { title: 'Best Shoes for Different Distances 2026', url: 'https://gearuptofit.com/review/best-running-shoes-for-different-distances/' },
     { title: 'Best Running Shoes 2026', url: 'https://gearuptofit.com/review/best-running-shoes/' },
   ];
+  const mrH = 6 + Math.ceil(mustReads.length / 2) * 6 + 4;
+  rr(doc, M, y, CW, mrH, 3, C.accentBg, C.border);
+  y = sectionTitle(doc, y + 3, 'READ BEFORE YOU BUY', C.accent);
 
   mustReads.forEach((item, i) => {
+    const col = i % 2;
+    const row = Math.floor(i / 2);
+    const cx = M + 7 + col * (CW / 2);
+    const cy = y + row * 6;
     doc.setFillColor(C.accent[0], C.accent[1], C.accent[2]);
-    doc.circle(M + 8, y + i * 5.5, 1, 'F');
-    link(doc, M + 12, y + i * 5.5 + 1.5, item.title, item.url, 6.5);
+    doc.circle(cx, cy, 0.9, 'F');
+    link(doc, cx + 3, cy + 1.4, item.title, item.url, 6.5);
   });
-  y += mustReads.length * 5.5 + 6;
+  y += Math.ceil(mustReads.length / 2) * 6 + 6;
 
-  // ── Personalized Articles ──
+  // ── Personalized Articles (2-column compact grid) ──
   const articles = getRecommendedArticles(answers);
   y = sectionTitle(doc, y, 'PERSONALIZED ARTICLES FOR YOU');
 
-  articles.forEach((article) => {
-    if (y > PH - 55) return;
-    rr(doc, M, y, CW, 11, 2, C.bg);
+  const artColW = CW / 2 - 2;
+  const artH = 13;
+  articles.slice(0, 6).forEach((article, i) => {
+    const col = i % 2;
+    const row = Math.floor(i / 2);
+    const ax = M + col * (artColW + 4);
+    const ay = y + row * (artH + 3);
+    if (ay + artH > PH - 60) return;
+    rr(doc, ax, ay, artColW, artH, 2, C.bg, C.border);
 
-    doc.setFontSize(5.5);
-    doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
+    // Category pill
+    doc.setFontSize(5);
+    doc.setTextColor(C.red[0], C.red[1], C.red[2]);
     doc.setFont('helvetica', 'bold');
-    doc.text(article.category.toUpperCase(), M + 4, y + 4);
+    doc.text(article.category.toUpperCase(), ax + 4, ay + 4, { charSpace: 0.5 } as any);
 
     doc.setFontSize(7);
     doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
     doc.setFont('helvetica', 'bold');
-    doc.textWithLink(article.title, M + 4, y + 8.5, { url: article.url });
-    doc.link(M, y, CW, 11, { url: article.url });
+    const tLines = doc.splitTextToSize(article.title, artColW - 8);
+    doc.text(tLines.slice(0, 2), ax + 4, ay + 8.5);
+    doc.link(ax, ay, artColW, artH, { url: article.url });
 
-    y += 14;
+    // Tiny chevron at right
+    doc.setFontSize(7);
+    doc.setTextColor(C.red[0], C.red[1], C.red[2]);
+    doc.text('›', ax + artColW - 4, ay + 8.5, { align: 'right' });
   });
+  y += Math.ceil(Math.min(articles.length, 6) / 2) * (artH + 3) + 4;
 
-  // ── Injury Prevention ──
+  // ── Injury Prevention (compact, only if relevant) ──
   const injuryArticles = getInjuryArticles(answers.injuries);
-  if (injuryArticles.length > 0 && y < PH - 55) {
-    y += 2;
+  if (injuryArticles.length > 0 && y < PH - 60) {
     y = sectionTitle(doc, y, 'INJURY PREVENTION RESOURCES', C.redLight);
-
-    injuryArticles.forEach(article => {
-      if (y > PH - 40) return;
-      rr(doc, M, y, CW, 11, 2, C.redBg);
-
-      doc.setFontSize(5.5);
-      doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
-      doc.setFont('helvetica', 'bold');
-      doc.text(article.category.toUpperCase(), M + 4, y + 4);
-
-      doc.setFontSize(7);
-      doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
-      doc.setFont('helvetica', 'bold');
-      doc.textWithLink(article.title, M + 4, y + 8.5, { url: article.url });
-      doc.link(M, y, CW, 11, { url: article.url });
-
-      y += 14;
-    });
-  }
-
-  // ── Free Tools ──
-  if (y < PH - 50) {
-    y += 2;
-    y = sectionTitle(doc, y, 'FREE TOOLS AND CALCULATORS', C.blue);
-
-    const tools = getToolLinks(answers);
-    const toolColW = CW / 2 - 3;
-    tools.forEach((tool, i) => {
+    const injH = 11;
+    injuryArticles.slice(0, 4).forEach((article, i) => {
       const col = i % 2;
       const row = Math.floor(i / 2);
-      const tx = M + col * (toolColW + 6);
-      const ty = y + row * 16;
+      const ax = M + col * (artColW + 4);
+      const ay = y + row * (injH + 3);
+      if (ay + injH > PH - 50) return;
+      rr(doc, ax, ay, artColW, injH, 2, C.redBg);
 
-      rr(doc, tx, ty, toolColW, 13, 2, C.blueBg);
+      doc.setFontSize(5);
+      doc.setTextColor(C.red[0], C.red[1], C.red[2]);
+      doc.setFont('helvetica', 'bold');
+      doc.text(article.category.toUpperCase(), ax + 4, ay + 4, { charSpace: 0.5 } as any);
+
+      doc.setFontSize(6.5);
+      doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
+      doc.setFont('helvetica', 'bold');
+      const tLines = doc.splitTextToSize(article.title, artColW - 8);
+      doc.text(tLines[0], ax + 4, ay + 8.5);
+      doc.link(ax, ay, artColW, injH, { url: article.url });
+    });
+    y += Math.ceil(Math.min(injuryArticles.length, 4) / 2) * (injH + 3) + 4;
+  }
+
+  // ── Free Tools (always shown, 2-column) ──
+  if (y < PH - 35) {
+    y = sectionTitle(doc, y, 'FREE TOOLS & CALCULATORS', C.blue);
+    const tools = getToolLinks(answers);
+    const toolColW = CW / 2 - 2;
+    const toolH = 13;
+    tools.slice(0, 4).forEach((tool, i) => {
+      const col = i % 2;
+      const row = Math.floor(i / 2);
+      const tx = M + col * (toolColW + 4);
+      const ty = y + row * (toolH + 3);
+      if (ty + toolH > PH - 22) return;
+
+      rr(doc, tx, ty, toolColW, toolH, 2, C.blueBg, C.border);
       doc.setFontSize(7);
       doc.setTextColor(C.blue[0], C.blue[1], C.blue[2]);
       doc.setFont('helvetica', 'bold');
-      doc.textWithLink(tool.title, tx + 4, ty + 5, { url: tool.url });
+      doc.textWithLink(tool.title, tx + 4, ty + 5.5, { url: tool.url });
 
       doc.setFontSize(5.5);
       doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
       doc.setFont('helvetica', 'normal');
-      doc.text(tool.description, tx + 4, ty + 10);
+      const dLines = doc.splitTextToSize(tool.description, toolColW - 8);
+      doc.text(dLines[0], tx + 4, ty + 10);
 
-      doc.link(tx, ty, toolColW, 13, { url: tool.url });
+      doc.link(tx, ty, toolColW, toolH, { url: tool.url });
     });
-    y += Math.ceil(tools.length / 2) * 16 + 4;
+    y += Math.ceil(Math.min(tools.length, 4) / 2) * (toolH + 3) + 4;
   }
 
   addFooter(doc, 3, totalPages);
@@ -823,15 +888,19 @@ export async function generateResultsPDF(data: PDFData) {
   doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
   doc.setFont('helvetica', 'bold');
   doc.text('COMPLETE YOUR RUNNING KIT', M, y);
-  y += 4;
 
-  doc.setFontSize(6.5);
+  // Red underline accent
+  doc.setFillColor(C.red[0], C.red[1], C.red[2]);
+  doc.rect(M, y + 2, 28, 0.7, 'F');
+  y += 7;
+
+  doc.setFontSize(7);
   doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
-  doc.setFont('helvetica', 'normal');
-  doc.text('Expert-picked gear to complement your shoe rotation', M, y + 3);
-  y += 12;
+  doc.setFont('helvetica', 'italic');
+  doc.text('Expert-picked gear and reviews to complement your shoe rotation.', M, y);
+  y += 8;
 
-  // Kit items
+  // Kit items — 2-column denser grid
   const kitItems = [
     { title: 'Best Running Socks for Blister Prevention', url: 'https://gearuptofit.com/review/best-running-socks-for-blister-prevention/', cat: 'SOCKS', color: C.green, bg: C.greenBg },
     { title: 'Best Smartwatches for Runners', url: 'https://gearuptofit.com/review/best-smartwatches-for-runners/', cat: 'TECH', color: C.blue, bg: C.blueBg },
@@ -841,47 +910,65 @@ export async function generateResultsPDF(data: PDFData) {
     { title: 'Running Gear for Beginners', url: 'https://gearuptofit.com/running/running-gear-for-beginners/', cat: 'BEGINNER', color: C.blue, bg: C.blueBg },
   ];
 
+  const kitColW = CW / 2 - 2;
+  const kitH = 14;
   kitItems.forEach((item, i) => {
-    rr(doc, M, y, CW, 13, 2, item.bg, C.border);
+    const col = i % 2;
+    const row = Math.floor(i / 2);
+    const kx = M + col * (kitColW + 4);
+    const ky = y + row * (kitH + 3);
+    rr(doc, kx, ky, kitColW, kitH, 2, item.bg, C.border);
 
-    // Category pill
-    pill(doc, M + 4, y + 2, item.cat, item.bg, item.color);
+    // Left color bar
+    doc.setFillColor(item.color[0], item.color[1], item.color[2]);
+    doc.rect(kx, ky, 1.6, kitH, 'F');
 
-    doc.setFontSize(7.5);
+    // Category microlabel
+    doc.setFontSize(5);
+    doc.setTextColor(item.color[0], item.color[1], item.color[2]);
+    doc.setFont('helvetica', 'bold');
+    doc.text(item.cat, kx + 4, ky + 4.5, { charSpace: 0.5 } as any);
+
+    doc.setFontSize(7);
     doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
     doc.setFont('helvetica', 'bold');
-    doc.textWithLink(item.title, M + 4, y + 10.5, { url: item.url });
-    doc.link(M, y, CW, 13, { url: item.url });
+    const tLines = doc.splitTextToSize(item.title, kitColW - 12);
+    doc.text(tLines[0], kx + 4, ky + 9.5);
 
-    y += 16;
+    // Chevron
+    doc.setFontSize(8);
+    doc.setTextColor(item.color[0], item.color[1], item.color[2]);
+    doc.text('›', kx + kitColW - 4, ky + 9.5, { align: 'right' });
+
+    doc.link(kx, ky, kitColW, kitH, { url: item.url });
   });
+  y += Math.ceil(kitItems.length / 2) * (kitH + 3) + 8;
 
-  y += 6;
-
-  // ── Your Profile Summary Card ──
-  rr(doc, M, y, CW, 50, 3, C.bg, C.border);
-  y = sectionTitle(doc, y + 3, 'YOUR PROFILE AT A GLANCE');
-
+  // ── Your Profile Summary Card — proper label/value treatment ──
   const profileItems = [
-    `Foot Type: ${answers.footType.charAt(0).toUpperCase() + answers.footType.slice(1)}`,
-    `Pronation: ${answers.pronation.charAt(0).toUpperCase() + answers.pronation.slice(1)}`,
-    `Weekly Volume: ${answers.weeklyMileage} km/week`,
-    `Target Distance: ${answers.distance.replace(/-/g, ' ')}`,
-    `Primary Terrain: ${answers.terrain.charAt(0).toUpperCase() + answers.terrain.slice(1)}`,
-    `Pace Goal: ${answers.paceGoal.charAt(0).toUpperCase() + answers.paceGoal.slice(1)}`,
-    `Budget: ${answers.budget.map(b => b === 'under-100' ? 'Under $100' : b === '200-plus' ? '$200+' : '$' + b.replace('-', '-$')).join(', ') || 'Flexible'}`,
-    `Preferred Brands: ${answers.brand.length > 0 ? answers.brand.map(b => b.charAt(0).toUpperCase() + b.slice(1)).join(', ') : 'Open to all'}`,
+    { l: 'FOOT TYPE', v: answers.footType.charAt(0).toUpperCase() + answers.footType.slice(1) },
+    { l: 'PRONATION', v: answers.pronation.charAt(0).toUpperCase() + answers.pronation.slice(1) },
+    { l: 'WEEKLY VOLUME', v: `${answers.weeklyMileage} km / week` },
+    { l: 'TARGET DISTANCE', v: answers.distance.replace(/-/g, ' ').toUpperCase() },
+    { l: 'PRIMARY TERRAIN', v: answers.terrain.charAt(0).toUpperCase() + answers.terrain.slice(1) },
+    { l: 'PACE GOAL', v: answers.paceGoal.charAt(0).toUpperCase() + answers.paceGoal.slice(1) },
+    { l: 'BUDGET', v: answers.budget.map((b: string) => b === 'under-100' ? 'Under $100' : b === '200-plus' ? '$200+' : '$' + b.replace('-', '-$')).join(', ') || 'Flexible' },
+    { l: 'PREFERRED BRANDS', v: answers.brand.length > 0 ? answers.brand.map((b: string) => b.charAt(0).toUpperCase() + b.slice(1)).join(', ') : 'Open to all' },
   ];
 
+  const profileH = 12 + Math.ceil(profileItems.length / 2) * 12 + 4;
+  rr(doc, M, y, CW, profileH, 3, C.bg, C.border);
+  y = sectionTitle(doc, y + 3, 'YOUR PROFILE AT A GLANCE');
+
+  const piColW = (CW - 14) / 2;
   profileItems.forEach((item, i) => {
     const col = i % 2;
     const row = Math.floor(i / 2);
-    doc.setFontSize(6.5);
-    doc.setTextColor(C.text[0], C.text[1], C.text[2]);
-    doc.setFont('helvetica', 'normal');
-    doc.text(item, M + 7 + col * (CW / 2), y + row * 7);
+    const px = M + 7 + col * piColW;
+    const py = y + row * 10;
+    labelValue(doc, px, py, item.l, item.v, piColW - 4);
   });
-  y += Math.ceil(profileItems.length / 2) * 7 + 6;
+  y += Math.ceil(profileItems.length / 2) * 10 + 4;
 
   // ── Premium CTA Block ──
   y += 6;
