@@ -24,7 +24,7 @@ const AFFILIATE_TAG = 'papalex-20';
  */
 const VERIFIED_ASINS: Record<string, string> = {
   // AUTO-GENERATED from src/lib/amazon-asin-cache.json (SerpAPI Amazon top organic results).
-  // 66 verified ASINs — regenerate via: node scripts/resolve-amazon-asins.mjs
+  // 63 verified ASINs — regenerate via: node scripts/resolve-amazon-asins.mjs
   'B0CZHK16QG': 'nike-pegasus-41',
   'B0FRR22Y53': 'nike-pegasus-premium',
   'B0FPMT1579': 'nike-vomero-plus',
@@ -34,7 +34,6 @@ const VERIFIED_ASINS: Record<string, string> = {
   'B0FV7HQJ6K': 'asics-gel-nimbus-28',
   'B0DPLRJMCJ': 'asics-gel-kayano-32',
   'B0D3JCJG54': 'asics-novablast-5',
-  'B0D3JCJG54': 'asics-novablast-4',
   'B0GNT84D7F': 'asics-superblast-3',
   'B0DPLQL9NS': 'asics-sonicblast',
   'B0FV7DV4RL': 'asics-megablast',
@@ -65,7 +64,6 @@ const VERIFIED_ASINS: Record<string, string> = {
   'B0F4MHTW68': 'nike-alphafly-3',
   'B0DJGCHD2V': 'nike-vaporfly-3',
   'B0F68LCVTH': 'nike-streakfly',
-  'B0FRQJBQYP': 'adidas-adios-pro-3',
   'B0GCJX23F5': 'adidas-takumi-sen-10',
   'B0BHPQCRJ1': 'adidas-boston-12',
   'B0DN459G3C': 'hoka-mach-6',
@@ -81,7 +79,6 @@ const VERIFIED_ASINS: Record<string, string> = {
   'B0F63YB56T': 'asics-magic-speed-4',
   'B0D2BSW58S': 'nb-fuelcell-supercomp-elite-v4',
   'B0D2Y8161K': 'nb-fresh-foam-x-more-v5',
-  'B0FBL9TD97': 'nb-fresh-foam-1080-v14',
   'B0CGYHNTJG': 'brooks-hyperion-elite-4',
   'B0CRG1NL42': 'brooks-hyperion-max-2',
   'B0CPN3KC9T': 'brooks-cascadia-18',
