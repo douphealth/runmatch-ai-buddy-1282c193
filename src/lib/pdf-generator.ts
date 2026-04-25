@@ -598,55 +598,65 @@ export async function generateResultsPDF(data: PDFData) {
     rotation?.longRun ? { role: 'LONG RUN', color: C.purple, colorBg: C.purpleBg, shoe: rotation.longRun, desc: 'Weekly long run (15K+) with max cushion' } : null,
   ].filter(Boolean) as { role: string; color: RGB; colorBg: RGB; shoe: ScoredShoe; desc: string }[];
 
-  const cardH = 56;
+  const cardH = 58;
   shoes.forEach((item, i) => {
-    const cy = y + i * (cardH + 5);
+    const cy = y + i * (cardH + 6);
     rr(doc, M, cy, CW, cardH, 3, C.cardBg, C.border);
 
     // Left accent
     doc.setFillColor(item.color[0], item.color[1], item.color[2]);
     doc.rect(M, cy, 3, cardH, 'F');
 
-    // Image column on the right
+    // Image column on the right (taller, no clash with button)
     const imgW = 46;
-    const imgH = cardH - 14; // leave room for the button below
+    const imgH = cardH - 8;
     const imgX = PW - M - imgW - 4;
     const imgY = cy + 4;
-    const textRight = imgX - 4;
+    const textRight = imgX - 6;
 
     drawShoeFrame(doc, imgX, imgY, imgW, imgH, shoeImageMap.get(item.shoe.shoe.id) ?? null, item.shoe.shoe.brand, item.shoe.shoe.model);
 
-    // Role badge
+    // Role badge (left)
     pill(doc, M + 8, cy + 5, item.role, item.colorBg, item.color);
 
-    // Match % (centered below image)
-    doc.setFontSize(8);
-    doc.setTextColor(item.color[0], item.color[1], item.color[2]);
+    // Match % chip — sits next to the role pill, no overlap with anything
+    const pctText = `${item.shoe.matchPercent}% MATCH`;
+    doc.setFontSize(6);
     doc.setFont('helvetica', 'bold');
-    doc.text(`${item.shoe.matchPercent}% MATCH`, imgX + imgW / 2, imgY + imgH + 3.5, { align: 'center' });
+    const pctW = doc.getTextWidth(pctText) + 6;
+    rr(doc, M + 8 + 30, cy + 5, pctW, 6, 3, C.greenBg);
+    doc.setTextColor(C.green[0], C.green[1], C.green[2]);
+    doc.text(pctText, M + 8 + 30 + pctW / 2, cy + 9.2, { align: 'center' });
 
-    // Shoe name + price (left column, wrapped)
-    doc.setFontSize(12);
+    // Shoe name (left column, wrapped)
+    doc.setFontSize(13);
     doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
     doc.setFont('helvetica', 'bold');
     const nameLines = doc.splitTextToSize(`${item.shoe.shoe.brand} ${item.shoe.shoe.model}`, textRight - (M + 8));
-    doc.text(nameLines.slice(0, 2), M + 8, cy + 17);
+    doc.text(nameLines.slice(0, 2), M + 8, cy + 18);
 
-    doc.setFontSize(9);
+    // Price + meta block
+    doc.setFontSize(10);
     doc.setTextColor(C.red[0], C.red[1], C.red[2]);
     doc.setFont('helvetica', 'bold');
-    doc.text(`$${item.shoe.shoe.priceUSD}`, M + 8, cy + 27);
+    doc.text(`$${item.shoe.shoe.priceUSD}`, M + 8, cy + 28);
 
-    doc.setFontSize(6);
+    doc.setFontSize(5.8);
     doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
     doc.setFont('helvetica', 'normal');
-    const metaLines = doc.splitTextToSize(`${item.shoe.shoe.weightGrams}g  |  ${item.shoe.shoe.dropMM}mm drop  |  ${item.desc}`, textRight - (M + 28));
-    doc.text(metaLines[0], M + 28, cy + 27);
+    doc.text(`${item.shoe.shoe.weightGrams}G   ·   ${item.shoe.shoe.dropMM}MM DROP`, M + 22, cy + 28, { charSpace: 0.4 } as any);
 
-    // Highlights — stacked vertically in left column
-    item.shoe.shoe.highlights.slice(0, 3).forEach((h, hi) => {
-      const hy = cy + 33 + hi * 4.5;
-      doc.setFillColor(C.green[0], C.green[1], C.green[2]);
+    // Use-case description on its own line
+    doc.setFontSize(6.2);
+    doc.setTextColor(C.text[0], C.text[1], C.text[2]);
+    doc.setFont('helvetica', 'italic');
+    const descLines = doc.splitTextToSize(item.desc, textRight - (M + 8));
+    doc.text(descLines[0], M + 8, cy + 33);
+
+    // Highlights — stacked vertically
+    item.shoe.shoe.highlights.slice(0, 2).forEach((h, hi) => {
+      const hy = cy + 39 + hi * 4.8;
+      doc.setFillColor(item.color[0], item.color[1], item.color[2]);
       doc.circle(M + 10, hy, 0.8, 'F');
       doc.setFontSize(6);
       doc.setTextColor(C.text[0], C.text[1], C.text[2]);
@@ -655,19 +665,19 @@ export async function generateResultsPDF(data: PDFData) {
       doc.text(hLines[0], M + 14, hy + 1);
     });
 
-    // Amazon button — under image
-    const btnW = imgW - 2;
-    const btnX = imgX + 1;
-    const btnY = cy + cardH - 7;
-    rr(doc, btnX, btnY, btnW, 6, 2, C.red);
+    // Amazon button — under image (lower so the match% chip up-top is fully visible)
+    const btnW = imgW;
+    const btnX = imgX;
+    const btnY = cy + cardH - 6.5;
+    rr(doc, btnX, btnY, btnW, 5.5, 1.8, C.red);
     doc.setFontSize(6);
     doc.setTextColor(255, 255, 255);
     doc.setFont('helvetica', 'bold');
-    doc.text('BUY ON AMAZON', btnX + btnW / 2, btnY + 4, { align: 'center' });
-    doc.link(btnX, btnY, btnW, 6, { url: amazonLink(item.shoe.shoe.brand, item.shoe.shoe.model) });
+    doc.text('BUY ON AMAZON  ›', btnX + btnW / 2, btnY + 3.7, { align: 'center', charSpace: 0.4 } as any);
+    doc.link(btnX, btnY, btnW, 5.5, { url: amazonLink(item.shoe.shoe.brand, item.shoe.shoe.model) });
 
     // Review link bottom-left
-    link(doc, M + 8, cy + cardH - 3, 'Read Review on GearUpToFit', item.shoe.shoe.reviewURL, 5.5);
+    link(doc, M + 8, cy + cardH - 3, 'Read Full Review on GearUpToFit ›', item.shoe.shoe.reviewURL, 5.5);
   });
 
   y += shoes.length * (cardH + 5) + 6;
