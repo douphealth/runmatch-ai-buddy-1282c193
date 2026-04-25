@@ -7,9 +7,10 @@ interface QuizNavigationProps {
   onNext: () => void;
   canProceed: boolean;
   isLast: boolean;
+  hideNext?: boolean;
 }
 
-const QuizNavigation = ({ onBack, onNext, canProceed, isLast }: QuizNavigationProps) => {
+const QuizNavigation = ({ onBack, onNext, canProceed, isLast, hideNext = false }: QuizNavigationProps) => {
   return (
     <div className="sticky bottom-0 glass-strong px-4 py-4 md:py-5 z-20">
       <div className="max-w-2xl mx-auto flex items-center justify-between gap-4">
