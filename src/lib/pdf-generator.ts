@@ -595,7 +595,7 @@ export async function generateResultsPDF(data: PDFData) {
     rotation?.longRun ? { role: 'LONG RUN', color: C.purple, colorBg: C.purpleBg, shoe: rotation.longRun, desc: 'Weekly long run (15K+) with max cushion' } : null,
   ].filter(Boolean) as { role: string; color: RGB; colorBg: RGB; shoe: ScoredShoe; desc: string }[];
 
-  const cardH = 48;
+  const cardH = 56;
   shoes.forEach((item, i) => {
     const cy = y + i * (cardH + 5);
     rr(doc, M, cy, CW, cardH, 3, C.cardBg, C.border);
@@ -604,20 +604,30 @@ export async function generateResultsPDF(data: PDFData) {
     doc.setFillColor(item.color[0], item.color[1], item.color[2]);
     doc.rect(M, cy, 3, cardH, 'F');
 
+    // Image column on the right
+    const imgW = 46;
+    const imgH = cardH - 14; // leave room for the button below
+    const imgX = PW - M - imgW - 4;
+    const imgY = cy + 4;
+    const textRight = imgX - 4;
+
+    drawShoeFrame(doc, imgX, imgY, imgW, imgH, shoeImageMap.get(item.shoe.shoe.id) ?? null, item.shoe.shoe.brand, item.shoe.shoe.model);
+
     // Role badge
     pill(doc, M + 8, cy + 5, item.role, item.colorBg, item.color);
 
-    // Match %
-    doc.setFontSize(9);
+    // Match % (centered below image)
+    doc.setFontSize(8);
     doc.setTextColor(item.color[0], item.color[1], item.color[2]);
     doc.setFont('helvetica', 'bold');
-    doc.text(`${item.shoe.matchPercent}% match`, PW - M - 6, cy + 10, { align: 'right' });
+    doc.text(`${item.shoe.matchPercent}% MATCH`, imgX + imgW / 2, imgY + imgH + 3.5, { align: 'center' });
 
-    // Shoe name + price
-    doc.setFontSize(13);
+    // Shoe name + price (left column, wrapped)
+    doc.setFontSize(12);
     doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
     doc.setFont('helvetica', 'bold');
-    doc.text(`${item.shoe.shoe.brand} ${item.shoe.shoe.model}`, M + 8, cy + 20);
+    const nameLines = doc.splitTextToSize(`${item.shoe.shoe.brand} ${item.shoe.shoe.model}`, textRight - (M + 8));
+    doc.text(nameLines.slice(0, 2), M + 8, cy + 17);
 
     doc.setFontSize(9);
     doc.setTextColor(C.red[0], C.red[1], C.red[2]);
@@ -627,30 +637,34 @@ export async function generateResultsPDF(data: PDFData) {
     doc.setFontSize(6);
     doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
     doc.setFont('helvetica', 'normal');
-    doc.text(`${item.shoe.shoe.weightGrams}g  |  ${item.shoe.shoe.dropMM}mm drop  |  ${item.desc}`, M + 28, cy + 27);
+    const metaLines = doc.splitTextToSize(`${item.shoe.shoe.weightGrams}g  |  ${item.shoe.shoe.dropMM}mm drop  |  ${item.desc}`, textRight - (M + 28));
+    doc.text(metaLines[0], M + 28, cy + 27);
 
-    // Highlights
-    item.shoe.shoe.highlights.forEach((h, hi) => {
-      const hx = M + 8 + hi * 55;
-      if (hx + 50 > PW - M) return;
+    // Highlights — stacked vertically in left column
+    item.shoe.shoe.highlights.slice(0, 3).forEach((h, hi) => {
+      const hy = cy + 33 + hi * 4.5;
       doc.setFillColor(C.green[0], C.green[1], C.green[2]);
-      doc.circle(hx, cy + 34, 0.8, 'F');
+      doc.circle(M + 10, hy, 0.8, 'F');
       doc.setFontSize(6);
       doc.setTextColor(C.text[0], C.text[1], C.text[2]);
       doc.setFont('helvetica', 'normal');
-      doc.text(h, hx + 3, cy + 35);
+      const hLines = doc.splitTextToSize(h, textRight - (M + 14));
+      doc.text(hLines[0], M + 14, hy + 1);
     });
 
-    // Amazon button
-    rr(doc, PW - M - 38, cy + 38, 34, 8, 3, C.red);
+    // Amazon button — under image
+    const btnW = imgW - 2;
+    const btnX = imgX + 1;
+    const btnY = cy + cardH - 7;
+    rr(doc, btnX, btnY, btnW, 6, 2, C.red);
     doc.setFontSize(6);
     doc.setTextColor(255, 255, 255);
     doc.setFont('helvetica', 'bold');
-    doc.text('BUY ON AMAZON', PW - M - 21, cy + 43.5, { align: 'center' });
-    doc.link(PW - M - 38, cy + 38, 34, 8, { url: amazonLink(item.shoe.shoe.brand, item.shoe.shoe.model) });
+    doc.text('BUY ON AMAZON', btnX + btnW / 2, btnY + 4, { align: 'center' });
+    doc.link(btnX, btnY, btnW, 6, { url: amazonLink(item.shoe.shoe.brand, item.shoe.shoe.model) });
 
-    // Review
-    link(doc, M + 8, cy + 44, 'Read Review on GearUpToFit', item.shoe.shoe.reviewURL, 5.5);
+    // Review link bottom-left
+    link(doc, M + 8, cy + cardH - 3, 'Read Review on GearUpToFit', item.shoe.shoe.reviewURL, 5.5);
   });
 
   y += shoes.length * (cardH + 5) + 6;
