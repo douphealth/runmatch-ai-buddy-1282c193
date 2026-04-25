@@ -162,16 +162,17 @@ async function processShoe(brand, model, force = false) {
 
 async function main() {
   await fs.mkdir(OUT_DIR, { recursive: true });
+  const force = process.argv.includes('--force');
   const ts = await fs.readFile(SHOES_TS, 'utf8');
   const shoes = [...ts.matchAll(/brand:\s*'([^']+)',\s*model:\s*'([^']+)'/g)].map(m => ({ brand: m[1], model: m[2] }));
-  console.log(`Found ${shoes.length} shoes. Output → ${OUT_DIR}`);
+  console.log(`Found ${shoes.length} shoes. Output → ${OUT_DIR}${force ? ' (FORCE re-download)' : ''}`);
 
   const results = [];
   let i = 0;
   for (const s of shoes) {
     i++;
     process.stdout.write(`[${i}/${shoes.length}] ${s.brand} ${s.model}... `);
-    const r = await processShoe(s.brand, s.model);
+    const r = await processShoe(s.brand, s.model, force);
     results.push(r);
     if (r.skipped) console.log('cached');
     else if (r.ok) console.log(`✓ ${(r.size / 1024).toFixed(0)}kb`);
