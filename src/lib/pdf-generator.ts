@@ -598,14 +598,24 @@ export async function generateResultsPDF(data: PDFData) {
   doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
   doc.setFont('helvetica', 'bold');
   doc.text('SHOE ROTATION STRATEGY', M, y);
-  y += 4;
 
-  rr(doc, M, y, CW, 8, 2, C.greenBg);
+  // Red underline accent
+  doc.setFillColor(C.red[0], C.red[1], C.red[2]);
+  doc.rect(M, y + 2, 28, 0.7, 'F');
+  y += 7;
+
+  doc.setFontSize(7);
+  doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
+  doc.setFont('helvetica', 'italic');
+  doc.text('Rotate three purpose-built shoes to reduce injury risk and extend the life of every pair.', M, y);
+  y += 5;
+
+  rr(doc, M, y, CW, 9, 2, C.greenBg);
   doc.setFontSize(6.5);
   doc.setTextColor(C.green[0], C.green[1], C.green[2]);
   doc.setFont('helvetica', 'bold');
-  doc.text('Research shows multi-shoe rotation reduces injury risk by up to 39% (British Journal of Sports Medicine)', M + 4, y + 5.5);
-  y += 14;
+  doc.text('Research shows multi-shoe rotation reduces injury risk by up to 39% (British Journal of Sports Medicine)', M + 4, y + 6);
+  y += 13;
 
   const shoes = [
     { role: 'DAILY TRAINER', color: C.red, colorBg: C.redBg, shoe: rotation?.primary, desc: 'Easy runs, recovery, and general training' },
