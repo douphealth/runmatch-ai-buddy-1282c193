@@ -763,21 +763,16 @@ export async function generateResultsPDF(data: PDFData) {
 
   // ── Premium CTA Block ──
   y += 6;
-  const ctaH = 64;
+  const ctaH = 66;
   const gold: RGB = [198, 161, 86];
   const goldSoft: RGB = [232, 200, 130];
   const ink: RGB = [18, 12, 14];
-  const inkSoft: RGB = [42, 26, 30];
 
   // Outer hairline shadow
   rr(doc, M - 0.5, y - 0.5, CW + 1, ctaH + 1, 5.4, [0, 0, 0] as RGB);
 
-  // Main solid deep-ink card (no gradient banding)
+  // Main solid deep-ink card
   rr(doc, M, y, CW, ctaH, 5, ink);
-
-  // Subtle right-side warm accent (single soft block, well within rounded corners)
-  const accentX = M + CW - 70;
-  rr(doc, accentX, y + 1.5, 67, ctaH - 3, 4, inkSoft);
 
   // Inner gold hairline frame
   doc.setDrawColor(gold[0], gold[1], gold[2]);
@@ -786,32 +781,46 @@ export async function generateResultsPDF(data: PDFData) {
     (doc as any).roundedRect(M + 2.5, y + 2.5, CW - 5, ctaH - 5, 3.5, 3.5, 'S');
   }
 
-  // Top + bottom gold hairlines flanking the kicker
+  // Define a "safe inner zone" — keep all text away from corner ornaments (logo chip + seal)
+  // Logo chip occupies M+6..M+19, seal occupies PW-M-19..PW-M-6
+  const safeLeft = M + 24;
+  const safeRight = PW - M - 24;
+  const safeCenter = (safeLeft + safeRight) / 2;
+  const safeWidth = safeRight - safeLeft;
+
+  // Eyebrow / kicker — measured & centered in safe zone, with rules sized to leftover space
   const kickerY = y + 12;
-  doc.setFillColor(gold[0], gold[1], gold[2]);
-  doc.rect(M + 18, kickerY - 1.4, 22, 0.3, 'F');
-  doc.rect(PW - M - 18 - 22, kickerY - 1.4, 22, 0.3, 'F');
-
-  // Eyebrow / kicker
   doc.setFontSize(6);
-  doc.setTextColor(goldSoft[0], goldSoft[1], goldSoft[2]);
   doc.setFont('helvetica', 'bold');
-  doc.text('THE GEARUPTOFIT MANIFESTO', PW / 2, kickerY, { align: 'center', charSpace: 1.2 } as any);
+  const kickerText = 'THE GEARUPTOFIT MANIFESTO';
+  const kickerCharSpace = 1.2;
+  const kickerW = doc.getTextWidth(kickerText) + kickerCharSpace * (kickerText.length - 1);
+  doc.setTextColor(goldSoft[0], goldSoft[1], goldSoft[2]);
+  doc.text(kickerText, safeCenter, kickerY, { align: 'center', charSpace: kickerCharSpace } as any);
 
-  // Headline — single line, generous tracking
+  // Gold hairlines flanking kicker — fit within safe zone with 4mm gap from text
+  const ruleGap = 4;
+  const ruleStartL = safeLeft;
+  const ruleEndL = safeCenter - kickerW / 2 - ruleGap;
+  const ruleStartR = safeCenter + kickerW / 2 + ruleGap;
+  const ruleEndR = safeRight;
+  doc.setFillColor(gold[0], gold[1], gold[2]);
+  if (ruleEndL > ruleStartL) doc.rect(ruleStartL, kickerY - 1.4, ruleEndL - ruleStartL, 0.3, 'F');
+  if (ruleEndR > ruleStartR) doc.rect(ruleStartR, kickerY - 1.4, ruleEndR - ruleStartR, 0.3, 'F');
+
+  // Headline — single line, generous tracking, centered in safe zone
   doc.setFontSize(20);
   doc.setTextColor(255, 255, 255);
   doc.setFont('helvetica', 'bold');
-  doc.text('GEAR UP.   SHOW UP.   LEVEL UP.', PW / 2, y + 24, { align: 'center', charSpace: 0.6 } as any);
+  doc.text('GEAR UP.   SHOW UP.   LEVEL UP.', safeCenter, y + 25, { align: 'center', charSpace: 0.6 } as any);
 
-  // Ornamental divider: thin gold rule with center diamond
-  const divY = y + 30;
+  // Ornamental divider with center diamond
+  const divY = y + 31;
   doc.setFillColor(gold[0], gold[1], gold[2]);
-  doc.rect(PW / 2 - 38, divY, 30, 0.25, 'F');
-  doc.rect(PW / 2 + 8, divY, 30, 0.25, 'F');
-  // Center diamond
+  doc.rect(safeCenter - 38, divY, 30, 0.25, 'F');
+  doc.rect(safeCenter + 8, divY, 30, 0.25, 'F');
   doc.setFillColor(goldSoft[0], goldSoft[1], goldSoft[2]);
-  const dx = PW / 2, dy = divY;
+  const dx = safeCenter, dy = divY;
   doc.triangle(dx - 1.6, dy, dx, dy - 1.4, dx + 1.6, dy, 'F');
   doc.triangle(dx - 1.6, dy, dx, dy + 1.4, dx + 1.6, dy, 'F');
 
@@ -819,33 +828,48 @@ export async function generateResultsPDF(data: PDFData) {
   doc.setFontSize(7.5);
   doc.setTextColor(220, 215, 210);
   doc.setFont('helvetica', 'normal');
-  doc.text('Expert gear reviews  ·  Personalized training plans  ·  Pro-grade running guides', PW / 2, y + 36, { align: 'center' });
+  doc.text('Expert gear reviews  ·  Personalized training plans  ·  Pro-grade running guides', safeCenter, y + 37, { align: 'center' });
 
-  // Premium pill button
-  const btnW = 70, btnH = 12, btnX = PW / 2 - btnW / 2, btnY = y + 42;
-  // Gold ring
+  // Premium pill button — centered in safe zone
+  const btnW = 70, btnH = 12, btnX = safeCenter - btnW / 2, btnY = y + 43;
   rr(doc, btnX - 0.7, btnY - 0.7, btnW + 1.4, btnH + 1.4, 6.2, gold);
-  // White button
   rr(doc, btnX, btnY, btnW, btnH, 5.5, C.white);
 
-  // CTA text — perfectly centered
+  // CTA text — measured to keep it perfectly centered with arrow
   doc.setFontSize(9);
   doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
   doc.setFont('helvetica', 'bold');
-  doc.text('VISIT  GEARUPTOFIT.COM', btnX + btnW / 2, btnY + btnH / 2 + 1.3, { align: 'center', charSpace: 0.7 } as any);
+  const ctaText = 'VISIT  GEARUPTOFIT.COM';
+  const ctaCharSpace = 0.7;
+  const ctaTextW = doc.getTextWidth(ctaText) + ctaCharSpace * (ctaText.length - 1);
+  const arrowW = 3.2; // triangle width + gap
+  const groupW = ctaTextW + arrowW;
+  const textStartX = btnX + (btnW - groupW) / 2;
+  doc.text(ctaText, textStartX, btnY + btnH / 2 + 1.3, { align: 'left', charSpace: ctaCharSpace } as any);
 
-  // Tiny red arrow on the right of the button
+  // Red arrow immediately after text
   doc.setFillColor(C.red[0], C.red[1], C.red[2]);
-  const arrX = btnX + btnW - 7, arrY = btnY + btnH / 2;
+  const arrX = textStartX + ctaTextW + 1.2, arrY = btnY + btnH / 2;
   doc.triangle(arrX, arrY - 1.6, arrX + 2.2, arrY, arrX, arrY + 1.6, 'F');
 
   doc.link(btnX, btnY, btnW, btnH, { url: 'https://gearuptofit.com/' });
 
-  // Trust micro-line
+  // Trust micro-line — centered in safe zone, smaller spacing so it never touches the seal
   doc.setFontSize(5);
   doc.setTextColor(160, 150, 145);
   doc.setFont('helvetica', 'normal');
-  doc.text('TRUSTED BY RUNNERS WORLDWIDE   ·   EST. GEARUPTOFIT   ·   POWERED BY RUNMATCH AI', PW / 2, y + 60, { align: 'center', charSpace: 1.2 } as any);
+  const trustText = 'TRUSTED BY RUNNERS WORLDWIDE  ·  EST. GEARUPTOFIT  ·  POWERED BY RUNMATCH AI';
+  const trustCharSpace = 0.9;
+  const trustW = doc.getTextWidth(trustText) + trustCharSpace * (trustText.length - 1);
+  // Auto-shrink if it would exceed the safe zone
+  let trustSize = 5;
+  let finalTrustW = trustW;
+  while (finalTrustW > safeWidth - 4 && trustSize > 3.6) {
+    trustSize -= 0.2;
+    doc.setFontSize(trustSize);
+    finalTrustW = doc.getTextWidth(trustText) + trustCharSpace * (trustText.length - 1);
+  }
+  doc.text(trustText, safeCenter, y + ctaH - 4, { align: 'center', charSpace: trustCharSpace } as any);
 
   // Left monogram (logo in white circle chip)
   if (logoData) {
@@ -861,7 +885,6 @@ export async function generateResultsPDF(data: PDFData) {
   doc.setTextColor(ink[0], ink[1], ink[2]);
   doc.setFont('helvetica', 'bold');
   doc.text('PRO', PW - M - 12.5, y + 10.5, { align: 'center', charSpace: 0.4 } as any);
-  // Hairline divider in seal
   doc.setFillColor(ink[0], ink[1], ink[2]);
   doc.rect(PW - M - 16, y + 12, 7, 0.2, 'F');
   doc.text('2026', PW - M - 12.5, y + 14.7, { align: 'center', charSpace: 0.4 } as any);
