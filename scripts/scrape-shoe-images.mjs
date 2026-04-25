@@ -79,14 +79,28 @@ function rankImage(img) {
   const url = (img.image || '').toLowerCase();
   const src = (img.url || img.source || '').toLowerCase();
   let score = 0;
-  for (const d of PREFERRED_DOMAINS) {
-    if (src.includes(d) || url.includes(d)) { score += 100; break; }
+  let tier = 999;
+  for (let i = 0; i < PREFERRED_DOMAINS.length; i++) {
+    const d = PREFERRED_DOMAINS[i];
+    if (src.includes(d) || url.includes(d)) { tier = i; break; }
   }
+  // Tiered preference: lower tier index = bigger bonus
+  if (tier < 999) score += 200 - tier * 5;
+  // Extra clean-CDN bonus
+  for (const p of CLEAN_CDN_PATTERNS) {
+    if (url.includes(p) || src.includes(p)) { score += 80; break; }
+  }
+  // Penalize collage/banner/lifestyle keywords in URL
+  for (const k of BAD_KEYWORDS) {
+    if (url.includes(k) || src.includes(k)) score -= 60;
+  }
+  // Squarish images = product shot; very wide = collage/banner
   if (img.width && img.height) {
-    if (img.width >= 800 && img.height >= 600) score += 30;
-    else if (img.width >= 500) score += 15;
-    // Slight bonus for landscape product shots
-    if (img.width >= img.height) score += 5;
+    const ratio = img.width / img.height;
+    if (ratio > 0.7 && ratio < 1.5) score += 40;
+    else if (ratio > 2 || ratio < 0.4) score -= 80;
+    if (img.width >= 800 && img.width <= 2000) score += 25;
+    if (img.width > 2400) score -= 30; // huge banners
   }
   if (url.endsWith('.jpg') || url.endsWith('.jpeg') || url.endsWith('.png') || url.endsWith('.webp')) score += 10;
   if (url.includes('logo') || url.includes('icon') || url.includes('thumb')) score -= 50;
