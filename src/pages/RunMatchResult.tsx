@@ -323,7 +323,7 @@ const RunMatchResult = () => {
 
                   <div className="flex flex-col sm:flex-row gap-3">
                     <a
-                      href={getAmazonProductLink(primary.shoe.brand, primary.shoe.model)}
+                      href={getAmazonProductLink(primary.shoe.brand, primary.shoe.model, primary.shoe.amazonASIN)}
                       target="_blank"
                       rel="noopener noreferrer nofollow"
                       className="inline-flex items-center justify-center gap-2 bg-gradient-primary glow-primary text-primary-foreground font-bold uppercase tracking-wider px-6 h-12 rounded-xl hover:opacity-90 transition-all text-sm"
@@ -400,7 +400,7 @@ const RunMatchResult = () => {
                       <p className="text-primary font-semibold text-sm mb-3">${s.shoe.shoe.priceUSD}</p>
                       <div className="flex gap-2">
                         <a
-                          href={getAmazonProductLink(s.shoe.shoe.brand, s.shoe.shoe.model)}
+                          href={getAmazonProductLink(s.shoe.shoe.brand, s.shoe.shoe.model, s.shoe.shoe.amazonASIN)}
                           target="_blank"
                           rel="noopener noreferrer nofollow"
                           className="flex-1 flex items-center justify-center gap-1.5 bg-primary/10 text-primary font-semibold text-xs px-3 h-9 rounded-lg hover:bg-primary/20 transition-all"

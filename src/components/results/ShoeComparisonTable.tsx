@@ -6,7 +6,7 @@ import { ShoppingCart, Star, CheckCircle } from 'lucide-react';
 
 interface ShoeComparisonTableProps {
   shoes: ScoredShoe[];
-  getAmazonLink: (brand: string, model: string) => string;
+  getAmazonLink: (brand: string, model: string, asin?: string) => string;
 }
 
 const ShoeComparisonTable = ({ shoes, getAmazonLink }: ShoeComparisonTableProps) => {
@@ -98,7 +98,7 @@ const ShoeComparisonTable = ({ shoes, getAmazonLink }: ShoeComparisonTableProps)
             {shoes.slice(0, 5).map(s => (
               <td key={s.shoe.id} className="text-center py-3 px-2">
                 <a
-                  href={getAmazonLink(s.shoe.brand, s.shoe.model)}
+                  href={getAmazonLink(s.shoe.brand, s.shoe.model, s.shoe.amazonASIN)}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
                   className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-primary hover:underline"
