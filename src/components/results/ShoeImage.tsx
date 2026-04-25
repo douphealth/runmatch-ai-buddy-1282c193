@@ -11,57 +11,137 @@ interface ShoeImageProps {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   showSourceBadge?: boolean;
+  /** Disable hover/parallax interactions (useful inside dense grids/tables) */
+  interactive?: boolean;
 }
 
+/**
+ * Brand-tinted radial glow rendered behind the shoe to give a high-end
+ * "studio capture" feel. Tuned for the dark theme — colors are kept soft so
+ * they read as ambient light rather than a flat wash.
+ */
 const brandAccent: Record<string, string> = {
-  Nike: 'from-orange-500/30 via-red-500/20 to-transparent',
-  Brooks: 'from-blue-500/30 via-cyan-500/20 to-transparent',
-  ASICS: 'from-blue-600/30 via-indigo-500/20 to-transparent',
-  Hoka: 'from-pink-500/30 via-orange-400/20 to-transparent',
-  Saucony: 'from-yellow-500/30 via-orange-500/20 to-transparent',
-  On: 'from-cyan-500/30 via-blue-400/20 to-transparent',
-  Adidas: 'from-emerald-500/30 via-teal-400/20 to-transparent',
-  Puma: 'from-red-500/30 via-pink-500/20 to-transparent',
-  'New Balance': 'from-gray-400/30 via-slate-400/20 to-transparent',
-  Salomon: 'from-red-600/30 via-orange-500/20 to-transparent',
-  Altra: 'from-purple-500/30 via-pink-500/20 to-transparent',
-  Mizuno: 'from-blue-700/30 via-indigo-600/20 to-transparent',
+  Nike: 'from-orange-500/25 via-red-500/15 to-transparent',
+  Brooks: 'from-blue-500/25 via-cyan-500/15 to-transparent',
+  ASICS: 'from-blue-600/25 via-indigo-500/15 to-transparent',
+  Hoka: 'from-pink-500/25 via-orange-400/15 to-transparent',
+  Saucony: 'from-yellow-500/25 via-orange-500/15 to-transparent',
+  On: 'from-cyan-500/25 via-blue-400/15 to-transparent',
+  Adidas: 'from-emerald-500/25 via-teal-400/15 to-transparent',
+  Puma: 'from-red-500/25 via-pink-500/15 to-transparent',
+  'New Balance': 'from-gray-400/25 via-slate-400/15 to-transparent',
+  Salomon: 'from-red-600/25 via-orange-500/15 to-transparent',
+  Altra: 'from-purple-500/25 via-pink-500/15 to-transparent',
+  Mizuno: 'from-blue-700/25 via-indigo-600/15 to-transparent',
 };
 
+/**
+ * Mobile-first sizing. Each tier defines:
+ *  - container: aspect-ratio driven height that scales between mobile and md+
+ *  - icon/brand/model: fallback frame typography
+ *  - badge: corner pill scale
+ *  - pad: image padding so the shoe never kisses the frame edges
+ */
 const sizeMap = {
-  sm: { container: 'h-28', icon: 'w-10 h-10', brand: 'text-[10px]', model: 'text-xs', badge: 'text-[8px] px-1.5 py-0.5' },
-  md: { container: 'h-44', icon: 'w-14 h-14', brand: 'text-xs', model: 'text-sm', badge: 'text-[9px] px-2 py-0.5' },
-  lg: { container: 'h-56 md:h-64', icon: 'w-20 h-20', brand: 'text-sm', model: 'text-lg md:text-xl', badge: 'text-[10px] px-2 py-1' },
-};
+  sm: {
+    container: 'aspect-[4/3] min-h-[120px]',
+    icon: 'w-10 h-10',
+    brand: 'text-[10px]',
+    model: 'text-xs',
+    badge: 'text-[8px] px-1.5 py-0.5',
+    pad: 'p-2.5',
+  },
+  md: {
+    container: 'aspect-[4/3] min-h-[180px]',
+    icon: 'w-14 h-14',
+    brand: 'text-xs',
+    model: 'text-sm',
+    badge: 'text-[9px] px-2 py-0.5',
+    pad: 'p-4',
+  },
+  lg: {
+    container: 'aspect-[4/3] min-h-[240px] md:min-h-[300px]',
+    icon: 'w-20 h-20',
+    brand: 'text-sm',
+    model: 'text-lg md:text-xl',
+    badge: 'text-[10px] px-2.5 py-1',
+    pad: 'p-5 md:p-7',
+  },
+} as const;
 
-const ShoeImage = ({ brand, model, imageURL, amazonASIN: _asin, size = 'md', className = '', showSourceBadge = true }: ShoeImageProps) => {
+const ShoeImage = ({
+  brand,
+  model,
+  imageURL,
+  amazonASIN: _asin,
+  size = 'md',
+  className = '',
+  showSourceBadge = true,
+  interactive = true,
+}: ShoeImageProps) => {
   const resolved = resolveShoeImage({ brand, model, imageURL: imageURL || '' });
   const [imgError, setImgError] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
 
-  const accent = brandAccent[brand] || 'from-primary/30 via-primary/10 to-transparent';
+  const accent = brandAccent[brand] || 'from-primary/25 via-primary/10 to-transparent';
   const s = sizeMap[size];
 
-  // Falls back to studio frame if the scraped/local image fails to load
   const effectiveSource: ImageSource = imgError || !resolved.url ? 'studio-frame' : resolved.source;
   const showRealImage = resolved.url && !imgError;
 
   return (
-    <div className={`relative w-full ${s.container} rounded-xl overflow-hidden border border-border/40 ${className}`}
-         style={{ background: 'radial-gradient(ellipse at center, #ffffff 0%, #f1f5f9 55%, #e2e8f0 100%)' }}>
-      {/* Soft brand-colored glow behind shoe */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${accent} opacity-40 pointer-events-none`} />
-      {/* Floor shadow */}
-      <div className="absolute inset-x-6 bottom-2 h-3 bg-black/30 blur-xl rounded-full" />
+    <motion.div
+      whileHover={interactive ? { scale: 1.015 } : undefined}
+      transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+      className={`group relative w-full ${s.container} rounded-2xl overflow-hidden border border-border/40 ${className}`}
+      style={{
+        background:
+          'radial-gradient(ellipse at 50% 30%, #ffffff 0%, #f4f6fa 55%, #dde2ec 100%)',
+        boxShadow:
+          '0 1px 0 hsla(0,0%,100%,0.6) inset, 0 12px 30px -16px rgba(0,0,0,0.45)',
+      }}
+    >
+      {/* Brand-colored ambient glow */}
+      <div
+        className={`absolute inset-0 bg-gradient-to-br ${accent} opacity-50 pointer-events-none transition-opacity duration-500 group-hover:opacity-70`}
+      />
+
+      {/* Soft studio vignette */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(ellipse at 50% 110%, rgba(0,0,0,0.18) 0%, transparent 55%)',
+        }}
+      />
+
+      {/* Floor contact shadow under the shoe */}
+      <div className="absolute inset-x-[12%] bottom-[8%] h-3 bg-black/30 blur-2xl rounded-full" />
 
       {showRealImage ? (
-        <img
-          src={resolved.url!}
-          alt={`${brand} ${model} running shoe`}
-          loading="lazy"
-          onError={() => setImgError(true)}
-          className="absolute inset-0 w-full h-full object-contain p-3 drop-shadow-[0_12px_18px_rgba(0,0,0,0.25)]"
-          style={{ filter: 'contrast(1.08) saturate(1.15) brightness(1.02)' }}
-        />
+        <>
+          {/* Skeleton shimmer until the image is decoded */}
+          {!imgLoaded && (
+            <div className="absolute inset-0 shimmer bg-gradient-to-br from-slate-200/40 to-slate-300/40" />
+          )}
+          <motion.img
+            src={resolved.url!}
+            alt={`${brand} ${model} running shoe`}
+            loading="lazy"
+            decoding="async"
+            onLoad={() => setImgLoaded(true)}
+            onError={() => setImgError(true)}
+            initial={{ opacity: 0, scale: 0.94, y: 6 }}
+            animate={imgLoaded ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.94, y: 6 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={interactive ? { scale: 1.05, rotate: -1.5, y: -4 } : undefined}
+            className={`absolute inset-0 w-full h-full object-contain ${s.pad} drop-shadow-[0_18px_22px_rgba(0,0,0,0.28)] will-change-transform`}
+            style={{
+              filter: 'contrast(1.06) saturate(1.12) brightness(1.02)',
+              transition: 'transform 600ms cubic-bezier(0.22, 1, 0.36, 1)',
+            }}
+          />
+        </>
       ) : (
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
           <motion.div
@@ -77,13 +157,22 @@ const ShoeImage = ({ brand, model, imageURL, amazonASIN: _asin, size = 'md', cla
         </div>
       )}
 
-      {/* Image source badge */}
+      {/* Premium top sheen */}
+      <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-white/[0.5] via-white/[0.08] to-transparent pointer-events-none mix-blend-overlay" />
+
+      {/* Inner border highlight */}
+      <div className="absolute inset-0 rounded-2xl pointer-events-none ring-1 ring-inset ring-white/10" />
+
+      {/* Source badge */}
       {showSourceBadge && (
-        <div
-          className={`absolute top-2 right-2 ${s.badge} font-bold uppercase tracking-wider rounded-md backdrop-blur-md flex items-center gap-1 z-10 ${
+        <motion.div
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.4 }}
+          className={`absolute top-2 right-2 ${s.badge} font-bold uppercase tracking-wider rounded-md backdrop-blur-md flex items-center gap-1 z-10 shadow-sm ${
             effectiveSource === 'studio-frame'
-              ? 'bg-secondary/70 text-muted-foreground border border-border/40'
-              : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+              ? 'bg-secondary/80 text-muted-foreground border border-border/40'
+              : 'bg-emerald-500/25 text-emerald-200 border border-emerald-400/40'
           }`}
           title={effectiveSource === 'studio-frame' ? 'Branded studio frame fallback' : 'Real product photo'}
         >
@@ -92,12 +181,9 @@ const ShoeImage = ({ brand, model, imageURL, amazonASIN: _asin, size = 'md', cla
           ) : (
             <><Camera className="w-2.5 h-2.5" /> Real Photo</>
           )}
-        </div>
+        </motion.div>
       )}
-
-      {/* Subtle top sheen for premium glass feel */}
-      <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-white/[0.06] to-transparent pointer-events-none" />
-    </div>
+    </motion.div>
   );
 };
 
