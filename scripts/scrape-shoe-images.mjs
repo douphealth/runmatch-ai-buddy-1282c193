@@ -132,10 +132,10 @@ async function processShoe(brand, model, force = false) {
   }
 
   const queries = [
-    `${brand} ${model} site:amazon.com`,
-    `${brand} ${model} running shoe white background product`,
-    `${brand} ${model} site:zappos.com`,
-    `${brand} ${model} running shoes product photo`,
+    `"${brand} ${model}" running shoe white background -gel -styling -hair`,
+    `${brand} ${model} running shoe product photo side view`,
+    `${brand} ${model} running shoes review`,
+    `${brand} ${model} runners`,
   ];
 
   let lastErr;
