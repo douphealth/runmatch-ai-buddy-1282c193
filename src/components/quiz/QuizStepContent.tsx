@@ -13,7 +13,7 @@ interface QuizStepContentProps {
   onAutoAdvance?: () => void;
 }
 
-const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect }: QuizStepContentProps) => {
+const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect, onAutoAdvance }: QuizStepContentProps) => {
   const [brandSearch, setBrandSearch] = useState('');
 
   const filteredBrands = useMemo(() => {
