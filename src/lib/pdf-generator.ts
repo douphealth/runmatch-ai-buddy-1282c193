@@ -496,15 +496,18 @@ export async function generateResultsPDF(data: PDFData) {
     const nameLines = doc.splitTextToSize(`${shoe.brand} ${shoe.model}`, leftRight - (M + 23));
     doc.text(nameLines.slice(0, 2), M + 23, y + 16);
 
-    doc.setFontSize(10);
+    // Price + meta on a clean two-line block (avoids cramped overflow)
+    doc.setFontSize(11);
     doc.setTextColor(C.red[0], C.red[1], C.red[2]);
     doc.setFont('helvetica', 'bold');
     doc.text(`$${shoe.priceUSD}`, M + 23, y + 24);
 
+    // Meta chips: weight | drop | cushion — small uppercase divider style
     doc.setFontSize(6);
     doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
     doc.setFont('helvetica', 'normal');
-    doc.text(`${shoe.weightGrams}g  |  ${shoe.dropMM}mm drop  |  Cushion: ${shoe.cushioning}/10`, M + 42, y + 24);
+    const metaTxt = `${shoe.weightGrams}G   ·   ${shoe.dropMM}MM DROP   ·   CUSHION ${shoe.cushioning}/10`;
+    doc.text(metaTxt, M + 23, y + 28.5, { charSpace: 0.4 } as any);
 
     // Highlights (left column only)
     const hlY = y + 30;
