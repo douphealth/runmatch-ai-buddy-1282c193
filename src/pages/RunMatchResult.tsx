@@ -231,14 +231,6 @@ const RunMatchResult = () => {
             </p>
           </div>
 
-          {/* Stats counters */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-            <AnimatedCounter end={shoesAnalyzed} label="Shoes Analyzed" icon="👟" />
-            <AnimatedCounter end={dataPoints} label="Data Points" icon="📊" />
-            <AnimatedCounter end={primary?.matchPercent || 0} suffix="%" label="Top Match Score" icon="🎯" />
-            <AnimatedCounter end={rotation ? [rotation.primary, rotation.speed, rotation.longRun].filter(Boolean).length : 1} label="Rotation Shoes" icon="🔄" />
-          </div>
-
           {/* Runner Profile: Radar + Stats */}
           <div className="grid md:grid-cols-2 gap-4 md:gap-6">
             <motion.div {...fadeUp} className="glass rounded-2xl p-5 md:p-6">
