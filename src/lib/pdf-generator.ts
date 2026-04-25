@@ -761,31 +761,121 @@ export async function generateResultsPDF(data: PDFData) {
   });
   y += Math.ceil(profileItems.length / 2) * 7 + 6;
 
-  // ── CTA Block ──
-  y += 4;
-  rr(doc, M, y, CW, 36, 4, C.red);
+  // ── Premium CTA Block ──
+  y += 6;
+  const ctaH = 60;
 
-  doc.setFontSize(14);
+  // Outer subtle frame (creates depth/shadow illusion)
+  rr(doc, M - 0.4, y - 0.4, CW + 0.8, ctaH + 0.8, 5, [60, 8, 8] as RGB);
+
+  // Main dark card
+  const dark1: RGB = [22, 14, 16];
+  rr(doc, M, y, CW, ctaH, 5, dark1);
+
+  // Layered red gradient bands (faux gradient via stacked rects)
+  const bands = 18;
+  for (let i = 0; i < bands; i++) {
+    const t = i / (bands - 1);
+    const r = Math.round(40 + (200 - 40) * t * 0.55);
+    const g = Math.round(14 + (30 - 14) * t * 0.4);
+    const b = Math.round(16 + (30 - 16) * t * 0.4);
+    doc.setFillColor(r, g, b);
+    const bandW = (CW * 0.55) / bands;
+    doc.rect(M + CW * 0.45 + i * bandW, y, bandW + 0.3, ctaH, 'F');
+  }
+
+  // Re-apply rounded mask edges (top-right + bottom-right corners)
+  rr(doc, M, y, CW, ctaH, 5, dark1);
+  // Now overlay gradient inside rounded clip using a slightly inset rect approach:
+  // draw an inset gradient that won't escape rounded corners visually
+  for (let i = 0; i < bands; i++) {
+    const t = i / (bands - 1);
+    const r = Math.round(60 + (210 - 60) * Math.pow(t, 1.2));
+    const g = Math.round(18 + (40 - 18) * t);
+    const b = Math.round(20 + (40 - 20) * t);
+    doc.setFillColor(r, g, b);
+    const bandW = (CW * 0.6) / bands;
+    const bx = M + CW * 0.42 + i * bandW;
+    // Skip drawing past right edge curve
+    if (bx + bandW < M + CW - 2) {
+      doc.rect(bx, y + 2, bandW + 0.4, ctaH - 4, 'F');
+    } else {
+      doc.rect(bx, y + 4, Math.max(0, M + CW - 4 - bx), ctaH - 8, 'F');
+    }
+  }
+
+  // Decorative thin gold rule (top accent)
+  doc.setFillColor(212, 175, 90);
+  doc.rect(M + 14, y + 8, 28, 0.4, 'F');
+  doc.rect(PW - M - 14 - 28, y + 8, 28, 0.4, 'F');
+
+  // Eyebrow / kicker
+  doc.setFontSize(6);
+  doc.setTextColor(212, 175, 90);
+  doc.setFont('helvetica', 'bold');
+  doc.text('— THE GEARUPTOFIT MANIFESTO —', PW / 2, y + 13, { align: 'center', charSpace: 0.6 } as any);
+
+  // Headline
+  doc.setFontSize(18);
   doc.setTextColor(255, 255, 255);
   doc.setFont('helvetica', 'bold');
-  doc.text('GEAR UP. SHOW UP. LEVEL UP.', PW / 2, y + 12, { align: 'center' });
+  doc.text('GEAR UP.  SHOW UP.  LEVEL UP.', PW / 2, y + 23, { align: 'center', charSpace: 0.4 } as any);
 
+  // Subhead divider dots
+  doc.setFillColor(212, 175, 90);
+  doc.circle(PW / 2 - 22, y + 28, 0.5, 'F');
+  doc.circle(PW / 2, y + 28, 0.5, 'F');
+  doc.circle(PW / 2 + 22, y + 28, 0.5, 'F');
+
+  // Tagline
   doc.setFontSize(7);
-  doc.setTextColor(255, 240, 240);
+  doc.setTextColor(220, 215, 210);
   doc.setFont('helvetica', 'normal');
-  doc.text('Visit GearUpToFit for expert running gear reviews, training plans, and more.', PW / 2, y + 19, { align: 'center' });
+  doc.text('Expert running gear reviews · personalized training plans · pro-grade guides', PW / 2, y + 34, { align: 'center' });
 
-  rr(doc, PW / 2 - 25, y + 23, 50, 9, 3, C.white);
+  // Premium pill button (white) with gold accent border feel
+  const btnW = 64, btnH = 11, btnX = PW / 2 - btnW / 2, btnY = y + 40;
+  // Gold underglow
+  rr(doc, btnX - 0.6, btnY - 0.6, btnW + 1.2, btnH + 1.2, 5.5, [212, 175, 90] as RGB);
+  // White button
+  rr(doc, btnX, btnY, btnW, btnH, 5, C.white);
+
+  // Arrow marker
+  doc.setFillColor(C.red[0], C.red[1], C.red[2]);
+  doc.circle(btnX + 8, btnY + btnH / 2, 1.6, 'F');
   doc.setFontSize(7);
-  doc.setTextColor(C.red[0], C.red[1], C.red[2]);
+  doc.setTextColor(255, 255, 255);
   doc.setFont('helvetica', 'bold');
-  doc.text('gearuptofit.com', PW / 2, y + 29, { align: 'center' });
-  doc.link(PW / 2 - 25, y + 23, 50, 9, { url: 'https://gearuptofit.com/' });
+  doc.text('>', btnX + 8, btnY + btnH / 2 + 1, { align: 'center' });
 
-  // Logo in CTA
+  doc.setFontSize(8);
+  doc.setTextColor(C.dark[0], C.dark[1], C.dark[2]);
+  doc.setFont('helvetica', 'bold');
+  doc.text('VISIT  GEARUPTOFIT.COM', btnX + btnW / 2 + 4, btnY + btnH / 2 + 1.2, { align: 'center', charSpace: 0.5 } as any);
+  doc.link(btnX, btnY, btnW, btnH, { url: 'https://gearuptofit.com/' });
+
+  // Footer micro-line inside CTA
+  doc.setFontSize(5);
+  doc.setTextColor(150, 145, 140);
+  doc.setFont('helvetica', 'normal');
+  doc.text('TRUSTED BY RUNNERS WORLDWIDE  ·  EST. GEARUPTOFIT  ·  RUNMATCH AI', PW / 2, y + 56, { align: 'center', charSpace: 0.8 } as any);
+
+  // Logo: small monogram top-left of card
   if (logoData) {
-    try { doc.addImage(logoData, 'PNG', PW / 2 - 8, y + 33 - 2, 16, 16); } catch {}
+    try {
+      // White rounded chip behind logo
+      rr(doc, M + 6, y + 6, 12, 12, 6, C.white);
+      doc.addImage(logoData, 'PNG', M + 7, y + 7, 10, 10);
+    } catch {}
   }
+
+  // Right-side seal
+  rr(doc, PW - M - 18, y + 6, 12, 12, 6, [212, 175, 90] as RGB);
+  doc.setFontSize(5);
+  doc.setTextColor(22, 14, 16);
+  doc.setFont('helvetica', 'bold');
+  doc.text('PRO', PW - M - 12, y + 10.5, { align: 'center' });
+  doc.text('2026', PW - M - 12, y + 14, { align: 'center' });
 
   addFooter(doc, 4, totalPages);
 
