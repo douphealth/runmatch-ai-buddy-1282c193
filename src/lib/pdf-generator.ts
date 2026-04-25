@@ -3,6 +3,7 @@ import { QuizAnswers } from './quiz-data';
 import { ShoeRecommendation } from './recommendation-engine';
 import { ScoredShoe } from './scoring-engine';
 import { getRecommendedArticles, getInjuryArticles, getToolLinks } from './article-links';
+import { shoeImageSlug } from './shoe-images';
 
 interface PDFData {
   answers: QuizAnswers;
