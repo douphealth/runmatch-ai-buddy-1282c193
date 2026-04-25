@@ -43,8 +43,9 @@ const rotation: any = { primary: { shoe: mkShoe('s1','Adidas','Adizero Boston 12
 const recommendation: any = { shoeProfile: { summary: 'Based on your overpronation pattern, flat foot type and 30 km weekly volume on trail terrain, you need a stability-oriented daily trainer with moderate cushioning, a low-to-mid drop and a durable outsole rated for mixed surfaces. Your 10K race goal benefits from responsive foam compounds.', category: 'Stability Trail', cushioning: 'Moderate (7/10)', dropRange: '6-10 mm', supportType: 'Guided Stability' }, whyItWorks: 'This rotation balances support and energy return for a flat-footed overpronator targeting 10K performance on trail. The daily trainer prevents inward roll while the speed shoe sharpens turnover for race-day. The long-run option absorbs repetitive impact across longer mileage.', trainingEmphasis: ['Add 2 stability-focused strength sessions per week (single-leg work)', 'Cap long-run volume increases at 10% per week to protect IT band', 'Rotate shoes by surface — trail shoe for technical terrain only', 'Include weekly hill repeats to build resilience without speed strain'] };
 const radarData = [{ axis: 'Cushion', value: 7 }, { axis: 'Support', value: 9 }, { axis: 'Speed', value: 6 }, { axis: 'Trail', value: 8 }, { axis: 'Durability', value: 8 }, { axis: 'Comfort', value: 7 }];
 
-await generateResultsPDF({ answers, recommendation, rotation, radarData } as any);
+try { await generateResultsPDF({ answers, recommendation, rotation, radarData } as any);
 // Wait for any pending FileReader microtasks
+} catch(e){ console.error("ERR", e); }
 await new Promise(r => setTimeout(r, 200));
 if (!savedDoc) throw new Error('save not called');
 const arr = savedDoc.output('arraybuffer');
