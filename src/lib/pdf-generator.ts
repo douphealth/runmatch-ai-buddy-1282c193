@@ -788,31 +788,35 @@ export async function generateResultsPDF(data: PDFData) {
   const safeCenter = (safeLeft + safeRight) / 2;
   const safeWidth = safeRight - safeLeft;
 
-  // Eyebrow / kicker — measured & centered in safe zone, with rules sized to leftover space
+  // Eyebrow / kicker — manually centered (jsPDF's align:'center' ignores charSpace, causing drift)
   const kickerY = y + 12;
   doc.setFontSize(6);
   doc.setFont('helvetica', 'bold');
   const kickerText = 'THE GEARUPTOFIT MANIFESTO';
   const kickerCharSpace = 1.2;
   const kickerW = doc.getTextWidth(kickerText) + kickerCharSpace * (kickerText.length - 1);
+  const kickerX = safeCenter - kickerW / 2;
   doc.setTextColor(goldSoft[0], goldSoft[1], goldSoft[2]);
-  doc.text(kickerText, safeCenter, kickerY, { align: 'center', charSpace: kickerCharSpace } as any);
+  doc.text(kickerText, kickerX, kickerY, { align: 'left', charSpace: kickerCharSpace } as any);
 
   // Gold hairlines flanking kicker — fit within safe zone with 4mm gap from text
   const ruleGap = 4;
   const ruleStartL = safeLeft;
-  const ruleEndL = safeCenter - kickerW / 2 - ruleGap;
-  const ruleStartR = safeCenter + kickerW / 2 + ruleGap;
+  const ruleEndL = kickerX - ruleGap;
+  const ruleStartR = kickerX + kickerW + ruleGap;
   const ruleEndR = safeRight;
   doc.setFillColor(gold[0], gold[1], gold[2]);
   if (ruleEndL > ruleStartL) doc.rect(ruleStartL, kickerY - 1.4, ruleEndL - ruleStartL, 0.3, 'F');
   if (ruleEndR > ruleStartR) doc.rect(ruleStartR, kickerY - 1.4, ruleEndR - ruleStartR, 0.3, 'F');
 
-  // Headline — single line, generous tracking, centered in safe zone
+  // Headline — single line, generous tracking, manually centered (charSpace-aware)
   doc.setFontSize(20);
   doc.setTextColor(255, 255, 255);
   doc.setFont('helvetica', 'bold');
-  doc.text('GEAR UP.   SHOW UP.   LEVEL UP.', safeCenter, y + 25, { align: 'center', charSpace: 0.6 } as any);
+  const headlineText = 'GEAR UP.   SHOW UP.   LEVEL UP.';
+  const headlineCharSpace = 0.6;
+  const headlineW = doc.getTextWidth(headlineText) + headlineCharSpace * (headlineText.length - 1);
+  doc.text(headlineText, safeCenter - headlineW / 2, y + 25, { align: 'left', charSpace: headlineCharSpace } as any);
 
   // Ornamental divider with center diamond
   const divY = y + 31;
@@ -854,22 +858,25 @@ export async function generateResultsPDF(data: PDFData) {
 
   doc.link(btnX, btnY, btnW, btnH, { url: 'https://gearuptofit.com/' });
 
-  // Trust micro-line — centered in safe zone, smaller spacing so it never touches the seal
-  doc.setFontSize(5);
-  doc.setTextColor(160, 150, 145);
+  // Trust micro-line — manually centered (charSpace-aware), auto-shrinks if too wide.
+  // Sits on a subtle gold hairline base rule for premium "footer" feel.
   doc.setFont('helvetica', 'normal');
-  const trustText = 'TRUSTED BY RUNNERS WORLDWIDE  ·  EST. GEARUPTOFIT  ·  POWERED BY RUNMATCH AI';
+  const trustText = 'TRUSTED BY RUNNERS WORLDWIDE   ·   EST. GEARUPTOFIT   ·   POWERED BY RUNMATCH AI';
   const trustCharSpace = 0.9;
-  const trustW = doc.getTextWidth(trustText) + trustCharSpace * (trustText.length - 1);
-  // Auto-shrink if it would exceed the safe zone
   let trustSize = 5;
-  let finalTrustW = trustW;
-  while (finalTrustW > safeWidth - 4 && trustSize > 3.6) {
+  doc.setFontSize(trustSize);
+  let trustW = doc.getTextWidth(trustText) + trustCharSpace * (trustText.length - 1);
+  while (trustW > safeWidth - 6 && trustSize > 3.6) {
     trustSize -= 0.2;
     doc.setFontSize(trustSize);
-    finalTrustW = doc.getTextWidth(trustText) + trustCharSpace * (trustText.length - 1);
+    trustW = doc.getTextWidth(trustText) + trustCharSpace * (trustText.length - 1);
   }
-  doc.text(trustText, safeCenter, y + ctaH - 4, { align: 'center', charSpace: trustCharSpace } as any);
+  const trustY = y + ctaH - 4.5;
+  // Faint gold base rule that the trust line sits on — blends footer into card
+  doc.setFillColor(gold[0], gold[1], gold[2]);
+  doc.rect(safeLeft + 2, trustY - 3.2, safeWidth - 4, 0.15, 'F');
+  doc.setTextColor(170, 158, 150);
+  doc.text(trustText, safeCenter - trustW / 2, trustY, { align: 'left', charSpace: trustCharSpace } as any);
 
   // Left monogram (logo in white circle chip)
   if (logoData) {
