@@ -680,7 +680,7 @@ export async function generateResultsPDF(data: PDFData) {
     link(doc, M + 8, cy + cardH - 3, 'Read Full Review on GearUpToFit ›', item.shoe.shoe.reviewURL, 5.5);
   });
 
-  y += shoes.length * (cardH + 5) + 6;
+  y += shoes.length * (cardH + 6) + 6;
 
   // ── Training Emphasis ──
   if (y + 40 < PH - 22) {
