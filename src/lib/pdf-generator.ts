@@ -788,21 +788,22 @@ export async function generateResultsPDF(data: PDFData) {
   const safeCenter = (safeLeft + safeRight) / 2;
   const safeWidth = safeRight - safeLeft;
 
-  // Eyebrow / kicker — measured & centered in safe zone, with rules sized to leftover space
+  // Eyebrow / kicker — manually centered (jsPDF's align:'center' ignores charSpace, causing drift)
   const kickerY = y + 12;
   doc.setFontSize(6);
   doc.setFont('helvetica', 'bold');
   const kickerText = 'THE GEARUPTOFIT MANIFESTO';
   const kickerCharSpace = 1.2;
   const kickerW = doc.getTextWidth(kickerText) + kickerCharSpace * (kickerText.length - 1);
+  const kickerX = safeCenter - kickerW / 2;
   doc.setTextColor(goldSoft[0], goldSoft[1], goldSoft[2]);
-  doc.text(kickerText, safeCenter, kickerY, { align: 'center', charSpace: kickerCharSpace } as any);
+  doc.text(kickerText, kickerX, kickerY, { align: 'left', charSpace: kickerCharSpace } as any);
 
   // Gold hairlines flanking kicker — fit within safe zone with 4mm gap from text
   const ruleGap = 4;
   const ruleStartL = safeLeft;
-  const ruleEndL = safeCenter - kickerW / 2 - ruleGap;
-  const ruleStartR = safeCenter + kickerW / 2 + ruleGap;
+  const ruleEndL = kickerX - ruleGap;
+  const ruleStartR = kickerX + kickerW + ruleGap;
   const ruleEndR = safeRight;
   doc.setFillColor(gold[0], gold[1], gold[2]);
   if (ruleEndL > ruleStartL) doc.rect(ruleStartL, kickerY - 1.4, ruleEndL - ruleStartL, 0.3, 'F');
