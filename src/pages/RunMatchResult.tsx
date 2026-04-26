@@ -20,7 +20,7 @@ import {
   ArrowLeft, ExternalLink, BookOpen, Star, RotateCcw, Target, Share2, Zap,
   ArrowRight, Shield, ShoppingCart, Award, TrendingUp, Heart, Wrench,
   MessageCircle, CheckCircle, Copy, Twitter, Facebook, Download, BarChart3,
-  Gauge, Activity, Timer
+  Gauge, Activity, Timer, ShieldCheck
 } from 'lucide-react';
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer,
@@ -35,7 +35,10 @@ const fadeUp = {
 
 import { getAmazonLinkForShoe } from '@/lib/amazon-link';
 import { getPriceTier, SHOE_DATABASE_LAST_UPDATED_LABEL } from '@/lib/price-tier';
+import { getManufacturerSourceURL } from '@/lib/shoe-sources';
 import AffiliateDisclosure from '@/components/results/AffiliateDisclosure';
+import MedicalDisclaimer from '@/components/results/MedicalDisclaimer';
+import ResearchSources from '@/components/results/ResearchSources';
 
 // Resolves a verified direct /dp/ASIN Amazon link via SerpAPI cache,
 // keyed by the canonical shoe id. Falls back to brand-filtered search
@@ -338,12 +341,24 @@ const RunMatchResult = () => {
                   })()}
 
                   {/* Shoe spec pills */}
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="flex flex-wrap gap-2 mb-3">
                     <Badge variant="secondary" className="text-xs gap-1"><Gauge className="w-3 h-3" /> {primary.shoe.cushioning}/10 Cushion</Badge>
                     <Badge variant="secondary" className="text-xs gap-1"><Activity className="w-3 h-3" /> {primary.shoe.dropMM}mm Drop</Badge>
                     <Badge variant="secondary" className="text-xs gap-1"><Timer className="w-3 h-3" /> {primary.shoe.weightGrams}g</Badge>
                     {primary.shoe.widthOptions && <Badge variant="secondary" className="text-xs">Wide Fit Available</Badge>}
                   </div>
+
+                  {/* Verified spec source — defensibility chip */}
+                  <a
+                    href={getManufacturerSourceURL(primary.shoe)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground hover:text-primary transition-colors mb-4"
+                  >
+                    <ShieldCheck className="w-3 h-3 text-primary" />
+                    <span>Specs verified · {primary.shoe.lastVerified ?? SHOE_DATABASE_LAST_UPDATED_LABEL} · {primary.shoe.brand} source</span>
+                    <ExternalLink className="w-2.5 h-2.5" />
+                  </a>
 
                   <div className="flex flex-wrap gap-2 mb-4">
                     {primary.shoe.highlights.map(h => (
@@ -542,6 +557,10 @@ const RunMatchResult = () => {
                 </div>
               </div>
 
+              <div className="mb-5">
+                <MedicalDisclaimer variant="inline" />
+              </div>
+
               <div className="space-y-4 mb-5">
                 {rec.trainingEmphasis.filter(t => t.toLowerCase().includes('injury') || t.toLowerCase().includes('strength') || t.toLowerCase().includes('warm')).map((tip, i) => (
                   <div key={i} className="flex gap-3 text-sm">
@@ -697,6 +716,11 @@ const RunMatchResult = () => {
           </div>
         </motion.div>
 
+        {/* SECTION 10.5: Research & Sources — defensibility for AI scrapers */}
+        <motion.div {...fadeUp} transition={{ delay: 0.65 }}>
+          <ResearchSources />
+        </motion.div>
+
         {/* SECTION 11: FAQ */}
         <motion.div {...fadeUp} transition={{ delay: 0.7 }}>
           <div className="glass rounded-2xl p-5 md:p-8">
@@ -771,9 +795,12 @@ const RunMatchResult = () => {
           </div>
         </motion.div>
 
-        {/* Compliance footer: disclosure + data freshness */}
-        <div className="pt-8 pb-4 space-y-3">
+        {/* Compliance footer: disclosure + medical + data freshness */}
+        <div className="pt-8 pb-4 space-y-4 max-w-2xl mx-auto">
           <AffiliateDisclosure variant="footer" />
+          <div className="text-center">
+            <MedicalDisclaimer variant="compact" />
+          </div>
           <p className="text-[10px] text-muted-foreground text-center uppercase tracking-widest">
             Shoe specifications verified against manufacturer sources · Database last updated {SHOE_DATABASE_LAST_UPDATED_LABEL} ·{' '}
             <a

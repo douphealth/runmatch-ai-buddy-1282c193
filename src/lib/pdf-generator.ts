@@ -242,7 +242,7 @@ function addFooter(doc: jsPDF, page: number, total: number) {
   doc.text(`Page ${page} of ${total}`, PW - M, PH - 11, { align: 'right' });
 
   doc.setFontSize(4.5);
-  doc.text('Some links on this page are affiliate links. GearUpToFit may earn a commission at no extra cost to you.', M, PH - 7);
+  doc.text('Educational content — not medical advice. Consult a qualified clinician before changing footwear if injured. As an Amazon Associate, GearUpToFit earns from qualifying purchases.', M, PH - 7);
 
   // Bottom red line
   doc.setFillColor(C.red[0], C.red[1], C.red[2]);
