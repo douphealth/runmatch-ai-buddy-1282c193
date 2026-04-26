@@ -176,15 +176,17 @@ function renderSeoBody(args: {
 
 function renderTopShoes(shoes: ReturnType<typeof scoreShoes>): string {
   if (shoes.length === 0) return '<p>No shoes matched.</p>';
+  const tier = (p: number) =>
+    p < 110 ? 'Budget' : p < 160 ? 'Mid-range' : p < 220 ? 'Premium' : 'Super-premium';
   const rows = shoes.map(s => `
     <tr>
       <td>${escapeHtml(s.shoe.brand)} ${escapeHtml(s.shoe.model)}</td>
       <td>${escapeHtml(String(s.matchPercent))}% match</td>
-      <td>$${escapeHtml(String(s.shoe.priceUSD))}</td>
+      <td>${escapeHtml(tier(s.shoe.priceUSD))} MSRP tier</td>
       <td>${escapeHtml(s.reasons.join('; ') || (s.shoe.highlights?.join('; ') ?? ''))}</td>
     </tr>`).join('');
   return `<table>
-    <thead><tr><th>Shoe</th><th>Match</th><th>Price</th><th>Why it fits</th></tr></thead>
+    <thead><tr><th>Shoe</th><th>Match</th><th>MSRP Tier</th><th>Why it fits</th></tr></thead>
     <tbody>${rows}</tbody>
   </table>`;
 }
