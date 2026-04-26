@@ -3,7 +3,29 @@ import { motion } from 'framer-motion';
 import { QuizStep, QuizAnswers, popularBrands } from '@/lib/quiz-data';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
-import { Check, Search, X } from 'lucide-react';
+import { Check, Search, X, icons as LucideIcons, type LucideIcon } from 'lucide-react';
+
+const renderIcon = (name: string | undefined, isSelected: boolean) => {
+  if (!name) return null;
+  const Icon = (LucideIcons as Record<string, LucideIcon>)[name];
+  if (!Icon) return null;
+  return (
+    <span
+      className={`relative mb-2.5 inline-flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-xl transition-all duration-300 ${
+        isSelected
+          ? 'bg-gradient-to-br from-primary/25 to-primary/5 ring-1 ring-primary/40 shadow-[0_4px_16px_-4px_hsl(var(--primary)/0.4)]'
+          : 'bg-gradient-to-br from-muted/40 to-muted/10 ring-1 ring-border/40 group-hover:ring-primary/30 group-hover:from-primary/10'
+      }`}
+    >
+      <Icon
+        className={`w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 ${
+          isSelected ? 'text-primary' : 'text-foreground/70 group-hover:text-primary'
+        }`}
+        strokeWidth={2}
+      />
+    </span>
+  );
+};
 
 interface QuizStepContentProps {
   step: QuizStep;
@@ -343,11 +365,7 @@ const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect, onAutoAd
                   </motion.div>
                 )}
 
-                {option.icon && (
-                  <span className={`text-3xl md:text-4xl mb-2 transition-transform duration-300 ${isSelected ? 'scale-110' : 'group-hover:scale-110'}`}>
-                    {option.icon}
-                  </span>
-                )}
+                {option.icon && renderIcon(option.icon, isSelected)}
                 <span className="font-bold text-xs md:text-sm leading-tight">{option.label}</span>
                 {option.description && (
                   <span className="text-[10px] md:text-xs text-muted-foreground mt-1 leading-snug line-clamp-2">
