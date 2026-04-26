@@ -20,7 +20,7 @@ import {
   ArrowLeft, ExternalLink, BookOpen, Star, RotateCcw, Target, Share2, Zap,
   ArrowRight, Shield, ShoppingCart, Award, TrendingUp, Heart, Wrench,
   MessageCircle, CheckCircle, Copy, Twitter, Facebook, Download, BarChart3,
-  Gauge, Activity, Timer
+  Gauge, Activity, Timer, ShieldCheck
 } from 'lucide-react';
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer,
@@ -35,7 +35,10 @@ const fadeUp = {
 
 import { getAmazonLinkForShoe } from '@/lib/amazon-link';
 import { getPriceTier, SHOE_DATABASE_LAST_UPDATED_LABEL } from '@/lib/price-tier';
+import { getManufacturerSourceURL } from '@/lib/shoe-sources';
 import AffiliateDisclosure from '@/components/results/AffiliateDisclosure';
+import MedicalDisclaimer from '@/components/results/MedicalDisclaimer';
+import ResearchSources from '@/components/results/ResearchSources';
 
 // Resolves a verified direct /dp/ASIN Amazon link via SerpAPI cache,
 // keyed by the canonical shoe id. Falls back to brand-filtered search
