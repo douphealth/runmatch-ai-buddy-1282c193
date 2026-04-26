@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && tsx scripts/prerender.mts",
+    "validate:shoes": "tsx scripts/validate-shoe-database.mjs",
+    "build": "tsx scripts/validate-shoe-database.mjs && vite build && tsx scripts/prerender.mts",
     "build:dev": "vite build --mode development && tsx scripts/prerender.mts",
     "lint": "eslint .",
     "preview": "vite preview",
