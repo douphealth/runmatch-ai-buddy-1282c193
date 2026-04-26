@@ -45,7 +45,11 @@ const RunMatchResult = () => {
   const { slug } = useParams();
   const [searchParams] = useSearchParams();
   const [copied, setCopied] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  // Skip the simulated "AI analysis" loading screen when arriving without
+  // ?d= (i.e. direct slug visit from search/social) so crawlers and shared
+  // links land on real content immediately.
+  const hasEncodedPayload = !!searchParams.get('d');
+  const [isLoading, setIsLoading] = useState(hasEncodedPayload);
 
   const answers: QuizAnswers | null = useMemo(() => {
     const encoded = searchParams.get('d');
