@@ -232,6 +232,17 @@ const RunMatchResult = () => {
             <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               {rec.shoeProfile.summary}
             </p>
+
+            <div className="mt-6 flex justify-center">
+              <Button
+                onClick={handleDownloadPDF}
+                size="lg"
+                className="bg-gradient-primary glow-primary font-bold uppercase tracking-wider px-6 md:px-8 h-12 rounded-xl text-sm group"
+              >
+                <Download className="w-4 h-4 mr-2 group-hover:animate-bounce" />
+                Download PDF Report
+              </Button>
+            </div>
           </div>
 
           {/* Runner Profile: Radar + Stats */}
