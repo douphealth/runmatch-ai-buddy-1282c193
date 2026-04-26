@@ -180,19 +180,35 @@ const VALID_FOOT = new Set(['neutral', 'flat', 'high-arch', 'wide']);
 export function answersFromSlug(slug: string | undefined): QuizAnswers | null {
   if (!slug) return null;
   // Slug shape: "{pronation}-{distance}-{terrain}-{footType}"
-  // distance can contain a hyphen (half-marathon) so parse from the ends.
-  const tokens = slug.toLowerCase().split('-').filter(Boolean);
+  // Both distance ("half-marathon") and footType ("high-arch") may contain a
+  // hyphen, so we anchor on the known-single-token pronation + terrain.
+  const lower = slug.toLowerCase();
+  const tokens = lower.split('-').filter(Boolean);
   if (tokens.length < 4) return null;
 
   const pronation = tokens[0];
-  const footType = tokens[tokens.length - 1];
-  const terrain = tokens[tokens.length - 2];
-  const distance = tokens.slice(1, tokens.length - 2).join('-');
-
   if (!VALID_PRONATION.has(pronation)) return null;
-  if (!VALID_DISTANCE.has(distance)) return null;
+
+  // footType: try the last 2 tokens joined first (e.g. "high-arch"),
+  // otherwise the last single token.
+  let footType: string;
+  let terrainIdx: number;
+  const lastTwo = tokens.slice(-2).join('-');
+  if (VALID_FOOT.has(lastTwo)) {
+    footType = lastTwo;
+    terrainIdx = tokens.length - 3;
+  } else if (VALID_FOOT.has(tokens[tokens.length - 1])) {
+    footType = tokens[tokens.length - 1];
+    terrainIdx = tokens.length - 2;
+  } else {
+    return null;
+  }
+
+  const terrain = tokens[terrainIdx];
   if (!VALID_TERRAIN.has(terrain)) return null;
-  if (!VALID_FOOT.has(footType)) return null;
+
+  const distance = tokens.slice(1, terrainIdx).join('-');
+  if (!VALID_DISTANCE.has(distance)) return null;
 
   // Sensible defaults for fields not encoded in the slug.
   const weeklyMileage = ['marathon', 'ultra'].includes(distance) ? 60
