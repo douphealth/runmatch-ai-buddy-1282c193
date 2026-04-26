@@ -795,9 +795,12 @@ const RunMatchResult = () => {
           </div>
         </motion.div>
 
-        {/* Compliance footer: disclosure + data freshness */}
-        <div className="pt-8 pb-4 space-y-3">
+        {/* Compliance footer: disclosure + medical + data freshness */}
+        <div className="pt-8 pb-4 space-y-4 max-w-2xl mx-auto">
           <AffiliateDisclosure variant="footer" />
+          <div className="text-center">
+            <MedicalDisclaimer variant="compact" />
+          </div>
           <p className="text-[10px] text-muted-foreground text-center uppercase tracking-widest">
             Shoe specifications verified against manufacturer sources · Database last updated {SHOE_DATABASE_LAST_UPDATED_LABEL} ·{' '}
             <a
