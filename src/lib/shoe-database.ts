@@ -18,6 +18,19 @@ export interface Shoe {
   reviewURL: string;
   imageURL: string;
   highlights: string[];
+  /**
+   * URL of the manufacturer (or first-party retailer) page where the specs
+   * above can be independently verified. Optional — defaults to a brand
+   * search if missing. Used by the validation script and surfaced as a
+   * "Verified spec source" link in the UI.
+   */
+  sourceURL?: string;
+  /**
+   * ISO date (YYYY-MM-DD) when the specs above were last cross-checked
+   * against the manufacturer source. Optional. The validation script flags
+   * any entry older than 180 days.
+   */
+  lastVerified?: string;
 }
 
 export const shoeDatabase: Shoe[] = [
