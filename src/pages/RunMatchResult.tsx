@@ -34,6 +34,8 @@ const fadeUp = {
 };
 
 import { getAmazonLinkForShoe } from '@/lib/amazon-link';
+import { getPriceTier, SHOE_DATABASE_LAST_UPDATED_LABEL } from '@/lib/price-tier';
+import AffiliateDisclosure from '@/components/results/AffiliateDisclosure';
 
 // Resolves a verified direct /dp/ASIN Amazon link via SerpAPI cache,
 // keyed by the canonical shoe id. Falls back to brand-filtered search
