@@ -30,8 +30,8 @@ const MedicalDisclaimer = ({ variant = 'banner' }: MedicalDisclaimerProps) => {
 
   if (variant === 'inline') {
     return (
-      <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3 flex items-start gap-3">
-        <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
+      <div className="rounded-xl border border-warning/30 bg-warning/5 px-4 py-3 flex items-start gap-3">
+        <AlertTriangle className="w-4 h-4 text-warning flex-shrink-0 mt-0.5" />
         <p className="text-xs text-muted-foreground leading-relaxed">
           <span className="font-semibold text-foreground">Educational content — not medical advice.</span>{' '}
           RunMatch AI is an informational tool. It is not a substitute for diagnosis or
@@ -44,9 +44,9 @@ const MedicalDisclaimer = ({ variant = 'banner' }: MedicalDisclaimerProps) => {
   }
 
   return (
-    <div className="rounded-2xl border-2 border-amber-500/30 bg-amber-500/5 p-5 flex items-start gap-4">
-      <div className="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center flex-shrink-0">
-        <AlertTriangle className="w-5 h-5 text-amber-500" />
+    <div className="rounded-2xl border-2 border-warning/30 bg-warning/5 p-5 flex items-start gap-4">
+      <div className="w-10 h-10 rounded-xl bg-warning/15 flex items-center justify-center flex-shrink-0">
+        <AlertTriangle className="w-5 h-5 text-warning" />
       </div>
       <div className="flex-1">
         <h3 className="text-sm font-bold uppercase tracking-wider text-foreground mb-2">
