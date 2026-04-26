@@ -56,49 +56,40 @@ const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect, onAutoAd
           className="mb-5 md:mb-7 -mx-4 sm:mx-0"
         >
           <div
-            className="
+          className="
               relative overflow-hidden
               rounded-2xl sm:rounded-3xl
-              bg-gradient-to-br from-card/60 via-card/30 to-background/60
+              bg-gradient-to-br from-card/80 via-card/50 to-background/80
               ring-1 ring-border/40
               shadow-[0_20px_60px_-20px_hsl(var(--primary)/0.25)]
-              aspect-[16/9] xs:aspect-[16/8] sm:aspect-[16/7] md:aspect-[16/6]
-              max-h-[200px] sm:max-h-[260px] md:max-h-[300px] lg:max-h-[340px]
+              aspect-[3/2] sm:aspect-[16/9] md:aspect-[2/1]
+              max-h-[260px] sm:max-h-[320px] md:max-h-[360px] lg:max-h-[400px]
               mx-2 sm:mx-0
             "
           >
             {/* Ambient glow behind image */}
             <div className="absolute -inset-8 bg-primary/10 blur-3xl opacity-40 pointer-events-none" />
 
-            {/* Image */}
+            {/* Image — object-contain preserves built-in labels & triptych composition */}
             <motion.img
               src={step.image}
               alt={step.title}
-              initial={{ scale: 1.05 }}
+              initial={{ scale: 1.02 }}
               animate={{ scale: 1 }}
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="relative w-full h-full object-cover object-center will-change-transform"
+              className="relative w-full h-full object-contain object-center will-change-transform"
               loading="eager"
               decoding="async"
               fetchPriority="high"
             />
 
-            {/* Edge vignette for depth */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,hsl(var(--background)/0.6)_100%)] pointer-events-none" />
-
-            {/* Bottom gradient for step badge legibility */}
-            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-background/95 via-background/40 to-transparent pointer-events-none" />
-
-            {/* Top subtle highlight */}
-            <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-background/30 to-transparent pointer-events-none" />
-
-            {/* Step badge */}
-            <div className="absolute bottom-2.5 left-3 sm:bottom-3.5 sm:left-5 right-3 sm:right-5 flex items-center justify-between gap-2">
+            {/* Step badge — floats top-right, no gradient overlay so image labels stay legible */}
+            <div className="absolute top-2.5 right-2.5 sm:top-3.5 sm:right-3.5 z-10">
               <motion.span
-                initial={{ opacity: 0, x: -8 }}
+                initial={{ opacity: 0, x: 8 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3, duration: 0.4 }}
-                className="inline-flex items-center gap-1.5 text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-[0.18em] sm:tracking-[0.2em] text-primary bg-background/80 backdrop-blur-md border border-primary/30 px-2.5 py-1 rounded-full shadow-lg shadow-background/20"
+                className="inline-flex items-center gap-1.5 text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-[0.18em] sm:tracking-[0.2em] text-primary bg-background/85 backdrop-blur-md border border-primary/30 px-2.5 py-1 rounded-full shadow-lg shadow-background/30"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                 Step {(['footType','pronation','weeklyMileage','distance','terrain','paceGoal','injuries','brand','budget'].indexOf(step.id) + 1)} / 9
