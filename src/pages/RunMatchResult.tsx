@@ -327,7 +327,15 @@ const RunMatchResult = () => {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-2xl md:text-4xl font-bold mb-1">{primary.shoe.brand} {primary.shoe.model}</h3>
-                  <p className="text-primary font-semibold text-lg mb-3">${primary.shoe.priceUSD}</p>
+                  {(() => {
+                    const t = getPriceTier(primary.shoe.priceUSD);
+                    return (
+                      <div className="flex items-center gap-2 mb-3">
+                        <Badge className="bg-primary/10 text-primary border-primary/20 text-xs font-semibold">{t.label}</Badge>
+                        <span className="text-xs text-muted-foreground">{t.range}</span>
+                      </div>
+                    );
+                  })()}
 
                   {/* Shoe spec pills */}
                   <div className="flex flex-wrap gap-2 mb-4">
@@ -360,7 +368,7 @@ const RunMatchResult = () => {
                       className="inline-flex items-center justify-center gap-2 bg-gradient-primary glow-primary text-primary-foreground font-bold uppercase tracking-wider px-6 h-12 rounded-xl hover:opacity-90 transition-all text-sm"
                     >
                       <ShoppingCart className="w-4 h-4" />
-                      Buy on Amazon — ${primary.shoe.priceUSD}
+                      Check Price on Amazon
                     </a>
                     <a
                       href={primary.shoe.reviewURL}
@@ -428,7 +436,7 @@ const RunMatchResult = () => {
                         <span className="text-[10px] bg-secondary/50 px-2 py-0.5 rounded-full">{s.shoe.shoe.dropMM}mm</span>
                         <span className="text-[10px] bg-secondary/50 px-2 py-0.5 rounded-full">{s.shoe.shoe.weightGrams}g</span>
                       </div>
-                      <p className="text-primary font-semibold text-sm mb-3">${s.shoe.shoe.priceUSD}</p>
+                      <p className="text-xs text-muted-foreground mb-3">{getPriceTier(s.shoe.shoe.priceUSD).label} · {getPriceTier(s.shoe.shoe.priceUSD).range}</p>
                       <div className="flex gap-2">
                         <a
                           href={getAmazonProductLink(s.shoe.shoe.id, s.shoe.shoe.brand, s.shoe.shoe.model, s.shoe.shoe.amazonASIN)}

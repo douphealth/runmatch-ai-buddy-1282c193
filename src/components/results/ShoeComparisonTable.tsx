@@ -10,11 +10,19 @@ interface ShoeComparisonTableProps {
 }
 
 const ShoeComparisonTable = ({ shoes, getAmazonLink }: ShoeComparisonTableProps) => {
+  // Compliance: never display hard-coded prices (Amazon Operating Agreement § 5.h).
+  // Show MSRP tier instead — the live price is on Amazon.
+  const tierLabel = (p: number) => {
+    if (p < 110) return 'Budget';
+    if (p < 160) return 'Mid';
+    if (p < 220) return 'Premium';
+    return 'Super-premium';
+  };
   const specs = [
     { key: 'cushioning', label: 'Cushioning', format: (s: ScoredShoe) => `${s.shoe.cushioning}/10` },
     { key: 'drop', label: 'Drop', format: (s: ScoredShoe) => `${s.shoe.dropMM}mm` },
     { key: 'weight', label: 'Weight', format: (s: ScoredShoe) => `${s.shoe.weightGrams}g` },
-    { key: 'price', label: 'Price', format: (s: ScoredShoe) => `$${s.shoe.priceUSD}` },
+    { key: 'price', label: 'MSRP Tier', format: (s: ScoredShoe) => tierLabel(s.shoe.priceUSD) },
     { key: 'terrain', label: 'Terrain', format: (s: ScoredShoe) => s.shoe.terrain.join(', ') },
     { key: 'width', label: 'Wide Fit', format: (s: ScoredShoe) => s.shoe.widthOptions ? 'Yes' : 'No' },
   ];
