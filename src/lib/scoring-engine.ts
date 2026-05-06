@@ -130,7 +130,12 @@ export function scoreShoes(answers: QuizAnswers): ScoredShoe[] {
       matchPercent: Math.round(totalScore * 100),
       reasons,
     };
-  }).sort((a, b) => b.score - a.score);
+  }).sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    // Stable tiebreaker: prefer newer year, then lighter weight
+    if (b.shoe.year !== a.shoe.year) return b.shoe.year - a.shoe.year;
+    return a.shoe.weightGrams - b.shoe.weightGrams;
+  });
 }
 
 export interface ShoeRotation {
