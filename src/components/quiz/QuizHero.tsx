@@ -91,7 +91,7 @@ const QuizHero = ({ onStart }: QuizHeroProps) => {
           </motion.div>
 
           {/* Heading */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-4 md:mb-6 uppercase leading-[0.85]">
+          <h1 className="text-[2.5rem] sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-4 md:mb-6 uppercase leading-[0.9] sm:leading-[0.85] break-words">
             Find Your
             <motion.span
               className="block text-gradient mt-1"
@@ -107,7 +107,7 @@ const QuizHero = ({ onStart }: QuizHeroProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="text-sm md:text-lg text-muted-foreground mb-8 md:mb-10 max-w-xl mx-auto leading-relaxed"
+            className="text-sm sm:text-base md:text-lg text-muted-foreground mb-8 md:mb-10 max-w-xl mx-auto leading-relaxed px-2 sm:px-0"
           >
             9 expert questions. One perfect match. Get your personalized shoe profile,
             rotation strategy, and training path — backed by sports science.
