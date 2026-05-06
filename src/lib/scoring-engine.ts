@@ -160,13 +160,9 @@ export function buildRotation(answers: QuizAnswers): ShoeRotation {
     ) || null;
   }
 
-  // For trail runners, prefer trail shoes in rotation
-  if (answers.terrain === 'trail' && primary.shoe.category !== 'trail') {
-    const trailShoe = scored.find(s => s.shoe.category === 'trail');
-    if (trailShoe) {
-      return { primary: trailShoe, speed, longRun };
-    }
-  }
+  // Note: trail terrain already heavily weighted in scoring (terrain=0.18,
+  // hybrid road shoes get only 0.15 partial credit). No override needed —
+  // forcing the first trail shoe collapsed all trail results to Speedcross 6.
 
   return { primary, speed, longRun };
 }
