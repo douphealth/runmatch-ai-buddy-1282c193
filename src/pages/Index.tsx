@@ -15,11 +15,27 @@ const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const schema = document.createElement('script');
-    schema.type = 'application/ld+json';
-    schema.textContent = JSON.stringify(generateWebAppSchema());
-    document.head.appendChild(schema);
-    return () => { schema.remove(); };
+    const webApp = document.createElement('script');
+    webApp.type = 'application/ld+json';
+    webApp.textContent = JSON.stringify(generateWebAppSchema());
+
+    const faq = document.createElement('script');
+    faq.type = 'application/ld+json';
+    faq.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'Is RunMatch AI free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. No signup, no email required, no paywall. Some product links are Amazon affiliate links — GearUpToFit may earn a commission at no extra cost to you.' } },
+        { '@type': 'Question', name: 'How long does the running shoe quiz take?', acceptedAnswer: { '@type': 'Answer', text: 'About 2 minutes for 9 questions covering foot type, pronation, mileage, distance, terrain, pace goals, injury history, brand preference, and budget.' } },
+        { '@type': 'Question', name: 'How does RunMatch AI choose a shoe?', acceptedAnswer: { '@type': 'Answer', text: 'A deterministic scoring engine evaluates each shoe in a manufacturer-verified database against your biomechanics and training profile across cushioning, drop, stack height, support type, weight, and intended use. The same answers always produce the same recommendation.' } },
+        { '@type': 'Question', name: 'What is a shoe rotation?', acceptedAnswer: { '@type': 'Answer', text: 'Rotating between 2–3 different running shoes loads tissues differently and has been associated with up to 39% lower injury risk (British Journal of Sports Medicine, 2015). RunMatch AI builds you a daily trainer plus speed shoe plus long-run shoe rotation.' } },
+        { '@type': 'Question', name: 'How often should I replace running shoes?', acceptedAnswer: { '@type': 'Answer', text: 'Most running shoes last 500–800 km (300–500 miles) depending on body weight, gait, and midsole foam. Replace sooner if you feel new aches or see midsole compression.' } },
+      ],
+    });
+
+    document.head.appendChild(webApp);
+    document.head.appendChild(faq);
+    return () => { webApp.remove(); faq.remove(); };
   }, []);
 
   const progress = currentStep >= 0 ? ((currentStep + 1) / quizSteps.length) * 100 : 0;
