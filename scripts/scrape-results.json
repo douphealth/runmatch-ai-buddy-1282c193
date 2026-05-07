@@ -3,552 +3,568 @@
     "brand": "Nike",
     "model": "Pegasus 41",
     "slug": "nike-pegasus-41",
-    "ok": true,
-    "size": 218957,
-    "src": "https://www.runningwarehouse.com/reviews/Nike-Shoe-Reviews/nike-pegasus-41.html"
+    "skipped": true
   },
   {
     "brand": "Nike",
     "model": "Pegasus Premium",
     "slug": "nike-pegasus-premium",
-    "ok": true,
-    "size": 218957,
-    "src": "https://www.runningwarehouse.com/reviews/Nike-Shoe-Reviews/nike-pegasus-41.html"
+    "skipped": true
   },
   {
     "brand": "Nike",
     "model": "Vomero Plus",
     "slug": "nike-vomero-plus",
-    "ok": true,
-    "size": 156781,
-    "src": "https://www.nike.com/sg/w/mens-nike-vomero-plus-shoes-5hcdznik1zy7ok"
+    "skipped": true
   },
   {
     "brand": "Nike",
     "model": "Pegasus Turbo",
     "slug": "nike-pegasus-turbo",
-    "ok": true,
-    "size": 218957,
-    "src": "https://www.runningwarehouse.com/reviews/Nike-Shoe-Reviews/nike-pegasus-41.html"
+    "skipped": true
   },
   {
     "brand": "Brooks",
     "model": "Ghost 17",
     "slug": "brooks-ghost-17",
-    "ok": true,
-    "size": 172154,
-    "src": "https://tiendamia.com.uy/producto?amz=B0CGYT93VS"
+    "skipped": true
   },
   {
     "brand": "Brooks",
     "model": "Glycerin Max 2",
     "slug": "brooks-glycerin-max-2",
-    "ok": true,
-    "size": 177231,
-    "src": "https://www.amazon.com/Brooks-Glycerin-Stealthfit-Supportive-Running/dp/B0CGYGVDT6"
+    "skipped": true
   },
   {
     "brand": "Asics",
     "model": "Gel-Nimbus 28",
     "slug": "asics-gel-nimbus-28",
-    "ok": true,
-    "size": 138040,
-    "src": "https://www.runningwarehouse.com/ASICS_Gel_Nimbus_28/descpage-AGN28M5.html"
+    "skipped": true
   },
   {
     "brand": "Asics",
     "model": "Gel-Kayano 32",
     "slug": "asics-gel-kayano-32",
-    "ok": true,
-    "size": 114637,
-    "src": "https://tiendamia.com/producto?amz=B07KRCNSC8"
+    "skipped": true
   },
   {
     "brand": "Asics",
     "model": "Novablast 5",
     "slug": "asics-novablast-5",
-    "ok": true,
-    "size": 172063,
-    "src": "https://www.runningwarehouse.com/ASICS_Novablast_5/descpage-A5NBW04.html"
+    "skipped": true
   },
   {
     "brand": "Asics",
     "model": "Novablast 4",
     "slug": "asics-novablast-4",
-    "ok": true,
-    "size": 77592,
-    "src": "https://snapklik.com/en-ca/product/asics-mens-novablast-5-running-shoe-14-black-carrier-grey/0WHI4P372VL15"
+    "skipped": true
   },
   {
     "brand": "Asics",
     "model": "Superblast 3",
     "slug": "asics-superblast-3",
-    "ok": true,
-    "size": 96894,
-    "src": "https://www.runningwarehouse.com/ASICS_SUPERBLAST_2/descpage-AS2SBU3.html"
+    "skipped": true
   },
   {
     "brand": "Asics",
     "model": "Sonicblast",
     "slug": "asics-sonicblast",
-    "ok": true,
-    "size": 158438,
-    "src": "https://www.runningwarehouse.com/ASICS_SONICBLAST/descpage-ASSBW5.html"
+    "skipped": true
   },
   {
     "brand": "Asics",
     "model": "Megablast",
     "slug": "asics-megablast",
-    "ok": true,
-    "size": 105540,
-    "src": "https://www.runningwarehouse.com/ASICS_MEGABLAST/descpage-ASMBU1.html"
+    "skipped": true
   },
   {
     "brand": "Hoka",
     "model": "Bondi 9",
     "slug": "hoka-bondi-9",
-    "ok": true,
-    "size": 183023,
-    "src": "https://www.runningwarehouse.com.au/HOKA_Bondi_9/descpage-HO9BM03.html"
+    "skipped": true
   },
   {
     "brand": "Hoka",
     "model": "Cielo X1 3",
     "slug": "hoka-cielo-x1-3",
-    "ok": true,
-    "size": 176097,
-    "src": "https://brandclub.com/Brooks-Womens-Ghost-15-Neutral-Running/p/2XGYP0312/product"
+    "skipped": true
   },
   {
     "brand": "Saucony",
     "model": "Ride 19",
     "slug": "saucony-ride-19",
-    "ok": true,
-    "size": 176097,
-    "src": "https://brandclub.com/Brooks-Womens-Ghost-15-Neutral-Running/p/2XGYP0312/product"
+    "skipped": true
   },
   {
     "brand": "Saucony",
     "model": "Endorphin Azura",
     "slug": "saucony-endorphin-azura",
-    "ok": true,
-    "size": 86236,
-    "src": "https://www.runningwarehouse.com/Saucony_Endorphin_Pro_4/descpage-S4EPW03.html"
+    "skipped": true
   },
   {
     "brand": "On",
     "model": "Cloudsurfer 2",
     "slug": "on-cloudsurfer-2",
-    "ok": true,
-    "size": 309872,
-    "src": "https://www.on.com/en-dk/products/cloudsurfer-2-3wf1010"
+    "skipped": true
   },
   {
     "brand": "Adidas",
     "model": "Adios Pro 4",
     "slug": "adidas-adios-pro-4",
-    "ok": true,
-    "size": 261029,
-    "src": "https://www.runningwarehouse.com/catpage-AAP4PP.html"
+    "skipped": true
   },
   {
     "brand": "Adidas",
     "model": "Adios 9",
     "slug": "adidas-adios-9",
-    "ok": true,
-    "size": 269038,
-    "src": "https://www.adidas.ae/en/adizero-adios-9-running-shoes/IF9418.html"
+    "skipped": true
   },
   {
     "brand": "Adidas",
     "model": "Boston 13",
     "slug": "adidas-boston-13",
-    "ok": true,
-    "size": 109747,
-    "src": "https://www.adidas.com.eg/en/adizero-boston-13-eqt-shoes/JR4791.html"
+    "skipped": true
   },
   {
     "brand": "Adidas",
     "model": "EVO SL",
     "slug": "adidas-evo-sl",
-    "ok": true,
-    "size": 52986,
-    "src": "https://www.runningwarehouse.com/adidas_adizero_Evo_SL/descpage-A1AESW0.html"
+    "skipped": true
   },
   {
     "brand": "Adidas",
     "model": "EVO SL ATR",
     "slug": "adidas-evo-sl-atr",
-    "ok": true,
-    "size": 104621,
-    "src": "https://www.runningwarehouse.com/adidas_adizero_Evo_SL/descpage-A1AESM0.html"
+    "skipped": true
   },
   {
     "brand": "Adidas",
     "model": "Takumi Sen 11",
     "slug": "adidas-takumi-sen-11",
-    "ok": true,
-    "size": 27824,
-    "src": "https://www.runningwarehouse.com/learningcenter/gear_guides/footwear/best-shoes-with-a-carbon-plate.html"
+    "skipped": true
   },
   {
     "brand": "Puma",
     "model": "Deviate Elite 4",
     "slug": "puma-deviate-elite-4",
-    "ok": true,
-    "size": 41349,
-    "src": "https://www.amazon.in/Puma-Deviate-Nitro-Elite-Running/dp/B0B41KDNQN"
+    "skipped": true
   },
   {
     "brand": "Puma",
     "model": "Deviate Nitro Elite 2",
     "slug": "puma-deviate-nitro-elite-2",
-    "ok": true,
-    "size": 156517,
-    "src": "https://pricehistoryapp.com/product/puma-mens-deviate-nitro-elite-2-running-shoe"
+    "skipped": true
   },
   {
     "brand": "Puma",
     "model": "Magmax 2",
     "slug": "puma-magmax-2",
-    "ok": true,
-    "size": 11931,
-    "src": "https://www.amazon.com/Puma-Mens-MagMax-NitroTM-Running/dp/B0DMLRV4XZ"
+    "skipped": true
   },
   {
     "brand": "New Balance",
     "model": "Fresh Foam X More v6",
     "slug": "new-balance-fresh-foam-x-more-v6",
-    "ok": true,
-    "size": 305831,
-    "src": "https://www.amazon.com/new-balance-running-reflection-mineral/dp/b0d2btj3pr"
+    "skipped": true
   },
   {
     "brand": "New Balance",
     "model": "1080 v14",
     "slug": "new-balance-1080-v14",
-    "ok": true,
-    "size": 59077,
-    "src": "https://tiendamia.com.uy/p/amz/b0cnkxg21f/new-balance-men-s-fresh-foam-x-1080-v14-running-shoe"
+    "skipped": true
   },
   {
     "brand": "Salomon",
     "model": "Speedcross 6",
     "slug": "salomon-speedcross-6",
-    "ok": true,
-    "size": 158951,
-    "src": "https://www.runningxpert.com/en/speedcross-6-gtx-417435.html"
+    "skipped": true
   },
   {
     "brand": "Salomon",
     "model": "Ultra Glide 3",
     "slug": "salomon-ultra-glide-3",
-    "ok": true,
-    "size": 176097,
-    "src": "https://brandclub.com/Brooks-Womens-Ghost-15-Neutral-Running/p/2XGYP0312/product"
+    "skipped": true
   },
   {
     "brand": "Salomon",
     "model": "Sense Ride 6",
     "slug": "salomon-sense-ride-6",
-    "ok": true,
-    "size": 176097,
-    "src": "https://brandclub.com/Brooks-Womens-Ghost-15-Neutral-Running/p/2XGYP0312/product"
+    "skipped": true
   },
   {
     "brand": "Altra",
     "model": "Lone Peak 8",
     "slug": "altra-lone-peak-8",
-    "ok": true,
-    "size": 96205,
-    "src": "https://snapklik.com/en-ca/product/altra-mens-lone-peak-8-trail-running-shoe-10-dusty-olive/0II04PP7KCZ45"
+    "skipped": true
   },
   {
     "brand": "Altra",
     "model": "Torin 7",
     "slug": "altra-torin-7",
-    "ok": true,
-    "size": 97443,
-    "src": "https://www.nellisauction.com/p/ALTRA-Women-s-Torin-7-Road-Running-Shoe-White-Black-8/50186725"
+    "skipped": true
   },
   {
     "brand": "Mizuno",
     "model": "Wave Rider 28",
     "slug": "mizuno-wave-rider-28",
-    "ok": true,
-    "size": 231633,
-    "src": "https://www.nellisauction.com/p/Mizuno-Wave-Rider-28-Womens-Running-Shoe-Paisley-Purple-Ceramic/46041365"
+    "skipped": true
   },
   {
     "brand": "Mizuno",
     "model": "Wave Inspire 21",
     "slug": "mizuno-wave-inspire-21",
-    "ok": true,
-    "size": 176097,
-    "src": "https://brandclub.com/Brooks-Womens-Ghost-15-Neutral-Running/p/2XGYP0312/product"
+    "skipped": true
   },
   {
     "brand": "Brooks",
     "model": "Adrenaline GTS 25",
     "slug": "brooks-adrenaline-gts-25",
-    "ok": true,
-    "size": 220075,
-    "src": "https://snapklik.com/en-ca/product/brooks-womens-adrenaline-gts-22-supportive-running-shoe-kentucky-blue-white-rose-10-5-medium/09J34PK7WXYX5"
+    "skipped": true
   },
   {
     "brand": "Hoka",
     "model": "Speedgoat 6",
     "slug": "hoka-speedgoat-6",
-    "ok": true,
-    "size": 131098,
-    "src": "https://www.runningwarehouse.com/HOKA_Speedgoat_6/descpage-HO6SPM7.html"
+    "skipped": true
   },
   {
     "brand": "Nike",
     "model": "Alphafly 3",
     "slug": "nike-alphafly-3",
-    "ok": true,
-    "size": 201732,
-    "src": "https://www.nike.com/my/w/nike-alphafly-running-shoes-1tp17z37v7jzy7okzyt35"
+    "skipped": true
   },
   {
     "brand": "Nike",
     "model": "Vaporfly 3",
     "slug": "nike-vaporfly-3",
-    "ok": true,
-    "size": 196392,
-    "src": "https://www.nike.com/w/white-running-37v7jz4g797z63hjxz8orvs"
+    "skipped": true
   },
   {
     "brand": "Nike",
     "model": "Streakfly",
     "slug": "nike-streakfly",
-    "ok": true,
-    "size": 160436,
-    "src": "https://www.runningwarehouse.com/Nike_Streakfly_2/descpage-2NISFUA.html"
+    "skipped": true
   },
   {
     "brand": "Adidas",
     "model": "Adizero Adios Pro 3",
     "slug": "adidas-adizero-adios-pro-3",
-    "ok": true,
-    "size": 310665,
-    "src": "https://www.adidas.com.hk/en/adizero-adios-pro-3-shoes/ID8468.html"
+    "skipped": true
   },
   {
     "brand": "Adidas",
     "model": "Adizero Takumi Sen 10",
     "slug": "adidas-adizero-takumi-sen-10",
-    "ok": true,
-    "size": 299048,
-    "src": "https://www.adidas.ae/en/adizero-takumi-sen-10-shoes/IG8202.html"
+    "skipped": true
   },
   {
     "brand": "Adidas",
     "model": "Adizero Boston 12",
     "slug": "adidas-adizero-boston-12",
-    "ok": true,
-    "size": 25000,
-    "src": "https://www.adidas.ca/en/adizero-boston-12-shoes/ID6899.html"
+    "skipped": true
   },
   {
     "brand": "Hoka",
     "model": "Mach 6",
     "slug": "hoka-mach-6",
-    "ok": true,
-    "size": 133233,
-    "src": "https://www.zappos.com/p/womens-hoka-mach-6/product/9920038"
-  },
-  {
-    "brand": "Hoka",
-    "model": "Bondi 9",
-    "slug": "hoka-bondi-9",
-    "ok": true,
-    "size": 183023,
-    "src": "https://www.runningwarehouse.com.au/HOKA_Bondi_9/descpage-HO9BM03.html"
+    "skipped": true
   },
   {
     "brand": "Hoka",
     "model": "Rocket X 2",
     "slug": "hoka-rocket-x-2",
-    "ok": true,
-    "size": 67439,
-    "src": "https://www.runningwarehouse.com/Reviews/HOKA-Shoe-Reviews/hoka-rocket-x-2.html"
+    "skipped": true
   },
   {
     "brand": "Saucony",
     "model": "Endorphin Pro 4",
     "slug": "saucony-endorphin-pro-4",
+    "skipped": true
+  },
+  {
+    "brand": "Saucony",
+    "model": "Triumph 22",
+    "slug": "saucony-triumph-22",
+    "skipped": true
+  },
+  {
+    "brand": "Saucony",
+    "model": "Kinvara 15",
+    "slug": "saucony-kinvara-15",
+    "skipped": true
+  },
+  {
+    "brand": "Saucony",
+    "model": "Peregrine 14",
+    "slug": "saucony-peregrine-14",
+    "skipped": true
+  },
+  {
+    "brand": "On",
+    "model": "Cloudboom Strike",
+    "slug": "on-cloudboom-strike",
+    "skipped": true
+  },
+  {
+    "brand": "On",
+    "model": "Cloudsurfer Next",
+    "slug": "on-cloudsurfer-next",
+    "skipped": true
+  },
+  {
+    "brand": "On",
+    "model": "Cloudmonster 2",
+    "slug": "on-cloudmonster-2",
+    "skipped": true
+  },
+  {
+    "brand": "ASICS",
+    "model": "Superblast 2",
+    "slug": "asics-superblast-2",
+    "skipped": true
+  },
+  {
+    "brand": "ASICS",
+    "model": "Magic Speed 4",
+    "slug": "asics-magic-speed-4",
+    "skipped": true
+  },
+  {
+    "brand": "ASICS",
+    "model": "Metaspeed Sky Paris",
+    "slug": "asics-metaspeed-sky-paris",
+    "skipped": true
+  },
+  {
+    "brand": "New Balance",
+    "model": "FuelCell SuperComp Elite v4",
+    "slug": "new-balance-fuelcell-supercomp-elite-v4",
+    "skipped": true
+  },
+  {
+    "brand": "New Balance",
+    "model": "Fresh Foam X More v5",
+    "slug": "new-balance-fresh-foam-x-more-v5",
+    "skipped": true
+  },
+  {
+    "brand": "New Balance",
+    "model": "Fresh Foam X 1080 v14",
+    "slug": "new-balance-fresh-foam-x-1080-v14",
+    "skipped": true
+  },
+  {
+    "brand": "Brooks",
+    "model": "Hyperion Elite 4",
+    "slug": "brooks-hyperion-elite-4",
+    "skipped": true
+  },
+  {
+    "brand": "Brooks",
+    "model": "Hyperion Max 2",
+    "slug": "brooks-hyperion-max-2",
+    "skipped": true
+  },
+  {
+    "brand": "Brooks",
+    "model": "Cascadia 18",
+    "slug": "brooks-cascadia-18",
+    "skipped": true
+  },
+  {
+    "brand": "Puma",
+    "model": "Deviate Nitro Elite 3",
+    "slug": "puma-deviate-nitro-elite-3",
+    "skipped": true
+  },
+  {
+    "brand": "Puma",
+    "model": "Velocity Nitro 3",
+    "slug": "puma-velocity-nitro-3",
+    "skipped": true
+  },
+  {
+    "brand": "Inov-8",
+    "model": "TrailFly Ultra G 300 Max",
+    "slug": "inov-8-trailfly-ultra-g-300-max",
+    "skipped": true
+  },
+  {
+    "brand": "Merrell",
+    "model": "Agility Peak 5",
+    "slug": "merrell-agility-peak-5",
+    "skipped": true
+  },
+  {
+    "brand": "Topo Athletic",
+    "model": "MTN Racer 3",
+    "slug": "topo-athletic-mtn-racer-3",
+    "skipped": true
+  },
+  {
+    "brand": "Topo Athletic",
+    "model": "Cyclone 2",
+    "slug": "topo-athletic-cyclone-2",
+    "skipped": true
+  },
+  {
+    "brand": "Nike",
+    "model": "Pegasus 42",
+    "slug": "nike-pegasus-42",
+    "ok": true,
+    "size": 179437,
+    "src": "https://www.nike.com/w/white-pegasus-shoes-4g797z8nexhzg5s4zy7ok"
+  },
+  {
+    "brand": "Hoka",
+    "model": "Clifton 10",
+    "slug": "hoka-clifton-10",
+    "ok": true,
+    "size": 38453,
+    "src": "https://www.runningwarehouse.com/Reviews/HOKA-Shoe-Reviews/hoka-clifton-10.html"
+  },
+  {
+    "brand": "Hoka",
+    "model": "Skyward X",
+    "slug": "hoka-skyward-x",
+    "ok": true,
+    "size": 149157,
+    "src": "https://www.runningwarehouse.com/HOKA_Mach_6/descpage-HO6MM15.html"
+  },
+  {
+    "brand": "Li-Ning",
+    "model": "Feidian 6 Elite",
+    "slug": "li-ning-feidian-6-elite",
+    "ok": true,
+    "size": 82302,
+    "src": "https://www.amazon.com/LI-NING-Challenger-Reflective-Lightweight-Breathable/dp/B0FKTB8G95"
+  },
+  {
+    "brand": "ASICS",
+    "model": "Gel-Nimbus 29",
+    "slug": "asics-gel-nimbus-29",
+    "ok": true,
+    "size": 91193,
+    "src": "https://www.amazon.ca/ASICS-Womens-Gel-Kayano-Size-1012B272/dp/B0B7S1G2XW"
+  },
+  {
+    "brand": "ASICS",
+    "model": "Novablast 6",
+    "slug": "asics-novablast-6",
+    "ok": true,
+    "size": 77592,
+    "src": "https://snapklik.com/en-ca/product/asics-mens-novablast-5-running-shoe-14-black-carrier-grey/0WHI4P372VL15"
+  },
+  {
+    "brand": "ASICS",
+    "model": "Metaspeed Edge Tokyo",
+    "slug": "asics-metaspeed-edge-tokyo",
+    "ok": true,
+    "size": 302938,
+    "src": "https://www.runningwarehouse.com/reviews/ASICS-Shoe-Reviews/asics-metaspeed-edge-and-sky-tokyo.html"
+  },
+  {
+    "brand": "Brooks",
+    "model": "Glycerin 22",
+    "slug": "brooks-glycerin-22",
+    "ok": true,
+    "size": 55378,
+    "src": "https://www.zappos.com/p/womens-brooks-glycerin-22/product/9980511"
+  },
+  {
+    "brand": "Brooks",
+    "model": "Hyperion Max 3",
+    "slug": "brooks-hyperion-max-3",
+    "ok": true,
+    "size": 173232,
+    "src": "https://www.amazon.com/Brooks-Womens-Hyperion-2-Sneaker/dp/B0CNX22GT3"
+  },
+  {
+    "brand": "Saucony",
+    "model": "Endorphin Speed 5",
+    "slug": "saucony-endorphin-speed-5",
     "ok": true,
     "size": 86236,
     "src": "https://www.runningwarehouse.com/Saucony_Endorphin_Pro_4/descpage-S4EPW03.html"
   },
   {
     "brand": "Saucony",
-    "model": "Triumph 22",
-    "slug": "saucony-triumph-22",
+    "model": "Endorphin Pro 5",
+    "slug": "saucony-endorphin-pro-5",
     "ok": true,
-    "size": 195830,
-    "src": "https://www.namibian.com.na/?n=46578717"
-  },
-  {
-    "brand": "Saucony",
-    "model": "Kinvara 15",
-    "slug": "saucony-kinvara-15",
-    "ok": true,
-    "size": 21980,
-    "src": "https://footwind.net/best-saucony-shoes-for-overpronation/"
-  },
-  {
-    "brand": "Saucony",
-    "model": "Peregrine 14",
-    "slug": "saucony-peregrine-14",
-    "ok": true,
-    "size": 65858,
-    "src": "https://www.nellisauction.com/p/Saucony-Women-s-Peregrine-14-Hiking-Shoe-Dove-Currant-9-5/59534693"
+    "size": 86236,
+    "src": "https://www.runningwarehouse.com/Saucony_Endorphin_Pro_4/descpage-S4EPW03.html"
   },
   {
     "brand": "On",
-    "model": "Cloudboom Strike",
-    "slug": "on-cloudboom-strike",
+    "model": "Cloudboom Strike LS",
+    "slug": "on-cloudboom-strike-ls",
     "ok": true,
-    "size": 98696,
-    "src": "https://www.runningwarehouse.com/On_Cloudboom_Strike/descpage-O1CBSM1.html"
+    "size": 1246410,
+    "src": "https://www.on.com/en-us/products/cloudboom-strike-ls-u-3ue3001"
   },
   {
     "brand": "On",
-    "model": "Cloudsurfer Next",
-    "slug": "on-cloudsurfer-next",
+    "model": "Cloudeclipse 2",
+    "slug": "on-cloudeclipse-2",
     "ok": true,
-    "size": 129692,
-    "src": "https://www.amazon.com/Mens-Cloudsurfer-Next-Glacier-White/dp/B0CNKWBYJN"
-  },
-  {
-    "brand": "On",
-    "model": "Cloudmonster 2",
-    "slug": "on-cloudmonster-2",
-    "ok": true,
-    "size": 492388,
-    "src": "https://www.on.com/en-us/shop/mens/shoes/cloudmonster"
-  },
-  {
-    "brand": "ASICS",
-    "model": "Superblast 2",
-    "slug": "asics-superblast-2",
-    "ok": true,
-    "size": 218878,
-    "src": "https://www.runningwarehouse.com/ASICS_SUPERBLAST_2/descpage-AS2SBU3.html"
-  },
-  {
-    "brand": "ASICS",
-    "model": "Magic Speed 4",
-    "slug": "asics-magic-speed-4",
-    "ok": true,
-    "size": 176097,
-    "src": "https://brandclub.com/Brooks-Womens-Ghost-15-Neutral-Running/p/2XGYP0312/product"
-  },
-  {
-    "brand": "ASICS",
-    "model": "Metaspeed Sky Paris",
-    "slug": "asics-metaspeed-sky-paris",
-    "ok": true,
-    "size": 16282,
-    "src": "https://www.runningwarehouse.com.au/ASICS_METASPEED_Paris/catpage-METAPARISPP.html"
+    "size": 23025,
+    "src": "https://www.runningwarehouse.com.au/reviews/On-Shoe-Reviews/On_Cloudeclipse_Shoe_Review___Running_Warehouse.html"
   },
   {
     "brand": "New Balance",
-    "model": "FuelCell SuperComp Elite v4",
-    "slug": "new-balance-fuelcell-supercomp-elite-v4",
+    "model": "FuelCell SuperComp Trainer v3",
+    "slug": "new-balance-fuelcell-supercomp-trainer-v3",
     "ok": true,
-    "size": 44438,
-    "src": "https://www.nellisauction.com/p/New-Balance-Women-s-FuelCell-SuperComp-Elite-V4-Running-Shoe/70865784"
+    "size": 45050,
+    "src": "https://snapklik.com/en-ca/product/new-balance-mens-fresh-foam-x-evoz-v3-running-shoe-graphite-aluminum-grey-silver-metallic-10/09WP4PK7JPJF5"
   },
   {
-    "brand": "New Balance",
-    "model": "Fresh Foam X More v5",
-    "slug": "new-balance-fresh-foam-x-more-v5",
+    "brand": "Adidas",
+    "model": "Adizero Evo SL 2",
+    "slug": "adidas-adizero-evo-sl-2",
     "ok": true,
-    "size": 28853,
-    "src": "https://www.nellisauction.com/p/New-Balance-Men-s-Fresh-Foam-X-More-V5-Running-Shoe-White/59425776"
+    "size": 104621,
+    "src": "https://www.runningwarehouse.com/adidas_adizero_Evo_SL/descpage-A1AESM0.html"
   },
   {
-    "brand": "New Balance",
-    "model": "Fresh Foam X 1080 v14",
-    "slug": "new-balance-fresh-foam-x-1080-v14",
+    "brand": "Hoka",
+    "model": "Mach X 2",
+    "slug": "hoka-mach-x-2",
     "ok": true,
-    "size": 29932,
-    "src": "https://www.nellisauction.com/p/New-Balance-Men-s-Fresh-Foam-X-1080-V14-Running-Shoe-White/56699805"
+    "size": 430330,
+    "src": "https://www.hoka.com/en/gb/mach-x-2/"
   },
   {
-    "brand": "Brooks",
-    "model": "Hyperion Elite 4",
-    "slug": "brooks-hyperion-elite-4",
+    "brand": "NNormal",
+    "model": "Kjerag 2",
+    "slug": "nnormal-kjerag-2",
     "ok": true,
-    "size": 173232,
-    "src": "https://www.amazon.com/Brooks-Womens-Hyperion-2-Sneaker/dp/B0CNX22GT3"
+    "size": 138144,
+    "src": "https://www.runningwarehouse.com/NNormal_Kjerag_02/descpage-NNKJ2U1.html"
   },
   {
-    "brand": "Brooks",
-    "model": "Hyperion Max 2",
-    "slug": "brooks-hyperion-max-2",
+    "brand": "Salomon",
+    "model": "S/Lab Genesis",
+    "slug": "salomon-s-lab-genesis",
     "ok": true,
-    "size": 126547,
-    "src": "https://www.amazon.com/Brooks-Mens-Hyperion-Neutral-Running/dp/B0CRFMMM2J"
-  },
-  {
-    "brand": "Brooks",
-    "model": "Cascadia 18",
-    "slug": "brooks-cascadia-18",
-    "ok": true,
-    "size": 203495,
-    "src": "https://www.amazon.com/Brooks-Mens-Cascadia-Trail-Running/dp/B0BJ7YGS9Q"
+    "size": 164432,
+    "src": "https://www.runningwarehouse.com/learningcenter/gear_guides/footwear/best_running_shoes.html?from=bsearch"
   },
   {
     "brand": "Puma",
-    "model": "Deviate Nitro Elite 3",
-    "slug": "puma-deviate-nitro-elite-3",
+    "model": "Fast-R Nitro Elite 3",
+    "slug": "puma-fast-r-nitro-elite-3",
     "ok": true,
     "size": 1427302,
     "src": "https://about.puma.com/en/newsroom/product-and-brand-news/2025/17-04-2025-puma-reveals-fast-r-nitrotm-elite-3-super-shoe"
   },
   {
-    "brand": "Puma",
-    "model": "Velocity Nitro 3",
-    "slug": "puma-velocity-nitro-3",
+    "brand": "Mizuno",
+    "model": "Neo Vista 2",
+    "slug": "mizuno-neo-vista-2",
     "ok": true,
-    "size": 66276,
-    "src": "https://www.zappos.com/p/womens-puma-velocity-nitro-3-running-shoes/product/10003070"
-  },
-  {
-    "brand": "Inov-8",
-    "model": "TrailFly Ultra G 300 Max",
-    "slug": "inov-8-trailfly-ultra-g-300-max",
-    "ok": true,
-    "size": 176097,
-    "src": "https://brandclub.com/Brooks-Womens-Ghost-15-Neutral-Running/p/2XGYP0312/product"
-  },
-  {
-    "brand": "Merrell",
-    "model": "Agility Peak 5",
-    "slug": "merrell-agility-peak-5",
-    "ok": true,
-    "size": 120043,
-    "src": "https://www.backcountry.com/merrell-agility-peak-5-shoe-mens"
-  },
-  {
-    "brand": "Topo Athletic",
-    "model": "MTN Racer 3",
-    "slug": "topo-athletic-mtn-racer-3",
-    "ok": true,
-    "size": 176097,
-    "src": "https://brandclub.com/Brooks-Womens-Ghost-15-Neutral-Running/p/2XGYP0312/product"
-  },
-  {
-    "brand": "Topo Athletic",
-    "model": "Cyclone 2",
-    "slug": "topo-athletic-cyclone-2",
-    "ok": true,
-    "size": 176097,
-    "src": "https://brandclub.com/Brooks-Womens-Ghost-15-Neutral-Running/p/2XGYP0312/product"
+    "size": 120415,
+    "src": "https://tiendamia.com/ec/p/amz/b0fbhs3p66/mizuno-men-s-neo-vista-2-running-shoe"
   }
 ]
