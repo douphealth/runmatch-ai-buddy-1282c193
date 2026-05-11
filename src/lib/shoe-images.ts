@@ -1,4 +1,5 @@
 import { Shoe } from './shoe-database';
+import { assetPath } from './asset-path';
 
 /**
  * Compute a deterministic, filesystem-safe slug from brand + model.
