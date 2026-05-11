@@ -26,7 +26,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const ROOT = resolve(__dirname, '..');
 const DIST = resolve(ROOT, 'dist');
-const SITE_ORIGIN = 'https://runmatch-ai-buddy.lovable.app';
+const SITE_ORIGIN = 'https://gearuptofit.com/shoe-match';
 
 async function main() {
   if (!existsSync(DIST)) {
