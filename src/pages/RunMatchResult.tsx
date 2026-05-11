@@ -163,12 +163,12 @@ const RunMatchResult = () => {
 
   const shareOnTwitter = () => {
     const text = `I just found my perfect running shoe match! 🏃‍♂️ Take the free RunMatch AI quiz by @GearUpToFit:`;
-    const quizUrl = 'https://runmatch-ai-buddy.lovable.app/';
+    const quizUrl = 'https://gearuptofit.com/shoe-match/';
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(quizUrl)}`, '_blank');
   };
 
   const shareOnFacebook = () => {
-    const quizUrl = 'https://runmatch-ai-buddy.lovable.app/';
+    const quizUrl = 'https://gearuptofit.com/shoe-match/';
     window.open(`https://www.facebook.com/dialog/share?app_id=966242223397117&href=${encodeURIComponent(quizUrl)}&quote=${encodeURIComponent('I just found my perfect running shoe match! 🏃‍♂️ Take the free RunMatch AI quiz by GearUpToFit!')}`, '_blank');
   };
 
