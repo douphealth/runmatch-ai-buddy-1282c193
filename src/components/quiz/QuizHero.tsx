@@ -91,7 +91,7 @@ const QuizHero = ({ onStart }: QuizHeroProps) => {
           </motion.div>
 
           {/* Heading */}
-          <h1 className="text-[2.5rem] sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-4 md:mb-6 uppercase leading-[0.9] sm:leading-[0.85] break-words">
+          <h2 className="text-[2.5rem] sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-4 md:mb-6 uppercase leading-[0.9] sm:leading-[0.85] break-words" aria-label="RunMatch AI Running Shoe Finder">
             Find Your
             <motion.span
               className="block text-gradient mt-1"
@@ -101,7 +101,7 @@ const QuizHero = ({ onStart }: QuizHeroProps) => {
             >
               Perfect Shoe
             </motion.span>
-          </h1>
+          </h2>
 
           <motion.p
             initial={{ opacity: 0 }}

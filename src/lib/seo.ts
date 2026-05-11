@@ -89,8 +89,8 @@ export function generateWebAppSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'RunMatch AI — Running Shoe Recommendation Quiz',
-    url: 'https://runmatch-ai-buddy.lovable.app/',
+    name: 'RunMatch AI Running Shoe Finder',
+    url: 'https://gearuptofit.com/shoe-match/',
     applicationCategory: 'HealthApplication',
     operatingSystem: 'Web',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },

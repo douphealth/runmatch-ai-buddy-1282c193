@@ -134,7 +134,7 @@ const RunMatchResult = () => {
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'GearUpToFit', item: 'https://gearuptofit.com' },
-        { '@type': 'ListItem', position: 2, name: 'RunMatch AI', item: 'https://runmatch-ai-buddy.lovable.app/' },
+        { '@type': 'ListItem', position: 2, name: 'Shoe Match', item: 'https://gearuptofit.com/shoe-match/' },
         { '@type': 'ListItem', position: 3, name: 'Your Result' },
       ],
     });
