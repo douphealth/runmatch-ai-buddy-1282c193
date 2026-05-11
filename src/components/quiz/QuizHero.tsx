@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Shield, RotateCcw, Target, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import SEOContent from '@/components/SEOContent';
 
 interface QuizHeroProps {
   onStart: () => void;
@@ -183,6 +184,8 @@ const QuizHero = ({ onStart }: QuizHeroProps) => {
         </motion.div>
       </div>
     </div>
+    <SEOContent />
+    </>
   );
 };
 
