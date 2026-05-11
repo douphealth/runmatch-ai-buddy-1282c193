@@ -36,8 +36,17 @@ export function resolveShoeImage(
   shoe: Pick<Shoe, 'brand' | 'model' | 'imageURL'>,
 ): ResolvedShoeImage {
   const slug = shoeImageSlug(shoe.brand, shoe.model);
+  // Honor <base href> when the app is served from a sub-path (e.g. /shoe-match/)
+  let prefix = '';
+  if (typeof document !== 'undefined') {
+    const baseHref = document.querySelector('base')?.getAttribute('href') || '/';
+    try {
+      const p = new URL(baseHref, window.location.origin).pathname.replace(/\/$/, '');
+      prefix = p;
+    } catch { /* noop */ }
+  }
   return {
-    url: `/images/shoes/${slug}.jpg`,
+    url: `${prefix}/images/shoes/${slug}.jpg`,
     source: 'real-scraped',
     label: 'Real Photo',
   };
