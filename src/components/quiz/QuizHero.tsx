@@ -20,7 +20,7 @@ const QuizHero = ({ onStart }: QuizHeroProps) => {
       {/* Hero background */}
       <div className="absolute inset-0">
         <img
-          src="/images/hero-shoes.jpg"
+          src={(typeof document !== 'undefined' ? (document.querySelector('base')?.getAttribute('href') || '/').replace(/\/$/, '') : '') + '/images/hero-shoes.jpg'}
           alt="Premium running shoes with dramatic red lighting"
           className="w-full h-full object-cover"
           width={1920}
