@@ -58,17 +58,15 @@ Deno.serve(async (req) => {
       OPT_IN_DATE: new Date().toISOString(),
     };
 
-    // Source → Brevo list mapping. These list IDs should be created in
-    // Brevo and configured here. We default to list 2 ("RunMatch
-    // Subscribers") and let the WP-side automation tag-route from there.
+    // Source → Brevo list mapping (real IDs created in our Brevo account).
     const listIdBySource: Record<string, number> = {
-      quiz_gate: 2,
-      exit_popup: 3,
-      inline_hero: 2,
-      footer: 4,
-      blog_inline: 4,
+      quiz_gate: 3,    // RunMatch Subscribers
+      exit_popup: 4,   // Exit-Intent Popup
+      inline_hero: 3,  // RunMatch Subscribers
+      footer: 5,       // Blog Subscribers
+      blog_inline: 5,  // Blog Subscribers
     };
-    const listIds = [listIdBySource[body.source] ?? 2];
+    const listIds = [listIdBySource[body.source] ?? 3];
 
     const payload: Record<string, unknown> = {
       email: body.email.toLowerCase().trim(),
