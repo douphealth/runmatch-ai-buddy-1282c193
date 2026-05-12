@@ -224,7 +224,8 @@ async function wpActivatePlugin(pluginPath: string) {
 }
 
 async function wpFindOrCreatePage(slug: string, title: string, content: string) {
-  const search = await wp(`/wp/v2/pages?slug=${slug}&status=publish,draft,private`);
+  // Use array-form status[]=... — WP REST rejects comma-separated values.
+  const search = await wp(`/wp/v2/pages?slug=${slug}&status%5B%5D=publish&status%5B%5D=draft&status%5B%5D=private&context=edit`);
   if (search.ok && Array.isArray(search.data) && search.data.length > 0) {
     return { id: search.data[0].id, link: search.data[0].link, reused: true };
   }
