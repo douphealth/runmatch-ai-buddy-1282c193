@@ -7,6 +7,9 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import Index from "./pages/Index.tsx";
 import RunMatchResult from "./pages/RunMatchResult.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import { captureUTM } from "@/lib/utm";
+
+if (typeof window !== "undefined") captureUTM();
 
 const queryClient = new QueryClient();
 
