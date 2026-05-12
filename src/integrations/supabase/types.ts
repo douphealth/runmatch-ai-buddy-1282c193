@@ -14,7 +14,69 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      email_drip_log: {
+        Row: {
+          brevo_message_id: string | null
+          contact_email: string
+          day_offset: number
+          error: string | null
+          id: number
+          sent_at: string
+          status: string
+          template_id: number
+        }
+        Insert: {
+          brevo_message_id?: string | null
+          contact_email: string
+          day_offset: number
+          error?: string | null
+          id?: number
+          sent_at?: string
+          status?: string
+          template_id: number
+        }
+        Update: {
+          brevo_message_id?: string | null
+          contact_email?: string
+          day_offset?: number
+          error?: string | null
+          id?: number
+          sent_at?: string
+          status?: string
+          template_id?: number
+        }
+        Relationships: []
+      }
+      email_engagement_events: {
+        Row: {
+          contact_email: string
+          event: string
+          id: number
+          link: string | null
+          occurred_at: string
+          raw: Json | null
+          template_id: number | null
+        }
+        Insert: {
+          contact_email: string
+          event: string
+          id?: number
+          link?: string | null
+          occurred_at?: string
+          raw?: Json | null
+          template_id?: number | null
+        }
+        Update: {
+          contact_email?: string
+          event?: string
+          id?: number
+          link?: string | null
+          occurred_at?: string
+          raw?: Json | null
+          template_id?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
