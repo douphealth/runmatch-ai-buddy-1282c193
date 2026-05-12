@@ -66,11 +66,11 @@ async function wp(path: string, init: RequestInit = {}) {
 // BREVO SETUP
 // ============================================================
 
-const REQUIRED_ATTRIBUTES: Array<{ name: string; type: 'text' | 'number' | 'date' | 'boolean' }> = [
+const REQUIRED_ATTRIBUTES: Array<{ name: string; type: 'text' | 'float' | 'date' | 'boolean' }> = [
   { name: 'SOURCE',          type: 'text' },
   { name: 'SHOE_CATEGORY',   type: 'text' },
   { name: 'PRIMARY_SHOE',    type: 'text' },
-  { name: 'WEEKLY_MILEAGE',  type: 'number' },
+  { name: 'WEEKLY_MILEAGE',  type: 'float' },
   { name: 'INJURY_HISTORY',  type: 'text' },
   { name: 'UTM_SOURCE',      type: 'text' },
   { name: 'UTM_MEDIUM',      type: 'text' },
