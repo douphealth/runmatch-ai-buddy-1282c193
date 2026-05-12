@@ -250,21 +250,41 @@ Deno.serve(async (req) => {
     report.brevo_domain = dom.data;
     report.brevo_authenticate_trigger = { ok: auth.ok, status: auth.status, body: auth.data };
 
-    // Brevo standard records (these are constant for all customers using shared infra)
+    // Required Brevo records
     const dnsTargets = [
-      { type: 'TXT', name: DOMAIN, content: 'v=spf1 include:spf.brevo.com mx ~all', purpose: 'SPF' },
-      { type: 'TXT', name: `mail._domainkey.${DOMAIN}`, content: 'k=rsa;t=s;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDeMVIzrCa3T14JsNY0IRv5/2V1/v2itlviLQBwXsa7shBD6TrBkswsFUToPyMRWC9tbR/5ey0nRBH0ZVxp+lsmTxid2Y2z+FApQ6ra2VsXfbJP3HE6wAO0YTVEJt1TmeczhEd2Jiz/fcabIISgXEdSpTYJhb0ct0VJRxcg4c8c7wIDAQAB', purpose: 'DKIM (Brevo)' },
       { type: 'TXT', name: DOMAIN, content: 'brevo-code:c598c12772e4d891d0c647605487a019', purpose: 'Brevo verification' },
-      { type: 'TXT', name: `_dmarc.${DOMAIN}`, content: 'v=DMARC1; p=none; rua=mailto:dmarc@gearuptofit.com; ruf=mailto:dmarc@gearuptofit.com; fo=1; aspf=r; adkim=r', purpose: 'DMARC' },
+      { type: 'CNAME', name: `brevo1._domainkey.${DOMAIN}`, content: 'b1.gearuptofit-com.dkim.brevo.com', purpose: 'DKIM 1' },
+      { type: 'CNAME', name: `brevo2._domainkey.${DOMAIN}`, content: 'b2.gearuptofit-com.dkim.brevo.com', purpose: 'DKIM 2' },
     ];
 
-    // ---- 2. Cloudflare: upsert each ----
+    // ---- 2a. Cloudflare: dedupe DMARC — delete ALL existing _dmarc records, then add Brevo's preferred merged record ----
+    const zone = Deno.env.get('CLOUDFLARE_ZONE_ID');
+    const dmarcList = await cf(`/zones/${zone}/dns_records?name=_dmarc.${DOMAIN}&type=TXT`);
+    const dmarcDeleted: any[] = [];
+    for (const rec of (dmarcList.data?.result || [])) {
+      const del = await cf(`/zones/${zone}/dns_records/${rec.id}`, { method: 'DELETE' });
+      dmarcDeleted.push({ id: rec.id, content: rec.content, ok: del.ok });
+    }
+    const dmarcCreate = await cf(`/zones/${zone}/dns_records`, {
+      method: 'POST',
+      body: JSON.stringify({
+        type: 'TXT', name: `_dmarc.${DOMAIN}`,
+        content: 'v=DMARC1; p=none; rua=mailto:rua@dmarc.brevo.com,mailto:dmarc@gearuptofit.com; ruf=mailto:dmarc@gearuptofit.com; fo=1; aspf=r; adkim=r',
+        ttl: 1,
+      }),
+    });
+    report.dmarc_cleanup = { deleted: dmarcDeleted, created: { ok: dmarcCreate.ok, error: dmarcCreate.ok ? undefined : dmarcCreate.raw.slice(0, 300) } };
+
+    // ---- 2b. Cloudflare: upsert remaining records ----
     const cfResults: any[] = [];
     for (const t of dnsTargets) {
       const r = await cfUpsertRecord({ type: t.type, name: t.name, content: t.content });
       cfResults.push({ purpose: t.purpose, ...r });
     }
     report.cloudflare_dns = cfResults;
+
+    // ---- 2c. Wait for DNS propagation before re-authenticating ----
+    await new Promise(r => setTimeout(r, 15000));
 
     // ---- 3. Re-trigger Brevo authentication after DNS upsert ----
     const reauth = await brevo(`/senders/domains/${DOMAIN}/authenticate`, { method: 'PUT' });
