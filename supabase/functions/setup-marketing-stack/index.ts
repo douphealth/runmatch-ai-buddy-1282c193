@@ -187,7 +187,17 @@ async function ensureBrevoDoiTemplate(senderId: number) {
       tag: 'doi',
     }),
   });
-  return { id: r.data?.id, reused: false, status: r.status };
+  return { id: r.data?.id, reused: false, status: r.status, error: r.ok ? undefined : r.raw.slice(0, 400) };
+}
+
+// ---------------- WordPress plugin install ----------------
+async function wpInstallPlugin(slug: string) {
+  // POST /wp/v2/plugins with {slug, status:'active'} installs from WP.org and activates
+  const r = await wp('/wp/v2/plugins', {
+    method: 'POST',
+    body: JSON.stringify({ slug, status: 'active' }),
+  });
+  return { ok: r.ok, status: r.status, plugin: r.data?.plugin, error: r.ok ? undefined : r.raw.slice(0, 400) };
 }
 
 // ============================================================
