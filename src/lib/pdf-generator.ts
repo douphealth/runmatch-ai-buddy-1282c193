@@ -345,7 +345,7 @@ function drawShoeFrame(
 export async function generateResultsPDF(data: PDFData) {
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const { answers, recommendation: rec, rotation, radarData } = data;
-  const totalPages = 4;
+  const totalPages = 5;
 
   // Load logo as base64
   let logoData: string | null = null;
