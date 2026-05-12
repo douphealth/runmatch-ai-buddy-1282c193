@@ -9,6 +9,7 @@ import { getDynamicFAQs } from '@/lib/dynamic-faqs';
 import { generateFAQSchema, generateProductSchema, generateMetaTitle, generateMetaDescription, applyOpenGraphImage } from '@/lib/seo';
 import { generateResultsPDF } from '@/lib/pdf-generator';
 import ResultsLoadingScreen from '@/components/results/ResultsLoadingScreen';
+import EmailGate, { hasSubscribed } from '@/components/EmailGate';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
@@ -50,6 +51,8 @@ const RunMatchResult = () => {
   const { slug } = useParams();
   const [searchParams] = useSearchParams();
   const [copied, setCopied] = useState(false);
+  const [gateOpen, setGateOpen] = useState(false);
+  const [pendingDownload, setPendingDownload] = useState(false);
   // Skip the simulated "AI analysis" loading screen when arriving without
   // ?d= (i.e. direct slug visit from search/social) so crawlers and shared
   // links land on real content immediately.
@@ -154,12 +157,30 @@ const RunMatchResult = () => {
     }
   };
 
-  const handleDownloadPDF = async () => {
+  const runDownload = useCallback(async () => {
     if (!answers || !recommendation || !rotation) return;
     toast.info('Generating your report...');
     await generateResultsPDF({ answers, recommendation, rotation, radarData });
     toast.success('Your RunMatch Report has been downloaded!');
-  };
+  }, [answers, recommendation, rotation, radarData]);
+
+  const handleDownloadPDF = useCallback(() => {
+    if (hasSubscribed()) { runDownload(); return; }
+    setPendingDownload(true);
+    setGateOpen(true);
+  }, [runDownload]);
+
+  const handleGateClose = useCallback(() => {
+    setGateOpen(false);
+    // If the user dismissed the gate, still let them download — we don't
+    // want to break the existing free experience, only nudge for the email.
+    if (pendingDownload) { setPendingDownload(false); runDownload(); }
+  }, [pendingDownload, runDownload]);
+
+  const handleGateUnlock = useCallback(() => {
+    setGateOpen(false);
+    if (pendingDownload) { setPendingDownload(false); runDownload(); }
+  }, [pendingDownload, runDownload]);
 
   const shareOnTwitter = () => {
     const text = `I just found my perfect running shoe match! 🏃‍♂️ Take the free RunMatch AI quiz by @GearUpToFit:`;
