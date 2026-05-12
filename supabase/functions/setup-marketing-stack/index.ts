@@ -135,21 +135,56 @@ async function ensureBrevoLists(): Promise<Record<string, number>> {
   return map;
 }
 
+const PRIMARY_SENDER_EMAIL = 'info@gearuptofit.com';
+const PRIMARY_SENDER_NAME  = 'GearUpToFit · RunMatch AI';
+const PRIMARY_DOMAIN       = 'gearuptofit.com';
+
 async function ensureBrevoSender() {
   const senders = await brevo('/senders');
   const list = senders.data?.senders || [];
-  const existing = list.find((s: any) =>
-    s.email?.toLowerCase().includes('gearuptofit.com')
-  );
-  if (existing) return { id: existing.id, email: existing.email, active: existing.active };
-  const r = await brevo('/senders', {
-    method: 'POST',
-    body: JSON.stringify({
-      name: 'GearUpToFit · RunMatch AI',
-      email: 'hello@gearuptofit.com',
-    }),
-  });
-  return { id: r.data?.id, email: 'hello@gearuptofit.com', active: false, note: 'verify in Brevo inbox' };
+  let existing = list.find((s: any) => s.email?.toLowerCase() === PRIMARY_SENDER_EMAIL);
+  if (!existing) {
+    const created = await brevo('/senders', {
+      method: 'POST',
+      body: JSON.stringify({ name: PRIMARY_SENDER_NAME, email: PRIMARY_SENDER_EMAIL }),
+    });
+    existing = { id: created.data?.id, email: PRIMARY_SENDER_EMAIL, active: false };
+  }
+  // Trigger validation email (sender must click confirmation link in inbox).
+  let validation: any = { skipped: true };
+  if (existing?.id && !existing.active) {
+    const v = await brevo(`/senders/${existing.id}/validate`, { method: 'PUT' });
+    validation = { triggered: v.ok, status: v.status, note: 'check info@gearuptofit.com inbox' };
+  }
+  return { id: existing.id, email: existing.email, active: existing.active, validation };
+}
+
+// Authenticate the sending domain (DKIM + Brevo code + DMARC).
+async function ensureBrevoDomainAuth() {
+  const list = await brevo('/senders/domains');
+  let domain = (list.data?.domains || []).find((d: any) => d.domain_name === PRIMARY_DOMAIN);
+  if (!domain) {
+    const created = await brevo('/senders/domains', {
+      method: 'POST',
+      body: JSON.stringify({ name: PRIMARY_DOMAIN }),
+    });
+    if (!created.ok) return { ok: false, status: created.status, error: created.raw.slice(0, 400) };
+    // Re-fetch to get DNS records
+    const refetch = await brevo('/senders/domains');
+    domain = (refetch.data?.domains || []).find((d: any) => d.domain_name === PRIMARY_DOMAIN);
+  }
+  // Trigger DNS authentication check
+  if (domain?.domain_name) {
+    await brevo(`/senders/domains/${PRIMARY_DOMAIN}/authenticate`, { method: 'PUT' });
+  }
+  return {
+    ok: true,
+    domain: PRIMARY_DOMAIN,
+    authenticated: domain?.authenticated ?? false,
+    verified: domain?.verified ?? false,
+    dns_records: domain?.dns_records || domain?.dkim_record || domain,
+    instructions: 'Add the DKIM, Brevo-code, and DMARC TXT records below at your DNS provider for gearuptofit.com, then re-run this setup.',
+  };
 }
 
 const DOI_HTML = `<!doctype html><html><body style="margin:0;padding:0;background:#0f0f12;font-family:Inter,Arial,sans-serif;color:#fff">
@@ -288,9 +323,12 @@ Deno.serve(async (req) => {
     const lists = await ensureBrevoLists();
     report.brevo_lists = lists;
 
-    // 4. Brevo: sender
+    // 4. Brevo: sender (info@gearuptofit.com) + trigger validation email
     const sender = await ensureBrevoSender();
     report.brevo_sender = sender;
+
+    // 4b. Brevo: domain authentication (DKIM/SPF/DMARC for gearuptofit.com)
+    report.brevo_domain_auth = await ensureBrevoDomainAuth();
 
     // 5. Brevo: DOI template (only if sender id exists)
     if (sender.id) {
