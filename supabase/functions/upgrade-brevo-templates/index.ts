@@ -283,7 +283,7 @@ Deno.serve(async (req) => {
       isActive: true,
       tag: tpl.tag,
     };
-    const r = await fetch(`${BREVO}/smtpTemplates/${id}`, {
+    const r = await fetch(`${BREVO}/smtp/templates/${id}`, {
       method: 'PUT',
       headers: { 'api-key': apiKey, 'content-type': 'application/json', accept: 'application/json' },
       body: JSON.stringify(body),
