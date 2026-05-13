@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Shield, RotateCcw, Target, ChevronDown } from 'lucide-react';
+import { ArrowRight, Shield, RotateCcw, Target, ChevronDown, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SEOContent from '@/components/SEOContent';
 import { assetPath } from '@/lib/asset-path';
@@ -63,12 +63,11 @@ const QuizHero = ({ onStart }: QuizHeroProps) => {
           <span className="text-xs font-bold uppercase tracking-[0.2em]">RunMatch AI</span>
         </div>
         <a
-          href="https://gearuptofit.com/about-us/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs text-muted-foreground hover:text-primary transition-colors"
+          href="/"
+          className="group flex items-center gap-2 px-3 py-1.5 rounded-full glass hover:bg-primary/15 hover:border-primary/40 transition-all duration-300"
         >
-          by GearUpToFit
+          <Home className="w-3.5 h-3.5 text-primary group-hover:scale-110 transition-transform" />
+          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-foreground/70 group-hover:text-primary transition-colors">Home</span>
         </a>
       </div>
 
