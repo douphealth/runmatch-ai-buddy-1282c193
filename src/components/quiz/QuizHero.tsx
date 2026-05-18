@@ -8,6 +8,7 @@ import Testimonials from '@/components/conversion/Testimonials';
 import LiveActivity from '@/components/conversion/LiveActivity';
 import ExitIntent from '@/components/conversion/ExitIntent';
 import EmailGate from '@/components/EmailGate';
+import SavedMatches from '@/components/SavedMatches';
 import { getAllComparisons } from '@/lib/comparisons';
 
 const ComparisonHub = () => {
