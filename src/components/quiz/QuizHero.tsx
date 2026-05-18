@@ -193,7 +193,33 @@ const QuizHero = ({ onStart }: QuizHeroProps) => {
         </motion.div>
       </div>
     </div>
+
+    {/* Social proof: testimonials below the fold */}
+    <section className="relative z-10 px-4 md:px-8 py-14 md:py-20 bg-gradient-to-b from-background to-background/95">
+      <div className="max-w-6xl mx-auto">
+        <Testimonials />
+      </div>
+    </section>
+
     <SEOContent />
+
+    {/* FOMO: subtle live-match toasts */}
+    <LiveActivity />
+
+    {/* Exit-intent capture */}
+    <ExitIntent>
+      {({ open, close }) => (
+        <EmailGate
+          open={open}
+          onClose={close}
+          onUnlock={close}
+          source="exit_popup"
+          title="Wait — get the runner's playbook free"
+          subtitle="Before you go: grab our 7-day shoe & training guide plus a $0 PDF report of the top 3 shoes for your style. No spam, unsubscribe in 1 click."
+          ctaLabel="Send Me The Free Guide"
+        />
+      )}
+    </ExitIntent>
     </>
   );
 };
