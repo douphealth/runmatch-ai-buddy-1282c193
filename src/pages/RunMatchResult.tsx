@@ -44,6 +44,7 @@ import TrustBar from '@/components/conversion/TrustBar';
 import Testimonials from '@/components/conversion/Testimonials';
 import LiveActivity from '@/components/conversion/LiveActivity';
 import ExitIntent from '@/components/conversion/ExitIntent';
+import { saveMatch } from '@/lib/saved-matches';
 
 // Resolves a verified direct /dp/ASIN Amazon link via SerpAPI cache,
 // keyed by the canonical shoe id. Falls back to brand-filtered search
