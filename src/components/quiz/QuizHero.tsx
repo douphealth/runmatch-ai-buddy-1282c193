@@ -41,6 +41,8 @@ const ComparisonHub = () => {
 
 interface QuizHeroProps {
   onStart: () => void;
+  onResume?: () => void;
+  onRestart?: () => void;
 }
 
 const features = [
@@ -49,7 +51,37 @@ const features = [
   { icon: Shield, label: 'Injury Guard', desc: 'Prevention tips' },
 ];
 
-const QuizHero = ({ onStart }: QuizHeroProps) => {
+const ResumeBanner = ({ onResume, onRestart }: { onResume: () => void; onRestart: () => void }) => (
+  <motion.div
+    initial={{ opacity: 0, y: -10 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="glass rounded-2xl p-4 mb-6 max-w-xl mx-auto border border-primary/30 flex items-center gap-3"
+    role="status"
+  >
+    <div className="w-9 h-9 rounded-lg bg-primary/15 flex items-center justify-center flex-shrink-0">
+      <Clock className="w-4 h-4 text-primary" />
+    </div>
+    <div className="flex-1 text-left min-w-0">
+      <p className="text-sm font-semibold">Resume your quiz?</p>
+      <p className="text-xs text-muted-foreground">We saved your answers. Pick up where you left off.</p>
+    </div>
+    <Button size="sm" onClick={onResume} className="bg-primary hover:bg-primary/90 h-9 px-3 text-xs">
+      Resume <ArrowRight className="ml-1 w-3 h-3" />
+    </Button>
+    <button
+      type="button"
+      onClick={onRestart}
+      aria-label="Discard and restart quiz"
+      className="text-muted-foreground hover:text-foreground transition p-1"
+    >
+      <X className="w-4 h-4" />
+    </button>
+  </motion.div>
+);
+
+const QuizHero = ({ onStart, onResume, onRestart }: QuizHeroProps) => {
+  const [canResume, setCanResume] = useState(false);
+  useEffect(() => { setCanResume(hasProgress()); }, []);
   return (
     <>
     <main id="main-content" className="min-h-screen flex flex-col relative overflow-hidden">
