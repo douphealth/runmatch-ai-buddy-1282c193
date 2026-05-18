@@ -7,6 +7,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import Index from "./pages/Index.tsx";
 import RunMatchResult from "./pages/RunMatchResult.tsx";
 import CategoryLanding from "./pages/CategoryLanding.tsx";
+import ShoeComparison from "./pages/ShoeComparison.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { captureUTM } from "@/lib/utm";
 
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/app/runmatch/:slug" element={<RunMatchResult />} />
             <Route path="/best-running-shoes/:slug" element={<CategoryLanding />} />
+            <Route path="/compare/:slug" element={<ShoeComparison />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

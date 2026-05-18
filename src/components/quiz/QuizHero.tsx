@@ -8,6 +8,32 @@ import Testimonials from '@/components/conversion/Testimonials';
 import LiveActivity from '@/components/conversion/LiveActivity';
 import ExitIntent from '@/components/conversion/ExitIntent';
 import EmailGate from '@/components/EmailGate';
+import { getAllComparisons } from '@/lib/comparisons';
+
+const ComparisonHub = () => {
+  const comparisons = getAllComparisons().slice(0, 9);
+  return (
+    <section className="relative z-10 px-4 md:px-8 py-14 bg-background border-t border-border/40">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-display font-bold mb-2">Head-to-head comparisons</h2>
+        <p className="text-muted-foreground mb-6">Spec-by-spec breakdowns of the most-searched shoe matchups of 2026.</p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {comparisons.map(c => (
+            <a key={c.slug} href={`/compare/${c.slug}`} className="group rounded-xl p-5 bg-card/40 border border-border/60 hover:border-primary/40 hover:bg-card/60 transition-all">
+              <div className="flex items-center justify-between mb-1.5">
+                <h3 className="font-semibold group-hover:text-primary transition text-sm">
+                  {c.a.brand} {c.a.model} <span className="text-primary">vs</span> {c.b.brand} {c.b.model}
+                </h3>
+                <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition flex-shrink-0 ml-2" />
+              </div>
+              {c.pair.angle && <p className="text-xs text-muted-foreground">{c.pair.angle}</p>}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 interface QuizHeroProps {
   onStart: () => void;
@@ -226,6 +252,9 @@ const QuizHero = ({ onStart }: QuizHeroProps) => {
         </div>
       </div>
     </section>
+
+    {/* Programmatic SEO: head-to-head comparison hub */}
+    <ComparisonHub />
 
     <SEOContent />
 
