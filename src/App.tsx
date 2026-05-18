@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import Index from "./pages/Index.tsx";
 import RunMatchResult from "./pages/RunMatchResult.tsx";
+import CategoryLanding from "./pages/CategoryLanding.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { captureUTM } from "@/lib/utm";
 
@@ -33,6 +34,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/app/runmatch/:slug" element={<RunMatchResult />} />
+            <Route path="/best-running-shoes/:slug" element={<CategoryLanding />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
