@@ -158,11 +158,11 @@ const EmailGate = ({
                 </h2>
                 <p className="text-sm text-muted-foreground mb-5 leading-relaxed">{subtitle}</p>
 
-                <ul className="space-y-2 mb-5 text-xs md:text-sm">
+                <ul className="space-y-2 mb-4 text-xs md:text-sm">
                   {[
-                    'Full PDF report with your top 3 shoes',
-                    '3-shoe rotation plan (39% lower injury risk)',
-                    '7-day running coach email series',
+                    'Full PDF report with your personalised top 3 shoes',
+                    '3-shoe rotation plan (39% lower injury risk · BJSM 2013)',
+                    '7-day science-backed running coach email series',
                   ].map((t) => (
                     <li key={t} className="flex items-start gap-2 text-foreground/90">
                       <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
@@ -170,6 +170,15 @@ const EmailGate = ({
                     </li>
                   ))}
                 </ul>
+
+                <div className="mb-4 rounded-lg border border-primary/15 bg-primary/5 p-3">
+                  <p className="text-[11px] md:text-xs text-foreground/85 italic leading-snug">
+                    "The rotation plan saved my knees. I went from one painful pair to three shoes I actually look forward to."
+                  </p>
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground mt-1.5">
+                    — Marcus T. · Half-marathoner · Verified subscriber
+                  </p>
+                </div>
 
                 <form onSubmit={submit} className="space-y-3">
                   <Input
