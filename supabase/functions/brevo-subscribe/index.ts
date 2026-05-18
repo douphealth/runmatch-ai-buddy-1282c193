@@ -109,8 +109,32 @@ Deno.serve(async (req) => {
       // gets their report straight away. The hourly drip dispatcher continues
       // with Day 2-21 and is idempotent via email_drip_log.
       let welcomeSent = false;
+      let welcomeSkipped = false;
       if (!useDoi) {
         try {
+          // Server-side dedupe: if Day-0 (template 2) has already been logged
+          // for this email, skip the resend. Protects against duplicate
+          // welcome emails if the user re-subscribes from a different browser
+          // or after clearing localStorage.
+          const supaUrlPre = Deno.env.get('SUPABASE_URL');
+          const supaKeyPre = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+          if (supaUrlPre && supaKeyPre) {
+            try {
+              const dedupeRes = await fetch(
+                `${supaUrlPre}/rest/v1/email_drip_log?select=id&contact_email=eq.${encodeURIComponent(body.email.toLowerCase().trim())}&template_id=eq.2&limit=1`,
+                { headers: { apikey: supaKeyPre, authorization: `Bearer ${supaKeyPre}` } }
+              );
+              if (dedupeRes.ok) {
+                const rows = await dedupeRes.json().catch(() => []);
+                if (Array.isArray(rows) && rows.length > 0) welcomeSkipped = true;
+              }
+            } catch (_) { /* fail-open: still send */ }
+          }
+
+          if (welcomeSkipped) {
+            // Already onboarded — don't double-send. List membership / attribute
+            // updates above are still applied so the contact stays in sync.
+          } else {
           const sendRes = await fetch('https://api.brevo.com/v3/smtp/email', {
             method: 'POST',
             headers: { 'api-key': apiKey, 'content-type': 'application/json', 'accept': 'application/json' },
