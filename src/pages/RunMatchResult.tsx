@@ -45,6 +45,7 @@ import Testimonials from '@/components/conversion/Testimonials';
 import LiveActivity from '@/components/conversion/LiveActivity';
 import ExitIntent from '@/components/conversion/ExitIntent';
 import InlineLeadCard from '@/components/conversion/InlineLeadCard';
+import StickyTopMatchBanner from '@/components/results/StickyTopMatchBanner';
 import { saveMatch } from '@/lib/saved-matches';
 
 // Resolves a verified direct /dp/ASIN Amazon link via SerpAPI cache,
@@ -276,7 +277,7 @@ const RunMatchResult = () => {
   const dataPoints = 9;
 
   return (
-    <div className="min-h-screen pb-16 bg-gradient-dark">
+    <div className="min-h-screen pb-32 md:pb-28 bg-gradient-dark">
       {/* Header */}
       <header className="sticky top-0 z-20 glass-strong px-4 py-3">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
@@ -935,6 +936,14 @@ const RunMatchResult = () => {
           />
         )}
       </ExitIntent>
+
+      {/* Sticky bottom #1 match banner — high-intent monetization */}
+      {primary?.shoe && (
+        <StickyTopMatchBanner
+          scored={primary}
+          amazonUrl={getAmazonProductLink(primary.shoe.id, primary.shoe.brand, primary.shoe.model, primary.shoe.amazonASIN)}
+        />
+      )}
     </div>
   );
 };
