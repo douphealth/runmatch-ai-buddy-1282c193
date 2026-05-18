@@ -1,6 +1,7 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, RotateCcw } from 'lucide-react';
+import { reportError } from '@/lib/error-monitoring';
 
 interface Props {
   children: ReactNode;
@@ -23,6 +24,11 @@ class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('ErrorBoundary caught:', error, errorInfo);
+    reportError(error, { source: 'react_error_boundary', fatal: true });
+    // Component stack is helpful for triage; forwarded as a separate signal.
+    reportError(new Error(errorInfo.componentStack || 'no component stack'), {
+      source: 'react_error_boundary_stack',
+    });
   }
 
   render() {

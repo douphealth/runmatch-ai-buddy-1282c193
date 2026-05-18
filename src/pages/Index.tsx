@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { quizSteps, QuizAnswers, defaultAnswers, generateSlug, encodeAnswers } from '@/lib/quiz-data';
@@ -8,11 +8,15 @@ import QuizProgress from '@/components/quiz/QuizProgress';
 import QuizStepContent from '@/components/quiz/QuizStepContent';
 import QuizNavigation from '@/components/quiz/QuizNavigation';
 import { Brain } from 'lucide-react';
+import { track } from '@/lib/analytics';
 
 const Index = () => {
   const [currentStep, setCurrentStep] = useState(-1);
   const [answers, setAnswers] = useState<QuizAnswers>(defaultAnswers);
   const navigate = useNavigate();
+  const quizStartedAt = useRef<number | null>(null);
+
+  useEffect(() => { track.quizView(); }, []);
 
   useEffect(() => {
     const webApp = document.createElement('script');
@@ -72,9 +76,15 @@ const Index = () => {
 
   const handleNext = useCallback(() => {
     setCurrentStep(prev => {
+      if (prev >= 0 && prev < quizSteps.length) {
+        const step = quizSteps[prev];
+        const val = answers[step.id as keyof QuizAnswers] as string | number | string[];
+        track.quizStepComplete(prev, step.id, val);
+      }
       if (prev < quizSteps.length - 1) return prev + 1;
       const slug = generateSlug(answers);
       const encoded = encodeAnswers(answers);
+      track.quizComplete({ slug, durationMs: quizStartedAt.current ? Date.now() - quizStartedAt.current : 0 });
       navigate(`/app/runmatch/${slug}?d=${encoded}`);
       return prev;
     });
@@ -97,7 +107,7 @@ const Index = () => {
   }, []);
 
   if (currentStep === -1) {
-    return <QuizHero onStart={() => setCurrentStep(0)} />;
+    return <QuizHero onStart={() => { quizStartedAt.current = Date.now(); track.quizStart(); setCurrentStep(0); }} />;
   }
 
   const step = quizSteps[currentStep];
