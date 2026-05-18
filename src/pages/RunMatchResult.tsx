@@ -936,6 +936,14 @@ const RunMatchResult = () => {
           />
         )}
       </ExitIntent>
+
+      {/* Sticky bottom #1 match banner — high-intent monetization */}
+      {primary?.shoe && (
+        <StickyTopMatchBanner
+          scored={primary}
+          amazonUrl={getAmazonProductLink(primary.shoe.id, primary.shoe.brand, primary.shoe.model, primary.shoe.amazonASIN)}
+        />
+      )}
     </div>
   );
 };
