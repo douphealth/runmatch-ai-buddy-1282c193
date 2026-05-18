@@ -229,6 +229,14 @@ const EmailGate = ({
                     )}
                   </Button>
 
+                  <div className="flex items-center justify-center gap-3 text-[10px] text-muted-foreground/80 uppercase tracking-widest pt-1">
+                    <span className="flex items-center gap-1"><Lock className="w-3 h-3" /> GDPR-safe</span>
+                    <span aria-hidden>·</span>
+                    <span>No spam</span>
+                    <span aria-hidden>·</span>
+                    <span>1-click unsubscribe</span>
+                  </div>
+
                   <button
                     type="button"
                     onClick={onClose}
