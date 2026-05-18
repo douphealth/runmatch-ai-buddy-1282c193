@@ -740,30 +740,32 @@ export async function generateResultsPDF(data: PDFData) {
 
   y += shoes.length * (cardH + 6) + 6;
 
-  // ── Training Emphasis ──
-  if (y + 40 < PH - 22) {
+  // ── Training Emphasis (compact so it always fits below the 3 rotation cards) ──
+  const tipCount = Math.min(rec.trainingEmphasis.length, 4);
+  const trainingNeeded = 10 + tipCount * 7 + 6; // title + rows + link
+  if (y + trainingNeeded < PH - 18) {
     y = sectionTitle(doc, y, 'TRAINING EMPHASIS');
 
-    rec.trainingEmphasis.forEach((tip, i) => {
-      if (y > PH - 28) return;
-      rr(doc, M + 3, y - 2, CW - 6, 9, 2, i % 2 === 0 ? C.bg : C.cardBg);
+    rec.trainingEmphasis.slice(0, tipCount).forEach((tip, i) => {
+      const rowY = y + i * 7;
+      rr(doc, M + 3, rowY - 2, CW - 6, 6.4, 1.5, i % 2 === 0 ? C.bg : C.cardBg);
 
       // Number
-      rr(doc, M + 5, y - 1, 6, 6, 3, C.red);
-      doc.setFontSize(5.5);
+      rr(doc, M + 5, rowY - 1, 4.6, 4.6, 2.3, C.red);
+      doc.setFontSize(5);
       doc.setTextColor(255, 255, 255);
       doc.setFont('helvetica', 'bold');
-      doc.text(String(i + 1), M + 8, y + 3, { align: 'center' });
+      doc.text(String(i + 1), M + 7.3, rowY + 2.4, { align: 'center' });
 
-      doc.setFontSize(6.5);
+      doc.setFontSize(6.3);
       doc.setTextColor(C.text[0], C.text[1], C.text[2]);
       doc.setFont('helvetica', 'normal');
-      const tl = doc.splitTextToSize(tip, CW - 22);
-      doc.text(tl[0], M + 14, y + 3);
-      y += 10;
+      const tl = doc.splitTextToSize(tip, CW - 20);
+      doc.text(tl[0], M + 13, rowY + 2.3);
     });
+    y += tipCount * 7 + 3;
 
-    link(doc, M, y, 'Get a Free Custom Running Plan on GearUpToFit', 'https://gearuptofit.com/running/custom-running-plan-free/', 6);
+    link(doc, M, y, 'Get a Free Custom Running Plan on GearUpToFit ›', 'https://gearuptofit.com/running/custom-running-plan-free/', 5.8);
   }
 
   addFooter(doc, 2, totalPages);
