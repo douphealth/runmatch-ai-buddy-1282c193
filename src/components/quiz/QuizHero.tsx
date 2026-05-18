@@ -227,6 +227,9 @@ const QuizHero = ({ onStart }: QuizHeroProps) => {
       </div>
     </section>
 
+    {/* Programmatic SEO: head-to-head comparison hub */}
+    <ComparisonHub />
+
     <SEOContent />
 
     {/* FOMO: subtle live-match toasts */}
