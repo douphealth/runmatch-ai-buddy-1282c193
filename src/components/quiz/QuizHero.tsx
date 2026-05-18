@@ -201,6 +201,32 @@ const QuizHero = ({ onStart }: QuizHeroProps) => {
       </div>
     </section>
 
+    {/* Programmatic SEO: category hub for internal linking + indexability */}
+    <section className="relative z-10 px-4 md:px-8 py-14 bg-background border-t border-border/40">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-display font-bold mb-2">Browse by category</h2>
+        <p className="text-muted-foreground mb-6">Or explore our 2026 shoe guides while the AI quiz loads.</p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {[
+            { slug: 'daily-trainer', label: 'Daily Trainers', desc: 'Workhorse shoes for everyday miles' },
+            { slug: 'marathon', label: 'Marathon Shoes', desc: 'Carbon-plated race-day picks' },
+            { slug: 'trail', label: 'Trail Shoes', desc: 'Grip, protection, terrain-ready' },
+            { slug: 'stability', label: 'Stability Shoes', desc: 'For overpronation & flat feet' },
+            { slug: 'max-cushion', label: 'Max-Cushion Shoes', desc: 'Plush rides, joint protection' },
+            { slug: 'budget', label: 'Under $120', desc: 'Best value picks of 2026' },
+          ].map(c => (
+            <a key={c.slug} href={`/best-running-shoes/${c.slug}`} className="group rounded-xl p-5 bg-card/40 border border-border/60 hover:border-primary/40 hover:bg-card/60 transition-all">
+              <div className="flex items-center justify-between mb-1.5">
+                <h3 className="font-semibold group-hover:text-primary transition">{c.label}</h3>
+                <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition" />
+              </div>
+              <p className="text-sm text-muted-foreground">{c.desc}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <SEOContent />
 
     {/* FOMO: subtle live-match toasts */}
