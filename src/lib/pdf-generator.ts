@@ -344,6 +344,18 @@ function drawShoeFrame(
 
 export async function generateResultsPDF(data: PDFData) {
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+  // ── Fix jsPDF "sticky charSpace" bug ──
+  // jsPDF persists `charSpace` from one text() call to the next, which leaks letter-spacing
+  // into all subsequent calls (causing visible "C ADENCE", "PROGRESS IO N" etc gaps).
+  // Wrap doc.text so charSpace is always reset to 0 after every draw.
+  const _origText = doc.text.bind(doc);
+  (doc as any).text = function (...args: any[]) {
+    const r = _origText(...args);
+    try { (doc as any).setCharSpace(0); } catch {}
+    return r;
+  };
+
   const { answers, recommendation: rec, rotation, radarData } = data;
   const totalPages = 5;
 
@@ -640,9 +652,10 @@ export async function generateResultsPDF(data: PDFData) {
     rotation?.longRun ? { role: 'LONG RUN', color: C.purple, colorBg: C.purpleBg, shoe: rotation.longRun, desc: 'Weekly long run (15K+) with max cushion' } : null,
   ].filter(Boolean) as { role: string; color: RGB; colorBg: RGB; shoe: ScoredShoe; desc: string }[];
 
-  const cardH = 58;
+  const cardH = 56;
+  const cardSpacing = 4;
   shoes.forEach((item, i) => {
-    const cy = y + i * (cardH + 6);
+    const cy = y + i * (cardH + cardSpacing);
     rr(doc, M, cy, CW, cardH, 3, C.cardBg, C.border);
 
     // Left accent
@@ -677,17 +690,20 @@ export async function generateResultsPDF(data: PDFData) {
     const nameLines = doc.splitTextToSize(`${item.shoe.shoe.brand} ${item.shoe.shoe.model}`, textRight - (M + 8));
     doc.text(nameLines.slice(0, 2), M + 8, cy + 18);
 
-    // Price + meta block — show MSRP tier instead of stale hard-coded price
+    // Price + meta block — show MSRP tier instead of stale hard-coded price.
+    // Measure tier width so the spec line never overlaps the price tag.
     const tierLabel2 = (p: number) => p < 110 ? 'BUDGET' : p < 160 ? 'MID' : p < 220 ? 'PREMIUM' : 'SUPER-PREMIUM';
+    const tierStr = tierLabel2(item.shoe.shoe.priceUSD);
     doc.setFontSize(9);
     doc.setTextColor(C.red[0], C.red[1], C.red[2]);
     doc.setFont('helvetica', 'bold');
-    doc.text(tierLabel2(item.shoe.shoe.priceUSD), M + 8, cy + 28);
+    doc.text(tierStr, M + 8, cy + 28);
+    const tierW = doc.getTextWidth(tierStr);
 
     doc.setFontSize(5.8);
     doc.setTextColor(C.textMuted[0], C.textMuted[1], C.textMuted[2]);
     doc.setFont('helvetica', 'normal');
-    doc.text(`${item.shoe.shoe.weightGrams}G   ·   ${item.shoe.shoe.dropMM}MM DROP`, M + 22, cy + 28, { charSpace: 0.4 } as any);
+    doc.text(`${item.shoe.shoe.weightGrams}G   ·   ${item.shoe.shoe.dropMM}MM DROP`, M + 8 + tierW + 5, cy + 28);
 
     // Use-case description on its own line
     doc.setFontSize(6.2);
@@ -723,32 +739,34 @@ export async function generateResultsPDF(data: PDFData) {
     link(doc, M + 8, cy + cardH - 3, 'Read Full Review on GearUpToFit ›', item.shoe.shoe.reviewURL, 5.5);
   });
 
-  y += shoes.length * (cardH + 6) + 6;
+  y += shoes.length * (cardH + cardSpacing) + 4;
 
-  // ── Training Emphasis ──
-  if (y + 40 < PH - 22) {
+  // ── Training Emphasis (compact so it always fits below the 3 rotation cards) ──
+  const tipCount = Math.min(rec.trainingEmphasis.length, 4);
+  const trainingNeeded = 10 + tipCount * 7 + 6; // title + rows + link
+  if (y + trainingNeeded < PH - 18) {
     y = sectionTitle(doc, y, 'TRAINING EMPHASIS');
 
-    rec.trainingEmphasis.forEach((tip, i) => {
-      if (y > PH - 28) return;
-      rr(doc, M + 3, y - 2, CW - 6, 9, 2, i % 2 === 0 ? C.bg : C.cardBg);
+    rec.trainingEmphasis.slice(0, tipCount).forEach((tip, i) => {
+      const rowY = y + i * 7;
+      rr(doc, M + 3, rowY - 2, CW - 6, 6.4, 1.5, i % 2 === 0 ? C.bg : C.cardBg);
 
       // Number
-      rr(doc, M + 5, y - 1, 6, 6, 3, C.red);
-      doc.setFontSize(5.5);
+      rr(doc, M + 5, rowY - 1, 4.6, 4.6, 2.3, C.red);
+      doc.setFontSize(5);
       doc.setTextColor(255, 255, 255);
       doc.setFont('helvetica', 'bold');
-      doc.text(String(i + 1), M + 8, y + 3, { align: 'center' });
+      doc.text(String(i + 1), M + 7.3, rowY + 2.4, { align: 'center' });
 
-      doc.setFontSize(6.5);
+      doc.setFontSize(6.3);
       doc.setTextColor(C.text[0], C.text[1], C.text[2]);
       doc.setFont('helvetica', 'normal');
-      const tl = doc.splitTextToSize(tip, CW - 22);
-      doc.text(tl[0], M + 14, y + 3);
-      y += 10;
+      const tl = doc.splitTextToSize(tip, CW - 20);
+      doc.text(tl[0], M + 13, rowY + 2.3);
     });
+    y += tipCount * 7 + 3;
 
-    link(doc, M, y, 'Get a Free Custom Running Plan on GearUpToFit', 'https://gearuptofit.com/running/custom-running-plan-free/', 6);
+    link(doc, M, y, 'Get a Free Custom Running Plan on GearUpToFit ›', 'https://gearuptofit.com/running/custom-running-plan-free/', 5.8);
   }
 
   addFooter(doc, 2, totalPages);
