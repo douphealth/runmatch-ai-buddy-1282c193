@@ -135,4 +135,54 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://gearuptofit.com/shoe-match/best-running-shoes/brand/nike/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://gearuptofit.com/shoe-match/best-running-shoes/brand/brooks/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://gearuptofit.com/shoe-match/best-running-shoes/brand/hoka/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://gearuptofit.com/shoe-match/best-running-shoes/brand/asics/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://gearuptofit.com/shoe-match/best-running-shoes/brand/saucony/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://gearuptofit.com/shoe-match/best-running-shoes/brand/new-balance/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://gearuptofit.com/shoe-match/best-running-shoes/brand/adidas/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://gearuptofit.com/shoe-match/best-running-shoes/brand/on/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://gearuptofit.com/shoe-match/best-running-shoes/brand/mizuno/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://gearuptofit.com/shoe-match/best-running-shoes/brand/altra/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
 </urlset>
