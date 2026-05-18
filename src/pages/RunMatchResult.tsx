@@ -147,7 +147,23 @@ const RunMatchResult = () => {
     });
     document.head.appendChild(breadcrumbSchema);
 
-    return () => { faqSchema.remove(); productSchema.remove(); breadcrumbSchema.remove(); cleanupOG(); };
+    const howToSchema = document.createElement('script');
+    howToSchema.type = 'application/ld+json';
+    howToSchema.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'HowTo',
+      name: 'How to Pick the Right Running Shoe',
+      description: 'A 4-step framework to find a running shoe that matches your foot type, mileage, and training goals.',
+      step: [
+        { '@type': 'HowToStep', position: 1, name: 'Identify your pronation', text: 'Check wear pattern on an old pair — even = neutral, inner = overpronation, outer = underpronation.' },
+        { '@type': 'HowToStep', position: 2, name: 'Match cushioning to mileage', text: 'Under 20 mpw: 5–7/10 cushioning. 20–50 mpw: 7–8/10. Over 50 mpw: 8–9/10.' },
+        { '@type': 'HowToStep', position: 3, name: 'Confirm terrain', text: 'Road, trail, or mixed — terrain dictates outsole rubber and lug depth.' },
+        { '@type': 'HowToStep', position: 4, name: 'Build a 2-3 shoe rotation', text: 'Rotating shoes reduces injury risk by ~39% (Scand J Med Sci Sports, 2013).' },
+      ],
+    });
+    document.head.appendChild(howToSchema);
+
+    return () => { faqSchema.remove(); productSchema.remove(); breadcrumbSchema.remove(); howToSchema.remove(); cleanupOG(); };
   }, [recommendation, answers, faqs, rotation]);
 
   const handleShare = async () => {
