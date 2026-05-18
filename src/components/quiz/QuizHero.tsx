@@ -217,12 +217,18 @@ const QuizHero = ({ onStart, onResume, onRestart }: QuizHeroProps) => {
             transition={{ delay: 0.9, duration: 0.6 }}
             className="space-y-4"
           >
+            {canResume && onResume && onRestart && (
+              <ResumeBanner
+                onResume={() => { setCanResume(false); onResume(); }}
+                onRestart={() => { setCanResume(false); onRestart(); }}
+              />
+            )}
             <Button
               size="lg"
               onClick={onStart}
               className="h-14 md:h-16 px-10 md:px-16 text-base md:text-lg font-bold uppercase tracking-[0.15em] rounded-2xl bg-gradient-primary hover:opacity-90 transition-all glow-primary animate-pulse-glow group"
             >
-              Get My Match
+              {canResume ? 'Start a new quiz' : 'Get My Match'}
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
 
