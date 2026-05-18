@@ -221,6 +221,9 @@ const QuizHero = ({ onStart }: QuizHeroProps) => {
       </div>
     </main>
 
+    {/* Recall: returning runners see their saved matches first */}
+    <SavedMatches />
+
     {/* Social proof: testimonials below the fold */}
     <section className="relative z-10 px-4 md:px-8 py-14 md:py-20 bg-gradient-to-b from-background to-background/95">
       <div className="max-w-6xl mx-auto">
