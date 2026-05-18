@@ -12,7 +12,7 @@ import Testimonials from '@/components/conversion/Testimonials';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { trackEvent } from '@/lib/analytics';
+import { track } from '@/lib/analytics';
 
 const SITE = 'https://gearuptofit.com';
 const CategoryLanding = () => {
