@@ -99,7 +99,7 @@ const EmailGate = ({
         },
       });
       if (error || (data as any)?.error) throw new Error((data as any)?.error || error?.message || 'Failed');
-      try { localStorage.setItem(STORAGE_KEY, email); } catch {}
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ email: email.trim().toLowerCase(), ts: Date.now() })); } catch {}
       // GA4 conversion event
       try {
         (window as any).dataLayer?.push({
