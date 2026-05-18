@@ -36,6 +36,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/app/runmatch/:slug" element={<RunMatchResult />} />
             <Route path="/best-running-shoes/:slug" element={<CategoryLanding />} />
+            <Route path="/compare/:slug" element={<ShoeComparison />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
