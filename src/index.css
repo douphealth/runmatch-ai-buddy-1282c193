@@ -206,3 +206,33 @@
 .skip-to-content:focus {
   top: 1rem;
 }
+
+/* === Print-friendly results: clean, ink-saving layout for shared/saved PDFs === */
+@media print {
+  :root { color-scheme: light; }
+  html, body {
+    background: #ffffff !important;
+    color: #111111 !important;
+  }
+  /* Hide chrome that adds noise on paper */
+  header, nav, footer,
+  [role="status"],
+  .skip-to-content,
+  [data-print="hide"],
+  button, .no-print {
+    display: none !important;
+  }
+  /* Force readable, non-fancy backgrounds + remove shadows/blurs */
+  *, *::before, *::after {
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    color: #111111 !important;
+  }
+  a { color: #000 !important; text-decoration: underline; }
+  /* Avoid awkward breaks inside cards / images */
+  img, svg, .glass, .glass-strong { page-break-inside: avoid; break-inside: avoid; }
+  h1, h2, h3 { page-break-after: avoid; break-after: avoid-page; }
+}
