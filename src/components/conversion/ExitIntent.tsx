@@ -11,8 +11,6 @@ import { track } from '@/lib/analytics';
 import { hasSubscribed } from '@/components/EmailGate';
 
 const SESSION_KEY = 'gutf_exit_intent_shown_v1';
-const SUBSCRIBED_KEY = 'gutf_subscribed_v1';
-
 interface ExitIntentProps {
   /** Don't trigger before this many ms on page (default 6s). */
   minDwellMs?: number;
@@ -27,7 +25,7 @@ const isMobile = () =>
   typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
 
 const alreadySubscribed = () => {
-  try { return !!sessionStorage.getItem(SESSION_KEY) || !!localStorage.getItem(SUBSCRIBED_KEY); }
+  try { return !!sessionStorage.getItem(SESSION_KEY) || hasSubscribed(); }
   catch { return false; }
 };
 
