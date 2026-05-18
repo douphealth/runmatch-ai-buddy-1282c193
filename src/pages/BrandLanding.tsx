@@ -154,7 +154,9 @@ const BrandLanding = () => {
                     <span className="text-sm font-semibold text-primary">${s.priceUSD}</span>
                   </div>
                   <ShoeImage brand={s.brand} model={s.model} imageURL={s.imageURL} amazonASIN={s.amazonASIN} size="md" interactive={false} />
-                  <h3 className="mt-4 text-lg font-bold leading-tight">{s.brand} {s.model}</h3>
+                  <Link to={`/shoes/${s.id}`} className="block mt-4 hover:text-primary transition">
+                    <h3 className="text-lg font-bold leading-tight">{s.brand} {s.model}</h3>
+                  </Link>
                   <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wide">{s.category} · {s.weightGrams}g · {s.dropMM}mm drop</p>
                   <ul className="mt-3 space-y-1.5">
                     {s.highlights.slice(0, 3).map(h => (
