@@ -40,6 +40,10 @@ import { getManufacturerSourceURL } from '@/lib/shoe-sources';
 import AffiliateDisclosure from '@/components/results/AffiliateDisclosure';
 import MedicalDisclaimer from '@/components/results/MedicalDisclaimer';
 import ResearchSources from '@/components/results/ResearchSources';
+import TrustBar from '@/components/conversion/TrustBar';
+import Testimonials from '@/components/conversion/Testimonials';
+import LiveActivity from '@/components/conversion/LiveActivity';
+import ExitIntent from '@/components/conversion/ExitIntent';
 
 // Resolves a verified direct /dp/ASIN Amazon link via SerpAPI cache,
 // keyed by the canonical shoe id. Falls back to brand-filtered search
@@ -286,6 +290,11 @@ const RunMatchResult = () => {
           {/* FTC affiliate disclosure — required near affiliate CTAs */}
           <div className="max-w-3xl mx-auto mb-6">
             <AffiliateDisclosure variant="banner" />
+          </div>
+
+          {/* Trust bar — appears just under the hero affiliate disclosure */}
+          <div className="max-w-3xl mx-auto mb-6">
+            <TrustBar variant="compact" />
           </div>
 
           {/* Runner Profile: Radar + Stats */}
