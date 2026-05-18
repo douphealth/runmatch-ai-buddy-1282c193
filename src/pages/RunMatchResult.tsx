@@ -170,8 +170,9 @@ const RunMatchResult = () => {
   const handleShare = async () => {
     const url = window.location.href;
     const title = document.title || 'My RunMatch AI result';
-    const text = primary?.shoe
-      ? `My RunMatch AI pick: ${primary.shoe.brand} ${primary.shoe.model} — find yours free at GearUpToFit.`
+    const recPrimary = rotation?.primary;
+    const text = recPrimary?.shoe
+      ? `My RunMatch AI pick: ${recPrimary.shoe.brand} ${recPrimary.shoe.model} — find yours free at GearUpToFit.`
       : 'I just found my perfect running shoe match with RunMatch AI!';
 
     // Prefer the native share sheet on mobile / supported browsers; fall
@@ -198,15 +199,16 @@ const RunMatchResult = () => {
   // Auto-save the most recent match so returning runners can recall it
   // from the home page without re-taking the quiz.
   useEffect(() => {
-    if (!slug || !primary?.shoe) return;
+    const recPrimary = rotation?.primary;
+    if (!slug || !recPrimary?.shoe) return;
     saveMatch({
       slug,
       url: `/app/runmatch/${slug}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`,
-      label: `${primary.shoe.brand} ${primary.shoe.model}`,
+      label: `${recPrimary.shoe.brand} ${recPrimary.shoe.model}`,
       subtitle: answers?.distance ? `${answers.distance.replace('-', ' ')} · ${answers.terrain ?? ''}`.trim() : undefined,
-      matchPercent: typeof primary.matchPercent === 'number' ? primary.matchPercent : undefined,
+      matchPercent: typeof recPrimary.matchPercent === 'number' ? recPrimary.matchPercent : undefined,
     });
-  }, [slug, primary, answers, searchParams]);
+  }, [slug, rotation, answers, searchParams]);
 
   const runDownload = useCallback(async () => {
     if (!answers || !recommendation || !rotation) return;
