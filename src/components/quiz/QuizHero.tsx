@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Shield, RotateCcw, Target, ChevronDown, Home } from 'lucide-react';
+import { ArrowRight, Shield, RotateCcw, Target, ChevronDown, Home, Clock, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SEOContent from '@/components/SEOContent';
 import { assetPath } from '@/lib/asset-path';
@@ -10,6 +10,9 @@ import ExitIntent from '@/components/conversion/ExitIntent';
 import EmailGate from '@/components/EmailGate';
 import SavedMatches from '@/components/SavedMatches';
 import { getAllComparisons } from '@/lib/comparisons';
+import { BRANDS } from '@/lib/brands';
+import { hasProgress } from '@/lib/quiz-progress';
+import { useEffect, useState } from 'react';
 
 const ComparisonHub = () => {
   const comparisons = getAllComparisons().slice(0, 9);
@@ -38,6 +41,8 @@ const ComparisonHub = () => {
 
 interface QuizHeroProps {
   onStart: () => void;
+  onResume?: () => void;
+  onRestart?: () => void;
 }
 
 const features = [
@@ -46,7 +51,37 @@ const features = [
   { icon: Shield, label: 'Injury Guard', desc: 'Prevention tips' },
 ];
 
-const QuizHero = ({ onStart }: QuizHeroProps) => {
+const ResumeBanner = ({ onResume, onRestart }: { onResume: () => void; onRestart: () => void }) => (
+  <motion.div
+    initial={{ opacity: 0, y: -10 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="glass rounded-2xl p-4 mb-6 max-w-xl mx-auto border border-primary/30 flex items-center gap-3"
+    role="status"
+  >
+    <div className="w-9 h-9 rounded-lg bg-primary/15 flex items-center justify-center flex-shrink-0">
+      <Clock className="w-4 h-4 text-primary" />
+    </div>
+    <div className="flex-1 text-left min-w-0">
+      <p className="text-sm font-semibold">Resume your quiz?</p>
+      <p className="text-xs text-muted-foreground">We saved your answers. Pick up where you left off.</p>
+    </div>
+    <Button size="sm" onClick={onResume} className="bg-primary hover:bg-primary/90 h-9 px-3 text-xs">
+      Resume <ArrowRight className="ml-1 w-3 h-3" />
+    </Button>
+    <button
+      type="button"
+      onClick={onRestart}
+      aria-label="Discard and restart quiz"
+      className="text-muted-foreground hover:text-foreground transition p-1"
+    >
+      <X className="w-4 h-4" />
+    </button>
+  </motion.div>
+);
+
+const QuizHero = ({ onStart, onResume, onRestart }: QuizHeroProps) => {
+  const [canResume, setCanResume] = useState(false);
+  useEffect(() => { setCanResume(hasProgress()); }, []);
   return (
     <>
     <main id="main-content" className="min-h-screen flex flex-col relative overflow-hidden">
@@ -182,12 +217,18 @@ const QuizHero = ({ onStart }: QuizHeroProps) => {
             transition={{ delay: 0.9, duration: 0.6 }}
             className="space-y-4"
           >
+            {canResume && onResume && onRestart && (
+              <ResumeBanner
+                onResume={() => { setCanResume(false); onResume(); }}
+                onRestart={() => { setCanResume(false); onRestart(); }}
+              />
+            )}
             <Button
               size="lg"
               onClick={onStart}
               className="h-14 md:h-16 px-10 md:px-16 text-base md:text-lg font-bold uppercase tracking-[0.15em] rounded-2xl bg-gradient-primary hover:opacity-90 transition-all glow-primary animate-pulse-glow group"
             >
-              Get My Match
+              {canResume ? 'Start a new quiz' : 'Get My Match'}
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
 
@@ -259,6 +300,26 @@ const QuizHero = ({ onStart }: QuizHeroProps) => {
 
     {/* Programmatic SEO: head-to-head comparison hub */}
     <ComparisonHub />
+
+    {/* Programmatic SEO: brand hub */}
+    <section className="relative z-10 px-4 md:px-8 py-14 bg-background border-t border-border/40">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-display font-bold mb-2">Shop by brand</h2>
+        <p className="text-muted-foreground mb-6">Verified 2026 picks from every major running brand.</p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          {BRANDS.map(b => (
+            <a
+              key={b.slug}
+              href={`/best-running-shoes/brand/${b.slug}`}
+              className="group rounded-xl p-4 bg-card/40 border border-border/60 hover:border-primary/40 hover:bg-card/60 transition-all text-center"
+            >
+              <div className="font-semibold group-hover:text-primary transition">{b.name}</div>
+              {b.signature && <div className="text-[10px] text-muted-foreground mt-1 line-clamp-2">{b.signature}</div>}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
 
     <SEOContent />
 

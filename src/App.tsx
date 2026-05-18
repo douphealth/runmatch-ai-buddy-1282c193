@@ -12,6 +12,7 @@ import { captureUTM } from "@/lib/utm";
 // The landing Index page stays eager since it's the primary entry.
 const RunMatchResult = lazy(() => import("./pages/RunMatchResult.tsx"));
 const CategoryLanding = lazy(() => import("./pages/CategoryLanding.tsx"));
+const BrandLanding = lazy(() => import("./pages/BrandLanding.tsx"));
 const ShoeComparison = lazy(() => import("./pages/ShoeComparison.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
@@ -53,6 +54,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/app/runmatch/:slug" element={<RunMatchResult />} />
+              <Route path="/best-running-shoes/brand/:brand" element={<BrandLanding />} />
               <Route path="/best-running-shoes/:slug" element={<CategoryLanding />} />
               <Route path="/compare/:slug" element={<ShoeComparison />} />
               <Route path="*" element={<NotFound />} />

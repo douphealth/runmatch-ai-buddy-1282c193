@@ -9,6 +9,7 @@ import QuizStepContent from '@/components/quiz/QuizStepContent';
 import QuizNavigation from '@/components/quiz/QuizNavigation';
 import { Brain } from 'lucide-react';
 import { track } from '@/lib/analytics';
+import { saveProgress, loadProgress, clearProgress } from '@/lib/quiz-progress';
 
 const Index = () => {
   const [currentStep, setCurrentStep] = useState(-1);
@@ -85,6 +86,7 @@ const Index = () => {
       const slug = generateSlug(answers);
       const encoded = encodeAnswers(answers);
       track.quizComplete({ slug, durationMs: quizStartedAt.current ? Date.now() - quizStartedAt.current : 0 });
+      clearProgress();
       navigate(`/app/runmatch/${slug}?d=${encoded}`);
       return prev;
     });
@@ -106,8 +108,36 @@ const Index = () => {
     });
   }, []);
 
+  // Persist quiz progress to localStorage so users can resume after closing
+  // the tab. Cleared on completion (navigate) and on explicit reset.
+  useEffect(() => {
+    if (currentStep < 0) return;
+    saveProgress({ answers, step: currentStep });
+  }, [answers, currentStep]);
+
+  const handleStart = useCallback(() => {
+    quizStartedAt.current = Date.now();
+    track.quizStart();
+    setCurrentStep(0);
+  }, []);
+
+  const handleResume = useCallback(() => {
+    const p = loadProgress();
+    if (!p) { handleStart(); return; }
+    setAnswers(p.answers);
+    quizStartedAt.current = Date.now();
+    track.quizStart();
+    track.ctaClick('quiz_resume', 'hero');
+    setCurrentStep(Math.min(p.step, quizSteps.length - 1));
+  }, [handleStart]);
+
+  const handleRestart = useCallback(() => {
+    clearProgress();
+    handleStart();
+  }, [handleStart]);
+
   if (currentStep === -1) {
-    return <QuizHero onStart={() => { quizStartedAt.current = Date.now(); track.quizStart(); setCurrentStep(0); }} />;
+    return <QuizHero onStart={handleStart} onResume={handleResume} onRestart={handleRestart} />;
   }
 
   const step = quizSteps[currentStep];
