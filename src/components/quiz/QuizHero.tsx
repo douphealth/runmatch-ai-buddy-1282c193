@@ -48,7 +48,7 @@ const features = [
 const QuizHero = ({ onStart }: QuizHeroProps) => {
   return (
     <>
-    <div className="min-h-screen flex flex-col relative overflow-hidden">
+    <main id="main-content" className="min-h-screen flex flex-col relative overflow-hidden">
       {/* Hero background */}
       <div className="absolute inset-0">
         <img
@@ -218,7 +218,7 @@ const QuizHero = ({ onStart }: QuizHeroProps) => {
           </motion.div>
         </motion.div>
       </div>
-    </div>
+    </main>
 
     {/* Social proof: testimonials below the fold */}
     <section className="relative z-10 px-4 md:px-8 py-14 md:py-20 bg-gradient-to-b from-background to-background/95">
