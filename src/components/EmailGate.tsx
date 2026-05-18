@@ -22,10 +22,33 @@ interface EmailGateProps {
 }
 
 const STORAGE_KEY = 'gutf_subscribed_v1';
+// Re-prompt returning runners after 90 days so they can grab a fresh PDF / updated rotation.
+const SUBSCRIBED_TTL_MS = 90 * 24 * 60 * 60 * 1000;
+
+type SubscribedRecord = { email: string; ts: number };
+
+const readRecord = (): SubscribedRecord | null => {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    // Legacy value was a plain email string with no timestamp.
+    if (raw.startsWith('{')) {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed.email === 'string' && typeof parsed.ts === 'number') return parsed;
+      return null;
+    }
+    return { email: raw, ts: 0 };
+  } catch { return null; }
+};
 
 export const hasSubscribed = () => {
-  try { return !!localStorage.getItem(STORAGE_KEY); } catch { return false; }
+  const rec = readRecord();
+  if (!rec) return false;
+  if (!rec.ts) return false; // legacy → treat as expired, re-prompt once with TTL
+  return Date.now() - rec.ts < SUBSCRIBED_TTL_MS;
 };
+
+export const getSubscribedEmail = () => readRecord()?.email;
 
 const EmailGate = ({
   open,
