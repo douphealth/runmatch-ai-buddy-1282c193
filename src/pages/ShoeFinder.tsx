@@ -4,7 +4,7 @@ import { ArrowRight, Footprints, Mountain, Activity, Wallet, ShieldAlert, Heart,
 import { Button } from '@/components/ui/button';
 import { track } from '@/lib/analytics';
 
-const CANONICAL = 'https://runmatch-ai-buddy.lovable.app/shoe-finder/';
+const CANONICAL = 'https://gearuptofit.com/shoe-finder/';
 
 const FAQS: { q: string; a: string }[] = [
   {
@@ -86,7 +86,7 @@ const ShoeFinder = () => {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://runmatch-ai-buddy.lovable.app/' },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://gearuptofit.com/' },
         { '@type': 'ListItem', position: 2, name: 'Running Shoe Finder', item: CANONICAL },
       ],
     });
