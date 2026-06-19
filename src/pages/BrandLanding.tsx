@@ -29,15 +29,15 @@ const BrandLanding = () => {
 
   if (!brand) return <Navigate to="/" replace />;
 
-  const canonical = `${SITE}/shoe-match/best-running-shoes/brand/${brand.slug}/`;
+  const canonical = `${SITE}/shoe-finder/best-running-shoes/brand/${brand.slug}/`;
 
   const jsonLd = [
     {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'RunMatch AI', item: `${SITE}/shoe-match/` },
-        { '@type': 'ListItem', position: 2, name: 'Best Running Shoes', item: `${SITE}/shoe-match/best-running-shoes/` },
+        { '@type': 'ListItem', position: 1, name: 'RunMatch AI', item: `${SITE}/shoe-finder/` },
+        { '@type': 'ListItem', position: 2, name: 'Best Running Shoes', item: `${SITE}/shoe-finder/best-running-shoes/` },
         { '@type': 'ListItem', position: 3, name: brand.h1, item: canonical },
       ],
     },

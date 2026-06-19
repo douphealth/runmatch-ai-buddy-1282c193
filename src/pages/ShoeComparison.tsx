@@ -46,7 +46,7 @@ const ShoeComparison = () => {
   if (!data) return <Navigate to="/" replace />;
   const { a, b, h1, title, description } = data;
   const winners = compareSpecs(a, b);
-  const canonical = `${SITE}/shoe-match/compare/${data.slug}/`;
+  const canonical = `${SITE}/shoe-finder/compare/${data.slug}/`;
   const aUrl = getAmazonLinkForShoe(a.id, a.brand, a.model, a.amazonASIN);
   const bUrl = getAmazonLinkForShoe(b.id, b.brand, b.model, b.amazonASIN);
   const verdict = verdictFor(a, b);
@@ -56,8 +56,8 @@ const ShoeComparison = () => {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'RunMatch AI', item: `${SITE}/shoe-match/` },
-        { '@type': 'ListItem', position: 2, name: 'Compare', item: `${SITE}/shoe-match/compare/` },
+        { '@type': 'ListItem', position: 1, name: 'RunMatch AI', item: `${SITE}/shoe-finder/` },
+        { '@type': 'ListItem', position: 2, name: 'Compare', item: `${SITE}/shoe-finder/compare/` },
         { '@type': 'ListItem', position: 3, name: h1, item: canonical },
       ],
     },

@@ -23,7 +23,7 @@ const ComparisonHub = () => {
         <p className="text-muted-foreground mb-6">Spec-by-spec breakdowns of the most-searched shoe matchups of 2026.</p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {comparisons.map(c => (
-            <a key={c.slug} href={`/compare/${c.slug}`} className="group rounded-xl p-5 bg-card/40 border border-border/60 hover:border-primary/40 hover:bg-card/60 transition-all">
+            <a key={c.slug} href={`/shoe-finder/compare/${c.slug}`} className="group rounded-xl p-5 bg-card/40 border border-border/60 hover:border-primary/40 hover:bg-card/60 transition-all">
               <div className="flex items-center justify-between mb-1.5">
                 <h3 className="font-semibold group-hover:text-primary transition text-sm">
                   {c.a.brand} {c.a.model} <span className="text-primary">vs</span> {c.b.brand} {c.b.model}
@@ -286,7 +286,7 @@ const QuizHero = ({ onStart, onResume, onRestart }: QuizHeroProps) => {
             { slug: 'max-cushion', label: 'Max-Cushion Shoes', desc: 'Plush rides, joint protection' },
             { slug: 'budget', label: 'Under $120', desc: 'Best value picks of 2026' },
           ].map(c => (
-            <a key={c.slug} href={`/best-running-shoes/${c.slug}`} className="group rounded-xl p-5 bg-card/40 border border-border/60 hover:border-primary/40 hover:bg-card/60 transition-all">
+            <a key={c.slug} href={`/shoe-finder/best-running-shoes/${c.slug}`} className="group rounded-xl p-5 bg-card/40 border border-border/60 hover:border-primary/40 hover:bg-card/60 transition-all">
               <div className="flex items-center justify-between mb-1.5">
                 <h3 className="font-semibold group-hover:text-primary transition">{c.label}</h3>
                 <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition" />
@@ -310,7 +310,7 @@ const QuizHero = ({ onStart, onResume, onRestart }: QuizHeroProps) => {
           {BRANDS.map(b => (
             <a
               key={b.slug}
-              href={`/best-running-shoes/brand/${b.slug}`}
+              href={`/shoe-finder/best-running-shoes/brand/${b.slug}`}
               className="group rounded-xl p-4 bg-card/40 border border-border/60 hover:border-primary/40 hover:bg-card/60 transition-all text-center"
             >
               <div className="font-semibold group-hover:text-primary transition">{b.name}</div>
