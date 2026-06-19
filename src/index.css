@@ -2,7 +2,7 @@
 
 /*
  * Hide the Cloudflare-Worker-injected server-side SEO shell from users
- * (gearuptofit.com/shoe-match/ proxy injects #runmatch-seo + .runmatch-seo-support
+ * (gearuptofit.com/shoe-finder/ proxy injects #runmatch-seo + .runmatch-seo-support
  * before <div id="root"> for crawler-readable HTML). We keep them in the DOM
  * (visually hidden, not display:none) so Googlebot, Bingbot, and AI crawlers
  * still index the content while real users see the React app immediately.

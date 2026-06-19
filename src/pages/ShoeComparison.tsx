@@ -245,7 +245,7 @@ const ShoeComparison = () => {
         <h2 className="text-xl font-semibold mb-4">More head-to-head comparisons</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {otherComparisons.map(c => (
-            <Link key={c.slug} to={`/compare/${c.slug}`} className="p-4 rounded-xl bg-card/40 border border-border/60 hover:border-primary/40 transition text-sm">
+            <Link key={c.slug} to={`/shoe-finder/compare/${c.slug}`} className="p-4 rounded-xl bg-card/40 border border-border/60 hover:border-primary/40 transition text-sm">
               <span className="font-medium">{c.a.brand} {c.a.model}</span>
               <span className="text-muted-foreground"> vs </span>
               <span className="font-medium">{c.b.brand} {c.b.model}</span>

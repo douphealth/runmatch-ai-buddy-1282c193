@@ -154,7 +154,7 @@ const BrandLanding = () => {
                     <span className="text-sm font-semibold text-primary">${s.priceUSD}</span>
                   </div>
                   <ShoeImage brand={s.brand} model={s.model} imageURL={s.imageURL} amazonASIN={s.amazonASIN} size="md" interactive={false} />
-                  <Link to={`/shoes/${s.id}`} className="block mt-4 hover:text-primary transition">
+                  <Link to={`/shoe-finder/shoes/${s.id}`} className="block mt-4 hover:text-primary transition">
                     <h3 className="text-lg font-bold leading-tight">{s.brand} {s.model}</h3>
                   </Link>
                   <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wide">{s.category} · {s.weightGrams}g · {s.dropMM}mm drop</p>
@@ -223,7 +223,7 @@ const BrandLanding = () => {
           {BRANDS.filter(b => b.slug !== brand.slug).map(b => (
             <Link
               key={b.slug}
-              to={`/best-running-shoes/brand/${b.slug}`}
+              to={`/shoe-finder/best-running-shoes/brand/${b.slug}`}
               className="px-4 py-2 rounded-full bg-card/40 border border-border/60 hover:border-primary/40 text-sm transition"
             >
               {b.name}

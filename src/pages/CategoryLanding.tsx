@@ -157,7 +157,7 @@ const CategoryLanding = () => {
                   <span className="text-sm font-semibold text-primary">${s.priceUSD}</span>
                 </div>
                 <ShoeImage brand={s.brand} model={s.model} imageURL={s.imageURL} amazonASIN={s.amazonASIN} size="md" interactive={false} />
-                <Link to={`/shoes/${s.id}`} className="block mt-4 hover:text-primary transition">
+                <Link to={`/shoe-finder/shoes/${s.id}`} className="block mt-4 hover:text-primary transition">
                   <h3 className="text-lg font-bold leading-tight">{s.brand} {s.model}</h3>
                 </Link>
                 <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wide">{s.category} · {s.weightGrams}g · {s.dropMM}mm drop</p>
@@ -245,7 +245,7 @@ const CategoryLanding = () => {
         <h2 className="text-xl font-semibold mb-4">Explore more categories</h2>
         <div className="flex flex-wrap gap-2">
           {CATEGORIES.filter(c => c.slug !== cat.slug).map(c => (
-            <Link key={c.slug} to={`/best-running-shoes/${c.slug}`} className="px-4 py-2 rounded-full bg-card/40 border border-border/60 hover:border-primary/40 text-sm transition">
+            <Link key={c.slug} to={`/shoe-finder/best-running-shoes/${c.slug}`} className="px-4 py-2 rounded-full bg-card/40 border border-border/60 hover:border-primary/40 text-sm transition">
               {c.h1.replace(' (2026)', '').replace('Best ', '')}
             </Link>
           ))}

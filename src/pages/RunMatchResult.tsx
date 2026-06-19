@@ -144,7 +144,7 @@ const RunMatchResult = () => {
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'GearUpToFit', item: 'https://gearuptofit.com' },
-        { '@type': 'ListItem', position: 2, name: 'Shoe Match', item: 'https://gearuptofit.com/shoe-match/' },
+        { '@type': 'ListItem', position: 2, name: 'Shoe Finder', item: 'https://gearuptofit.com/shoe-finder/' },
         { '@type': 'ListItem', position: 3, name: 'Your Result' },
       ],
     });
@@ -239,12 +239,12 @@ const RunMatchResult = () => {
 
   const shareOnTwitter = () => {
     const text = `I just found my perfect running shoe match! 🏃‍♂️ Take the free RunMatch AI quiz by @GearUpToFit:`;
-    const quizUrl = 'https://gearuptofit.com/shoe-match/';
+    const quizUrl = 'https://gearuptofit.com/shoe-finder/';
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(quizUrl)}`, '_blank');
   };
 
   const shareOnFacebook = () => {
-    const quizUrl = 'https://gearuptofit.com/shoe-match/';
+    const quizUrl = 'https://gearuptofit.com/shoe-finder/';
     window.open(`https://www.facebook.com/dialog/share?app_id=966242223397117&href=${encodeURIComponent(quizUrl)}&quote=${encodeURIComponent('I just found my perfect running shoe match! 🏃‍♂️ Take the free RunMatch AI quiz by GearUpToFit!')}`, '_blank');
   };
 

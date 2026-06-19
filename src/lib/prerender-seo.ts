@@ -18,7 +18,7 @@ import { getDynamicFAQs } from './dynamic-faqs';
 import { generateMetaTitle, generateMetaDescription, generateFAQSchema, generateProductSchema } from './seo';
 import { resolveShoeImage } from './shoe-images';
 
-const SITE_ORIGIN = 'https://gearuptofit.com/shoe-match';
+const SITE_ORIGIN = 'https://gearuptofit.com/shoe-finder';
 const FALLBACK_OG_IMAGE = 'https://gearuptofit.com/wp-content/uploads/2023/03/cropped-Grey-Black-Illustration-Gym-Fitness-Logo.png';
 
 // HTML-escape user/data-derived strings before injecting into HTML/attributes.

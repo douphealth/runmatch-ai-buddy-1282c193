@@ -1,0 +1,10 @@
+# Cloudflare Pages routing for the embedded GearUpToFit Shoe Finder app.
+# Keep all app deep links under /shoe-finder/ so WordPress/root paths do not 404.
+/shoe-finder/images/* /images/:splat 200
+/shoe-finder/assets/* /assets/:splat 200
+/best-running-shoes/* /shoe-finder/best-running-shoes/:splat 301
+/compare/* /shoe-finder/compare/:splat 301
+/shoes/* /shoe-finder/shoes/:splat 301
+/shoe-match/* /shoe-finder/:splat 301
+/shoe-match /shoe-finder/ 301
+/shoe-finder/* /index.html 200

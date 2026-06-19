@@ -31,7 +31,7 @@ export function generateProductSchema(rec: ShoeRecommendation, answers: QuizAnsw
     const img = resolveShoeImage(recommendedShoe);
     if (img.url) {
       // Absolute URL for JSON-LD (crawlers won't resolve relative paths reliably).
-      const path = img.url.startsWith('/shoe-match') ? img.url : `/shoe-match${img.url.startsWith('/') ? '' : '/'}${img.url}`;
+      const path = img.url.startsWith('/shoe-finder') ? img.url : `/shoe-finder${img.url.startsWith('/') ? '' : '/'}${img.url}`;
       base.image = `https://gearuptofit.com${path}`;
     }
     base.offers = {
@@ -94,7 +94,7 @@ export function generateWebAppSchema() {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
     name: 'RunMatch AI Running Shoe Finder',
-    url: 'https://gearuptofit.com/shoe-match/',
+    url: 'https://gearuptofit.com/shoe-finder/',
     applicationCategory: 'HealthApplication',
     operatingSystem: 'Web',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },

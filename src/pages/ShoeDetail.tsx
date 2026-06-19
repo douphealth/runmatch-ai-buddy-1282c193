@@ -38,7 +38,7 @@ const ShoeDetail = () => {
   const title = `${shoe.brand} ${shoe.model} Review & Specs (${shoe.year}) | RunMatch AI`;
   const useCase = describeUseCase(shoe);
   const description = `${shoe.brand} ${shoe.model} (${shoe.year}) — ${useCase}. ${shoe.weightGrams}g, ${shoe.dropMM}mm drop, ${shoe.cushioning}/10 cushioning. Verified specs and free AI quiz.`;
-  const canonical = `${SITE}/shoe-match/shoes/${shoe.id}/`;
+  const canonical = `${SITE}/shoe-finder/shoes/${shoe.id}/`;
   const amazonUrl = getAmazonLinkForShoe(shoe.id, shoe.brand, shoe.model, shoe.amazonASIN);
 
   const faqs = [
@@ -54,8 +54,8 @@ const ShoeDetail = () => {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'RunMatch AI', item: `${SITE}/shoe-match/` },
-        { '@type': 'ListItem', position: 2, name: 'Shoes', item: `${SITE}/shoe-match/shoes/` },
+        { '@type': 'ListItem', position: 1, name: 'RunMatch AI', item: `${SITE}/shoe-finder/` },
+        { '@type': 'ListItem', position: 2, name: 'Shoes', item: `${SITE}/shoe-finder/shoes/` },
         { '@type': 'ListItem', position: 3, name: `${shoe.brand} ${shoe.model}`, item: canonical },
       ],
     },
@@ -116,7 +116,7 @@ const ShoeDetail = () => {
         <ol className="flex flex-wrap items-center gap-1.5">
           <li><Link to="/" className="hover:text-foreground transition">RunMatch AI</Link></li>
           <ChevronRight className="w-3.5 h-3.5" />
-          <li><Link to={`/best-running-shoes/brand/${shoe.brand.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-foreground transition">{shoe.brand}</Link></li>
+          <li><Link to={`/shoe-finder/best-running-shoes/brand/${shoe.brand.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-foreground transition">{shoe.brand}</Link></li>
           <ChevronRight className="w-3.5 h-3.5" />
           <li className="text-foreground font-medium" aria-current="page">{shoe.model}</li>
         </ol>
@@ -221,7 +221,7 @@ const ShoeDetail = () => {
               return (
                 <Link
                   key={c.slug}
-                  to={`/compare/${c.slug}`}
+                  to={`/shoe-finder/compare/${c.slug}`}
                   className="group rounded-xl p-4 bg-card/40 border border-border/60 hover:border-primary/40 hover:bg-card/60 transition-all"
                 >
                   <div className="flex items-center justify-between mb-1.5">
@@ -246,7 +246,7 @@ const ShoeDetail = () => {
             {alternatives.map(s => (
               <Link
                 key={s.id}
-                to={`/shoes/${s.id}`}
+                to={`/shoe-finder/shoes/${s.id}`}
                 className="group rounded-2xl border border-border/60 bg-card/40 p-4 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all"
               >
                 <ShoeImage brand={s.brand} model={s.model} imageURL={s.imageURL} amazonASIN={s.amazonASIN} size="sm" interactive={false} />
@@ -266,14 +266,14 @@ const ShoeDetail = () => {
             {sameBrand.map(s => (
               <Link
                 key={s.id}
-                to={`/shoes/${s.id}`}
+                to={`/shoe-finder/shoes/${s.id}`}
                 className="px-4 py-2 rounded-full bg-card/40 border border-border/60 hover:border-primary/40 text-sm transition"
               >
                 {s.model}
               </Link>
             ))}
             <Link
-              to={`/best-running-shoes/brand/${shoe.brand.toLowerCase().replace(/\s+/g, '-')}`}
+              to={`/shoe-finder/best-running-shoes/brand/${shoe.brand.toLowerCase().replace(/\s+/g, '-')}`}
               className="px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm hover:bg-primary/20 transition"
             >
               See all {shoe.brand} →
