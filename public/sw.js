@@ -10,10 +10,11 @@
  *   - Never cache POST/PUT, cross-origin opaque API calls, or analytics.
  */
 
-const VERSION = 'runmatch-v1';
+const VERSION = 'runmatch-v2-shoe-finder-scope';
 const SHELL_CACHE = `${VERSION}-shell`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;
-const SHELL_URLS = ['/', '/index.html', '/manifest.webmanifest'];
+const APP_BASE = '/shoe-finder/';
+const SHELL_URLS = [APP_BASE, `${APP_BASE}index.html`, `${APP_BASE}manifest.webmanifest`];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -41,6 +42,9 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
+  // This service worker must never handle the WordPress/apex site.
+  if (!url.pathname.startsWith(APP_BASE)) return;
+
   // Skip Supabase functions, analytics, and anything dynamic.
   if (url.pathname.startsWith('/functions/') || url.pathname.startsWith('/api/')) return;
 
@@ -53,7 +57,7 @@ self.addEventListener('fetch', (event) => {
           caches.open(RUNTIME_CACHE).then((c) => c.put(req, copy));
           return res;
         })
-        .catch(() => caches.match(req).then((r) => r || caches.match('/')))
+        .catch(() => caches.match(req).then((r) => r || caches.match(APP_BASE)))
     );
     return;
   }
