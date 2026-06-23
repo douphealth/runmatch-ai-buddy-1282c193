@@ -42,16 +42,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter basename={(() => {
-          if (typeof document === "undefined") return "/";
-          const href = document.querySelector("base")?.getAttribute("href") || "/";
-          try {
-            const path = new URL(href, window.location.origin).pathname;
-            return path !== "/" && path.endsWith("/") ? path.slice(0, -1) : path;
-          } catch {
-            return "/";
-          }
-        })()}>
+        <BrowserRouter basename="/shoe-finder">
           <Suspense fallback={<RouteFallback />}>
             <Routes>
               <Route path="/" element={<Index />} />
