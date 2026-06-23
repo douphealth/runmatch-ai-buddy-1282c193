@@ -115,7 +115,7 @@ const InlineLeadCard = ({ primaryShoe, shoeCategory, weeklyMileage, injuries }: 
               <h3 className="text-lg md:text-xl font-bold uppercase tracking-tight leading-tight mb-1.5">
                 {primaryShoe
                   ? <>Want the full PDF for your <span className="text-primary">{primaryShoe}</span> match?</>
-                  : 'Want your full shoe-match PDF, free?'}
+                  : 'Want your full shoe match PDF, free?'}
               </h3>
               <p className="text-sm text-muted-foreground leading-snug">
                 Includes your 3-shoe rotation, mileage plan and a 7-day science-backed coaching series. No spam, unsubscribe in 1&nbsp;click.

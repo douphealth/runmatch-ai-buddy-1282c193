@@ -116,7 +116,7 @@ const wrap = (preheader: string, inner: string) => `<!doctype html><html lang="e
 </td></tr>
 <tr><td style="padding:36px 32px;color:#e6e6ea;font-size:16px;line-height:1.65">${inner}</td></tr>
 <tr><td style="padding:24px 32px;background:#0f0f12;color:#71717a;font-size:11px;line-height:1.6;text-align:center;border-top:1px solid #2a2a30">
-You're receiving this because you used <a href="https://gearuptofit.com/shoe-match/" style="color:#c4c4cc;text-decoration:underline">RunMatch AI</a>.<br/>
+You're receiving this because you used <a href="https://gearuptofit.com/shoe-finder/" style="color:#c4c4cc;text-decoration:underline">RunMatch AI</a>.<br/>
 © GearUpToFit · <a href="https://gearuptofit.com/privacy-policy/" style="color:#71717a;text-decoration:underline">Privacy</a> · <a href="{{ unsubscribe }}" style="color:#71717a;text-decoration:underline">Unsubscribe</a>
 </td></tr></table></td></tr></table></body></html>`;
 
@@ -137,7 +137,7 @@ const TEMPLATES = [
 <li><strong>Long Run</strong> — max cushion for weekend miles</li>
 </ul>
 <p style="margin:0 0 8px;color:#cfcfd6">Research shows runners who rotate 2–3 shoes have <strong>39% lower injury risk</strong> (Malisoux et al., 2015).</p>
-${btn('https://gearuptofit.com/shoe-match/', 'View My Rotation')}
+${btn('https://gearuptofit.com/shoe-finder/', 'View My Rotation')}
 <p style="margin:24px 0 0;color:#8b8b95;font-size:13px">Tomorrow: how to break in your new shoes the right way.</p>`),
   },
   {
@@ -204,7 +204,7 @@ ${btn('https://gearuptofit.com/review/best-running-shoes/', 'Review My Speed Sho
 <h1 style="margin:0 0 16px;font-family:Oswald,Impact,sans-serif;font-size:24px;color:#fff;text-transform:uppercase;letter-spacing:0.04em">Time for a Re-Match?</h1>
 <p style="margin:0 0 16px">As your weekly mileage, race goals, or injury status changes, so should your rotation. Most runners outgrow their picks within <strong>4–6 months</strong>.</p>
 <p style="margin:0 0 16px">Take 90 seconds to refresh your RunMatch — and we'll send an updated 3-shoe rotation built on your latest stats.</p>
-${btn('https://gearuptofit.com/shoe-match/', 'Re-Take the Quiz')}`),
+${btn('https://gearuptofit.com/shoe-finder/', 'Re-Take the Quiz')}`),
   },
 ];
 

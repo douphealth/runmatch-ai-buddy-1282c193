@@ -7,4 +7,5 @@
 /shoes/* /shoe-finder/shoes/:splat 301
 /shoe-match/* /shoe-finder/:splat 301
 /shoe-match /shoe-finder/ 301
+/shoe-finder /shoe-finder/ 301
 /shoe-finder/* /index.html 200

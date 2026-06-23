@@ -1,121 +1,100 @@
-#!/usr/bin/env node
-/**
- * Shoe database validation script.
- *
- * Run via:  bun run scripts/validate-shoe-database.mjs
- *
- * Catches bad data BEFORE it ships:
- *  1. Required fields missing or empty
- *  2. Numeric specs out of plausible range (weight, drop, cushioning)
- *  3. Stale entries (lastVerified > 180 days ago)
- *  4. Invalid pronation/terrain/distance enums
- *  5. Duplicate IDs
- *
- * Exits with non-zero status if any errors found, so it can gate CI/build.
- */
-import { shoeDatabase } from '../src/lib/shoe-database.ts';
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { shoeDatabase, getShoeQualityState } from '../src/lib/shoe-database.ts';
 
-const STALE_DAYS = 180;
-const MIN_WEIGHT = 130; // racing flat lower bound
-const MAX_WEIGHT = 420; // max-cushion trail upper bound
-const MAX_DROP = 14;
+const ROOT = resolve(import.meta.dirname, '..');
+const HARD_STALE_DAYS = 430;
+const MIN_WEIGHT = 130;
+const MAX_WEIGHT = 420;
 const MIN_DROP = 0;
-
+const MAX_DROP = 14;
 const VALID_PRONATION = new Set(['neutral', 'overpronation', 'underpronation']);
 const VALID_TERRAIN = new Set(['road', 'trail', 'track']);
 const VALID_CATEGORY = new Set(['daily', 'speed', 'race', 'trail', 'max-cushion', 'stability', 'hybrid']);
-
+const now = new Date();
 const errors = [];
 const warnings = [];
-const seenIds = new Set();
+const seen = new Set();
+const genericReview = 'https://gearuptofit.com/review/best-running-shoes/';
+
+function ageDays(date) {
+  const d = new Date(`${date}T00:00:00Z`);
+  if (Number.isNaN(d.getTime())) return Infinity;
+  return Math.floor((now.getTime() - d.getTime()) / 86400000);
+}
+function note(level, shoe, msg) {
+  const line = `${shoe?.id || 'unknown'}: ${msg}`;
+  (level === 'error' ? errors : warnings).push(line);
+}
 
 for (const shoe of shoeDatabase) {
-  const ctx = `${shoe.brand} ${shoe.model} (${shoe.id})`;
+  if (!shoe.id) note('error', shoe, 'missing id');
+  if (seen.has(shoe.id)) note('error', shoe, 'duplicate shoe id');
+  seen.add(shoe.id);
+  if (!shoe.brand) note('error', shoe, 'missing brand');
+  if (!shoe.model) note('error', shoe, 'missing model');
+  if (!shoe.category) note('error', shoe, 'missing category');
+  if (!Array.isArray(shoe.terrain) || shoe.terrain.length === 0) note('error', shoe, 'missing terrain');
+  if (!Array.isArray(shoe.bestFor) || shoe.bestFor.length === 0) note('error', shoe, 'missing bestFor');
+  if (typeof shoe.widthOptions !== 'boolean') note('error', shoe, 'missing widthOptions boolean');
+  if (!shoe.imageURL) note('error', shoe, 'missing imageURL');
 
-  // Required fields
-  for (const field of ['id', 'brand', 'model', 'category', 'amazonASIN', 'reviewURL']) {
-    if (!shoe[field] || String(shoe[field]).trim() === '') {
-      errors.push(`${ctx}: missing required field "${field}"`);
-    }
+  if (typeof shoe.weightGrams !== 'number' || shoe.weightGrams < MIN_WEIGHT || shoe.weightGrams > MAX_WEIGHT) {
+    note('error', shoe, `weightGrams outside plausible range ${MIN_WEIGHT}-${MAX_WEIGHT}`);
   }
-
-  // Duplicate IDs
-  if (seenIds.has(shoe.id)) {
-    errors.push(`${ctx}: duplicate id "${shoe.id}"`);
+  if (typeof shoe.dropMM !== 'number' || shoe.dropMM < MIN_DROP || shoe.dropMM > MAX_DROP) {
+    note('error', shoe, `dropMM outside plausible range ${MIN_DROP}-${MAX_DROP}`);
   }
-  seenIds.add(shoe.id);
-
-  // Numeric ranges
-  if (shoe.weightGrams < MIN_WEIGHT || shoe.weightGrams > MAX_WEIGHT) {
-    errors.push(`${ctx}: weightGrams ${shoe.weightGrams}g outside plausible range ${MIN_WEIGHT}–${MAX_WEIGHT}`);
+  if (typeof shoe.cushioning !== 'number' || shoe.cushioning < 1 || shoe.cushioning > 10) {
+    note('error', shoe, 'cushioning must be 1-10');
   }
-  if (shoe.dropMM < MIN_DROP || shoe.dropMM > MAX_DROP) {
-    errors.push(`${ctx}: dropMM ${shoe.dropMM} outside plausible range ${MIN_DROP}–${MAX_DROP}`);
+  if (typeof shoe.priceUSD !== 'number' || shoe.priceUSD <= 0) {
+    note('error', shoe, 'priceUSD must be positive');
   }
-  if (shoe.cushioning < 1 || shoe.cushioning > 10) {
-    errors.push(`${ctx}: cushioning ${shoe.cushioning} must be 1–10`);
+  if (shoe.category && !VALID_CATEGORY.has(shoe.category)) note('error', shoe, `invalid category: ${shoe.category}`);
+  if (Array.isArray(shoe.terrain)) {
+    for (const t of shoe.terrain) if (!VALID_TERRAIN.has(t)) note('error', shoe, `invalid terrain: ${t}`);
   }
-  if (shoe.priceUSD <= 0) {
-    errors.push(`${ctx}: priceUSD must be positive (got ${shoe.priceUSD})`);
-  }
-
-  // Enum validation
-  if (!VALID_CATEGORY.has(shoe.category)) {
-    errors.push(`${ctx}: invalid category "${shoe.category}"`);
-  }
-  for (const p of shoe.pronation) {
-    if (!VALID_PRONATION.has(p)) errors.push(`${ctx}: invalid pronation "${p}"`);
-  }
-  for (const t of shoe.terrain) {
-    if (!VALID_TERRAIN.has(t)) errors.push(`${ctx}: invalid terrain "${t}"`);
+  if (Array.isArray(shoe.pronation)) {
+    for (const p of shoe.pronation) if (!VALID_PRONATION.has(p)) note('error', shoe, `invalid pronation: ${p}`);
   }
 
-  // Freshness check (warning only — not all entries have lastVerified yet)
-  if (shoe.lastVerified) {
-    const verified = new Date(shoe.lastVerified).getTime();
-    if (Number.isNaN(verified)) {
-      errors.push(`${ctx}: lastVerified "${shoe.lastVerified}" is not a valid date`);
-    } else {
-      const ageDays = Math.floor((Date.now() - verified) / (1000 * 60 * 60 * 24));
-      if (ageDays > STALE_DAYS) {
-        warnings.push(`${ctx}: specs last verified ${ageDays} days ago (>${STALE_DAYS} day threshold)`);
-      }
-    }
+  if (shoe.imageURL?.startsWith('/')) {
+    const localPath = resolve(ROOT, 'public', shoe.imageURL.replace(/^\//, ''));
+    if (!existsSync(localPath)) note('error', shoe, `missing local image file: ${shoe.imageURL}`);
   }
 
-  // Source URL sanity
-  if (shoe.sourceURL && !/^https?:\/\//i.test(shoe.sourceURL)) {
-    errors.push(`${ctx}: sourceURL must be an absolute http(s) URL`);
+  const q = getShoeQualityState(shoe);
+  const placeholder = !shoe.imageURL || shoe.imageURL.includes('placeholder');
+  const isGenericReview = !shoe.reviewURL || shoe.reviewURL === genericReview || /\/review\/best-running-shoes\/?$/.test(shoe.reviewURL);
+  const stale = ageDays(shoe.lastVerified) > HARD_STALE_DAYS;
+
+  if (q.isIndexable) {
+    if (placeholder) note('error', shoe, 'isIndexable true with placeholder image');
+    if (!shoe.sourceURL) note('error', shoe, 'isIndexable true with missing sourceURL');
+    if (isGenericReview) note('error', shoe, 'isIndexable true with generic reviewURL only');
+    if (stale) note('error', shoe, 'isIndexable true with stale lastVerified');
+    if (shoe.amazonASIN === 'SEARCH') note('error', shoe, 'isIndexable true with amazonASIN SEARCH');
   }
-  if (shoe.reviewURL && !/^https?:\/\//i.test(shoe.reviewURL)) {
-    errors.push(`${ctx}: reviewURL must be an absolute http(s) URL`);
-  }
+
+  if (shoe.amazonASIN === 'SEARCH') note('warning', shoe, 'amazonASIN SEARCH fallback; not affiliate-ready for indexable product pages');
+  if (isGenericReview) note('warning', shoe, 'generic review URL; use a specific GearUpToFit review before indexation');
+  if (placeholder) note('warning', shoe, 'placeholder image; recommendation-only unless replaced');
+  if (!shoe.amazonASIN) note('warning', shoe, 'missing affiliate URL/ASIN');
+  if (!shoe.reviewURL) note('warning', shoe, 'missing review URL');
+  if (!shoe.sourceURL) note('warning', shoe, 'sourceURL not from authoritative source or missing');
+  if (shoe.year && shoe.year < now.getUTCFullYear() - 2) note('warning', shoe, 'older model year; verify still relevant');
 }
 
-// Coverage stats
-const total = shoeDatabase.length;
-const verified = shoeDatabase.filter(s => s.lastVerified).length;
-const sourced = shoeDatabase.filter(s => s.sourceURL).length;
-
-console.log('');
-console.log('━━━ Shoe Database Validation ━━━');
-console.log(`Total shoes:         ${total}`);
-console.log(`With lastVerified:   ${verified} (${Math.round(verified / total * 100)}%)`);
-console.log(`With sourceURL:      ${sourced} (${Math.round(sourced / total * 100)}%)`);
-console.log('');
-
+console.log(`[validate:shoes] checked ${shoeDatabase.length} shoes`);
 if (warnings.length) {
-  console.log(`⚠  ${warnings.length} warning(s):`);
-  warnings.forEach(w => console.log('   ' + w));
-  console.log('');
+  console.warn(`[validate:shoes] warnings (${warnings.length})`);
+  for (const w of warnings.slice(0, 120)) console.warn(`  - ${w}`);
+  if (warnings.length > 120) console.warn(`  ... ${warnings.length - 120} more warnings`);
 }
-
 if (errors.length) {
-  console.error(`✗  ${errors.length} error(s):`);
-  errors.forEach(e => console.error('   ' + e));
-  console.error('');
+  console.error(`[validate:shoes] hard errors (${errors.length})`);
+  for (const e of errors) console.error(`  - ${e}`);
   process.exit(1);
 }
-
-console.log('✓  All shoe records pass validation.');
-process.exit(0);
+console.log('[validate:shoes] passed hard quality gates');

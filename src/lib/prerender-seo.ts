@@ -4,7 +4,7 @@
  *
  * Builds:
  *   - per-page <head> tags (title, description, canonical, OG, Twitter)
- *   - JSON-LD blocks (FAQ, Product, Breadcrumb)
+ *   - JSON-LD blocks (FAQ, Breadcrumb, WebApplication)
  *   - a server-rendered SEO body block (visible HTML for crawlers + AI scrapers)
  *
  * Important: NO React, NO framer-motion, NO recharts, NO browser globals.
@@ -15,7 +15,7 @@ import { QuizAnswers } from './quiz-data';
 import { generateRecommendation, ShoeRecommendation } from './recommendation-engine';
 import { scoreShoes, buildRotation } from './scoring-engine';
 import { getDynamicFAQs } from './dynamic-faqs';
-import { generateMetaTitle, generateMetaDescription, generateFAQSchema, generateProductSchema } from './seo';
+import { generateMetaTitle, generateMetaDescription, generateFAQSchema } from './seo';
 import { resolveShoeImage } from './shoe-images';
 
 const SITE_ORIGIN = 'https://gearuptofit.com/shoe-finder';
@@ -47,7 +47,7 @@ export interface PrerenderedPage {
 }
 
 export function buildPrerenderedPage(slug: string, answers: QuizAnswers): PrerenderedPage {
-  const url = `${SITE_ORIGIN}/app/runmatch/${slug}`;
+  const url = `${SITE_ORIGIN}/results/${slug}/`;
   const recommendation = generateRecommendation(answers);
   const rotation = buildRotation(answers);
   const topShoes = scoreShoes(answers).slice(0, 5);
@@ -63,7 +63,6 @@ export function buildPrerenderedPage(slug: string, answers: QuizAnswers): Preren
 
   // ----- JSON-LD blocks -----
   const faqSchema = generateFAQSchema(faqs);
-  const productSchema = generateProductSchema(recommendation, answers, primaryShoe);
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -74,7 +73,7 @@ export function buildPrerenderedPage(slug: string, answers: QuizAnswers): Preren
     ],
   };
 
-  const ldBlocks = [faqSchema, productSchema, breadcrumbSchema]
+  const ldBlocks = [faqSchema, breadcrumbSchema]
     .map(s => `<script type="application/ld+json">${escapeJsonLd(JSON.stringify(s))}</script>`)
     .join('\n    ');
 
@@ -84,7 +83,7 @@ export function buildPrerenderedPage(slug: string, answers: QuizAnswers): Preren
     <meta name="description" content="${escapeHtml(description)}" />
     <link rel="canonical" href="${escapeHtml(url)}" />
 
-    <meta property="og:type" content="product" />
+    <meta property="og:type" content="website" />
     <meta property="og:url" content="${escapeHtml(url)}" />
     <meta property="og:title" content="${escapeHtml(title)}" />
     <meta property="og:description" content="${escapeHtml(description)}" />
@@ -100,13 +99,9 @@ export function buildPrerenderedPage(slug: string, answers: QuizAnswers): Preren
     ${ldBlocks}`.trim();
 
   // ----- Visible SEO body block (for crawlers and AI scrapers) -----
-  // This renders inside <div id="root"> in the static HTML. React then
-  // hydrates and replaces the entire root with the full interactive UI on
-  // the client. The visible block is hidden from sighted users via inline
-  // style to avoid a flash before hydration — but Googlebot still indexes
-  // it (visibility: hidden is treated as content by Google as long as the
-  // text is in the DOM at render time and not behind a meaningful
-  // interaction). We use position:absolute + clip to satisfy both.
+  // This renders inside <div id="root"> in the static HTML at the
+  // PRERENDER_ROOT marker. It is intentionally visible/equivalent content,
+  // not crawler-only hidden text.
   const bodyHtml = renderSeoBody({
     slug,
     answers,
@@ -133,45 +128,61 @@ function renderSeoBody(args: {
   const distanceLabel = answers.distance.replace('-', ' ');
   const terrainLabel = answers.terrain;
 
-  return `<div id="seo-content" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;">
-    <h1>${escapeHtml(recommendation.shoeProfile.category)} for ${escapeHtml(answers.pronation)} ${escapeHtml(distanceLabel)} runners on ${escapeHtml(terrainLabel)}</h1>
+  return `<main id="seo-content" style="max-width:1120px;margin:0 auto;padding:32px 18px;font-family:system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.6;color:#111827;background:#fff;">
+    <nav aria-label="Breadcrumb"><a href="https://gearuptofit.com/">GearUpToFit</a> › <a href="${SITE_ORIGIN}/">Running Shoe Finder</a> › Results</nav>
+    <h1>Free Running Shoe Finder: Match Your Mileage, Terrain, Cushioning and Budget</h1>
+    <p>This free running shoe finder matches your quiz answers to shoe categories and product attributes so you can compare practical options before reading a full GearUpToFit review or checking current prices.</p>
+
+    <h2>Your personalized running shoe match</h2>
+    <p><strong>Recommended profile:</strong> ${escapeHtml(recommendation.shoeProfile.category)} for ${escapeHtml(answers.pronation)} ${escapeHtml(distanceLabel)} runners on ${escapeHtml(terrainLabel)}.</p>
     <p>${escapeHtml(recommendation.shoeProfile.summary)}</p>
 
-    <h2>Recommended shoe profile</h2>
+    <h2>How the matching works</h2>
+    <p>The matching engine weighs terrain, distance, pronation/support preference, foot type, cushioning preference, budget, brand preference, pace goal, weekly mileage, and width/fit needs. It favors shoes with enough data quality for recommendations and avoids treating incomplete product records as indexable product pages.</p>
+
+    <h2>Factors used in the quiz</h2>
     <ul>
-      <li><strong>Category:</strong> ${escapeHtml(recommendation.shoeProfile.category)}</li>
-      <li><strong>Cushioning:</strong> ${escapeHtml(recommendation.shoeProfile.cushioning)}</li>
-      <li><strong>Heel-to-toe drop:</strong> ${escapeHtml(recommendation.shoeProfile.dropRange)}</li>
-      <li><strong>Support type:</strong> ${escapeHtml(recommendation.shoeProfile.supportType)}</li>
+      <li><strong>Terrain:</strong> road, trail, treadmill, or mixed surfaces.</li>
+      <li><strong>Distance and mileage:</strong> everyday runs through marathon training.</li>
+      <li><strong>Support preference:</strong> neutral, stability, or uncertain pronation needs.</li>
+      <li><strong>Fit:</strong> standard, wide, flat feet, or high arches.</li>
+      <li><strong>Budget and brand preferences:</strong> used as tie-breakers, not hard guarantees.</li>
     </ul>
+
+    <h2>Running shoe category comparison</h2>
+    ${topShoesHtml}
 
     <h2>Why this match works</h2>
     <p>${escapeHtml(recommendation.whyItWorks)}</p>
-
-    <h2>Best shoe category explanation</h2>
     <p>${escapeHtml(recommendation.categoryExplanation)}</p>
-
-    <h2>Top matching running shoes</h2>
-    ${topShoesHtml}
 
     <h2>Recommended rotation</h2>
     ${rotationHtml}
 
-    <h2>Training emphasis</h2>
+    <h2>Editorial methodology</h2>
+    <p>GearUpToFit combines quiz inputs, shoe specifications, category fit, buyer intent, and editorial review context. Product data should be rechecked before publishing indexable product pages, especially images, source URLs, current merchant URLs, price, and availability.</p>
+
+    <h2>Affiliate disclosure</h2>
+    <p>GearUpToFit may earn a commission when you buy through links on this page. This does not change your price. Recommendations are based on quiz inputs, product attributes, and editorial criteria.</p>
+
+    <h2>Author and reviewer note</h2>
+    <p>Prepared by GearUpToFit editors for runners comparing shoe categories. This tool is educational and should be reviewed periodically as shoe models and availability change.</p>
+
+    <h2>Not medical advice</h2>
+    <p>This tool is educational. It does not diagnose, treat, or prevent injuries. If you have persistent pain or a medical condition, consult a qualified professional.</p>
+
+    <h2>Read before you buy</h2>
     <ul>
-      ${recommendation.trainingEmphasis.map(t => `<li>${escapeHtml(t)}</li>`).join('')}
+      <li><a href="https://gearuptofit.com/review/best-running-shoes/">Best running shoes</a></li>
+      <li><a href="https://gearuptofit.com/review/best-running-shoes-for-beginners/">Best running shoes for beginners</a></li>
+      <li><a href="https://gearuptofit.com/review/best-trail-running-shoes/">Best trail running shoes</a></li>
+      <li><a href="https://gearuptofit.com/review/best-running-shoes-for-flat-feet/">Best running shoes for flat feet</a></li>
+      <li><a href="https://gearuptofit.com/review/best-running-shoes-for-wide-feet/">Best running shoes for wide feet</a></li>
     </ul>
 
     <h2>Frequently asked questions</h2>
     ${faqsHtml}
-
-    <h2>Read before you buy</h2>
-    <ul>
-      <li><a href="https://gearuptofit.com/running/how-to-choose-the-right-running-shoes/">How to choose the right running shoes</a></li>
-      <li><a href="https://gearuptofit.com/review/running-shoes/">Running shoes reviews</a></li>
-      <li><a href="https://gearuptofit.com/review/best-running-shoes-for-different-distances/">Best running shoes for different distances 2026</a></li>
-    </ul>
-  </div>`;
+  </main>`;
 }
 
 function renderTopShoes(shoes: ReturnType<typeof scoreShoes>): string {

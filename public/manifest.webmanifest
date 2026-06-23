@@ -2,8 +2,8 @@
   "name": "RunMatch AI — Running Shoe Finder",
   "short_name": "RunMatch AI",
   "description": "Free AI-powered running shoe finder by GearUpToFit. 9 questions to your perfect shoe match.",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "/shoe-finder/",
+  "scope": "/shoe-finder/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0F1217",
@@ -29,15 +29,15 @@
       "name": "Start Quiz",
       "short_name": "Quiz",
       "description": "Find your perfect running shoe in 2 minutes",
-      "url": "/"
+      "url": "/shoe-finder/"
     },
     {
       "name": "Best Daily Trainers",
-      "url": "/best-running-shoes/daily-trainer"
+      "url": "/shoe-finder/best-running-shoes/daily-trainer"
     },
     {
       "name": "Marathon Shoes",
-      "url": "/best-running-shoes/marathon"
+      "url": "/shoe-finder/best-running-shoes/marathon"
     }
   ]
 }

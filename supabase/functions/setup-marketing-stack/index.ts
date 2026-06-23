@@ -280,7 +280,7 @@ const UNSUB_PAGE_HTML = `
 <div style="max-width:640px;margin:0 auto;padding:32px 16px;font-family:Inter,Arial,sans-serif">
 <h1>Manage your email preferences</h1>
 <p>Sorry to see you go. To unsubscribe from RunMatch AI emails, click the unsubscribe link in any email we sent you, or email <a href="mailto:hello@gearuptofit.com">hello@gearuptofit.com</a>.</p>
-<p>If you change your mind, you can <a href="/shoe-match/">retake the RunMatch AI quiz</a> to resubscribe and get a fresh personalized shoe report.</p>
+<p>If you change your mind, you can <a href="/shoe-finder/">retake the RunMatch AI quiz</a> to resubscribe and get a fresh personalized shoe report.</p>
 </div>`.trim();
 
 const THANKYOU_PAGE_HTML = `
@@ -288,7 +288,7 @@ const THANKYOU_PAGE_HTML = `
 <h1 style="font-family:Oswald,Impact,sans-serif;text-transform:uppercase;letter-spacing:0.08em">You're in! 🏃</h1>
 <p style="font-size:18px;color:#444">Your personalized RunMatch AI report is on its way to your inbox. Check your email in the next few minutes.</p>
 <p>While you wait — explore our <a href="/review/best-running-shoes/">best running shoes guide</a> or the <a href="/running/zone-2-running-calculator/">Zone 2 calculator</a>.</p>
-<p><a href="/shoe-match/" style="display:inline-block;margin-top:24px;background:#E53935;color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em">Back to RunMatch AI</a></p>
+<p><a href="/shoe-finder/" style="display:inline-block;margin-top:24px;background:#E53935;color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em">Back to RunMatch AI</a></p>
 </div>`.trim();
 
 // ============================================================
@@ -372,7 +372,7 @@ Deno.serve(async (req) => {
       }
     }
 
-    // 7. WP pages (under /shoe-match/ path conceptually; these are WP pages)
+    // 7. WP pages (under /shoe-finder/ path conceptually; these are WP pages)
     report.wp_pages = {
       thank_you: await wpFindOrCreatePage('runmatch-thank-you', 'Thanks for subscribing!', THANKYOU_PAGE_HTML),
       unsubscribe: await wpFindOrCreatePage('runmatch-unsubscribe', 'Unsubscribe', UNSUB_PAGE_HTML),

@@ -37,7 +37,7 @@ const ShoeDetail = () => {
 
   const title = `${shoe.brand} ${shoe.model} Review & Specs (${shoe.year}) | RunMatch AI`;
   const useCase = describeUseCase(shoe);
-  const description = `${shoe.brand} ${shoe.model} (${shoe.year}) — ${useCase}. ${shoe.weightGrams}g, ${shoe.dropMM}mm drop, ${shoe.cushioning}/10 cushioning. Verified specs and free AI quiz.`;
+  const description = `${shoe.brand} ${shoe.model} (${shoe.year}) — ${useCase}. ${shoe.weightGrams}g, ${shoe.dropMM}mm drop, ${shoe.cushioning}/10 cushioning. Structured specs with source links where available and a free AI quiz.`;
   const canonical = `${SITE}/shoe-finder/shoes/${shoe.id}/`;
   const amazonUrl = getAmazonLinkForShoe(shoe.id, shoe.brand, shoe.model, shoe.amazonASIN);
 
@@ -67,13 +67,7 @@ const ShoeDetail = () => {
       category: 'Running Shoes',
       description,
       releaseDate: String(shoe.year),
-      offers: {
-        '@type': 'Offer',
-        price: String(shoe.priceUSD),
-        priceCurrency: 'USD',
-        availability: 'https://schema.org/InStock',
-        url: amazonUrl,
-      },
+      url: amazonUrl,
       additionalProperty: [
         { '@type': 'PropertyValue', name: 'Weight', value: `${shoe.weightGrams}g` },
         { '@type': 'PropertyValue', name: 'Heel-to-toe drop', value: `${shoe.dropMM}mm` },

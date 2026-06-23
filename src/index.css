@@ -1,26 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
-/*
- * Hide the Cloudflare-Worker-injected server-side SEO shell from users
- * (gearuptofit.com/shoe-finder/ proxy injects #runmatch-seo + .runmatch-seo-support
- * before <div id="root"> for crawler-readable HTML). We keep them in the DOM
- * (visually hidden, not display:none) so Googlebot, Bingbot, and AI crawlers
- * still index the content while real users see the React app immediately.
- */
-#runmatch-seo,
-.runmatch-seo-shell,
-.runmatch-seo-support {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
-  pointer-events: none !important;
-}
+/* Legacy hidden SEO shell styles removed: prerendered content is now visible and equivalent to the React page. */
 
 @tailwind base;
 @tailwind components;
@@ -235,4 +215,14 @@
   /* Avoid awkward breaks inside cards / images */
   img, svg, .glass, .glass-strong { page-break-inside: avoid; break-inside: avoid; }
   h1, h2, h3 { page-break-after: avoid; break-after: avoid-page; }
+}
+
+.visually-hidden {
+  position: fixed;
+  inset-block-start: -100vh;
+  inset-inline-start: 0;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  white-space: nowrap;
 }

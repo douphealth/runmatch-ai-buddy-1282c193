@@ -1,3 +1,4 @@
+import { track } from '@/lib/analytics';
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -6,8 +7,8 @@ import { generateRecommendation } from '@/lib/recommendation-engine';
 import { scoreShoes, buildRotation } from '@/lib/scoring-engine';
 import { getRecommendedArticles, getInjuryArticles, getToolLinks, getKitLinks } from '@/lib/article-links';
 import { getDynamicFAQs } from '@/lib/dynamic-faqs';
-import { generateFAQSchema, generateProductSchema, generateMetaTitle, generateMetaDescription, applyOpenGraphImage } from '@/lib/seo';
-import { generateResultsPDF } from '@/lib/pdf-generator';
+import { generateFAQSchema, generateMetaTitle, generateMetaDescription, applyOpenGraphImage } from '@/lib/seo';
+
 import ResultsLoadingScreen from '@/components/results/ResultsLoadingScreen';
 import EmailGate, { hasSubscribed } from '@/components/EmailGate';
 import { Button } from '@/components/ui/button';
@@ -118,10 +119,14 @@ const RunMatchResult = () => {
 
   useEffect(() => {
     if (!recommendation || !answers) return;
+
+    const previousTitle = document.title;
     const title = generateMetaTitle(answers);
     const description = generateMetaDescription(recommendation);
     document.title = title;
+
     const desc = document.querySelector('meta[name="description"]');
+    const previousDescription = desc?.getAttribute('content') ?? null;
     if (desc) desc.setAttribute('content', description);
 
     const recommendedShoe = rotation?.primary?.shoe;
@@ -131,11 +136,6 @@ const RunMatchResult = () => {
     faqSchema.type = 'application/ld+json';
     faqSchema.textContent = JSON.stringify(generateFAQSchema(faqs));
     document.head.appendChild(faqSchema);
-
-    const productSchema = document.createElement('script');
-    productSchema.type = 'application/ld+json';
-    productSchema.textContent = JSON.stringify(generateProductSchema(recommendation, answers, recommendedShoe));
-    document.head.appendChild(productSchema);
 
     const breadcrumbSchema = document.createElement('script');
     breadcrumbSchema.type = 'application/ld+json';
@@ -166,7 +166,14 @@ const RunMatchResult = () => {
     });
     document.head.appendChild(howToSchema);
 
-    return () => { faqSchema.remove(); productSchema.remove(); breadcrumbSchema.remove(); howToSchema.remove(); cleanupOG(); };
+    return () => {
+      faqSchema.remove();
+      breadcrumbSchema.remove();
+      howToSchema.remove();
+      cleanupOG();
+      document.title = previousTitle;
+      if (desc && previousDescription !== null) desc.setAttribute('content', previousDescription);
+    };
   }, [recommendation, answers, faqs, rotation]);
 
   const handleShare = async () => {
@@ -215,9 +222,15 @@ const RunMatchResult = () => {
   const runDownload = useCallback(async () => {
     if (!answers || !recommendation || !rotation) return;
     toast.info('Generating your report...');
-    await generateResultsPDF({ answers, recommendation, rotation, radarData });
+    await (await import('@/lib/pdf-generator')).generateResultsPDF({ answers, recommendation, rotation, radarData });
+    if (slug) {
+      track.pdfDownload({
+        slug,
+        category: rotation.primary?.shoe?.category,
+      });
+    }
     toast.success('Your RunMatch Report has been downloaded!');
-  }, [answers, recommendation, rotation, radarData]);
+  }, [answers, recommendation, rotation, radarData, slug]);
 
   const handleDownloadPDF = useCallback(() => {
     if (hasSubscribed()) { runDownload(); return; }
@@ -460,20 +473,22 @@ const RunMatchResult = () => {
                     <a
                       href={getAmazonProductLink(primary.shoe.id, primary.shoe.brand, primary.shoe.model, primary.shoe.amazonASIN)}
                       target="_blank"
-                      rel="noopener noreferrer nofollow"
+                      rel="noopener noreferrer sponsored nofollow"
+                      onClick={() => track.affiliateClick({ shoeId: primary.shoe.id, brand: primary.shoe.brand, model: primary.shoe.model, placement: 'result_primary_cta', resultSlug: slug, matchPercent: primary.matchPercent, category: primary.shoe.category, priceBand: getPriceTier(primary.shoe.priceUSD).label, userTerrain: answers?.terrain, userDistance: answers?.distance, userPronation: answers?.pronation })}
                       className="inline-flex items-center justify-center gap-2 bg-gradient-primary glow-primary text-primary-foreground font-bold uppercase tracking-wider px-6 h-12 rounded-xl hover:opacity-90 transition-all text-sm"
                     >
                       <ShoppingCart className="w-4 h-4" />
-                      Check Price on Amazon
+                      Check Latest Price
                     </a>
                     <a
                       href={primary.shoe.reviewURL}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => track.reviewClick({ shoeId: primary.shoe.id, brand: primary.shoe.brand, model: primary.shoe.model, placement: 'result_primary_review', resultSlug: slug, matchPercent: primary.matchPercent, category: primary.shoe.category })}
                       className="inline-flex items-center justify-center gap-2 border border-primary/30 text-primary font-semibold px-6 h-12 rounded-xl hover:bg-primary/10 transition-all text-sm"
                     >
                       <BookOpen className="w-4 h-4" />
-                      Read Full Review
+                      Read GearUpToFit Review
                     </a>
                   </div>
                 </div>
@@ -492,7 +507,7 @@ const RunMatchResult = () => {
                 </div>
                 <div>
                   <h2 className="text-xl md:text-2xl font-bold uppercase tracking-tight">Your Shoe Rotation</h2>
-                  <p className="text-xs text-muted-foreground">Multi-shoe strategy reduces injury risk by up to 39% (Br J Sports Med, 2015)</p>
+                  <p className="text-xs text-muted-foreground">A rotation can vary feel and load; it is not medical advice or injury prevention.</p>
                 </div>
               </div>
 
@@ -537,7 +552,8 @@ const RunMatchResult = () => {
                         <a
                           href={getAmazonProductLink(s.shoe.shoe.id, s.shoe.shoe.brand, s.shoe.shoe.model, s.shoe.shoe.amazonASIN)}
                           target="_blank"
-                          rel="noopener noreferrer nofollow"
+                          rel="noopener noreferrer sponsored nofollow"
+                          onClick={() => track.affiliateClick({ shoeId: s.shoe.shoe.id, brand: s.shoe.shoe.brand, model: s.shoe.shoe.model, placement: 'rotation_strategy_card', resultSlug: slug, matchPercent: s.shoe.matchPercent, category: s.shoe.shoe.category, priceBand: getPriceTier(s.shoe.shoe.priceUSD).label, userTerrain: answers?.terrain, userDistance: answers?.distance, userPronation: answers?.pronation })}
                           className="flex-1 flex items-center justify-center gap-1.5 bg-primary/10 text-primary font-semibold text-xs px-3 h-9 rounded-lg hover:bg-primary/20 transition-all"
                         >
                           <ShoppingCart className="w-3 h-3" /> Amazon
@@ -546,6 +562,7 @@ const RunMatchResult = () => {
                           href={s.shoe.shoe.reviewURL}
                           target="_blank"
                           rel="noopener noreferrer"
+                          onClick={() => track.reviewClick({ shoeId: s.shoe.shoe.id, brand: s.shoe.shoe.brand, model: s.shoe.shoe.model, placement: 'rotation_strategy_card', resultSlug: slug, matchPercent: s.shoe.matchPercent, category: s.shoe.shoe.category })}
                           className="flex-1 flex items-center justify-center gap-1.5 border border-border/50 text-muted-foreground text-xs px-3 h-9 rounded-lg hover:border-primary/30 hover:text-primary transition-all"
                         >
                           <BookOpen className="w-3 h-3" /> Review
@@ -632,7 +649,7 @@ const RunMatchResult = () => {
           </div>
         </motion.div>
 
-        {/* SECTION 6: Injury Prevention (conditional) */}
+        {/* SECTION 6: Comfort and Support Notes (conditional) */}
         {injuryArticles.length > 0 && (
           <motion.div {...fadeUp} transition={{ delay: 0.45 }}>
             <div className="glass rounded-2xl p-5 md:p-8 border-destructive/20">
@@ -641,8 +658,8 @@ const RunMatchResult = () => {
                   <Heart className="w-5 h-5 text-destructive" />
                 </div>
                 <div>
-                  <h2 className="text-xl md:text-2xl font-bold uppercase tracking-tight">Injury Prevention</h2>
-                  <p className="text-xs text-muted-foreground">Resources based on your injury history</p>
+                  <h2 className="text-xl md:text-2xl font-bold uppercase tracking-tight">Comfort and Support Notes</h2>
+                  <p className="text-xs text-muted-foreground">Educational resources based on your comfort inputs</p>
                 </div>
               </div>
 

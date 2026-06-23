@@ -42,13 +42,15 @@ export const track = {
     push('quiz_abandon', { step_index: stepIndex, step_id: stepId }),
   quizComplete: (params: { slug: string; durationMs: number }) =>
     push('quiz_complete', params),
-  resultView: (params: { slug: string; primaryShoe?: string; matchPercent?: number }) =>
+  resultView: (params: { slug: string; primaryShoe?: string; matchPercent?: number; category?: string }) =>
     push('result_view', params),
-  emailCapture: (params: { source: string; shoeCategory?: string }) =>
-    push('lead_capture', params), // matches existing EmailGate event name
-  affiliateClick: (params: { shoeId: string; brand: string; model: string; placement: string }) =>
-    push('affiliate_click', params),
-  pdfDownload: (params: { slug: string }) => push('pdf_download', params),
+  emailCapture: (params: { source: string; shoeCategory?: string; resultSlug?: string; matchPercent?: number; marketingConsent?: boolean }) => {
+    push('email_saved', params);
+    if (params.marketingConsent) push('marketing_opt_in', params);
+  },
+  reviewClick: (params: AnalyticsParams) => push('review_click', params),
+  affiliateClick: (params: AnalyticsParams) => push('affiliate_click', { ...params, timestamp: new Date().toISOString() }),
+  pdfDownload: (params: { slug: string; category?: string }) => push('pdf_download', params),
   ctaClick: (label: string, placement: string) =>
     push('cta_click', { label, placement }),
   exitIntent: () => push('exit_intent_shown'),

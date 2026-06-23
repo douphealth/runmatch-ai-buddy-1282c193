@@ -73,7 +73,7 @@ export function getComparison(slug: string): ResolvedComparison | null {
   ) || { a: parsed.aId, b: parsed.bId };
   const h1 = `${a.brand} ${a.model} vs ${b.brand} ${b.model} (2026)`;
   const title = `${a.brand} ${a.model} vs ${b.brand} ${b.model} | RunMatch AI`.slice(0, 60);
-  const description = `${a.brand} ${a.model} vs ${b.brand} ${b.model}: verified specs, weight, drop, cushioning and which one fits your stride. Free AI quiz inside.`.slice(0, 160);
+  const description = `${a.brand} ${a.model} vs ${b.brand} ${b.model}: structured specs, weight, drop, cushioning and which one fits your stride. Free AI quiz inside.`.slice(0, 160);
   return { pair, slug: buildComparisonSlug(a.id, b.id), a, b, title, description, h1 };
 }
 

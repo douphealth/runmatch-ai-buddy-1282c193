@@ -178,8 +178,8 @@ const QuizHero = ({ onStart, onResume, onRestart }: QuizHeroProps) => {
             transition={{ delay: 0.5 }}
             className="text-sm sm:text-base md:text-lg text-muted-foreground mb-8 md:mb-10 max-w-xl mx-auto leading-relaxed px-2 sm:px-0"
           >
-            9 expert questions. One perfect match. Get your personalized shoe profile,
-            rotation strategy, and training path — backed by sports science.
+            9 focused questions. One practical match. Get your personalized shoe profile,
+            rotation strategy, and training path — built from structured shoe data.
           </motion.p>
 
           {/* Features row */}
@@ -305,7 +305,7 @@ const QuizHero = ({ onStart, onResume, onRestart }: QuizHeroProps) => {
     <section className="relative z-10 px-4 md:px-8 py-14 bg-background border-t border-border/40">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl md:text-3xl font-display font-bold mb-2">Shop by brand</h2>
-        <p className="text-muted-foreground mb-6">Verified 2026 picks from every major running brand.</p>
+        <p className="text-muted-foreground mb-6">Structured 2026 picks from major running brands.</p>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {BRANDS.map(b => (
             <a

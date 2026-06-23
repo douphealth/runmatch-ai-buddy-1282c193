@@ -3,7 +3,7 @@
  *
  * For each canonical slug:
  *   1. Reconstruct QuizAnswers from the slug
- *   2. Build per-page <head> tags + JSON-LD + a hidden visible SEO body block
+ *   2. Build per-page <head> tags + JSON-LD + a visible SEO body block
  *   3. Inject everything into the Vite-built index.html template
  *   4. Write to dist/app/runmatch/{slug}/index.html
  *
@@ -13,7 +13,7 @@
  * Run as the second step of `npm run build` (see package.json scripts.build).
  */
 
-import { readFile, writeFile, mkdir, copyFile } from 'node:fs/promises';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -26,7 +26,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const ROOT = resolve(__dirname, '..');
 const DIST = resolve(ROOT, 'dist');
-const SITE_ORIGIN = 'https://gearuptofit.com/shoe-match';
+const SITE_ORIGIN = 'https://gearuptofit.com/shoe-finder';
 
 async function main() {
   if (!existsSync(DIST)) {
@@ -57,7 +57,7 @@ async function main() {
 
     const html = injectIntoTemplate(template, page);
 
-    const outDir = resolve(DIST, 'app', 'runmatch', slug);
+    const outDir = resolve(DIST, 'results', slug);
     await mkdir(outDir, { recursive: true });
     await writeFile(resolve(outDir, 'index.html'), html, 'utf-8');
     generated.push(page.url);
@@ -65,18 +65,18 @@ async function main() {
   }
 
   // sitemap.xml
-  const sitemap = buildSitemap([`${SITE_ORIGIN}/`, ...generated], buildDate);
+  const sitemap = buildSitemap(Array.from(new Set([`${SITE_ORIGIN}/`, ...generated])), buildDate);
   await writeFile(resolve(DIST, 'sitemap.xml'), sitemap, 'utf-8');
   console.log(`[prerender] ✓ sitemap.xml (${generated.length + 1} URLs)`);
 
-  // robots.txt — make sure Sitemap directive is present
+  // robots.txt — canonical app sitemap only.
   const robotsPath = resolve(DIST, 'robots.txt');
-  let robots = existsSync(robotsPath) ? await readFile(robotsPath, 'utf-8') : 'User-agent: *\nAllow: /\n';
-  if (!robots.includes('Sitemap:')) {
-    robots = `${robots.trim()}\n\nSitemap: ${SITE_ORIGIN}/sitemap.xml\n`;
-    await writeFile(robotsPath, robots, 'utf-8');
-    console.log('[prerender] ✓ robots.txt updated with Sitemap directive');
-  }
+  const robots = `User-agent: *
+Allow: /
+Sitemap: ${SITE_ORIGIN}/sitemap.xml
+`;
+  await writeFile(robotsPath, robots, 'utf-8');
+  console.log('[prerender] ✓ robots.txt written with canonical Sitemap directive');
 
   console.log(`[prerender] done — ${generated.length} pages`);
 }
@@ -104,15 +104,13 @@ function injectIntoTemplate(template: string, page: ReturnType<typeof buildPrere
   // Insert per-page head tags just before </head>.
   html = html.replace('</head>', `    ${page.headTags}\n  </head>`);
 
-  // Insert visible SEO body inside the root div. The Vite template has
-  // <div id="root"></div>; we replace with the SEO content. React hydrate
-  // will detect the mismatch and re-render — which is fine because we run
-  // ReactDOM.createRoot (not hydrateRoot), so it just replaces the inner
-  // markup on mount. Crawlers see the SEO body before that happens.
-  html = html.replace(
-    /<div id="root">\s*<\/div>/,
-    `<div id="root">${page.bodyHtml}</div>`,
-  );
+  if (!html.includes('<!--PRERENDER_ROOT-->')) {
+    throw new Error('Missing PRERENDER_ROOT marker in index.html');
+  }
+
+  // Insert visible SEO body at a dedicated marker. This avoids fragile root
+  // regex replacement when the app shell contains visible fallback content.
+  html = html.replace('<!--PRERENDER_ROOT-->', page.bodyHtml);
 
   return html;
 }

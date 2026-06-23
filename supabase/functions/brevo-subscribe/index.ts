@@ -2,6 +2,10 @@
 // then trigger the appropriate automation workflow via list assignment.
 // Keeps BREVO_API_KEY server-side. Public endpoint (verify_jwt = false).
 
+function normalizeBrevoValue(value: unknown) {
+  return String(value ?? '').trim().toLowerCase().replace(/-/g, '_').slice(0, 100);
+}
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -84,7 +88,7 @@ Deno.serve(async (req) => {
 
     if (useDoi) {
       payload.templateId = body.templateId;
-      payload.redirectionUrl = body.redirectionUrl || 'https://gearuptofit.com/shoe-match/?confirmed=1';
+      payload.redirectionUrl = body.redirectionUrl || 'https://gearuptofit.com/shoe-finder/?confirmed=1';
       payload.includeListIds = listIds;
       delete payload.listIds;
     }

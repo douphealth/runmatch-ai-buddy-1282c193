@@ -65,7 +65,7 @@ const EmailGate = ({
 }: EmailGateProps) => {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
-  const [consent, setConsent] = useState(true);
+  const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
@@ -211,7 +211,7 @@ const EmailGate = ({
                       className="mt-0.5 accent-primary"
                     />
                     <span>
-                      Yes, send me my report and the free running coach series. I can unsubscribe anytime. By
+                      Yes, also send me running shoe tips and GearUpToFit emails. I can unsubscribe anytime. My result email is separate from marketing consent. By
                       continuing I accept the{' '}
                       <a href="https://gearuptofit.com/privacy-policy/" target="_blank" rel="noopener" className="underline hover:text-primary">privacy policy</a>.
                     </span>
@@ -257,7 +257,7 @@ const EmailGate = ({
                 </div>
                 <h3 className="text-xl font-bold uppercase mb-2">Check your inbox!</h3>
                 <p className="text-sm text-muted-foreground">
-                  Your personalized report is on its way. Unlocking your results…
+                  Your personalized report is on its way. Your personalized report is on its way.
                 </p>
               </motion.div>
             )}

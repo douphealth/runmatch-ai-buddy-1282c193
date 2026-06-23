@@ -17,7 +17,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: 'How does the tool decide which shoes to recommend?',
-    a: 'A deterministic scoring engine compares your answers against a manufacturer-verified shoe database. It weighs cushioning, drop, stack height, support type, weight, terrain and intended use. The same answers always produce the same recommendation.',
+    a: 'A deterministic scoring engine compares your answers against a structured shoe database with source links where available. It weighs cushioning, drop, stack height, support type, weight, terrain and intended use. The same answers always produce the same recommendation.',
   },
   {
     q: 'Can the Running Shoe Finder replace a gait analysis?',
@@ -144,7 +144,7 @@ const ShoeFinder = () => {
           <ol className="grid md:grid-cols-3 gap-4">
             {[
               { n: '1', t: 'Answer 9 short questions', d: 'Foot shape, pronation, mileage, distance, terrain, pace, injuries, brand and budget.' },
-              { n: '2', t: 'We score the shoe database', d: 'A deterministic engine compares your profile against manufacturer-verified shoe data.' },
+              { n: '2', t: 'We score the shoe database', d: 'A deterministic engine compares your profile against structured shoe data with source links where available.' },
               { n: '3', t: 'You get a matched shortlist', d: 'A primary match plus a 2–3 shoe rotation suggestion you can take to any retailer.' },
             ].map(s => (
               <li key={s.n} className="rounded-2xl border border-border/60 bg-card/40 p-5">

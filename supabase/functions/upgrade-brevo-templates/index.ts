@@ -102,7 +102,7 @@ const T2 = {
       ps('Your match is based on 27 data points — foot strike, pronation, mileage, terrain, history, goals, and 22 more. If anything feels off when you run, hit reply. I\'ll personally help you re-tune.'),
     footerCta:
       p('<strong style="color:' + TEXT + ';">Open your full report any time</strong> — share with your coach, training partner, or that friend who keeps buying the wrong shoes:') +
-      btn(utm('shoe-match/', 'welcome'), 'Open My RunMatch Report') +
+      btn(utm('shoe-finder/', 'welcome'), 'Open My RunMatch Report') +
       small('Bonus reads: ' + a(utm('best-running-shoes/', 'welcome'), 'Best running shoes 2026') + ' · ' + a(utm('blog/', 'welcome'), 'Training library') + ' · ' + a(utm('best-running-shoes-for-flat-feet/', 'welcome'), 'Shoes by foot type')),
   }),
 };
@@ -317,7 +317,7 @@ const T8 = {
         'You want to add a trail or carbon-plated shoe to the rotation',
       ]) +
       callout('The re-match takes <strong>90 seconds</strong>. We\'ll factor in everything you\'ve learned about your stride in the last 3 weeks. Your old report is preserved — this gives you a fresh one to compare.') +
-      btn(utm('shoe-match/', 'rematch'), 'Re-Take the RunMatch Quiz') +
+      btn(utm('shoe-finder/', 'rematch'), 'Re-Take the RunMatch Quiz') +
       divider() +
       h2('And one ask') +
       p('If RunMatch and this email series helped you, two small things would mean the world:') +
@@ -330,7 +330,7 @@ const T8 = {
       ps('This is the last "scheduled" email. But I\'m not going anywhere. Stay subscribed for occasional drops — new shoe reviews the week they release, training cycles for upcoming majors, and the rare deep-dive that\'s actually worth your inbox.'),
     footerCta:
       p('<strong style="color:' + TEXT + ';">Keep exploring:</strong>') +
-      small('🏃 ' + a(utm('best-running-shoes/', 'rematch'), 'Latest shoe reviews (2026)') + '<br>📚 ' + a(utm('blog/', 'rematch'), 'Training & nutrition library') + '<br>🎯 ' + a(utm('shoe-match/', 'rematch'), 'Re-take RunMatch AI') + '<br>📩 ' + a('mailto:info@gearuptofit.com', 'Email Alex directly')),
+      small('🏃 ' + a(utm('best-running-shoes/', 'rematch'), 'Latest shoe reviews (2026)') + '<br>📚 ' + a(utm('blog/', 'rematch'), 'Training & nutrition library') + '<br>🎯 ' + a(utm('shoe-finder/', 'rematch'), 'Re-take RunMatch AI') + '<br>📩 ' + a('mailto:info@gearuptofit.com', 'Email Alex directly')),
   }),
 };
 

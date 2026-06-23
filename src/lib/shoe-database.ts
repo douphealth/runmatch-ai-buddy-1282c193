@@ -31,6 +31,13 @@ export interface Shoe {
    * any entry older than 180 days.
    */
   lastVerified?: string;
+  /** Can appear in quiz recommendations even when not safe for an indexable product page. */
+  isRecommendationReady?: boolean;
+  /** Has a usable monetization target/product identity; may still be non-indexable. */
+  isAffiliateReady?: boolean;
+  /** Safe to expose as its own SEO/product page only when data quality is high. */
+  isIndexable?: boolean;
+  dataQualityNotes?: string[];
 }
 
 export const shoeDatabase: Shoe[] = [
@@ -659,7 +666,7 @@ export const shoeDatabase: Shoe[] = [
     injuryFriendly: ['plantar-fasciitis', 'knee-pain', 'shin-splints', 'achilles'],
     amazonASIN: 'B0DHY5WLQH',
     reviewURL: 'https://gearuptofit.com/review/new-balance-fresh-foam-x-more-v6/',
-    imageURL: '/images/shoes/nb-more-v6.jpg',
+    imageURL: '/images/shoes/new-balance-fresh-foam-x-more-v6.jpg',
     highlights: ['Fresh Foam X', 'Maximum stack', 'Recovery runs'],
     lastVerified: '2026-05-04',
   },
@@ -681,7 +688,7 @@ export const shoeDatabase: Shoe[] = [
     injuryFriendly: ['knee-pain', 'plantar-fasciitis'],
     amazonASIN: 'B0CTKR9QQH',
     reviewURL: 'https://gearuptofit.com/review/new-balance-1080-v14/',
-    imageURL: '/images/shoes/nb-1080-v14.jpg',
+    imageURL: '/images/shoes/new-balance-1080-v14.jpg',
     highlights: ['Fresh Foam X', 'Premium daily', 'Buttery smooth'],
     lastVerified: '2026-05-04',
   },
@@ -1837,4 +1844,21 @@ export function getAmazonLink(brand: string, model: string, affiliateTag: string
 /** Convenience helper that takes a Shoe directly. */
 export function getShoeAmazonLink(shoe: Pick<Shoe, 'brand' | 'model'>, affiliateTag: string = 'papalex-20'): string {
   return getAmazonLink(shoe.brand, shoe.model, affiliateTag);
+}
+
+
+export function getShoeQualityState(shoe: Shoe) {
+  const isPlaceholderImage = !shoe.imageURL || shoe.imageURL.includes('placeholder');
+  const hasSpecificReview = Boolean(shoe.reviewURL && !shoe.reviewURL.endsWith('/review/best-running-shoes/'));
+  const hasVerifiedAffiliate = Boolean(shoe.amazonASIN && shoe.amazonASIN !== 'SEARCH');
+  const dataQualityNotes = [
+    isPlaceholderImage ? 'placeholder image' : '',
+    !shoe.sourceURL ? 'missing authoritative source URL' : '',
+    !hasSpecificReview ? 'generic or missing review URL' : '',
+    !hasVerifiedAffiliate ? 'affiliate target needs verification' : '',
+  ].filter(Boolean);
+  const isRecommendationReady = shoe.isRecommendationReady ?? Boolean(shoe.brand && shoe.model && shoe.category && shoe.bestFor?.length && shoe.terrain?.length);
+  const isAffiliateReady = shoe.isAffiliateReady ?? hasVerifiedAffiliate;
+  const isIndexable = shoe.isIndexable ?? (isRecommendationReady && isAffiliateReady && !isPlaceholderImage && Boolean(shoe.sourceURL) && hasSpecificReview && dataQualityNotes.length === 0);
+  return { isRecommendationReady, isAffiliateReady, isIndexable, dataQualityNotes };
 }

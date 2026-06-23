@@ -1,15 +1,15 @@
 /**
  * GearUpToFit RunMatch — Reverse Proxy Worker
- * Routes: gearuptofit.com/shoe-match, gearuptofit.com/shoe-match/*
+ * Routes: gearuptofit.com/shoe-finder, gearuptofit.com/shoe-finder/*
  * Origin: https://runmatch-ai-buddy.lovable.app
  *
- * Serves the Lovable SPA under the /shoe-match/ path on the WordPress
+ * Serves the Lovable SPA under the /shoe-finder/ path on the WordPress
  * domain so SEO link equity, AI Overview citations, and organic rankings
  * accrue to gearuptofit.com.
  */
 
 const ORIGIN = "https://runmatch-ai-buddy.lovable.app";
-const PREFIX = "/shoe-match";
+const PREFIX = "/shoe-finder";
 const ORIGIN_HOST = new URL(ORIGIN).host;
 
 class AttrRewriter {

@@ -16,35 +16,37 @@ export function generateFAQSchema(faqs: Array<{ question: string; answer: string
 }
 
 export function generateProductSchema(rec: ShoeRecommendation, answers: QuizAnswers, recommendedShoe?: Shoe) {
+  if (!recommendedShoe) {
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: `${rec.shoeProfile.category} running shoe recommendation`,
+      description: rec.shoeProfile.summary,
+    };
+  }
+
   const base: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: recommendedShoe ? `${recommendedShoe.brand} ${recommendedShoe.model}` : `${rec.shoeProfile.category} Running Shoe Recommendation`,
+    name: `${recommendedShoe.brand} ${recommendedShoe.model}`,
     description: rec.shoeProfile.summary,
     category: 'Running Shoes',
-    brand: recommendedShoe
-      ? { '@type': 'Brand', name: recommendedShoe.brand }
-      : (answers.brand.length > 0 ? { '@type': 'Brand', name: answers.brand.join(', ') } : undefined),
+    brand: { '@type': 'Brand', name: recommendedShoe.brand },
   };
 
-  if (recommendedShoe) {
-    const img = resolveShoeImage(recommendedShoe);
-    if (img.url) {
-      // Absolute URL for JSON-LD (crawlers won't resolve relative paths reliably).
-      const path = img.url.startsWith('/shoe-finder') ? img.url : `/shoe-finder${img.url.startsWith('/') ? '' : '/'}${img.url}`;
-      base.image = `https://gearuptofit.com${path}`;
-    }
-    base.offers = {
-      '@type': 'Offer',
-      price: String(recommendedShoe.priceUSD),
-      priceCurrency: 'USD',
-      availability: 'https://schema.org/InStock',
-      url: `https://www.amazon.com/s?k=${encodeURIComponent(`${recommendedShoe.brand} ${recommendedShoe.model} running shoes`)}&tag=papalex-20`,
-    };
-    if (recommendedShoe.amazonASIN) {
-      base.sku = recommendedShoe.amazonASIN;
-      base.gtin = recommendedShoe.amazonASIN;
-    }
+  const img = resolveShoeImage(recommendedShoe);
+  if (img.url && !img.url.includes('placeholder')) {
+    const path = img.url.startsWith('/shoe-finder') ? img.url : `/shoe-finder${img.url.startsWith('/') ? '' : '/'}${img.url}`;
+    base.image = `https://gearuptofit.com${path}`;
+  }
+
+  // ASIN is a merchant SKU, not GTIN. Do not emit Offer/availability/price unless verified and visible.
+  const validAsin =
+    typeof recommendedShoe.amazonASIN === 'string' &&
+    /^[A-Z0-9]{10}$/.test(recommendedShoe.amazonASIN) &&
+    recommendedShoe.amazonASIN !== 'SEARCH';
+  if (validAsin) {
+    base.sku = recommendedShoe.amazonASIN;
   }
 
   return base;
@@ -95,11 +97,11 @@ export function generateWebAppSchema() {
     '@type': 'WebApplication',
     name: 'RunMatch AI Running Shoe Finder',
     url: 'https://gearuptofit.com/shoe-finder/',
-    applicationCategory: 'HealthApplication',
+    applicationCategory: 'SportsApplication',
     operatingSystem: 'Web',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     description: 'Free AI-powered running shoe recommendation quiz. Get personalized shoe profiles, rotation strategies, and training tips in 2 minutes.',
-    creator: { '@type': 'Organization', name: 'GearUpToFit', url: 'https://gearuptofit.com' },
+    publisher: { '@type': 'Organization', name: 'GearUpToFit', url: 'https://gearuptofit.com' },
   };
 }
 

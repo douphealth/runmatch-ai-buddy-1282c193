@@ -28,7 +28,7 @@ export const BRANDS: BrandDef[] = [
     name: 'Nike',
     h1: 'Best Nike Running Shoes (2026)',
     title: 'Best Nike Running Shoes 2026 | RunMatch AI',
-    description: 'Top Nike running shoes for 2026 — Pegasus, Vaporfly, Alphafly and more. Verified specs and a free AI quiz to find your match.',
+    description: 'Top Nike running shoes for 2026 — Pegasus, Vaporfly, Alphafly and more. Structured specs and a free AI quiz to find your match.',
     intro: 'Nike pairs ZoomX PEBA foam with carbon plates in its race shoes (Vaporfly, Alphafly) and ReactX in its daily trainers (Pegasus, Vomero). These are our 2026 picks scored by the RunMatch AI engine.',
     signature: 'ZoomX foam + Flyknit upper',
     faqs: [
@@ -42,7 +42,7 @@ export const BRANDS: BrandDef[] = [
     name: 'Brooks',
     h1: 'Best Brooks Running Shoes (2026)',
     title: 'Best Brooks Running Shoes 2026 | RunMatch AI',
-    description: 'Top Brooks running shoes 2026 — Ghost, Glycerin, Adrenaline GTS. Verified specs and a free AI quiz to pick yours.',
+    description: 'Top Brooks running shoes 2026 — Ghost, Glycerin, Adrenaline GTS. Structured specs and a free AI quiz to pick yours.',
     intro: 'Brooks dominates the comfort-and-stability category: DNA LOFT v3 nitrogen-infused foam, GuideRails support, and roomy fits make them a long-distance favorite.',
     signature: 'DNA LOFT v3 + GuideRails',
     faqs: [
@@ -56,7 +56,7 @@ export const BRANDS: BrandDef[] = [
     name: 'Hoka',
     h1: 'Best Hoka Running Shoes (2026)',
     title: 'Best Hoka Running Shoes 2026 | RunMatch AI',
-    description: 'Top Hoka running shoes 2026 — Clifton, Bondi, Mach. Max-cushion verified picks and a free AI quiz to find yours.',
+    description: 'Top Hoka running shoes 2026 — Clifton, Bondi, Mach. Max-cushion structured picks and a free AI quiz to find yours.',
     intro: 'Hoka built the max-cushion category. The Clifton and Bondi deliver plush rocker-geometry rides; the Mach and Rocket X line up for tempo and race day.',
     signature: 'Meta-Rocker geometry + max stack',
     faqs: [
@@ -70,7 +70,7 @@ export const BRANDS: BrandDef[] = [
     name: 'Asics',
     h1: 'Best Asics Running Shoes (2026)',
     title: 'Best Asics Running Shoes 2026 | RunMatch AI',
-    description: 'Top Asics running shoes 2026 — Nimbus, Kayano, Novablast, Superblast. Verified specs and a free AI quiz inside.',
+    description: 'Top Asics running shoes 2026 — Nimbus, Kayano, Novablast, Superblast. Structured specs and a free AI quiz inside.',
     intro: 'Asics leads with FF Blast Plus Eco and FF Turbo foams. The Gel-Nimbus and Gel-Kayano anchor the daily lineup; Novablast and Superblast deliver bouncier rides.',
     signature: 'FF Blast Plus Eco + PureGel',
     faqs: [
@@ -84,7 +84,7 @@ export const BRANDS: BrandDef[] = [
     name: 'Saucony',
     h1: 'Best Saucony Running Shoes (2026)',
     title: 'Best Saucony Running Shoes 2026 | RunMatch AI',
-    description: 'Top Saucony running shoes 2026 — Endorphin Pro, Speed, Triumph, Ride. Verified specs and a free AI quiz inside.',
+    description: 'Top Saucony running shoes 2026 — Endorphin Pro, Speed, Triumph, Ride. Structured specs and a free AI quiz inside.',
     intro: 'Saucony\'s Endorphin family popularized PWRRUN PB foam with a SpeedRoll geometry. The Ride and Triumph cover daily mileage; Endorphin Pro and Elite are race-day weapons.',
     signature: 'PWRRUN PB + SpeedRoll',
     faqs: [
@@ -98,7 +98,7 @@ export const BRANDS: BrandDef[] = [
     name: 'New Balance',
     h1: 'Best New Balance Running Shoes (2026)',
     title: 'Best New Balance Running Shoes 2026 | RunMatch AI',
-    description: 'Top New Balance running shoes 2026 — FuelCell SC Elite, Rebel, 1080, More. Verified specs and a free AI quiz inside.',
+    description: 'Top New Balance running shoes 2026 — FuelCell SC Elite, Rebel, 1080, More. Structured specs and a free AI quiz inside.',
     intro: 'New Balance pairs FuelCell PEBA foam with carbon Energy Arc plates in its race shoes. The 1080 and More v5 are plush daily workhorses with industry-leading width options.',
     signature: 'FuelCell PEBA + Energy Arc',
     faqs: [
@@ -112,7 +112,7 @@ export const BRANDS: BrandDef[] = [
     name: 'Adidas',
     h1: 'Best Adidas Running Shoes (2026)',
     title: 'Best Adidas Running Shoes 2026 | RunMatch AI',
-    description: 'Top Adidas running shoes 2026 — Adios Pro, Boston, Supernova. Verified specs and a free AI quiz inside.',
+    description: 'Top Adidas running shoes 2026 — Adios Pro, Boston, Supernova. Structured specs and a free AI quiz inside.',
     intro: 'Adidas combines Lightstrike Pro PEBA foam with Energy Rods to create some of the fastest race-day shoes in the world. The Boston and Supernova handle daily mileage.',
     signature: 'Lightstrike Pro + Energy Rods',
     faqs: [
@@ -126,7 +126,7 @@ export const BRANDS: BrandDef[] = [
     name: 'On',
     h1: 'Best On Running Shoes (2026)',
     title: 'Best On Running Shoes 2026 | RunMatch AI',
-    description: 'Top On Running shoes 2026 — Cloudmonster, Cloudsurfer, Cloudboom. Verified specs and a free AI quiz inside.',
+    description: 'Top On Running shoes 2026 — Cloudmonster, Cloudsurfer, Cloudboom. Structured specs and a free AI quiz inside.',
     intro: 'Swiss brand On uses its signature CloudTec midsole plus Helion superfoam for a distinctive ride. Cloudmonster and Cloudsurfer cover daily miles; Cloudboom Echo races.',
     signature: 'CloudTec + Helion superfoam',
     faqs: [
@@ -140,7 +140,7 @@ export const BRANDS: BrandDef[] = [
     name: 'Mizuno',
     h1: 'Best Mizuno Running Shoes (2026)',
     title: 'Best Mizuno Running Shoes 2026 | RunMatch AI',
-    description: 'Top Mizuno running shoes 2026 — Wave Rider, Wave Sky, Neo Vista. Verified specs and a free AI quiz inside.',
+    description: 'Top Mizuno running shoes 2026 — Wave Rider, Wave Sky, Neo Vista. Structured specs and a free AI quiz inside.',
     intro: 'Mizuno\'s Wave technology and Enerzy NXT foam deliver a uniquely smooth, stable ride. The Wave Rider is the brand\'s iconic daily trainer; the Neo Vista is its modern super-trainer.',
     signature: 'Wave plate + Enerzy NXT',
     faqs: [
@@ -154,7 +154,7 @@ export const BRANDS: BrandDef[] = [
     name: 'Altra',
     h1: 'Best Altra Zero-Drop Running Shoes (2026)',
     title: 'Best Altra Running Shoes 2026 | RunMatch AI',
-    description: 'Top Altra zero-drop running shoes 2026 — Torin, Escalante, Lone Peak. Verified specs and a free AI quiz inside.',
+    description: 'Top Altra zero-drop running shoes 2026 — Torin, Escalante, Lone Peak. Structured specs and a free AI quiz inside.',
     intro: 'Altra is the leader in zero-drop, foot-shaped running shoes. The FootShape™ toebox lets toes splay naturally, and the balanced 0mm drop strengthens the posterior chain over time.',
     signature: 'Zero drop + FootShape toebox',
     faqs: [

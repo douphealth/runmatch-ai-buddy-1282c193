@@ -1,5 +1,5 @@
 import { QuizAnswers } from './quiz-data';
-import { Shoe, shoeDatabase } from './shoe-database';
+import { Shoe, shoeDatabase, getShoeQualityState } from './shoe-database';
 
 export interface ScoredShoe {
   shoe: Shoe;
@@ -98,7 +98,7 @@ export function scoreShoes(answers: QuizAnswers): ScoredShoe[] {
     mileage: 0.07,
   };
 
-  return shoeDatabase.map(shoe => {
+  return shoeDatabase.filter(shoe => getShoeQualityState(shoe).isRecommendationReady).map(shoe => {
     const scores = {
       terrain: terrainMatch(answers.terrain, shoe.terrain),
       distance: distanceMatch(answers.distance, shoe.bestDistances),
@@ -119,7 +119,7 @@ export function scoreShoes(answers: QuizAnswers): ScoredShoe[] {
     if (scores.terrain === 1) reasons.push(`Perfect for ${answers.terrain} running`);
     if (scores.distance === 1) reasons.push(`Optimized for ${answers.distance.replace('-', ' ')} distance`);
     if (scores.pronation === 1) reasons.push(`Matches your ${answers.pronation} pronation`);
-    if (scores.injury === 1) reasons.push('Injury-friendly design');
+    if (scores.injury === 1) reasons.push('Comfort/support features match your selected needs');
     if (scores.footType === 1 && answers.footType === 'wide') reasons.push('Wide fit available');
     if (scores.brand === 1) reasons.push(`Matches your ${shoe.brand} preference`);
     if (scores.pace === 1) reasons.push(`Built for ${answers.paceGoal} pace`);

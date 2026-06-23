@@ -33,8 +33,8 @@ const TrustBar = ({ variant = 'hero', className = '' }: TrustBarProps) => {
     return (
       <div className={`flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[10px] uppercase tracking-[0.15em] text-muted-foreground ${className}`}>
         <span className="flex items-center gap-1.5"><Activity className="w-3 h-3 text-primary" /> {runners.toLocaleString()} runners matched</span>
-        <span className="flex items-center gap-1.5"><ShieldCheck className="w-3 h-3 text-primary" /> Manufacturer-verified specs</span>
-        <span className="flex items-center gap-1.5"><Award className="w-3 h-3 text-primary" /> Backed by sports science</span>
+        <span className="flex items-center gap-1.5"><ShieldCheck className="w-3 h-3 text-primary" /> Structured specs</span>
+        <span className="flex items-center gap-1.5"><Award className="w-3 h-3 text-primary" /> Educational guidance</span>
       </div>
     );
   }
@@ -57,11 +57,11 @@ const TrustBar = ({ variant = 'hero', className = '' }: TrustBarProps) => {
       </div>
       <div className="h-4 w-px bg-border/50 hidden sm:block" />
       <div className="flex items-center gap-1.5 text-[10px] md:text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
-        <ShieldCheck className="w-3.5 h-3.5 text-primary" /> Verified specs
+        <ShieldCheck className="w-3.5 h-3.5 text-primary" /> Structured specs
       </div>
       <div className="h-4 w-px bg-border/50 hidden sm:block" />
       <div className="flex items-center gap-1.5 text-[10px] md:text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
-        <Award className="w-3.5 h-3.5 text-primary" /> Sports-science backed
+        <Award className="w-3.5 h-3.5 text-primary" /> Educational guidance
       </div>
       <div className="h-4 w-px bg-border/50 hidden md:block" />
       <div className="flex items-center gap-1.5 text-[10px] md:text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
