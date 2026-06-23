@@ -164,15 +164,24 @@ const ShoeComparison = () => {
                 <ul className="mt-4 space-y-1.5 text-sm text-muted-foreground">
                   {s.highlights.slice(0, 3).map(h => <li key={h}>• {h}</li>)}
                 </ul>
-                <a
-                  href={url}
-                  target="_blank"
-                  rel="sponsored noopener noreferrer"
-                  onClick={() => track.affiliateClick({ shoeId: s.id, brand: s.brand, model: s.model, placement: `comparison-${data.slug}` })}
-                  className="mt-5 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition"
-                >
-                  Check price on Amazon <ExternalLink className="w-3.5 h-3.5" />
-                </a>
+                {url ? (
+                  <a
+                    href={url}
+                    target="_blank"
+                    rel="sponsored noopener noreferrer"
+                    onClick={() => track.affiliateClick({ shoeId: s.id, brand: s.brand, model: s.model, placement: `comparison-${data.slug}` })}
+                    className="mt-5 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition"
+                  >
+                    Check price on Amazon <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                ) : (
+                  <Link
+                    to={`/shoes/${s.id}`}
+                    className="mt-5 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-secondary text-foreground font-medium hover:bg-secondary/80 transition"
+                  >
+                    View review <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                )}
               </motion.article>
             );
           })}
@@ -239,7 +248,7 @@ const ShoeComparison = () => {
         <h2 className="text-xl font-semibold mb-4">More head-to-head comparisons</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {otherComparisons.map(c => (
-            <Link key={c.slug} to={`/shoe-finder/compare/${c.slug}`} className="p-4 rounded-xl bg-card/40 border border-border/60 hover:border-primary/40 transition text-sm">
+            <Link key={c.slug} to={`/compare/${c.slug}`} className="p-4 rounded-xl bg-card/40 border border-border/60 hover:border-primary/40 transition text-sm">
               <span className="font-medium">{c.a.brand} {c.a.model}</span>
               <span className="text-muted-foreground"> vs </span>
               <span className="font-medium">{c.b.brand} {c.b.model}</span>

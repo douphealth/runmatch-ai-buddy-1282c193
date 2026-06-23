@@ -6,7 +6,7 @@ import { ShoppingCart, Star, CheckCircle } from 'lucide-react';
 
 interface ShoeComparisonTableProps {
   shoes: ScoredShoe[];
-  getAmazonLink: (id: string, brand: string, model: string, asin?: string) => string;
+  getAmazonLink: (id: string, brand: string, model: string, asin?: string | null) => string | null;
 }
 
 const ShoeComparisonTable = ({ shoes, getAmazonLink }: ShoeComparisonTableProps) => {
@@ -103,18 +103,25 @@ const ShoeComparisonTable = ({ shoes, getAmazonLink }: ShoeComparisonTableProps)
           ))}
           <tr>
             <td className="py-3 px-2"></td>
-            {shoes.slice(0, 5).map(s => (
-              <td key={s.shoe.id} className="text-center py-3 px-2">
-                <a
-                  href={getAmazonLink(s.shoe.id, s.shoe.brand, s.shoe.model, s.shoe.amazonASIN)}
-                  target="_blank"
-                  rel="noopener noreferrer nofollow"
-                  className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-primary hover:underline"
-                >
-                  <ShoppingCart className="w-3 h-3" /> Buy
-                </a>
-              </td>
-            ))}
+            {shoes.slice(0, 5).map(s => {
+              const amazonUrl = getAmazonLink(s.shoe.id, s.shoe.brand, s.shoe.model, s.shoe.amazonASIN);
+              return (
+                <td key={s.shoe.id} className="text-center py-3 px-2">
+                  {amazonUrl ? (
+                    <a
+                      href={amazonUrl}
+                      target="_blank"
+                      rel="noopener noreferrer sponsored nofollow"
+                      className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-primary hover:underline"
+                    >
+                      <ShoppingCart className="w-3 h-3" /> Buy
+                    </a>
+                  ) : (
+                    <span className="text-[10px] text-muted-foreground">Review</span>
+                  )}
+                </td>
+              );
+            })}
           </tr>
         </tbody>
       </table>

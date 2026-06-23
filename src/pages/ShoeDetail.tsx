@@ -110,7 +110,7 @@ const ShoeDetail = () => {
         <ol className="flex flex-wrap items-center gap-1.5">
           <li><Link to="/" className="hover:text-foreground transition">RunMatch AI</Link></li>
           <ChevronRight className="w-3.5 h-3.5" />
-          <li><Link to={`/shoe-finder/best-running-shoes/brand/${shoe.brand.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-foreground transition">{shoe.brand}</Link></li>
+          <li><Link to={`/best-running-shoes/brand/${shoe.brand.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-foreground transition">{shoe.brand}</Link></li>
           <ChevronRight className="w-3.5 h-3.5" />
           <li className="text-foreground font-medium" aria-current="page">{shoe.model}</li>
         </ol>
@@ -141,16 +141,18 @@ const ShoeDetail = () => {
               ))}
             </div>
             <div className="flex flex-wrap gap-3 mb-4">
-              <a
-                href={amazonUrl}
-                target="_blank"
-                rel="sponsored noopener noreferrer"
-                onClick={() => track.affiliateClick({ shoeId: shoe.id, brand: shoe.brand, model: shoe.model, placement: `shoe-detail-hero` })}
-              >
-                <Button size="lg" className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
-                  Check price on Amazon <ExternalLink className="ml-2 w-4 h-4" />
-                </Button>
-              </a>
+              {amazonUrl && (
+                <a
+                  href={amazonUrl}
+                  target="_blank"
+                  rel="sponsored noopener noreferrer"
+                  onClick={() => track.affiliateClick({ shoeId: shoe.id, brand: shoe.brand, model: shoe.model, placement: `shoe-detail-hero` })}
+                >
+                  <Button size="lg" className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
+                    Check price on Amazon <ExternalLink className="ml-2 w-4 h-4" />
+                  </Button>
+                </a>
+              )}
               <Link to="/">
                 <Button size="lg" variant="outline">Find your perfect match <ArrowRight className="ml-2 w-4 h-4" /></Button>
               </Link>
@@ -215,7 +217,7 @@ const ShoeDetail = () => {
               return (
                 <Link
                   key={c.slug}
-                  to={`/shoe-finder/compare/${c.slug}`}
+                  to={`/compare/${c.slug}`}
                   className="group rounded-xl p-4 bg-card/40 border border-border/60 hover:border-primary/40 hover:bg-card/60 transition-all"
                 >
                   <div className="flex items-center justify-between mb-1.5">
@@ -240,7 +242,7 @@ const ShoeDetail = () => {
             {alternatives.map(s => (
               <Link
                 key={s.id}
-                to={`/shoe-finder/shoes/${s.id}`}
+                to={`/shoes/${s.id}`}
                 className="group rounded-2xl border border-border/60 bg-card/40 p-4 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all"
               >
                 <ShoeImage brand={s.brand} model={s.model} imageURL={s.imageURL} amazonASIN={s.amazonASIN} size="sm" interactive={false} />
@@ -260,14 +262,14 @@ const ShoeDetail = () => {
             {sameBrand.map(s => (
               <Link
                 key={s.id}
-                to={`/shoe-finder/shoes/${s.id}`}
+                to={`/shoes/${s.id}`}
                 className="px-4 py-2 rounded-full bg-card/40 border border-border/60 hover:border-primary/40 text-sm transition"
               >
                 {s.model}
               </Link>
             ))}
             <Link
-              to={`/shoe-finder/best-running-shoes/brand/${shoe.brand.toLowerCase().replace(/\s+/g, '-')}`}
+              to={`/best-running-shoes/brand/${shoe.brand.toLowerCase().replace(/\s+/g, '-')}`}
               className="px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm hover:bg-primary/20 transition"
             >
               See all {shoe.brand} →

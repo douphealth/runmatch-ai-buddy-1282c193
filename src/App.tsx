@@ -60,13 +60,7 @@ const App = () => (
               <Route path="/best-running-shoes/:slug" element={<CategoryLanding />} />
               <Route path="/compare/:slug" element={<ShoeComparison />} />
               <Route path="/shoes/:id" element={<ShoeDetail />} />
-              <Route path="/shoe-finder/best-running-shoes/brand/:brand" element={<BrandLanding />} />
-              <Route path="/shoe-finder/best-running-shoes/:slug" element={<CategoryLanding />} />
-              <Route path="/shoe-finder/compare/:slug" element={<ShoeComparison />} />
-              <Route path="/shoe-finder/shoes/:id" element={<ShoeDetail />} />
-              <Route path="/shoe-finder" element={<ShoeFinder />} />
-              <Route path="/shoe-finder/" element={<ShoeFinder />} />
-              <Route path="*" element={<NotFound />} />
+                            <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
         </BrowserRouter>

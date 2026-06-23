@@ -18,14 +18,14 @@ interface Source {
 const SOURCES: Source[] = [
   {
     claim: 'Rotating multiple shoe models reduces running injury risk by ~39%',
-    citation: 'Malisoux L. et al., British Journal of Sports Medicine, 2015 — "Can parallel use of different running shoes decrease running-related injury risk?"',
-    url: 'https://bjsm.bmj.com/content/49/15/1011',
+    citation: 'Malisoux L. et al., Scandinavian Journal of Medicine & Science in Sports, 2013 — "Can parallel use of different running shoes decrease running-related injury risk?"',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/24286345/',
     type: 'study',
   },
   {
     claim: 'Running shoes typically last 500–800 km / 300–500 miles',
-    citation: 'American Academy of Podiatric Sports Medicine — Running Shoe Replacement Guidelines',
-    url: 'https://www.aapsm.org/runshoe-replace.html',
+    citation: 'Nike running guide — "When should I replace my running shoes?"',
+    url: 'https://www.nike.com/a/how-often-to-replace-running-shoes',
     type: 'guideline',
   },
   {
@@ -49,7 +49,7 @@ const SOURCES: Source[] = [
   {
     claim: 'Shoe specifications (weight, drop, stack height) verified against manufacturer pages',
     citation: 'Brand-direct sources: Nike, ASICS, Brooks, Hoka, Saucony, New Balance, Adidas, Mizuno, On, Altra, Salomon, NNormal',
-    url: 'https://gearuptofit.com/methodology/',
+    url: 'https://www.nike.com/w/running-shoes-37v7jzy7ok',
     type: 'spec',
   },
 ];

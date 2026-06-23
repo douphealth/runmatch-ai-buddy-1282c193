@@ -50,9 +50,9 @@ import StickyTopMatchBanner from '@/components/results/StickyTopMatchBanner';
 import { saveMatch } from '@/lib/saved-matches';
 
 // Resolves a verified direct /dp/ASIN Amazon link via SerpAPI cache,
-// keyed by the canonical shoe id. Falls back to brand-filtered search
-// only when no verified ASIN is available.
-const getAmazonProductLink = (id: string, brand: string, model: string, asin?: string) =>
+// Amazon link builder returns only direct /dp/ product URLs; null means no
+// verified Amazon product page, so the UI must not render an Amazon CTA.
+const getAmazonProductLink = (id: string, brand: string, model: string, asin?: string | null) =>
   getAmazonLinkForShoe(id, brand, model, asin);
 
 const RunMatchResult = () => {
@@ -286,6 +286,9 @@ const RunMatchResult = () => {
 
   const rec = recommendation;
   const primary = rotation?.primary;
+  const primaryAmazonUrl = primary?.shoe
+    ? getAmazonProductLink(primary.shoe.id, primary.shoe.brand, primary.shoe.model, primary.shoe.amazonASIN)
+    : null;
   const shoesAnalyzed = topShoes.length > 0 ? 40 : 0;
   const dataPoints = 9;
 
@@ -470,16 +473,18 @@ const RunMatchResult = () => {
                   </ul>
 
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <a
-                      href={getAmazonProductLink(primary.shoe.id, primary.shoe.brand, primary.shoe.model, primary.shoe.amazonASIN)}
-                      target="_blank"
-                      rel="noopener noreferrer sponsored nofollow"
-                      onClick={() => track.affiliateClick({ shoeId: primary.shoe.id, brand: primary.shoe.brand, model: primary.shoe.model, placement: 'result_primary_cta', resultSlug: slug, matchPercent: primary.matchPercent, category: primary.shoe.category, priceBand: getPriceTier(primary.shoe.priceUSD).label, userTerrain: answers?.terrain, userDistance: answers?.distance, userPronation: answers?.pronation })}
-                      className="inline-flex items-center justify-center gap-2 bg-gradient-primary glow-primary text-primary-foreground font-bold uppercase tracking-wider px-6 h-12 rounded-xl hover:opacity-90 transition-all text-sm"
-                    >
-                      <ShoppingCart className="w-4 h-4" />
-                      Check Latest Price
-                    </a>
+                    {primaryAmazonUrl && (
+                      <a
+                        href={primaryAmazonUrl}
+                        target="_blank"
+                        rel="noopener noreferrer sponsored nofollow"
+                        onClick={() => track.affiliateClick({ shoeId: primary.shoe.id, brand: primary.shoe.brand, model: primary.shoe.model, placement: 'result_primary_cta', resultSlug: slug, matchPercent: primary.matchPercent, category: primary.shoe.category, priceBand: getPriceTier(primary.shoe.priceUSD).label, userTerrain: answers?.terrain, userDistance: answers?.distance, userPronation: answers?.pronation })}
+                        className="inline-flex items-center justify-center gap-2 bg-gradient-primary glow-primary text-primary-foreground font-bold uppercase tracking-wider px-6 h-12 rounded-xl hover:opacity-90 transition-all text-sm"
+                      >
+                        <ShoppingCart className="w-4 h-4" />
+                        Check Latest Price
+                      </a>
+                    )}
                     <a
                       href={primary.shoe.reviewURL}
                       target="_blank"
@@ -518,6 +523,7 @@ const RunMatchResult = () => {
                   rotation.longRun ? { role: '🛣️ Long Run', shoe: rotation.longRun, desc: 'Weekly long run (15K+)' } : null,
                 ].filter(Boolean).map((item, i) => {
                   const s = item!;
+                  const rotationAmazonUrl = getAmazonProductLink(s.shoe.shoe.id, s.shoe.shoe.brand, s.shoe.shoe.model, s.shoe.shoe.amazonASIN);
                   return (
                     <motion.div
                       key={i}
@@ -549,15 +555,17 @@ const RunMatchResult = () => {
                       </div>
                       <p className="text-xs text-muted-foreground mb-3">{getPriceTier(s.shoe.shoe.priceUSD).label} · {getPriceTier(s.shoe.shoe.priceUSD).range}</p>
                       <div className="flex gap-2">
-                        <a
-                          href={getAmazonProductLink(s.shoe.shoe.id, s.shoe.shoe.brand, s.shoe.shoe.model, s.shoe.shoe.amazonASIN)}
-                          target="_blank"
-                          rel="noopener noreferrer sponsored nofollow"
-                          onClick={() => track.affiliateClick({ shoeId: s.shoe.shoe.id, brand: s.shoe.shoe.brand, model: s.shoe.shoe.model, placement: 'rotation_strategy_card', resultSlug: slug, matchPercent: s.shoe.matchPercent, category: s.shoe.shoe.category, priceBand: getPriceTier(s.shoe.shoe.priceUSD).label, userTerrain: answers?.terrain, userDistance: answers?.distance, userPronation: answers?.pronation })}
-                          className="flex-1 flex items-center justify-center gap-1.5 bg-primary/10 text-primary font-semibold text-xs px-3 h-9 rounded-lg hover:bg-primary/20 transition-all"
-                        >
-                          <ShoppingCart className="w-3 h-3" /> Amazon
-                        </a>
+                        {rotationAmazonUrl && (
+                          <a
+                            href={rotationAmazonUrl}
+                            target="_blank"
+                            rel="noopener noreferrer sponsored nofollow"
+                            onClick={() => track.affiliateClick({ shoeId: s.shoe.shoe.id, brand: s.shoe.shoe.brand, model: s.shoe.shoe.model, placement: 'rotation_strategy_card', resultSlug: slug, matchPercent: s.shoe.matchPercent, category: s.shoe.shoe.category, priceBand: getPriceTier(s.shoe.shoe.priceUSD).label, userTerrain: answers?.terrain, userDistance: answers?.distance, userPronation: answers?.pronation })}
+                            className="flex-1 flex items-center justify-center gap-1.5 bg-primary/10 text-primary font-semibold text-xs px-3 h-9 rounded-lg hover:bg-primary/20 transition-all"
+                          >
+                            <ShoppingCart className="w-3 h-3" /> Amazon
+                          </a>
+                        )}
                         <a
                           href={s.shoe.shoe.reviewURL}
                           target="_blank"

@@ -7,11 +7,11 @@
  *
  * Lookup is keyed by SHOE ID (not the unreliable `amazonASIN` field on the
  * shoe record, which historically held placeholder values). When a verified
- * ASIN exists for a given shoe id, we link directly to /dp/{ASIN}. Otherwise
- * we fall back to a brand-filtered Amazon search inside the Shoes department,
- * which is guaranteed not to 404.
+ * ASIN exists for a given shoe id, we link directly to /dp/{ASIN}.
+ * If no verified ASIN exists, we return null. Never send users to Amazon
+ * search pages from product CTAs.
  *
- * Affiliate tag `papalex-20` is preserved on every URL.
+ * Affiliate tag `papalex-20` is preserved on every Amazon URL.
  */
 import asinCache from './amazon-asin-cache.json';
 
@@ -19,77 +19,43 @@ const AFFILIATE_TAG = 'papalex-20';
 
 type CacheEntry = { asin: string | null; title?: string; url?: string };
 const CACHE = asinCache as Record<string, CacheEntry>;
+const ASIN_RE = /^[A-Z0-9]{10}$/;
 
-const BRAND_FILTER: Record<string, string> = {
-  nike: 'Nike',
-  adidas: 'adidas',
-  asics: 'ASICS',
-  hoka: 'HOKA',
-  brooks: 'Brooks',
-  saucony: 'Saucony',
-  'new balance': 'New Balance',
-  on: 'On',
-  puma: 'PUMA',
-  mizuno: 'Mizuno',
-  altra: 'Altra',
-  salomon: 'Salomon',
-  merrell: 'Merrell',
-  'topo athletic': 'Topo Athletic',
-  'inov-8': 'Inov-8',
-};
-
-function buildSearchFallback(brand: string, model: string): string {
-  const cleanModel = model.replace(/\s*\([^)]*\)\s*/g, ' ').trim();
-  const query = encodeURIComponent(`${brand} ${cleanModel} running shoes`);
-  const brandFilter = BRAND_FILTER[brand.trim().toLowerCase()];
-  const params = [
-    `k=${query}`,
-    `i=shoes`,
-    brandFilter ? `rh=${encodeURIComponent(`p_89:${brandFilter}`)}` : '',
-    `tag=${AFFILIATE_TAG}`,
-  ].filter(Boolean);
-  return `https://www.amazon.com/s?${params.join('&')}`;
-}
+const directAmazonUrl = (asin: string): string =>
+  `https://www.amazon.com/dp/${asin.toUpperCase()}/?tag=${AFFILIATE_TAG}`;
 
 /**
- * Returns the verified direct /dp/ link for a shoe, falling back to a
- * brand-filtered search if no verified ASIN exists.
+ * Returns a verified direct /dp/ link for a shoe, or null when we cannot
+ * confidently produce a direct product page.
  *
  * `shoeId` is the canonical lookup key — it must match an entry in
  * `amazon-asin-cache.json`. The legacy `asinHint` (the `amazonASIN` field on
- * the shoe record) is accepted for backward compatibility but is NEVER used
- * unless it appears as a value in the verified cache.
+ * the shoe record) is used only if it is a valid ASIN, never for placeholders
+ * such as `SEARCH`.
  */
 export function getAmazonLinkForShoe(
   shoeId: string,
-  brand: string,
-  model: string,
+  _brand: string,
+  _model: string,
   asinHint?: string | null,
-): string {
+): string | null {
   const cached = CACHE[shoeId];
-  if (cached?.asin && /^[A-Z0-9]{10}$/.test(cached.asin)) {
-    return `https://www.amazon.com/dp/${cached.asin}/?tag=${AFFILIATE_TAG}`;
+  if (cached?.asin && ASIN_RE.test(cached.asin.toUpperCase())) {
+    return directAmazonUrl(cached.asin);
   }
-  // Last-ditch: if the asinHint itself matches a cache entry, trust it.
-  if (asinHint && /^[A-Z0-9]{10}$/i.test(asinHint)) {
-    const upper = asinHint.toUpperCase();
-    const verified = Object.values(CACHE).some(c => c.asin?.toUpperCase() === upper);
-    if (verified) {
-      return `https://www.amazon.com/dp/${upper}/?tag=${AFFILIATE_TAG}`;
-    }
+  if (asinHint && ASIN_RE.test(asinHint.toUpperCase())) {
+    return directAmazonUrl(asinHint);
   }
-  return buildSearchFallback(brand, model);
+  return null;
 }
 
 /**
- * @deprecated Use `getAmazonLinkForShoe(shoeId, brand, model)` instead — the
- * `amazonASIN` field on shoe records is unreliable. Kept only so old callers
- * still compile; routes everything through the search fallback.
+ * @deprecated Use `getAmazonLinkForShoe(shoeId, brand, model)` instead.
  */
 export function getAmazonAffiliateLink(
   brand: string,
   model: string,
-  _asin?: string | null,
-): string {
-  return buildSearchFallback(brand, model);
+  asin?: string | null,
+): string | null {
+  return getAmazonLinkForShoe(`${brand}-${model}`.toLowerCase().replace(/[^a-z0-9]+/g, '-'), brand, model, asin);
 }

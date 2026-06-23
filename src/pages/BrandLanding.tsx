@@ -148,7 +148,7 @@ const BrandLanding = () => {
                     <span className="text-sm font-semibold text-primary">${s.priceUSD}</span>
                   </div>
                   <ShoeImage brand={s.brand} model={s.model} imageURL={s.imageURL} amazonASIN={s.amazonASIN} size="md" interactive={false} />
-                  <Link to={`/shoe-finder/shoes/${s.id}`} className="block mt-4 hover:text-primary transition">
+                  <Link to={`/shoes/${s.id}`} className="block mt-4 hover:text-primary transition">
                     <h3 className="text-lg font-bold leading-tight">{s.brand} {s.model}</h3>
                   </Link>
                   <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wide">{s.category} · {s.weightGrams}g · {s.dropMM}mm drop</p>
@@ -160,15 +160,24 @@ const BrandLanding = () => {
                       </li>
                     ))}
                   </ul>
-                  <a
-                    href={url}
-                    target="_blank"
-                    rel="sponsored noopener noreferrer"
-                    onClick={() => track.affiliateClick({ shoeId: s.id, brand: s.brand, model: s.model, placement: `brand-${brand.slug}` })}
-                    className="mt-4 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition"
-                  >
-                    Check price on Amazon <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
+                  {url ? (
+                    <a
+                      href={url}
+                      target="_blank"
+                      rel="sponsored noopener noreferrer"
+                      onClick={() => track.affiliateClick({ shoeId: s.id, brand: s.brand, model: s.model, placement: `brand-${brand.slug}` })}
+                      className="mt-4 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition"
+                    >
+                      Check price on Amazon <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  ) : (
+                    <Link
+                      to={`/shoes/${s.id}`}
+                      className="mt-4 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-secondary text-foreground font-medium hover:bg-secondary/80 transition"
+                    >
+                      View review <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  )}
                 </motion.article>
               );
             })}
@@ -217,7 +226,7 @@ const BrandLanding = () => {
           {BRANDS.filter(b => b.slug !== brand.slug).map(b => (
             <Link
               key={b.slug}
-              to={`/shoe-finder/best-running-shoes/brand/${b.slug}`}
+              to={`/best-running-shoes/brand/${b.slug}`}
               className="px-4 py-2 rounded-full bg-card/40 border border-border/60 hover:border-primary/40 text-sm transition"
             >
               {b.name}
