@@ -264,6 +264,34 @@ const QuizHero = ({ onStart, onResume, onRestart }: QuizHeroProps) => {
       </div>
     </main>
 
+    {/* Who this is for — audience segmentation directly under the hero */}
+    <section className="relative z-10 px-4 md:px-8 py-14 md:py-16 bg-background border-t border-border/40">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-display font-bold mb-3">Who should use this running shoe finder?</h2>
+        <p className="text-muted-foreground mb-6 text-sm md:text-base">
+          RunMatch AI is built for everyday runners and walkers who want a clearer, less overwhelming way to pick shoes.
+        </p>
+        <ul className="grid sm:grid-cols-2 gap-3">
+          {[
+            'Beginner runners choosing their first real running shoes.',
+            'Road runners comparing neutral, stability, max-cushion and tempo shoes.',
+            'Walkers and runners who want one comfortable daily shoe.',
+            'Runners with wide feet, heel slip, toe pressure, arch discomfort or recurring blisters.',
+            'Trail, gravel and mixed-surface runners choosing between road and trail shoes.',
+            'Runners who feel overwhelmed by brand hype, influencer lists and confusing shoe categories.',
+          ].map((item) => (
+            <li
+              key={item}
+              className="flex gap-3 rounded-xl p-4 bg-card/40 border border-border/60 hover:border-primary/40 transition-all"
+            >
+              <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" aria-hidden="true" />
+              <span className="text-sm md:text-base text-foreground/90 leading-relaxed">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
     {/* Recall: returning runners see their saved matches first */}
     <SavedMatches />
 
