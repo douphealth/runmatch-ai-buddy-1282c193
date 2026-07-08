@@ -20,7 +20,7 @@ import { fileURLToPath } from 'node:url';
 
 import { CANONICAL_SLUGS } from './canonical-slugs.mjs';
 import { answersFromSlug } from '../src/lib/quiz-data';
-import { buildPrerenderedPage } from '../src/lib/prerender-seo';
+import { buildPrerenderedPage, buildLandingPage } from '../src/lib/prerender-seo';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
