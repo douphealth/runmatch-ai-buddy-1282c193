@@ -160,26 +160,28 @@ const QuizHero = ({ onStart, onResume, onRestart }: QuizHeroProps) => {
           </motion.div>
 
           {/* Heading */}
-          <h2 className="text-[2.5rem] sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-4 md:mb-6 uppercase leading-[0.9] sm:leading-[0.85] break-words" aria-label="RunMatch AI Running Shoe Finder">
-            Find Your
+          <h1 className="text-[2rem] sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4 md:mb-6 uppercase leading-[0.95] sm:leading-[0.9] break-words">
+            Running Shoe Finder Quiz
             <motion.span
-              className="block text-gradient mt-1"
+              className="block text-gradient mt-2 text-[1.5rem] sm:text-2xl md:text-4xl lg:text-5xl normal-case tracking-tight"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
             >
-              Perfect Shoe
+              Find the Right Running Shoes for Your Feet, Mileage, Terrain and Budget
             </motion.span>
-          </h2>
+          </h1>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="text-sm sm:text-base md:text-lg text-muted-foreground mb-8 md:mb-10 max-w-xl mx-auto leading-relaxed px-2 sm:px-0"
+            className="text-sm sm:text-base md:text-lg text-muted-foreground mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed px-2 sm:px-0"
           >
-            9 focused questions. One practical match. Get your personalized shoe profile,
-            rotation strategy, and training path — built from structured shoe data.
+            Answer a few questions about your running goal, weekly mileage, terrain, foot shape,
+            cushioning preference, support needs, injury history and budget. RunMatch AI gives you
+            a practical running shoe profile so you can compare neutral, stability, cushioned,
+            trail, race-day and walking-friendly shoes with less guesswork.
           </motion.p>
 
           {/* Features row */}
