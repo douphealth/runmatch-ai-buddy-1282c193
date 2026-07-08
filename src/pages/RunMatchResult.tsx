@@ -292,6 +292,61 @@ const RunMatchResult = () => {
   const shoesAnalyzed = topShoes.length > 0 ? 40 : 0;
   const dataPoints = 9;
 
+  // Descriptive result headline components — used in the H1 subtitle and
+  // improve AEO/GEO extraction (labeled terrain + mileage tier).
+  const mileageTier =
+    answers.weeklyMileage <= 15 ? 'Beginner Weekly Mileage'
+    : answers.weeklyMileage <= 30 ? 'Low Weekly Mileage'
+    : answers.weeklyMileage <= 55 ? 'Moderate Weekly Mileage'
+    : answers.weeklyMileage <= 80 ? 'High Weekly Mileage'
+    : 'Marathon-Level Weekly Mileage';
+  const terrainLabel =
+    answers.terrain === 'road' ? 'Road Running'
+    : answers.terrain === 'trail' ? 'Trail Running'
+    : answers.terrain === 'track' ? 'Track & Speed Work'
+    : answers.terrain === 'treadmill' ? 'Treadmill Running'
+    : 'Mixed-Surface Running';
+  const resultHeadline = `${rec.shoeProfile.category} for ${terrainLabel} and ${mileageTier}`;
+
+  // Fit priority — derived from foot type, pronation, injury signals.
+  // Rendered as discrete labeled data so both users and LLMs can extract it.
+  const fitPriorities: { label: string; detail: string }[] = [
+    {
+      label: 'Toe room',
+      detail: answers.footType === 'wide'
+        ? 'Roomy toebox — avoid narrow last shoes'
+        : 'About a thumb-width in front of the longest toe',
+    },
+    {
+      label: 'Heel lockdown',
+      detail: answers.injuries?.includes('achilles')
+        ? 'Secure but not aggressive — avoid pinching Achilles'
+        : 'Secure heel counter, no slip on push-off',
+    },
+    {
+      label: 'Midfoot hold',
+      detail: answers.pronation === 'overpronation' || answers.footType === 'flat'
+        ? 'Firm, structured midfoot for medial support'
+        : 'Snug but flexible midfoot wrap',
+    },
+    {
+      label: 'Width',
+      detail: answers.footType === 'wide'
+        ? 'Wide (2E) or extra-wide (4E) sizing recommended'
+        : 'Standard (D) width — try wide if forefoot feels pinched',
+    },
+    {
+      label: 'Orthotic room',
+      detail: answers.injuries && answers.injuries.length > 0 && !answers.injuries.includes('none')
+        ? 'Removable sockliner — accommodates custom orthotics'
+        : 'Not required — stock insole is fine for most runners',
+    },
+  ];
+
+  // Beginner-appropriate contextual link — only surfaced when the runner's
+  // profile actually matches beginner intent, to avoid keyword stuffing.
+  const showBeginnerGuide = answers.weeklyMileage <= 25 || answers.distance === '5k';
+
   return (
     <div className="min-h-screen pb-32 md:pb-28 bg-gradient-dark">
       {/* Header */}
@@ -332,9 +387,12 @@ const RunMatchResult = () => {
             <Badge className="mb-4 bg-primary/20 text-primary border-primary/30 text-xs uppercase tracking-[0.15em] px-4 py-1.5">
               AI-Powered Analysis Complete
             </Badge>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-4 leading-[0.9]">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight mb-3 leading-[0.95]">
               {rec.shoeProfile.category}
             </h1>
+            <p className="text-base md:text-xl font-semibold text-foreground/90 max-w-3xl mx-auto mb-3 leading-snug">
+              Your Match: <span className="text-primary">{resultHeadline}</span>
+            </p>
             <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               {rec.shoeProfile.summary}
             </p>
@@ -398,6 +456,61 @@ const RunMatchResult = () => {
       </div>
 
       <main className="max-w-5xl mx-auto px-4 py-6 space-y-6 md:space-y-8">
+
+        {/* Fit Priority — discrete labeled data for AEO/GEO extraction */}
+        <motion.section {...fadeUp} aria-labelledby="fit-priority-heading">
+          <div className="glass rounded-2xl p-5 md:p-8">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Target className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h2 id="fit-priority-heading" className="text-xl md:text-2xl font-bold uppercase tracking-tight">Fit Priority</h2>
+                <p className="text-xs text-muted-foreground">What to check when you try shoes on, based on your answers.</p>
+              </div>
+            </div>
+
+            <dl className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {fitPriorities.map((f) => (
+                <div key={f.label} className="rounded-xl p-4 bg-card/40 border border-border/60">
+                  <dt className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">{f.label}</dt>
+                  <dd className="text-sm text-foreground/90 leading-snug">{f.detail}</dd>
+                </div>
+              ))}
+            </dl>
+
+            {/* Contextual guides — only shown when relevant to the runner's profile */}
+            <div className="mt-6 pt-5 border-t border-border/40 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+              <a
+                href="https://gearuptofit.com/review/best-running-shoes/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-primary hover:underline font-medium"
+              >
+                Compare the Best Running Shoes by Runner Type <ExternalLink className="w-3 h-3" />
+              </a>
+              <a
+                href="https://gearuptofit.com/running/how-to-choose-the-right-running-shoes/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-primary hover:underline font-medium"
+              >
+                Read the Running Shoe Fit Guide <ExternalLink className="w-3 h-3" />
+              </a>
+              {showBeginnerGuide && (
+                <a
+                  href="https://gearuptofit.com/review/best-running-shoes-for-beginners/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-primary hover:underline font-medium"
+                >
+                  Best Beginner Running Shoes <ExternalLink className="w-3 h-3" />
+                </a>
+              )}
+            </div>
+          </div>
+        </motion.section>
+
 
         {/* SECTION 2: #1 Shoe Recommendation (Hero Card) */}
         {primary && (
