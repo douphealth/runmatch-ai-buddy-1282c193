@@ -20,7 +20,7 @@ import { fileURLToPath } from 'node:url';
 
 import { CANONICAL_SLUGS } from './canonical-slugs.mjs';
 import { answersFromSlug } from '../src/lib/quiz-data';
-import { buildPrerenderedPage } from '../src/lib/prerender-seo';
+import { buildPrerenderedPage, buildLandingPage } from '../src/lib/prerender-seo';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -63,6 +63,26 @@ async function main() {
     generated.push(page.url);
     console.log(`[prerender] ✓ ${slug}`);
   }
+
+  // Landing page — overwrite dist/index.html with visible SEO body + landing head tags.
+  // React createRoot().render() will replace #root children on hydration for real users;
+  // this content is what non-JS crawlers (GPTBot, PerplexityBot, ClaudeBot, older Googlebot paths) see.
+  try {
+    const landing = buildLandingPage();
+    const landingHtml = injectIntoTemplate(template, {
+      slug: '',
+      url: `${SITE_ORIGIN}/`,
+      title: '',
+      description: '',
+      headTags: landing.headTags,
+      bodyHtml: landing.bodyHtml,
+    });
+    await writeFile(templatePath, landingHtml, 'utf-8');
+    console.log('[prerender] ✓ landing page written to dist/index.html');
+  } catch (err) {
+    console.error('[prerender] failed to build landing page:', err);
+  }
+
 
   // sitemap.xml
   const sitemap = buildSitemap(Array.from(new Set([`${SITE_ORIGIN}/`, ...generated])), buildDate);
