@@ -42,7 +42,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter basename="/shoe-finder">
+        <BrowserRouter basename={typeof window !== "undefined" && window.location.pathname.startsWith("/shoe-finder") ? "/shoe-finder" : "/"}>
           <Suspense fallback={<RouteFallback />}>
             <Routes>
               <Route path="/" element={<Index />} />
