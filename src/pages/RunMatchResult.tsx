@@ -387,9 +387,12 @@ const RunMatchResult = () => {
             <Badge className="mb-4 bg-primary/20 text-primary border-primary/30 text-xs uppercase tracking-[0.15em] px-4 py-1.5">
               AI-Powered Analysis Complete
             </Badge>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-4 leading-[0.9]">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight mb-3 leading-[0.95]">
               {rec.shoeProfile.category}
             </h1>
+            <p className="text-base md:text-xl font-semibold text-foreground/90 max-w-3xl mx-auto mb-3 leading-snug">
+              Your Match: <span className="text-primary">{resultHeadline}</span>
+            </p>
             <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               {rec.shoeProfile.summary}
             </p>
