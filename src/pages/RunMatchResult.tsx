@@ -292,6 +292,61 @@ const RunMatchResult = () => {
   const shoesAnalyzed = topShoes.length > 0 ? 40 : 0;
   const dataPoints = 9;
 
+  // Descriptive result headline components — used in the H1 subtitle and
+  // improve AEO/GEO extraction (labeled terrain + mileage tier).
+  const mileageTier =
+    answers.weeklyMileage <= 15 ? 'Beginner Weekly Mileage'
+    : answers.weeklyMileage <= 30 ? 'Low Weekly Mileage'
+    : answers.weeklyMileage <= 55 ? 'Moderate Weekly Mileage'
+    : answers.weeklyMileage <= 80 ? 'High Weekly Mileage'
+    : 'Marathon-Level Weekly Mileage';
+  const terrainLabel =
+    answers.terrain === 'road' ? 'Road Running'
+    : answers.terrain === 'trail' ? 'Trail Running'
+    : answers.terrain === 'track' ? 'Track & Speed Work'
+    : answers.terrain === 'treadmill' ? 'Treadmill Running'
+    : 'Mixed-Surface Running';
+  const resultHeadline = `${rec.shoeProfile.category} for ${terrainLabel} and ${mileageTier}`;
+
+  // Fit priority — derived from foot type, pronation, injury signals.
+  // Rendered as discrete labeled data so both users and LLMs can extract it.
+  const fitPriorities: { label: string; detail: string }[] = [
+    {
+      label: 'Toe room',
+      detail: answers.footType === 'wide'
+        ? 'Roomy toebox — avoid narrow last shoes'
+        : 'About a thumb-width in front of the longest toe',
+    },
+    {
+      label: 'Heel lockdown',
+      detail: answers.injuries?.includes('achilles')
+        ? 'Secure but not aggressive — avoid pinching Achilles'
+        : 'Secure heel counter, no slip on push-off',
+    },
+    {
+      label: 'Midfoot hold',
+      detail: answers.pronation === 'overpronation' || answers.footType === 'flat'
+        ? 'Firm, structured midfoot for medial support'
+        : 'Snug but flexible midfoot wrap',
+    },
+    {
+      label: 'Width',
+      detail: answers.footType === 'wide'
+        ? 'Wide (2E) or extra-wide (4E) sizing recommended'
+        : 'Standard (D) width — try wide if forefoot feels pinched',
+    },
+    {
+      label: 'Orthotic room',
+      detail: answers.injuries && answers.injuries.length > 0 && !answers.injuries.includes('none')
+        ? 'Removable sockliner — accommodates custom orthotics'
+        : 'Not required — stock insole is fine for most runners',
+    },
+  ];
+
+  // Beginner-appropriate contextual link — only surfaced when the runner's
+  // profile actually matches beginner intent, to avoid keyword stuffing.
+  const showBeginnerGuide = answers.weeklyMileage <= 25 || answers.distance === '5k';
+
   return (
     <div className="min-h-screen pb-32 md:pb-28 bg-gradient-dark">
       {/* Header */}
