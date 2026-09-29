@@ -4,6 +4,7 @@ import {
   json,
   requireEnv,
   sessionToEntitlement,
+  stripeRequest,
   updateEntitlementsBy,
   upsertEntitlement,
   verifyStripeSignature,
@@ -32,7 +33,7 @@ Deno.serve(async (req) => {
         let session = object;
         if (object?.mode === 'subscription' && typeof object?.subscription === 'string') {
           try {
-            const subscription = await (await import('../_shared/runmatch-stripe.ts')).stripeRequest(
+            const subscription = await stripeRequest(
               `/subscriptions/${encodeURIComponent(object.subscription)}`,
             );
             session = { ...object, subscription };
