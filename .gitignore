@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Supabase Edge Function secrets
+supabase/functions/.env
+supabase/functions/.env.*
+!supabase/functions/.env.example

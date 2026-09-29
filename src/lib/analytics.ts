@@ -51,6 +51,9 @@ export const track = {
   reviewClick: (params: AnalyticsParams) => push('review_click', params),
   affiliateClick: (params: AnalyticsParams) => push('affiliate_click', { ...params, timestamp: new Date().toISOString() }),
   pdfDownload: (params: { slug: string; category?: string }) => push('pdf_download', params),
+  proCheckoutStart: (params: { slug: string; mode: string }) => push('pro_checkout_start', params),
+  proCheckoutSuccess: (params: { slug: string; mode: string }) => push('pro_checkout_success', params),
+  proPackDownload: (params: { slug: string }) => push('pro_pack_download', params),
   ctaClick: (label: string, placement: string) =>
     push('cta_click', { label, placement }),
   exitIntent: () => push('exit_intent_shown'),

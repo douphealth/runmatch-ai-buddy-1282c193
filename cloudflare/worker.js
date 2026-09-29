@@ -1,16 +1,15 @@
 /**
  * GearUpToFit RunMatch — Reverse Proxy Worker
  * Routes: gearuptofit.com/shoe-finder, gearuptofit.com/shoe-finder/*
- * Origin: https://runmatch-ai-buddy.lovable.app
+ * Origin: RUNMATCH_ORIGIN binding, defaulting to the current Cloudflare Pages app.
  *
- * Serves the Lovable SPA under the /shoe-finder/ path on the WordPress
+ * Serves the RunMatch SPA under the /shoe-finder/ path on the WordPress
  * domain so SEO link equity, AI Overview citations, and organic rankings
  * accrue to gearuptofit.com.
  */
 
-const ORIGIN = "https://runmatch-ai-buddy.lovable.app";
+const DEFAULT_ORIGIN = "https://runmatch.gearup-flow-master.pages.dev";
 const PREFIX = "/shoe-finder";
-const ORIGIN_HOST = new URL(ORIGIN).host;
 
 class AttrRewriter {
   constructor(attr) {
@@ -61,8 +60,10 @@ class HeadInjector {
 }
 
 export default {
-  async fetch(request) {
+  async fetch(request, env) {
     const url = new URL(request.url);
+    const origin = (env?.RUNMATCH_ORIGIN || DEFAULT_ORIGIN).replace(/\/$/, "");
+    const originHost = new URL(origin).host;
 
     // Map public path -> origin path
     let path = url.pathname;
@@ -70,11 +71,11 @@ export default {
     else if (path.startsWith(PREFIX + "/")) path = path.slice(PREFIX.length);
     else path = "/"; // safety fallback
 
-    const originUrl = ORIGIN + path + url.search;
+    const originUrl = origin + path + url.search;
 
     // Build origin request
     const newHeaders = new Headers(request.headers);
-    newHeaders.set("host", ORIGIN_HOST);
+    newHeaders.set("host", originHost);
     newHeaders.delete("cf-connecting-ip");
     newHeaders.delete("cf-ipcountry");
     newHeaders.delete("cf-ray");
@@ -95,7 +96,7 @@ export default {
       if (loc) {
         try {
           const locUrl = new URL(loc, originUrl);
-          if (locUrl.host === ORIGIN_HOST) {
+          if (locUrl.host === originHost) {
             const rewritten = `https://${url.host}${PREFIX}${locUrl.pathname}${locUrl.search}${locUrl.hash}`;
             const h = new Headers(resp.headers);
             h.set("location", rewritten);
