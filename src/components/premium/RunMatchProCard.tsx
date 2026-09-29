@@ -89,9 +89,20 @@ export default function RunMatchProCard({ slug, onDownloadPro }: Props) {
     }
   }, [product?.mode, slug]);
 
-  const download = useCallback(() => {
-    track.proPackDownload({ slug });
-    onDownloadPro();
+  const download = useCallback(async () => {
+    try {
+      const verified = await verifyRunMatchPro();
+      setEntitlement(verified);
+      if (!verified.active) {
+        toast.error('RunMatch Pro access could not be verified. Paid content remains locked.');
+        return;
+      }
+      track.proPackDownload({ slug });
+      onDownloadPro();
+    } catch (error) {
+      console.error('RunMatch Pro entitlement re-check failed', error);
+      toast.error('Could not verify RunMatch Pro. Please try again.');
+    }
   }, [onDownloadPro, slug]);
 
   if (loading) {
