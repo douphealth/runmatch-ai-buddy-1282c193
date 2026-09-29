@@ -46,6 +46,7 @@ const App = () => (
           <Suspense fallback={<RouteFallback />}>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/results/:slug" element={<RunMatchResult />} />
               <Route path="/app/runmatch/:slug" element={<RunMatchResult />} />
               <Route path="/best-running-shoes/brand/:brand" element={<BrandLanding />} />
               <Route path="/best-running-shoes/:slug" element={<CategoryLanding />} />
