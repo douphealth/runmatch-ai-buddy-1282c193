@@ -14,3 +14,15 @@ verify_jwt = false
 
 [functions.upgrade-brevo-templates]
 verify_jwt = false
+
+[functions.stripe-product]
+verify_jwt = false
+
+[functions.stripe-create-checkout]
+verify_jwt = false
+
+[functions.stripe-verify-session]
+verify_jwt = false
+
+[functions.stripe-webhook]
+verify_jwt = false
