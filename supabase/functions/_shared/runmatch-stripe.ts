@@ -131,7 +131,7 @@ export async function stripeRequest(
   return payload;
 }
 
-function serviceHeaders(extra: HeadersInit = {}): HeadersInit {
+function serviceHeaders(extra: Record<string, string> = {}): HeadersInit {
   const serviceKey = requireEnv('SUPABASE_SERVICE_ROLE_KEY');
   return {
     apikey: serviceKey,
