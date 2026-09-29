@@ -48,7 +48,7 @@ export async function getRunMatchProProduct(): Promise<RunMatchProProduct | null
   return (data as any).product as RunMatchProProduct;
 }
 
-export async function startRunMatchProCheckout(resultSlug?: string): Promise<never> {
+export async function startRunMatchProCheckout(resultSlug?: string): Promise<void> {
   const purchaseToken = getPurchaseToken();
   const returnUrl = window.location.href;
   const { data, error } = await supabase.functions.invoke('stripe-create-checkout', {
@@ -58,7 +58,6 @@ export async function startRunMatchProCheckout(resultSlug?: string): Promise<nev
     throw new Error(getFunctionError(data, error?.message || 'Unable to start secure checkout'));
   }
   window.location.assign((data as any).url);
-  throw new Error('Redirecting to checkout');
 }
 
 export async function verifyRunMatchPro(sessionId?: string | null): Promise<RunMatchProEntitlement> {
