@@ -47,7 +47,9 @@ import LiveActivity from '@/components/conversion/LiveActivity';
 import ExitIntent from '@/components/conversion/ExitIntent';
 import InlineLeadCard from '@/components/conversion/InlineLeadCard';
 import StickyTopMatchBanner from '@/components/results/StickyTopMatchBanner';
+import RunMatchProCard from '@/components/premium/RunMatchProCard';
 import { saveMatch } from '@/lib/saved-matches';
+import { downloadRunMatchProPack } from '@/lib/runmatch-pro';
 
 // Resolves a verified direct /dp/ASIN Amazon link via SerpAPI cache,
 // Amazon link builder returns only direct /dp/ product URLs; null means no
@@ -212,7 +214,7 @@ const RunMatchResult = () => {
     if (!slug || !recPrimary?.shoe) return;
     saveMatch({
       slug,
-      url: `/app/runmatch/${slug}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`,
+      url: `/results/${slug}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`,
       label: `${recPrimary.shoe.brand} ${recPrimary.shoe.model}`,
       subtitle: answers?.distance ? `${answers.distance.replace('-', ' ')} · ${answers.terrain ?? ''}`.trim() : undefined,
       matchPercent: typeof recPrimary.matchPercent === 'number' ? recPrimary.matchPercent : undefined,
@@ -237,6 +239,21 @@ const RunMatchResult = () => {
     setPendingDownload(true);
     setGateOpen(true);
   }, [runDownload]);
+
+  const handleDownloadProPack = useCallback(() => {
+    if (!slug || !answers) return;
+    downloadRunMatchProPack({
+      slug,
+      distance: answers.distance,
+      terrain: answers.terrain,
+      weeklyMileage: answers.weeklyMileage,
+      pronation: answers.pronation,
+      footType: answers.footType,
+      topShoes,
+      rotation,
+    });
+    toast.success('Your RunMatch Pro Decision Pack has been downloaded.');
+  }, [slug, answers, topShoes, rotation]);
 
   const handleGateClose = useCallback(() => {
     setGateOpen(false);
@@ -724,6 +741,14 @@ const RunMatchResult = () => {
           </motion.div>
         )}
 
+        {/* Optional paid upgrade. The complete core recommendation remains free. */}
+        {slug && (
+          <RunMatchProCard
+            slug={slug}
+            onDownloadPro={handleDownloadProPack}
+          />
+        )}
+
         {/* Inline lead capture — non-modal, scroll-revealed, dismissable. */}
         <InlineLeadCard
           primaryShoe={primary?.shoe ? `${primary.shoe.brand} ${primary.shoe.model}` : undefined}
@@ -985,8 +1010,8 @@ const RunMatchResult = () => {
                 <div className="w-14 h-14 rounded-2xl bg-gradient-primary mx-auto flex items-center justify-center mb-4 glow-primary">
                   <Download className="w-7 h-7 text-primary-foreground" />
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight mb-2">Download Your Report</h3>
-                <p className="text-sm text-muted-foreground mb-5">Get a beautiful PDF with your full running profile, shoe matches, and personalized resources.</p>
+                <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight mb-2">Download Your Free Report</h3>
+                <p className="text-sm text-muted-foreground mb-5">Your standard PDF stays free and includes your runner profile, shoe matches, rotation, and personalized resources.</p>
                 <Button
                   onClick={handleDownloadPDF}
                   className="bg-gradient-primary glow-primary font-bold uppercase tracking-wider px-8 h-12 rounded-xl text-sm group w-full sm:w-auto"
