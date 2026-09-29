@@ -3,6 +3,7 @@ const DEFAULT_ALLOWED_ORIGINS = [
   'https://www.gearuptofit.com',
   'https://runmatch-ai-buddy.lovable.app',
   'https://runmatch-ai-buddy-1282c193.pages.dev',
+  'https://runmatch.gearup-flow-master.pages.dev',
 ];
 
 export type EntitlementRow = {
