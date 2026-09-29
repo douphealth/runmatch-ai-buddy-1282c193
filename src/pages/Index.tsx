@@ -87,7 +87,7 @@ const Index = () => {
       const encoded = encodeAnswers(answers);
       track.quizComplete({ slug, durationMs: quizStartedAt.current ? Date.now() - quizStartedAt.current : 0 });
       clearProgress();
-      navigate(`/app/runmatch/${slug}?d=${encoded}`);
+      navigate(`/results/${slug}?d=${encoded}`);
       return prev;
     });
   }, [answers, navigate]);
