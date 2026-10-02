@@ -11,6 +11,8 @@ import {
 import { resolveShoeId } from '@/lib/shoe-database';
 import { getAmazonLinkForShoe, getAmazonListingNote } from '@/lib/amazon-link';
 import BrandBuyButton from '@/components/results/BrandBuyButton';
+import KitPicks from '@/components/results/KitPicks';
+import { selectGearForShoe } from '@/lib/gear-catalog';
 import { shoeSeo, shoeFaqs } from '@/lib/entity-seo';
 import { getNewerVersion, getWatchOuts } from '@/lib/shoe-insights';
 import { getManufacturerSourceURL } from '@/lib/shoe-sources';
@@ -178,6 +180,18 @@ const ShoeDetail = () => {
               ))}
             </ul>
           </div>
+        </div>
+      </section>
+
+      {/* Gear that goes with this shoe (verified Amazon listings) */}
+      <section className="container mx-auto px-4 pb-16">
+        <div className="max-w-5xl">
+          <KitPicks
+            items={selectGearForShoe(shoe)}
+            placement="shoe_detail_kit"
+            title={`Gear for your ${shoe.model}`}
+            subtitle="What runners who buy this kind of shoe usually need next."
+          />
         </div>
       </section>
 

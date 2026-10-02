@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 // Plain JS module deployed to Cloudflare; TypeScript infers its types (allowJs).
-import { classifyPath, isValidResultSlug, robotsFor } from '../../cloudflare/worker.js';
+import { cachePolicy, classifyPath, isValidResultSlug, robotsFor } from '../../cloudflare/worker.js';
 import { CANONICAL_SLUGS } from './canonical-slugs';
 import { answersFromSlug } from './quiz-data';
 import { allBrandSlugs, allCategorySlugs, allComparisonSlugs, allShoeIds } from './entity-seo';
@@ -59,5 +59,22 @@ describe('worker: robots policy', () => {
     expect(robotsFor('page', new URLSearchParams('d=abc'))).toBe('noindex, follow');
     expect(robotsFor('page', new URLSearchParams('utm_source=x'))).toBeNull();
     expect(robotsFor('asset', new URLSearchParams())).toBeNull();
+  });
+});
+
+describe('cachePolicy', () => {
+  it('revalidates the HTML and the fixed-name entry files so a publish is never hidden by a stale copy', () => {
+    for (const p of ['/assets/index.js', '/assets/index.css', '/sw.js', '/manifest.webmanifest']) expect(cachePolicy(p, 'text/javascript'), p).toBe('public, max-age=0, must-revalidate');
+    expect(cachePolicy('/results/neutral-10k-road-neutral', 'text/html; charset=utf-8')).toBe('public, max-age=0, must-revalidate');
+    expect(cachePolicy('/', 'text/html')).toBe('public, max-age=0, must-revalidate');
+  });
+
+  it('lets hashed chunks and photos be cached', () => {
+    expect(cachePolicy('/assets/chunks/RunMatchResult-abc123.js', 'text/javascript')).toContain('immutable');
+    expect(cachePolicy('/images/shoes/nike-pegasus-41.jpg', 'image/jpeg')).toContain('max-age=2592000');
+  });
+
+  it('leaves everything else to the origin', () => {
+    expect(cachePolicy('/route-manifest.json', 'application/json')).toBeNull();
   });
 });

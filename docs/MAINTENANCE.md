@@ -25,6 +25,10 @@ The app is only as trustworthy as its data. These scripts keep it honest. All ru
    Photos: a shoe whose own photo is untrustworthy shows the photo of its verified Amazon listing (`src/lib/amazon-image-cache.json`, URLs only, loaded from Amazon's CDN). The cache is used only while its ASIN is still the cached one. Re-run `images` when you change an ASIN.
 5. `npm test && npm run build`. `validate-shoe-database` fails the build on duplicate ids/models, inconsistent brand spelling, bad ranges, missing local image files.
 
+## Gear ("Complete your kit") and landing top picks
+
+`src/lib/gear-catalog.ts` lists the gear shown next to the shoes. Add an item with its ASIN and brand, then run `node scripts/amazon-catalog.mjs gear`: it fails if Amazon does not return the ASIN or the listing title does not name the brand, and writes the photos to `src/lib/gear-image-cache.json`. `selectGear` chooses six items from the runner's answers (a watch, socks, fuel for long distances, a headlamp or vest for trail). `src/lib/top-picks.ts` picks one buyable shoe per category for the landing page (needs a photo, a verified men's/unisex listing and no newer version). Neither affects rankings.
+
 ## The PDF report
 
 `src/lib/pdf-generator.ts` builds the report with jsPDF. A **Buy on Amazon** button exists only for shoes with a verified ASIN; a photo is embedded only when `hasVerifiedPhoto` is true, otherwise a labelled placeholder is drawn. `src/lib/pdf-generator.test.ts` pins both rules. To eyeball the layout, run `PDF_DUMP_DIR=some/dir npx vitest run src/lib/pdf-generator.test.ts` and open the four sample PDFs it writes.

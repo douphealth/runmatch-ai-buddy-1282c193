@@ -56,6 +56,9 @@ export function getAmazonLinkForShoe(
   return null;
 }
 
+/** Direct, affiliate-tagged product URL for an ASIN (gear and other non-shoe products). */
+export const amazonProductUrl = (asin: string): string => directAmazonUrl(asin);
+
 /** True when the stored Amazon listing title is a women's-only version. */
 export const isWomensListingTitle = (title: string | undefined): boolean => {
   if (!title) return false;

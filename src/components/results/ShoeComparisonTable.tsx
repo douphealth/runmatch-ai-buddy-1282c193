@@ -126,7 +126,7 @@ const ShoeComparisonTable = ({ shoes, getAmazonLink, onAffiliateClick }: ShoeCom
                       target="_blank"
                       rel="noopener noreferrer sponsored nofollow"
                       onClick={() => onAffiliateClick?.(s, i + 1)}
-                      className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-primary hover:underline"
+                      className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider bg-primary text-primary-foreground px-2.5 h-7 rounded-md hover:bg-primary/90 transition"
                     >
                       <ShoppingCart className="w-3 h-3" /> Buy{getAmazonListingNote(s.shoe.id) ? ` (${getAmazonListingNote(s.shoe.id)})` : ''}
                     </a>
@@ -136,7 +136,7 @@ const ShoeComparisonTable = ({ shoes, getAmazonLink, onAffiliateClick }: ShoeCom
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => track.ctaClick(`brand_site_${s.shoe.id}`, 'comparison_table')}
-                      className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-primary hover:underline"
+                      className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider bg-primary text-primary-foreground px-2.5 h-7 rounded-md hover:bg-primary/90 transition"
                     >
                       <ShoppingCart className="w-3 h-3" /> {getBrandBuyLink(s.shoe)!.label}
                     </a>

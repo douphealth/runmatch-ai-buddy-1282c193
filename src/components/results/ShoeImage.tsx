@@ -76,7 +76,7 @@ const ShoeImage = ({
   amazonASIN: _asin,
   size = 'md',
   className = '',
-  showSourceBadge = true,
+  showSourceBadge = false,
   interactive = true,
 }: ShoeImageProps) => {
   const photo = resolveShoePhoto({ brand, model, imageURL: imageURL || '' });

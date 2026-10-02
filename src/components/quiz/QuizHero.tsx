@@ -8,6 +8,7 @@ import MethodologyTeaser from '@/components/conversion/MethodologyTeaser';
 import ExitIntent from '@/components/conversion/ExitIntent';
 import EmailGate from '@/components/EmailGate';
 import SavedMatches from '@/components/SavedMatches';
+import TopPicks from '@/components/quiz/TopPicks';
 import { getAllComparisons } from '@/lib/comparisons';
 import { BRANDS } from '@/lib/brands';
 import { hasProgress } from '@/lib/quiz-progress';
@@ -266,6 +267,9 @@ const QuizHero = ({ onStart, onResume, onRestart }: QuizHeroProps) => {
         </motion.div>
       </div>
     </main>
+
+    {/* Something to buy right away for visitors who do not start the quiz */}
+    <TopPicks />
 
     {/* Who this is for — audience segmentation directly under the hero */}
     <section className="relative z-10 px-4 md:px-8 py-14 md:py-16 bg-background border-t border-border/40">

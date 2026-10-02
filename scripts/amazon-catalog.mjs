@@ -6,6 +6,7 @@
  *   node scripts/amazon-catalog.mjs verify          # report ASINs Amazon no longer returns or whose title drifted
  *   node scripts/amazon-catalog.mjs verify --fix    # ...and clear them (the Amazon button is then hidden, never wrong)
  *   node scripts/amazon-catalog.mjs resolve [--write] [shoe-id ...]   # re-resolve missing/women's-only listings (or the given shoes) from Amazon's search
+ *   node scripts/amazon-catalog.mjs gear            # photos for the gear in src/lib/gear-catalog.ts (title must name the brand)
  *   node scripts/amazon-catalog.mjs images          # photo URLs for shoes without a verified local photo
  *   node scripts/amazon-catalog.mjs images --all    # photo URLs for every shoe that has a verified ASIN
  *   node scripts/amazon-catalog.mjs search "Brooks Ghost 17"   # what Amazon returns for a query (for resolving ASINs)
@@ -32,6 +33,8 @@ const DB_PATH = path.join(ROOT, 'src/lib/shoe-database.ts');
 const ASIN_CACHE = path.join(ROOT, 'src/lib/amazon-asin-cache.json');
 const IMAGE_CACHE = path.join(ROOT, 'src/lib/amazon-image-cache.json');
 const AUDIT_PATH = path.join(ROOT, 'src/lib/shoe-image-audit.ts');
+const GEAR_PATH = path.join(ROOT, 'src/lib/gear-catalog.ts');
+const GEAR_CACHE = path.join(ROOT, 'src/lib/gear-image-cache.json');
 const PARTNER_TAG = 'papalex-20';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -250,6 +253,28 @@ async function resolve(ids, write) {
   else if (changed) console.log('(dry run: add --write to save)');
 }
 
+/** Photo URLs for the gear in src/lib/gear-catalog.ts; the listing title must contain the brand. */
+async function gear() {
+  const src = fs.readFileSync(GEAR_PATH, 'utf8');
+  const items = [...src.matchAll(/asin: '([A-Z0-9]{10})',[^}]*?brand: '([^']+)'/g)].map((m) => ({ asin: m[1], brand: m[2] }));
+  const token = await getToken();
+  console.log(`checking ${items.length} gear ASINs`);
+  const found = await getItems(token, items.map((i) => i.asin));
+  const out = {};
+  const problems = [];
+  for (const { asin, brand } of items) {
+    const it = found.get(asin);
+    if (!it) problems.push(`: not returned by Amazon`);
+    else if (!it.title.toLowerCase().includes(brand.toLowerCase())) problems.push(`: title does not mention ${brand}: ${it.title}`);
+    else if (!it.image) problems.push(`: no photo`);
+    else out[asin] = { url: it.image, title: it.title, fetchedAt: new Date().toISOString().slice(0, 10) };
+  }
+  saveJson(GEAR_CACHE, out);
+  console.log(`[amazon-catalog] wrote ${Object.keys(out).length} gear photos`);
+  for (const p of problems) console.log(`  PROBLEM ${p}`);
+  if (problems.length) process.exitCode = 1;
+}
+
 async function search(query) {
   const token = await getToken();
   const json = await api(token, '/catalog/v1/searchItems', { keywords: query, itemCount: 10, resources: RESOURCES });
@@ -260,9 +285,10 @@ const [cmd, ...rest] = process.argv.slice(2);
 try {
   if (cmd === 'verify') await verify(rest.includes('--fix'));
   else if (cmd === 'images') await images(rest.includes('--all'));
+  else if (cmd === 'gear') await gear();
   else if (cmd === 'resolve') await resolve(rest.filter((a) => !a.startsWith('--')), rest.includes('--write'));
   else if (cmd === 'search' && rest[0]) await search(rest.join(' '));
-  else { console.log('usage: node scripts/amazon-catalog.mjs verify [--fix] | resolve [--write] [shoe-id ...] | images [--all] | search "<query>"'); process.exitCode = 1; }
+  else { console.log('usage: node scripts/amazon-catalog.mjs verify [--fix] | resolve [--write] [shoe-id ...] | images [--all] | gear | search "<query>"'); process.exitCode = 1; }
 } catch (e) {
   console.error(`[amazon-catalog] ${e.message}`);
   process.exit(1);

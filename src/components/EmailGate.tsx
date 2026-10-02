@@ -117,8 +117,9 @@ const EmailGate = ({
           utm: getUTM(),
         },
       });
-      if (error || (data as any)?.error) throw new Error((data as any)?.error || error?.message || 'Failed');
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ email: email.trim().toLowerCase(), ts: Date.now() })); } catch {}
+      const apiError = (data as { error?: string } | null)?.error;
+      if (error || apiError) throw new Error(apiError || error?.message || 'Failed');
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ email: email.trim().toLowerCase(), ts: Date.now() })); } catch { /* storage unavailable */ }
       // GA4 key event (mark email_capture as a key event in GA4 admin)
       track.emailCapture({ source, shoeCategory, marketingConsent: true });
       setDone(true);

@@ -94,6 +94,24 @@ export function robotsFor(kind, searchParams) {
   return null;
 }
 
+/**
+ * Cache-Control for ORIGIN paths. The origin's own headers are not trusted: a stale copy of the
+ * entry bundle (it has a fixed file name) or of the HTML makes visitors run an old build after a
+ * publish, or an old page that points at chunks that no longer exist.
+ *  - HTML, the entry bundle/stylesheet, the service-worker retirement script and the web manifest
+ *    are revalidated on every load (cheap: the origin answers 304).
+ *  - Hashed chunks never change for a given name.
+ * Returns null to leave the origin's header alone.
+ */
+export function cachePolicy(path, contentType) {
+  const revalidate = "public, max-age=0, must-revalidate";
+  if (path === "/assets/index.js" || path === "/assets/index.css" || path === "/sw.js" || path === "/manifest.webmanifest") return revalidate;
+  if (path.startsWith("/assets/chunks/")) return "public, max-age=31536000, immutable";
+  if (path.startsWith("/images/")) return "public, max-age=2592000";
+  if (String(contentType || "").includes("text/html")) return revalidate;
+  return null;
+}
+
 class AttrRewriter {
   constructor(attr) {
     this.attr = attr;
@@ -136,6 +154,12 @@ class SrcsetRewriter {
   }
 }
 
+class RemoveElement {
+  element(el) {
+    el.remove();
+  }
+}
+
 class HeadInjector {
   element(el) {
     el.prepend(`<base href="${PREFIX}/">`, { html: true });
@@ -173,6 +197,15 @@ export default {
     if (path === PREFIX) path = "/";
     else if (path.startsWith(PREFIX + "/")) path = path.slice(PREFIX.length);
     else path = "/"; // safety fallback
+
+    // The Lovable host injects a "Edit with Lovable" overlay script. This public URL is our own
+    // product page, so the script is neither requested nor delivered.
+    if (path === "/~flock.js") {
+      return new Response("/* not used */", {
+        status: 200,
+        headers: { "content-type": "application/javascript; charset=utf-8", "cache-control": "public, max-age=86400" },
+      });
+    }
 
     const manifest = request.method === "GET" || request.method === "HEAD" ? await loadManifest(origin) : null;
     const kind = classifyPath(path, manifest);
@@ -222,10 +255,11 @@ export default {
     headers.delete("x-robots-tag");
     const robots = robotsFor(kind, url.searchParams);
     if (robots) headers.set("x-robots-tag", robots);
-    if (kind === "not-found") headers.set("cache-control", "public, max-age=300");
-
     const status = kind === "not-found" ? 404 : resp.status;
     const ct = resp.headers.get("content-type") || "";
+    const policy = cachePolicy(path, ct);
+    if (policy && resp.status === 200) headers.set("cache-control", policy);
+    if (kind === "not-found") headers.set("cache-control", "public, max-age=300");
 
     // HTML: rewrite absolute paths + inject <base>
     if (ct.includes("text/html")) {
@@ -245,6 +279,7 @@ export default {
         .on("meta[property='og:url']", new AttrRewriter("content"))
         .on("meta[property='og:image']", new AttrRewriter("content"))
         .on("link[rel='canonical']", new AttrRewriter("href"))
+        .on("script[src*='~flock']", new RemoveElement())
         .on("head", new HeadInjector())
         .transform(new Response(resp.body, { status, headers }));
       return rewritten;

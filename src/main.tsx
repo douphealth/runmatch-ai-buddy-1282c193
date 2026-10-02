@@ -8,35 +8,19 @@ import { initAnalytics } from "./lib/analytics";
 initAnalytics();
 initErrorMonitoring();
 
-// Register the PWA service worker for offline shell + asset caching.
-// Production-only to avoid HMR interference in dev.
-//
-// Important: this app is mounted on gearuptofit.com under /shoe-finder/.
-// Registering /sw.js points at the WordPress/root site and can leave mobile
-// browsers controlled by an old root-scoped worker, causing perfectly valid
-// /shoe-finder/* links to render the app 404 screen from stale JS. Always scope
-// the worker to /shoe-finder/ and remove any accidental root registrations.
-if (
-  typeof window !== "undefined" &&
-  "serviceWorker" in navigator &&
-  import.meta.env.PROD
-) {
+// No service worker. Earlier builds registered one that served the app's JavaScript from a
+// cache first, so returning visitors kept seeing the previous build (or a mix of old and new
+// files) after every publish. Remove any worker and cache an earlier visit left behind;
+// public/sw.js is a retirement script for browsers that still hold the old registration.
+if (typeof window !== "undefined" && "serviceWorker" in navigator && import.meta.env.PROD) {
   window.addEventListener("load", () => {
-    const appScope = new URL("/shoe-finder/", window.location.origin).href;
-
-    navigator.serviceWorker.getRegistrations?.()
-      .then((registrations) => Promise.all(
-        registrations
-          .filter((registration) => registration.scope !== appScope)
-          .map((registration) => registration.unregister())
-      ))
+    navigator.serviceWorker
+      .getRegistrations?.()
+      .then((registrations) => Promise.all(registrations.map((registration) => registration.unregister())))
+      .then(() => (typeof caches !== "undefined" ? caches.keys() : []))
+      .then((keys) => Promise.all(keys.filter((key) => key.startsWith("runmatch-")).map((key) => caches.delete(key))))
       .catch(() => {
-        /* SW cleanup failure is non-fatal */
-      })
-      .finally(() => {
-        navigator.serviceWorker.register("/shoe-finder/sw.js", { scope: "/shoe-finder/" }).catch(() => {
-          /* SW registration failure is non-fatal */
-        });
+        /* cleanup is best-effort */
       });
   });
 }

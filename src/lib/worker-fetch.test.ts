@@ -80,6 +80,22 @@ describe('worker.fetch', () => {
     expect(res.status).toBe(200);
   });
 
+  it('never delivers the Lovable overlay script', async () => {
+    const res = await get('/shoe-finder/~flock.js', fresh());
+    expect(res.status).toBe(200);
+    expect(res.headers.get('content-type')).toContain('javascript');
+    expect(await res.text()).not.toMatch(/lovable-badge|gpteng/i);
+    expect(originCalls.some((u) => u.includes('flock'))).toBe(false);
+  });
+
+  it('revalidates HTML and the entry bundle on every load, whatever the origin says', async () => {
+    originHeaders = { 'cache-control': 'public, max-age=31536000' };
+    const bundle = await get('/shoe-finder/assets/index.js', fresh());
+    expect(bundle.headers.get('cache-control')).toBe('public, max-age=0, must-revalidate');
+    const page = await get('/shoe-finder/', fresh());
+    expect(page.headers.get('cache-control')).toBe('public, max-age=0, must-revalidate');
+  });
+
   it('maps the public prefix to the origin root and passes assets through', async () => {
     const env = fresh();
     await get('/shoe-finder/assets/index.js', env);

@@ -21,6 +21,8 @@ WordPress serves everything else on gearuptofit.com. The app is only ever reache
 1. **Real 404s.** A single-page-app host answers every unknown URL with `200` and the landing page (a "soft 404"). `npm run build` writes `route-manifest.json`; the Worker uses it to answer unknown URLs with status 404, the app shell and `X-Robots-Tag: noindex`. If the manifest cannot be fetched the Worker **fails open** (everything passes through).
 2. **Drops the origin's `X-Robots-Tag`.** Cloudflare Pages adds `X-Robots-Tag: noindex` to every `*.pages.dev` *preview/branch* hostname (for example `runmatch.gearup-flow-master.pages.dev`, which is how that URL showed `noindex` when I checked). If the Worker is pointed at such an origin and forwards that header, **the whole public tool would be deindexed.** The Worker now removes it and sets its own policy.
 3. `?d=` (personalised result) links get `noindex, follow`.
+4. **Cache policy.** HTML, the fixed-name entry bundle (`assets/index.js`, `assets/index.css`), `sw.js` and the web manifest are always revalidated; hashed chunks and photos are cached. Without this, a publish can be hidden for hours (or a year, for a visitor's browser) behind a stale copy, and visitors see the previous build or a mix of old and new files.
+5. **No Lovable overlay.** The Lovable host injects an "Edit with Lovable" badge script (`~flock.js`). The Worker neither requests nor delivers it, and `src/index.css` hides the badge element for visits straight to the Lovable address. (Lovable's own switch for this is in the project's settings.)
 
 Deploy: Cloudflare dashboard → Workers & Pages → the RunMatch worker → Edit code → paste `cloudflare/worker.js` → Deploy. (Or `wrangler deploy`.) Add a plain-text variable `RUNMATCH_ORIGIN` if the origin is not the default. Then verify:
 
@@ -30,6 +32,8 @@ curl -sI https://gearuptofit.com/shoe-finder/results/neutral-10k-road-neutral/ |
 ```
 
 ### Publishing the app build
+
+**After every publish:** in Cloudflare, *Caching → Configuration → Purge Cache → Custom purge* for `gearuptofit.com/shoe-finder/` (prefix), or *Purge Everything* if unsure. Deploy the current `cloudflare/worker.js` first so the cache rules above are in place; after that a purge is rarely needed. The old service worker is retired by `public/sw.js` (it clears its caches and unregisters itself), so returning visitors pick up the new build on their next visit.
 
 - **Lovable hosting:** pushing to `main` updates the Lovable project; the published site only changes when you click **Publish** in Lovable. The pages the crawlers see are the prerendered files from `npm run build` (Lovable runs the `build` script).
 - **Cloudflare Pages (GitHub Action):** pushes to `main` build and deploy to the Pages project `runmatch-ai-buddy-1282c193`. It needs the repository secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. The Action now runs `npm test` before deploying.

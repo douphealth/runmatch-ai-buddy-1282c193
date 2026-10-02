@@ -1,7 +1,7 @@
 import { Info } from 'lucide-react';
 
 interface AffiliateDisclosureProps {
-  variant?: 'inline' | 'banner' | 'footer';
+  variant?: 'inline' | 'banner' | 'footer' | 'compact';
 }
 
 /**
@@ -11,10 +11,22 @@ interface AffiliateDisclosureProps {
  *
  * Variants:
  *  - banner: full-width call-out, used near the top CTA
+ *  - compact: one short line, used directly above the first Buy button
  *  - inline: compact line, used inside cards next to Buy buttons
  *  - footer: small grey print at the page bottom
  */
 const AffiliateDisclosure = ({ variant = 'inline' }: AffiliateDisclosureProps) => {
+  if (variant === 'compact') {
+    return (
+      <p className="text-[11px] md:text-xs text-muted-foreground leading-snug flex items-start gap-2 px-1">
+        <Info className="w-3.5 h-3.5 text-primary flex-shrink-0 mt-px" />
+        <span>
+          <span className="font-semibold text-foreground">Affiliate links:</span> as an Amazon Associate, GearUpToFit earns from qualifying purchases, at no extra cost to you. Rankings never depend on commission.
+        </span>
+      </p>
+    );
+  }
+
   if (variant === 'banner') {
     return (
       <div className="glass rounded-xl border border-primary/20 px-4 py-3 flex items-start gap-3 text-xs md:text-sm">

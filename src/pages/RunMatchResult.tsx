@@ -47,6 +47,9 @@ const fadeUp = {
 import { getAmazonLinkForShoe, getAmazonListingNote } from '@/lib/amazon-link';
 import { getPriceTier, SHOE_DATABASE_LAST_UPDATED_LABEL } from '@/lib/price-tier';
 import { getBrandBuyLink, getManufacturerSourceURL } from '@/lib/shoe-sources';
+import { selectGear } from '@/lib/gear-catalog';
+import { ROTATION_STATEMENT_SHORT } from '@/lib/evidence';
+import KitPicks from '@/components/results/KitPicks';
 import AffiliateDisclosure from '@/components/results/AffiliateDisclosure';
 import MedicalDisclaimer from '@/components/results/MedicalDisclaimer';
 import ResearchSources from '@/components/results/ResearchSources';
@@ -103,6 +106,7 @@ const RunMatchResult = () => {
   const injuryArticles = useMemo(() => answers ? getInjuryArticles(answers.injuries) : [], [answers]);
   const toolLinks = useMemo(() => answers ? getToolLinks(answers) : [], [answers]);
   const kitLinks = useMemo(() => getKitLinks(), []);
+  const kitItems = useMemo(() => (answers ? selectGear(answers) : []), [answers]);
   const faqs = useMemo(() => answers ? getDynamicFAQs(answers) : [], [answers]);
 
   const radarData = useMemo(() => {
@@ -333,7 +337,7 @@ const RunMatchResult = () => {
       </header>
 
       {/* SECTION 1: Runner Profile Hero */}
-      <div className="relative pt-8 md:pt-16 pb-8 px-4">
+      <div className="relative pt-6 md:pt-10 pb-2 px-4">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[200px]" />
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/3 rounded-full blur-[150px]" />
@@ -345,11 +349,11 @@ const RunMatchResult = () => {
           transition={{ duration: 0.7 }}
           className="max-w-5xl mx-auto relative z-10"
         >
-          <div className="text-center mb-8">
+          <div className="text-center mb-5">
             <Badge className="mb-4 bg-primary/20 text-primary border-primary/30 text-xs uppercase tracking-[0.15em] px-4 py-1.5">
               {safety ? 'Comfort-first shortlist' : 'Analysis complete'}
             </Badge>
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight mb-3 leading-[0.95]">
+            <h1 className="text-3xl md:text-5xl font-bold uppercase tracking-tight mb-3 leading-[0.95]">
               {rec.shoeProfile.category}
             </h1>
             <p className="text-base md:text-xl font-semibold text-foreground/90 max-w-3xl mx-auto mb-3 leading-snug">
@@ -359,19 +363,6 @@ const RunMatchResult = () => {
               {rec.shoeProfile.summary}
             </p>
 
-            <div className="mt-6 flex flex-col items-center gap-3">
-              <Button
-                onClick={handleDownloadPDF}
-                size="lg"
-                className="bg-gradient-primary glow-primary font-bold uppercase tracking-wider px-6 md:px-8 h-12 rounded-xl text-sm group"
-              >
-                <Download className="w-4 h-4 mr-2 group-hover:animate-bounce" />
-                Download PDF Report
-              </Button>
-              <p className="text-[10px] text-muted-foreground uppercase tracking-widest">
-                Shoe data last reviewed {SHOE_DATABASE_LAST_UPDATED_LABEL}
-              </p>
-            </div>
           </div>
 
           {/* Pain / injury reported: cautious, professional-first notice */}
@@ -381,105 +372,13 @@ const RunMatchResult = () => {
             </div>
           )}
 
-          {/* FTC affiliate disclosure — required near affiliate CTAs */}
-          <div className="max-w-3xl mx-auto mb-6">
-            <AffiliateDisclosure variant="banner" />
-          </div>
-
-          {/* Trust bar — appears just under the hero affiliate disclosure */}
-          <div className="max-w-3xl mx-auto mb-6">
-            <TrustBar variant="compact" />
-          </div>
-
-          {/* Runner Profile: Radar + Stats */}
-          <div className="grid md:grid-cols-2 gap-4 md:gap-6">
-            <motion.div {...fadeUp} className="glass rounded-2xl p-5 md:p-6">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-2">Your Runner Profile</h3>
-              <ResponsiveContainer width="100%" height={250}>
-                <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="70%">
-                  <PolarGrid stroke="hsl(220 15% 25%)" />
-                  <PolarAngleAxis dataKey="axis" tick={{ fill: 'hsl(220 10% 55%)', fontSize: 11 }} />
-                  <Radar name="Profile" dataKey="value" stroke="hsl(1 76% 56%)" fill="hsl(1 76% 56%)" fillOpacity={0.2} strokeWidth={2} />
-                </RadarChart>
-              </ResponsiveContainer>
-            </motion.div>
-
-            <motion.div {...fadeUp} className="grid grid-cols-2 gap-3">
-              {[
-                { label: 'Category', value: rec.shoeProfile.category, icon: '👟' },
-                { label: 'Cushioning', value: rec.shoeProfile.cushioning, icon: '☁️' },
-                { label: 'Drop', value: rec.shoeProfile.dropRange, icon: '📐' },
-                { label: 'Support', value: rec.shoeProfile.supportType, icon: '🛡️' },
-                { label: 'Mileage', value: `${answers.weeklyMileage} km/wk`, icon: '📊' },
-                { label: 'Terrain', value: answers.terrain.charAt(0).toUpperCase() + answers.terrain.slice(1), icon: '🌍' },
-              ].map(item => (
-                <div key={item.label} className="glass rounded-2xl p-4 text-center group hover:border-primary/30 transition-all">
-                  <span className="text-xl mb-1.5 block">{item.icon}</span>
-                  <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-0.5">{item.label}</div>
-                  <div className="font-bold text-xs md:text-sm">{item.value}</div>
-                </div>
-              ))}
-            </motion.div>
-          </div>
         </motion.div>
       </div>
 
-      <main className="max-w-5xl mx-auto px-4 py-6 space-y-6 md:space-y-8">
+      <main className="max-w-5xl mx-auto px-4 py-4 space-y-6 md:space-y-8">
 
-        {/* Fit Priority — discrete labeled data for AEO/GEO extraction */}
-        <motion.section {...fadeUp} aria-labelledby="fit-priority-heading">
-          <div className="glass rounded-2xl p-5 md:p-8">
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                <Target className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <h2 id="fit-priority-heading" className="text-xl md:text-2xl font-bold uppercase tracking-tight">Fit Priority</h2>
-                <p className="text-xs text-muted-foreground">What to check when you try shoes on, based on your answers.</p>
-              </div>
-            </div>
-
-            <dl className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {fitPriorities.map((f) => (
-                <div key={f.label} className="rounded-xl p-4 bg-card/40 border border-border/60">
-                  <dt className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">{f.label}</dt>
-                  <dd className="text-sm text-foreground/90 leading-snug">{f.detail}</dd>
-                </div>
-              ))}
-            </dl>
-
-            {/* Contextual guides — only shown when relevant to the runner's profile */}
-            <div className="mt-6 pt-5 border-t border-border/40 flex flex-wrap gap-x-5 gap-y-2 text-sm">
-              <a
-                href="https://gearuptofit.com/review/best-running-shoes/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-primary hover:underline font-medium"
-              >
-                Compare the Best Running Shoes by Runner Type <ExternalLink className="w-3 h-3" />
-              </a>
-              <a
-                href="https://gearuptofit.com/running/how-to-choose-the-right-running-shoes/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-primary hover:underline font-medium"
-              >
-                Read the Running Shoe Fit Guide <ExternalLink className="w-3 h-3" />
-              </a>
-              {showBeginnerGuide && (
-                <a
-                  href="https://gearuptofit.com/review/best-running-shoes-for-beginners/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-primary hover:underline font-medium"
-                >
-                  Best Beginner Running Shoes <ExternalLink className="w-3 h-3" />
-                </a>
-              )}
-            </div>
-          </div>
-        </motion.section>
-
+        {/* Short disclosure right above the first Buy button; the full text sits further down and in the footer. */}
+        <AffiliateDisclosure variant="compact" />
 
         {/* SECTION 2: #1 Shoe Recommendation (Hero Card) */}
         {primary && (
@@ -497,6 +396,24 @@ const RunMatchResult = () => {
                 <MatchScoreBadge percent={primary.matchPercent} size="lg" />
               </div>
 
+              {/* Phones: the Buy button is on the first screen, above the photo */}
+              {(primaryAmazonUrl || primaryBrandLink) && (
+                <a
+                  href={primaryAmazonUrl ?? primaryBrandLink!.url}
+                  target="_blank"
+                  rel={primaryAmazonUrl ? 'noopener noreferrer sponsored nofollow' : 'noopener noreferrer'}
+                  onClick={() =>
+                    primaryAmazonUrl
+                      ? track.affiliateClick({ shoeId: primary.shoe.id, brand: primary.shoe.brand, model: primary.shoe.model, placement: 'result_primary_cta_top', position: 1, resultSlug: slug, matchPercent: primary.matchPercent, category: primary.shoe.category })
+                      : track.ctaClick(`brand_site_${primary.shoe.id}`, 'result_primary_cta_top')
+                  }
+                  className="md:hidden flex items-center justify-center gap-2 bg-gradient-primary glow-primary text-primary-foreground font-bold uppercase tracking-wider h-12 rounded-xl text-sm mb-5"
+                >
+                  <ShoppingCart className="w-4 h-4" />
+                  {primaryAmazonUrl ? 'Check price on Amazon' : primaryBrandLink!.label}
+                </a>
+              )}
+
               <div className="md:flex md:gap-6 md:items-start">
                 <div className="md:w-2/5 mb-5 md:mb-0">
                   <ShoeImage
@@ -504,7 +421,8 @@ const RunMatchResult = () => {
                     model={primary.shoe.model}
                     imageURL={primary.shoe.imageURL}
                     amazonASIN={primary.shoe.amazonASIN}
-                    size="lg"
+                    size="md"
+                    className="max-h-[210px] md:max-h-none"
                   />
                 </div>
                 <div className="flex-1">
@@ -525,6 +443,43 @@ const RunMatchResult = () => {
                     <Badge variant="secondary" className="text-xs gap-1"><Activity className="w-3 h-3" /> {primary.shoe.dropMM}mm Drop</Badge>
                     <Badge variant="secondary" className="text-xs gap-1"><Timer className="w-3 h-3" /> {primary.shoe.weightGrams}g</Badge>
                     {primary.shoe.widthOptions && <Badge variant="secondary" className="text-xs">Wide Fit Available</Badge>}
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-3 mb-4">
+                    {primaryAmazonUrl && (
+                      <a
+                        href={primaryAmazonUrl}
+                        target="_blank"
+                        rel="noopener noreferrer sponsored nofollow"
+                        onClick={() => track.affiliateClick({ shoeId: primary.shoe.id, brand: primary.shoe.brand, model: primary.shoe.model, placement: 'result_primary_cta', position: 1, resultSlug: slug, matchPercent: primary.matchPercent, category: primary.shoe.category, priceBand: getPriceTier(primary.shoe.priceUSD).label, userTerrain: answers?.terrain, userDistance: answers?.distance, userPronation: answers?.pronation })}
+                        className="inline-flex items-center justify-center gap-2 bg-gradient-primary glow-primary text-primary-foreground font-bold uppercase tracking-wider px-6 h-12 rounded-xl hover:opacity-90 transition-all text-sm"
+                      >
+                        <ShoppingCart className="w-4 h-4" />
+                        Check Latest Price{getAmazonListingNote(primary.shoe.id) ? ` (${getAmazonListingNote(primary.shoe.id)})` : ''}
+                      </a>
+                    )}
+                    {!primaryAmazonUrl && primaryBrandLink && (
+                      <a
+                        href={primaryBrandLink.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => track.ctaClick(`brand_site_${primary.shoe.id}`, 'result_primary_cta')}
+                        className="inline-flex items-center justify-center gap-2 bg-gradient-primary glow-primary text-primary-foreground font-bold uppercase tracking-wider px-6 h-12 rounded-xl hover:opacity-90 transition-all text-sm"
+                      >
+                        <ShoppingCart className="w-4 h-4" />
+                        {primaryBrandLink.label}
+                      </a>
+                    )}
+                    <a
+                      href={primary.shoe.reviewURL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => track.reviewClick({ shoeId: primary.shoe.id, brand: primary.shoe.brand, model: primary.shoe.model, placement: 'result_primary_review', resultSlug: slug, matchPercent: primary.matchPercent, category: primary.shoe.category })}
+                      className="inline-flex items-center justify-center gap-2 border border-primary/30 text-primary font-semibold px-6 h-12 rounded-xl hover:bg-primary/10 transition-all text-sm"
+                    >
+                      <BookOpen className="w-4 h-4" />
+                      Read GearUpToFit Review
+                    </a>
                   </div>
 
                   {/* Verified spec source — defensibility chip */}
@@ -562,50 +517,46 @@ const RunMatchResult = () => {
                     <WhyBreakdown scored={primary} defaultOpen />
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    {primaryAmazonUrl && (
-                      <a
-                        href={primaryAmazonUrl}
-                        target="_blank"
-                        rel="noopener noreferrer sponsored nofollow"
-                        onClick={() => track.affiliateClick({ shoeId: primary.shoe.id, brand: primary.shoe.brand, model: primary.shoe.model, placement: 'result_primary_cta', position: 1, resultSlug: slug, matchPercent: primary.matchPercent, category: primary.shoe.category, priceBand: getPriceTier(primary.shoe.priceUSD).label, userTerrain: answers?.terrain, userDistance: answers?.distance, userPronation: answers?.pronation })}
-                        className="inline-flex items-center justify-center gap-2 bg-gradient-primary glow-primary text-primary-foreground font-bold uppercase tracking-wider px-6 h-12 rounded-xl hover:opacity-90 transition-all text-sm"
-                      >
-                        <ShoppingCart className="w-4 h-4" />
-                        Check Latest Price{getAmazonListingNote(primary.shoe.id) ? ` (${getAmazonListingNote(primary.shoe.id)})` : ''}
-                      </a>
-                    )}
-                    {!primaryAmazonUrl && primaryBrandLink && (
-                      <a
-                        href={primaryBrandLink.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => track.ctaClick(`brand_site_${primary.shoe.id}`, 'result_primary_cta')}
-                        className="inline-flex items-center justify-center gap-2 bg-gradient-primary glow-primary text-primary-foreground font-bold uppercase tracking-wider px-6 h-12 rounded-xl hover:opacity-90 transition-all text-sm"
-                      >
-                        <ShoppingCart className="w-4 h-4" />
-                        {primaryBrandLink.label}
-                      </a>
-                    )}
-                    <a
-                      href={primary.shoe.reviewURL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => track.reviewClick({ shoeId: primary.shoe.id, brand: primary.shoe.brand, model: primary.shoe.model, placement: 'result_primary_review', resultSlug: slug, matchPercent: primary.matchPercent, category: primary.shoe.category })}
-                      className="inline-flex items-center justify-center gap-2 border border-primary/30 text-primary font-semibold px-6 h-12 rounded-xl hover:bg-primary/10 transition-all text-sm"
-                    >
-                      <BookOpen className="w-4 h-4" />
-                      Read GearUpToFit Review
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>
           </motion.div>
         )}
 
-        {/* SECTION 3: Shoe Rotation */}
-        {rotation && (
+        {/* Report CTA: right under the #1 match, where the decision is made */}
+        <motion.div {...fadeUp}>
+          <div className="glass rounded-2xl p-4 md:p-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 border border-primary/20">
+            <div className="flex-1">
+              <h3 className="font-bold uppercase tracking-tight text-sm md:text-base">Take this shortlist with you</h3>
+              <p className="text-xs md:text-sm text-muted-foreground">A PDF with photos, your top 5, a rotation plan, a try-on guide and a buy button for every shoe.</p>
+            </div>
+            <Button
+              onClick={handleDownloadPDF}
+              className="bg-gradient-primary glow-primary font-bold uppercase tracking-wider px-6 h-11 rounded-xl text-sm group w-full sm:w-auto"
+            >
+              <Download className="w-4 h-4 mr-2 group-hover:animate-bounce" />
+              Get my PDF report
+            </Button>
+          </div>
+        </motion.div>
+
+        {/* SECTION 3: Shoe Rotation. A runner on one shoe gets a short note instead of a card that repeats the #1 match. */}
+        {rotation && !rotation.speed && !rotation.longRun && (
+          <motion.div {...fadeUp} transition={{ delay: 0.3 }}>
+            <div className="glass rounded-2xl p-5 md:p-6 flex items-start gap-4">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <RotateCcw className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h2 className="text-lg md:text-xl font-bold uppercase tracking-tight">One shoe is enough for now</h2>
+                <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
+                  At your current mileage one comfortable daily trainer does the job. Add a second pair when your weekly distance or goals grow. {ROTATION_STATEMENT_SHORT}.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+        {rotation && (rotation.speed || rotation.longRun) && (
           <motion.div {...fadeUp} transition={{ delay: 0.3 }}>
             <div className="glass rounded-2xl p-5 md:p-8">
               <div className="flex items-center gap-3 mb-6">
@@ -663,7 +614,7 @@ const RunMatchResult = () => {
                             target="_blank"
                             rel="noopener noreferrer sponsored nofollow"
                             onClick={() => track.affiliateClick({ shoeId: s.shoe.shoe.id, brand: s.shoe.shoe.brand, model: s.shoe.shoe.model, placement: 'rotation_strategy_card', position: i + 1, slot: s.role.replace(/^[^A-Za-z]+/, ''), resultSlug: slug, matchPercent: s.shoe.matchPercent, category: s.shoe.shoe.category, priceBand: getPriceTier(s.shoe.shoe.priceUSD).label, userTerrain: answers?.terrain, userDistance: answers?.distance, userPronation: answers?.pronation })}
-                            className="flex-1 flex items-center justify-center gap-1.5 bg-primary/10 text-primary font-semibold text-xs px-3 h-9 rounded-lg hover:bg-primary/20 transition-all"
+                            className="flex-1 flex items-center justify-center gap-1.5 bg-primary text-primary-foreground font-semibold text-xs px-3 h-9 rounded-lg hover:bg-primary/90 transition-all"
                           >
                             <ShoppingCart className="w-3 h-3" /> Amazon{getAmazonListingNote(s.shoe.shoe.id) ? ` · ${getAmazonListingNote(s.shoe.shoe.id)}` : ''}
                           </a>
@@ -674,7 +625,7 @@ const RunMatchResult = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={() => track.ctaClick(`brand_site_${s.shoe.shoe.id}`, 'rotation_strategy_card')}
-                            className="flex-1 flex items-center justify-center gap-1.5 bg-primary/10 text-primary font-semibold text-xs px-3 h-9 rounded-lg hover:bg-primary/20 transition-all"
+                            className="flex-1 flex items-center justify-center gap-1.5 bg-primary text-primary-foreground font-semibold text-xs px-3 h-9 rounded-lg hover:bg-primary/90 transition-all"
                           >
                             <ShoppingCart className="w-3 h-3" /> {getBrandBuyLink(s.shoe.shoe)!.label}
                           </a>
@@ -740,10 +691,105 @@ const RunMatchResult = () => {
           </motion.div>
         )}
 
+        {/* Gear that suits this runner (verified Amazon listings, photos from the same listings) */}
+        <KitPicks items={kitItems} placement="result_kit" resultSlug={slug} />
+
+        {/* Runner profile: radar + stats */}
+        <motion.section {...fadeUp} aria-label="Your runner profile">
+          <div className="max-w-3xl mx-auto mb-6">
+            <TrustBar variant="compact" />
+          </div>
+          {/* Runner Profile: Radar + Stats */}
+          <div className="grid md:grid-cols-2 gap-4 md:gap-6">
+            <motion.div {...fadeUp} className="glass rounded-2xl p-5 md:p-6">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-2">Your Runner Profile</h3>
+              <ResponsiveContainer width="100%" height={250}>
+                <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="70%">
+                  <PolarGrid stroke="hsl(220 15% 25%)" />
+                  <PolarAngleAxis dataKey="axis" tick={{ fill: 'hsl(220 10% 55%)', fontSize: 11 }} />
+                  <Radar name="Profile" dataKey="value" stroke="hsl(1 76% 56%)" fill="hsl(1 76% 56%)" fillOpacity={0.2} strokeWidth={2} />
+                </RadarChart>
+              </ResponsiveContainer>
+            </motion.div>
+
+            <motion.div {...fadeUp} className="grid grid-cols-2 gap-3">
+              {[
+                { label: 'Category', value: rec.shoeProfile.category, icon: '👟' },
+                { label: 'Cushioning', value: rec.shoeProfile.cushioning, icon: '☁️' },
+                { label: 'Drop', value: rec.shoeProfile.dropRange, icon: '📐' },
+                { label: 'Support', value: rec.shoeProfile.supportType, icon: '🛡️' },
+                { label: 'Mileage', value: `${answers.weeklyMileage} km/wk`, icon: '📊' },
+                { label: 'Terrain', value: answers.terrain.charAt(0).toUpperCase() + answers.terrain.slice(1), icon: '🌍' },
+              ].map(item => (
+                <div key={item.label} className="glass rounded-2xl p-4 text-center group hover:border-primary/30 transition-all">
+                  <span className="text-xl mb-1.5 block">{item.icon}</span>
+                  <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-0.5">{item.label}</div>
+                  <div className="font-bold text-xs md:text-sm">{item.value}</div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </motion.section>
+
+        {/* Fit Priority — discrete labeled data for AEO/GEO extraction */}
+        <motion.section {...fadeUp} aria-labelledby="fit-priority-heading">
+          <div className="glass rounded-2xl p-5 md:p-8">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Target className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h2 id="fit-priority-heading" className="text-xl md:text-2xl font-bold uppercase tracking-tight">Fit Priority</h2>
+                <p className="text-xs text-muted-foreground">What to check when you try shoes on, based on your answers.</p>
+              </div>
+            </div>
+
+            <dl className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {fitPriorities.map((f) => (
+                <div key={f.label} className="rounded-xl p-4 bg-card/40 border border-border/60">
+                  <dt className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">{f.label}</dt>
+                  <dd className="text-sm text-foreground/90 leading-snug">{f.detail}</dd>
+                </div>
+              ))}
+            </dl>
+
+            {/* Contextual guides — only shown when relevant to the runner's profile */}
+            <div className="mt-6 pt-5 border-t border-border/40 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+              <a
+                href="https://gearuptofit.com/review/best-running-shoes/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-primary hover:underline font-medium"
+              >
+                Compare the Best Running Shoes by Runner Type <ExternalLink className="w-3 h-3" />
+              </a>
+              <a
+                href="https://gearuptofit.com/running/how-to-choose-the-right-running-shoes/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-primary hover:underline font-medium"
+              >
+                Read the Running Shoe Fit Guide <ExternalLink className="w-3 h-3" />
+              </a>
+              {showBeginnerGuide && (
+                <a
+                  href="https://gearuptofit.com/review/best-running-shoes-for-beginners/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-primary hover:underline font-medium"
+                >
+                  Best Beginner Running Shoes <ExternalLink className="w-3 h-3" />
+                </a>
+              )}
+            </div>
+          </div>
+        </motion.section>
+
+
         {/* Inline lead capture — non-modal, scroll-revealed, dismissable. */}
         <InlineLeadCard
           primaryShoe={primary?.shoe ? `${primary.shoe.brand} ${primary.shoe.model}` : undefined}
-          shoeCategory={primary?.shoe?.category as any}
+          shoeCategory={primary?.shoe?.category}
           weeklyMileage={answers?.weeklyMileage}
           injuries={answers?.injuries}
         />
@@ -937,8 +983,8 @@ const RunMatchResult = () => {
                 <ShoppingCart className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <h2 className="text-xl md:text-2xl font-bold uppercase tracking-tight">Complete Your Kit</h2>
-                <p className="text-xs text-muted-foreground">Essential gear to complement your new shoes</p>
+                <h2 className="text-xl md:text-2xl font-bold uppercase tracking-tight">Gear Guides</h2>
+                <p className="text-xs text-muted-foreground">Our in-depth buying guides for the rest of your kit</p>
               </div>
             </div>
             <div className="grid gap-3 grid-cols-2 md:grid-cols-4">
@@ -1062,7 +1108,7 @@ const RunMatchResult = () => {
         onClose={handleGateClose}
         onUnlock={handleGateUnlock}
         primaryShoe={primary?.shoe ? `${primary.shoe.brand} ${primary.shoe.model}` : undefined}
-        shoeCategory={primary?.shoe?.category as any}
+        shoeCategory={primary?.shoe?.category}
         weeklyMileage={answers?.weeklyMileage}
         injuries={answers?.injuries}
         source="quiz_gate"
@@ -1077,7 +1123,7 @@ const RunMatchResult = () => {
             onClose={close}
             onUnlock={close}
             primaryShoe={primary?.shoe ? `${primary.shoe.brand} ${primary.shoe.model}` : undefined}
-            shoeCategory={primary?.shoe?.category as any}
+            shoeCategory={primary?.shoe?.category}
             source="exit_popup"
             weeklyMileage={answers?.weeklyMileage}
             injuries={answers?.injuries}
