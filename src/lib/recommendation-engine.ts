@@ -47,13 +47,20 @@ export function generateRecommendation(answers: QuizAnswers): ShoeRecommendation
   else if (distance === 'marathon' || distance === 'ultra') category = 'Long-Distance Cushioned Trainer';
   else if (weeklyMileage < 20) category = 'Versatile Daily Trainer';
 
+  // A reported injury means a comfort-first profile, never a racing flat (kept in step with the
+  // scoring engine, which down-ranks race and speed shoes in that case).
+  if (injuries.length > 0 && !injuries.includes('none')) {
+    if (category === 'Racing Flat / Speed Trainer' || category === 'Performance Trainer') category = 'Cushioned Daily Trainer';
+    if (cushioning === 'Light to Moderate') cushioning = 'Moderate';
+  }
+
   if (footType === 'wide') category += ' (Wide Fit)';
 
   const summary = `A ${cushioning.toLowerCase()}-cushioned ${supportType.toLowerCase()} ${category.toLowerCase()} with a ${dropRange} heel-to-toe drop, optimized for ${terrain === 'trail' ? 'technical terrain' : terrain === 'track' ? 'track sessions' : 'road running'}.`;
 
   const categoryReasons: string[] = [];
-  if (supportType !== 'Neutral') categoryReasons.push(`Your ${pronation === 'overpronation' ? 'overpronation' : 'foot type'} benefits from ${supportType.toLowerCase()} features to reduce injury risk.`);
-  if (cushioning === 'Maximum') categoryReasons.push(`Higher mileage and ${distance} distance demand maximum cushioning to protect joints over time.`);
+  if (supportType !== 'Neutral') categoryReasons.push(`Runners with ${pronation === 'overpronation' ? 'overpronation' : 'this foot type'} often prefer ${supportType.toLowerCase()} shoes for a steadier, more comfortable feel (research on whether support lowers injury risk is mixed).`);
+  if (cushioning === 'Maximum') categoryReasons.push(`Higher weekly mileage and ${distance.replace('-', ' ')} distance favor generous cushioning for comfort over long runs.`);
   if (terrain === 'trail') categoryReasons.push('Trail-specific outsoles provide the grip and protection you need on uneven surfaces.');
   if (paceGoal === 'race') categoryReasons.push('A lighter, more responsive build helps you hit goal pace on race day.');
   categoryReasons.push(`This category balances durability and performance for runners logging ${weeklyMileage} km/week.`);
@@ -91,7 +98,7 @@ export function generateRecommendation(answers: QuizAnswers): ShoeRecommendation
     training.push('Vary your distances throughout the week to build all-around fitness.');
   }
   if (injuries.length > 0 && !injuries.includes('none')) {
-    training.push('Incorporate strength training 2x/week focusing on hip and core stability to prevent re-injury.');
+    training.push('Consider hip and core strength work once a professional has cleared you to train, and ask them what suits your history.');
     training.push('Add dynamic warm-ups and post-run stretching to your routine.');
   }
   if (paceGoal === 'easy') {
@@ -99,12 +106,12 @@ export function generateRecommendation(answers: QuizAnswers): ShoeRecommendation
   }
 
   const whyParts = [
-    `Based on your ${footType === 'wide' ? 'wide' : footType} foot type and ${pronation} pronation pattern, ${supportType.toLowerCase()} shoes will provide the right balance of guidance and natural movement.`,
-    `At ${weeklyMileage} km/week targeting ${distance.replace('-', ' ')} on ${terrain} surfaces, ${cushioning.toLowerCase()} cushioning protects against cumulative impact while keeping the ride responsive.`,
+    `Based on your ${footType === 'wide' ? 'wide' : footType} foot type and ${pronation} pronation pattern, ${supportType.toLowerCase()} shoes are a sensible starting point for balancing guidance and natural movement.`,
+    `At ${weeklyMileage} km/week targeting ${distance.replace('-', ' ')} on ${terrain} surfaces, ${cushioning.toLowerCase()} cushioning keeps long weeks comfortable while staying responsive.`,
   ];
   if (injuries.length > 0 && !injuries.includes('none')) {
-    const injuryNames = injuries.map(i => i.replace(/-/g, ' ')).join(', ');
-    whyParts.push(`Your history of ${injuryNames} means we prioritized extra protection and a ${dropRange} drop to reduce strain on vulnerable areas.`);
+    const injuryNames = injuries.filter(i => i !== 'none').map(i => i.replace(/-/g, ' ')).join(', ');
+    whyParts.push(`Because you mentioned ${injuryNames}, we leaned toward conservative, well-cushioned shoes (a ${dropRange} drop is a common starting point) and away from race-day plated shoes. Shoes cannot treat an injury, so if you have current pain please see a qualified professional first.`);
   }
   if (brand.length > 0) {
     const brandNames = brand.map(b => b.charAt(0).toUpperCase() + b.slice(1)).join(', ');

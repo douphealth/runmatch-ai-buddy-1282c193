@@ -1,0 +1,29 @@
+# Cloudflare Pages response headers (applies only to the Pages origin).
+# Docs: https://developers.cloudflare.com/pages/configuration/headers/
+
+# Never index the raw Pages hostnames. The canonical site is
+# https://gearuptofit.com/shoe-finder/ (see cloudflare/worker.js, which strips
+# origin X-Robots-Tag so this does NOT leak onto the public domain).
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+# Hashed chunks never change for a given name: cache for a year.
+/assets/chunks/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Entry bundle and stylesheet have fixed names (vite.config.ts), so they must
+# always be revalidated or a cached copy can point at chunks that no longer exist.
+/assets/index.js
+  Cache-Control: no-cache
+/assets/index.css
+  Cache-Control: no-cache
+
+# Product photos and quiz imagery change rarely.
+/images/*
+  Cache-Control: public, max-age=2592000
+
+# Build metadata read by the Worker; keep it fresh.
+/route-manifest.json
+  Cache-Control: public, max-age=300

@@ -1,20 +1,22 @@
 import { useEffect, useMemo } from 'react';
-import { useParams, Link, Navigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, ExternalLink, CheckCircle, Star, ChevronRight, Sparkles, Award } from 'lucide-react';
 import { getCategory, getCategoryShoes, CATEGORIES } from '@/lib/categories';
-import { getAmazonLinkForShoe } from '@/lib/amazon-link';
+import { getAmazonLinkForShoe, getAmazonListingNote } from '@/lib/amazon-link';
+import BrandBuyButton from '@/components/results/BrandBuyButton';
+import { categorySeo } from '@/lib/entity-seo';
+import SeoHead from '@/components/SeoHead';
+import NotFound from '@/pages/NotFound';
 import ShoeImage from '@/components/results/ShoeImage';
 import AffiliateDisclosure from '@/components/results/AffiliateDisclosure';
 import TrustBar from '@/components/conversion/TrustBar';
-import Testimonials from '@/components/conversion/Testimonials';
+import MethodologyTeaser from '@/components/conversion/MethodologyTeaser';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { track } from '@/lib/analytics';
 
-const SITE = 'https://gearuptofit.com';
 const CategoryLanding = () => {
   const { slug } = useParams<{ slug: string }>();
   const cat = slug ? getCategory(slug) : undefined;
@@ -26,71 +28,11 @@ const CategoryLanding = () => {
 
   const shoes = useMemo(() => (cat ? getCategoryShoes(cat, 8) : []), [cat]);
 
-  if (!cat) return <Navigate to="/" replace />;
-
-  const canonical = `${SITE}/shoe-finder/best-running-shoes/${cat.slug}/`;
-
-  const jsonLd = [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'RunMatch AI', item: `${SITE}/shoe-finder/` },
-        { '@type': 'ListItem', position: 2, name: 'Best Running Shoes', item: `${SITE}/shoe-finder/best-running-shoes/` },
-        { '@type': 'ListItem', position: 3, name: cat.h1, item: canonical },
-      ],
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: cat.faqs.map(f => ({
-        '@type': 'Question',
-        name: f.question,
-        acceptedAnswer: { '@type': 'Answer', text: f.answer },
-      })),
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'HowTo',
-      name: cat.howTo.name,
-      description: cat.howTo.description,
-      step: cat.howTo.steps.map((s, i) => ({
-        '@type': 'HowToStep',
-        position: i + 1,
-        name: s.name,
-        text: s.text,
-      })),
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'ItemList',
-      name: cat.h1,
-      itemListElement: shoes.map((s, i) => ({
-        '@type': 'ListItem',
-        position: i + 1,
-        item: {
-          '@type': 'Product',
-          name: `${s.brand} ${s.model}`,
-          brand: { '@type': 'Brand', name: s.brand },
-          category: 'Running Shoes',
-          url: getAmazonLinkForShoe(s.id, s.brand, s.model, s.amazonASIN),
-        },
-      })),
-    },
-  ];
+  if (!cat) return <NotFound />;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Helmet>
-        <title>{cat.title}</title>
-        <meta name="description" content={cat.description} />
-        <link rel="canonical" href={canonical} />
-        <meta property="og:title" content={cat.title} />
-        <meta property="og:description" content={cat.description} />
-        <meta property="og:url" content={canonical} />
-        <meta property="og:type" content="article" />
-        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
-      </Helmet>
+      <SeoHead seo={categorySeo(cat)} />
 
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="container mx-auto px-4 pt-6 text-sm text-muted-foreground">
@@ -108,7 +50,7 @@ const CategoryLanding = () => {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
           <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
             <Sparkles className="w-3.5 h-3.5 mr-1.5" />
-            Updated 2026 · Verified Specs
+            Data reviewed 2026 · Specs explained
           </Badge>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-5">
             {cat.h1}
@@ -148,7 +90,7 @@ const CategoryLanding = () => {
               >
                 <div className="flex items-start justify-between mb-3">
                   <Badge variant="outline" className="text-xs">#{i + 1} {cat.h1.split(' ')[1]}</Badge>
-                  <span className="text-sm font-semibold text-primary">${s.priceUSD}</span>
+                  <span className="text-sm font-semibold text-primary" title="Launch MSRP, not a live price">MSRP ${s.priceUSD}</span>
                 </div>
                 <ShoeImage brand={s.brand} model={s.model} imageURL={s.imageURL} amazonASIN={s.amazonASIN} size="md" interactive={false} />
                 <Link to={`/shoes/${s.id}`} className="block mt-4 hover:text-primary transition">
@@ -168,18 +110,21 @@ const CategoryLanding = () => {
                     href={url}
                     target="_blank"
                     rel="sponsored noopener noreferrer"
-                    onClick={() => track.affiliateClick({ shoeId: s.id, brand: s.brand, model: s.model, placement: `category-${cat.slug}` })}
+                    onClick={() => track.affiliateClick({ shoeId: s.id, brand: s.brand, model: s.model, placement: `category-${cat.slug}`, position: i + 1 })}
                     className="mt-4 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition"
                   >
-                    Check price on Amazon <ExternalLink className="w-3.5 h-3.5" />
+                    Check price on Amazon{getAmazonListingNote(s.id) ? ` (${getAmazonListingNote(s.id)})` : ''} <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 ) : (
-                  <Link
-                    to={`/shoes/${s.id}`}
-                    className="mt-4 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-secondary text-foreground font-medium hover:bg-secondary/80 transition"
-                  >
-                    View review <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
+                  <>
+                    <BrandBuyButton shoe={s} placement={`category-${cat.slug}`} className="mt-4" />
+                    <Link
+                      to={`/shoes/${s.id}`}
+                      className="mt-2 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-secondary text-foreground font-medium hover:bg-secondary/80 transition"
+                    >
+                      View review <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </>
                 )}
               </motion.article>
             );
@@ -209,9 +154,9 @@ const CategoryLanding = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* How shoes are ranked (real, verifiable) */}
       <section className="container mx-auto px-4 pb-16">
-        <Testimonials />
+        <MethodologyTeaser />
       </section>
 
       {/* FAQ */}

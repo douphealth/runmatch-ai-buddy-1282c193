@@ -1,4 +1,5 @@
 import { shoeDatabase, Shoe } from './shoe-database';
+import { SUPER_SHOE_STATEMENT } from './evidence';
 
 /**
  * Brand landing pages — programmatic SEO targeting commercial brand intent.
@@ -33,7 +34,7 @@ export const BRANDS: BrandDef[] = [
     signature: 'ZoomX foam + Flyknit upper',
     faqs: [
       { question: 'Which Nike running shoe is best for beginners?', answer: 'The Nike Pegasus 41 is the most beginner-friendly Nike daily trainer — balanced 7/10 cushioning, 10mm drop, durable Cushlon midsole, and a wide enough toebox for most foot shapes.' },
-      { question: 'Is the Nike Vaporfly worth it?', answer: 'For race day, yes. Independent biomechanics studies show carbon-plated ZoomX shoes improve running economy by 2–4%, which translates to ~5–10 minutes faster over a marathon for most runners.' },
+      { question: 'Is the Nike Vaporfly worth it?', answer: `It can be, for race day. ${SUPER_SHOE_STATEMENT}` },
       { question: 'Do Nike running shoes run small?', answer: 'Most modern Nike runners (Pegasus, Vomero, Invincible) fit true to size with a slightly snug forefoot. The Alphafly and Vaporfly run true, but heel-lock lacing is recommended.' },
     ],
   },

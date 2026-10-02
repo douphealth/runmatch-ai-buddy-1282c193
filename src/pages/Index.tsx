@@ -2,7 +2,8 @@ import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { quizSteps, QuizAnswers, defaultAnswers, generateSlug, encodeAnswers } from '@/lib/quiz-data';
-import { generateWebAppSchema } from '@/lib/seo';
+import SeoHead from '@/components/SeoHead';
+import { landingSeo } from '@/lib/landing-seo';
 import QuizHero from '@/components/quiz/QuizHero';
 import QuizProgress from '@/components/quiz/QuizProgress';
 import QuizStepContent from '@/components/quiz/QuizStepContent';
@@ -19,29 +20,10 @@ const Index = () => {
 
   useEffect(() => { track.quizView(); }, []);
 
-  useEffect(() => {
-    const webApp = document.createElement('script');
-    webApp.type = 'application/ld+json';
-    webApp.textContent = JSON.stringify(generateWebAppSchema());
-
-    const faq = document.createElement('script');
-    faq.type = 'application/ld+json';
-    faq.textContent = JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: [
-        { '@type': 'Question', name: 'Is RunMatch AI free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. No signup, no email required, no paywall. Some product links are Amazon affiliate links — GearUpToFit may earn a commission at no extra cost to you.' } },
-        { '@type': 'Question', name: 'How long does the running shoe quiz take?', acceptedAnswer: { '@type': 'Answer', text: 'About 2 minutes for 9 questions covering foot type, pronation, mileage, distance, terrain, pace goals, injury history, brand preference, and budget.' } },
-        { '@type': 'Question', name: 'How does RunMatch AI choose a shoe?', acceptedAnswer: { '@type': 'Answer', text: 'A deterministic scoring engine evaluates each shoe in a structured database with source links where available against your biomechanics and training profile across cushioning, drop, stack height, support type, weight, and intended use. The same answers always produce the same recommendation.' } },
-        { '@type': 'Question', name: 'What is a shoe rotation?', acceptedAnswer: { '@type': 'Answer', text: 'Rotating between 2–3 different running shoes loads tissues differently and has been associated with up to 39% lower injury risk (British Journal of Sports Medicine, 2015). RunMatch AI builds you a daily trainer plus speed shoe plus long-run shoe rotation.' } },
-        { '@type': 'Question', name: 'How often should I replace running shoes?', acceptedAnswer: { '@type': 'Answer', text: 'Most running shoes last 500–800 km (300–500 miles) depending on body weight, gait, and midsole foam. Replace sooner if you feel new aches or see midsole compression.' } },
-      ],
-    });
-
-    document.head.appendChild(webApp);
-    document.head.appendChild(faq);
-    return () => { webApp.remove(); faq.remove(); };
-  }, []);
+  // Structured data (WebApplication, HowTo, FAQPage, WebSite) is baked into the
+  // pre-rendered HTML by scripts/prerender.mts. It is deliberately NOT injected
+  // again here: a second, different FAQPage block is what produced Google's
+  // "duplicate field FAQPage" error.
 
   const progress = currentStep >= 0 ? ((currentStep + 1) / quizSteps.length) * 100 : 0;
 
@@ -69,6 +51,7 @@ const Index = () => {
     if (currentStep < 0) return true;
     const step = quizSteps[currentStep];
     const val = answers[step.id as keyof QuizAnswers];
+    if (step.optional) return true;
     if (step.type === 'slider') return true;
     if (step.type === 'brand-multi') return true; // optional
     if (step.type === 'multi') return (val as string[]).length > 0;
@@ -80,14 +63,18 @@ const Index = () => {
       if (prev >= 0 && prev < quizSteps.length) {
         const step = quizSteps[prev];
         const val = answers[step.id as keyof QuizAnswers] as string | number | string[];
-        track.quizStepComplete(prev, step.id, val);
+        track.quizStep(prev, step.id, val);
       }
       if (prev < quizSteps.length - 1) return prev + 1;
       const slug = generateSlug(answers);
       const encoded = encodeAnswers(answers);
-      track.quizComplete({ slug, durationMs: quizStartedAt.current ? Date.now() - quizStartedAt.current : 0 });
+      track.quizComplete({
+        slug,
+        durationMs: quizStartedAt.current ? Date.now() - quizStartedAt.current : 0,
+        usedCurrentShoe: !!answers.currentShoe,
+      });
       clearProgress();
-      navigate(`/app/runmatch/${slug}?d=${encoded}`);
+      navigate(`/results/${slug}?d=${encoded}`);
       return prev;
     });
   }, [answers, navigate]);
@@ -137,7 +124,12 @@ const Index = () => {
   }, [handleStart]);
 
   if (currentStep === -1) {
-    return <QuizHero onStart={handleStart} onResume={handleResume} onRestart={handleRestart} />;
+    return (
+      <>
+        <SeoHead seo={landingSeo()} />
+        <QuizHero onStart={handleStart} onResume={handleResume} onRestart={handleRestart} />
+      </>
+    );
   }
 
   const step = quizSteps[currentStep];
@@ -145,6 +137,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-dark relative overflow-hidden">
+      <SeoHead seo={landingSeo()} />
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px]" />
@@ -185,7 +178,7 @@ const Index = () => {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">AI Confidence</span>
+                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Profile completeness</span>
                   <span className="text-xs font-bold text-primary">{confidencePercent}%</span>
                 </div>
                 <div className="h-1.5 bg-secondary/50 rounded-full overflow-hidden">

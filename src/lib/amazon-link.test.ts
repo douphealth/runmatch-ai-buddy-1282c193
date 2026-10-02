@@ -4,7 +4,7 @@ import { getAmazonLinkForShoe } from './amazon-link';
 describe('getAmazonLinkForShoe', () => {
   it('returns a direct /dp/ URL with affiliate tag for verified cached ASINs', () => {
     expect(getAmazonLinkForShoe('nike-pegasus-41', 'Nike', 'Pegasus 41')).toBe(
-      'https://www.amazon.com/dp/B0CZHK16QG/?tag=papalex-20',
+      'https://www.amazon.com/dp/B0CT3X14P9/?tag=papalex-20',
     );
   });
 

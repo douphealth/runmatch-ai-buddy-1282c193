@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Generated reports / sample outputs
+link-report.json
+GearUpToFit-RunMatch-Report-*.pdf
+.claude/

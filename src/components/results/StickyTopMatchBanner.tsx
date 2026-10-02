@@ -8,9 +8,10 @@
  */
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, ExternalLink, X, Trophy, ShieldCheck, Truck, RotateCcw } from 'lucide-react';
+import { ShoppingCart, ExternalLink, X, Trophy, Gauge, Activity, Timer } from 'lucide-react';
 import ShoeImage from './ShoeImage';
 import type { ScoredShoe } from '@/lib/scoring-engine';
+import { getAmazonListingNote } from '@/lib/amazon-link';
 import { track } from '@/lib/analytics';
 
 const DISMISS_KEY = 'gutf_sticky_match_dismissed_v1';
@@ -18,9 +19,11 @@ const DISMISS_KEY = 'gutf_sticky_match_dismissed_v1';
 interface Props {
   scored: ScoredShoe;
   amazonUrl: string;
+  /** Label for the top pick ("#1 Match", or a cautious label when an injury was reported). */
+  label?: string;
 }
 
-const StickyTopMatchBanner = ({ scored, amazonUrl }: Props) => {
+const StickyTopMatchBanner = ({ scored, amazonUrl, label = '#1 Match' }: Props) => {
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(() => {
     if (typeof window === 'undefined') return false;
@@ -46,6 +49,8 @@ const StickyTopMatchBanner = ({ scored, amazonUrl }: Props) => {
       brand: scored.shoe.brand,
       model: scored.shoe.model,
       placement: 'sticky_bottom_banner',
+      position: 1,
+      matchPercent: scored.matchPercent,
     });
   };
 
@@ -61,7 +66,7 @@ const StickyTopMatchBanner = ({ scored, amazonUrl }: Props) => {
           transition={{ type: 'spring', stiffness: 240, damping: 28 }}
           className="fixed inset-x-0 bottom-0 z-40 px-3 pb-3 md:px-4 md:pb-4 pointer-events-none"
           role="complementary"
-          aria-label="Your #1 matched running shoe"
+          aria-label="Your top matched running shoe"
         >
           <div className="pointer-events-auto max-w-5xl mx-auto">
             <div className="relative rounded-2xl md:rounded-3xl border border-primary/40 overflow-hidden backdrop-blur-2xl shadow-[0_20px_60px_-15px_rgba(229,57,53,0.35)]">
@@ -122,22 +127,23 @@ const StickyTopMatchBanner = ({ scored, amazonUrl }: Props) => {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/15 border border-primary/40 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
-                      <Trophy className="w-3 h-3" /> #1 Match
+                      <Trophy className="w-3 h-3" /> {label}
                     </span>
                     <span className="hidden md:inline text-[10px] uppercase tracking-widest text-muted-foreground">
-                      AI-verified pick
+                      Top pick for your answers
                     </span>
                   </div>
                   <p className="font-bold text-base md:text-xl leading-tight tracking-tight truncate">
                     {scored.shoe.brand} {scored.shoe.model}
                   </p>
                   <div className="hidden md:flex items-center gap-3 mt-1.5 text-[11px] text-muted-foreground">
-                    <span className="inline-flex items-center gap-1"><ShieldCheck className="w-3 h-3 text-primary/80" /> Verified retailer</span>
-                    <span className="inline-flex items-center gap-1"><Truck className="w-3 h-3 text-primary/80" /> Free shipping</span>
-                    <span className="inline-flex items-center gap-1"><RotateCcw className="w-3 h-3 text-primary/80" /> 30-day returns</span>
+                    <span className="inline-flex items-center gap-1"><Gauge className="w-3 h-3 text-primary/80" /> {scored.shoe.cushioning}/10 cushion</span>
+                    <span className="inline-flex items-center gap-1"><Activity className="w-3 h-3 text-primary/80" /> {scored.shoe.dropMM} mm drop</span>
+                    <span className="inline-flex items-center gap-1"><Timer className="w-3 h-3 text-primary/80" /> {scored.shoe.weightGrams} g</span>
                   </div>
-                  <div className="md:hidden text-[10px] text-muted-foreground truncate mt-0.5">
-                    Verified · Free shipping · 30-day returns
+                  <div className="text-[10px] text-muted-foreground truncate mt-0.5">
+                    <span className="md:hidden">{scored.shoe.cushioning}/10 cushion · {scored.shoe.dropMM} mm · {scored.shoe.weightGrams} g · </span>
+                    Affiliate link: we may earn a commission{getAmazonListingNote(scored.shoe.id) ? ` · Amazon lists the ${getAmazonListingNote(scored.shoe.id)}` : ''}
                   </div>
                 </div>
 

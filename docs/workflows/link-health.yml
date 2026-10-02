@@ -1,0 +1,33 @@
+name: Link health
+
+# Weekly check of every URL the app links to: your own articles and per-shoe
+# reviews, manufacturer spec pages, research citations and Amazon product pages.
+# A failed run (GitHub emails the repo owner) means at least one link is dead
+# (HTTP 404/410). Bot-blocked or temporary responses are reported, never failed.
+on:
+  schedule:
+    - cron: '17 6 * * 1' # Mondays 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    name: Check links
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Check links
+        run: node scripts/check-links.mjs
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: link-report
+          path: link-report.json
+          retention-days: 30

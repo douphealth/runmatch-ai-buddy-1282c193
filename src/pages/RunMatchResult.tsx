@@ -7,7 +7,16 @@ import { generateRecommendation } from '@/lib/recommendation-engine';
 import { scoreShoes, buildRotation } from '@/lib/scoring-engine';
 import { getRecommendedArticles, getInjuryArticles, getToolLinks, getKitLinks } from '@/lib/article-links';
 import { getDynamicFAQs } from '@/lib/dynamic-faqs';
-import { generateFAQSchema, generateMetaTitle, generateMetaDescription, applyOpenGraphImage } from '@/lib/seo';
+import { getFitPriorities } from '@/lib/fit-priorities';
+import { getSafetyNotice } from '@/lib/safety';
+import { resultSeo } from '@/lib/page-seo';
+import { getResultRepresentative } from '@/lib/result-groups';
+import { isCanonicalSlug } from '@/lib/canonical-slugs';
+import { appUrl } from '@/lib/site-config';
+import { Helmet } from 'react-helmet-async';
+import SeoHead from '@/components/SeoHead';
+import SafetyNotice from '@/components/results/SafetyNotice';
+import WhyBreakdown from '@/components/results/WhyBreakdown';
 
 import ResultsLoadingScreen from '@/components/results/ResultsLoadingScreen';
 import EmailGate, { hasSubscribed } from '@/components/EmailGate';
@@ -35,15 +44,14 @@ const fadeUp = {
   viewport: { once: true, margin: '-50px' },
 };
 
-import { getAmazonLinkForShoe } from '@/lib/amazon-link';
+import { getAmazonLinkForShoe, getAmazonListingNote } from '@/lib/amazon-link';
 import { getPriceTier, SHOE_DATABASE_LAST_UPDATED_LABEL } from '@/lib/price-tier';
-import { getManufacturerSourceURL } from '@/lib/shoe-sources';
+import { getBrandBuyLink, getManufacturerSourceURL } from '@/lib/shoe-sources';
 import AffiliateDisclosure from '@/components/results/AffiliateDisclosure';
 import MedicalDisclaimer from '@/components/results/MedicalDisclaimer';
 import ResearchSources from '@/components/results/ResearchSources';
 import TrustBar from '@/components/conversion/TrustBar';
-import Testimonials from '@/components/conversion/Testimonials';
-import LiveActivity from '@/components/conversion/LiveActivity';
+import MethodologyTeaser from '@/components/conversion/MethodologyTeaser';
 import ExitIntent from '@/components/conversion/ExitIntent';
 import InlineLeadCard from '@/components/conversion/InlineLeadCard';
 import StickyTopMatchBanner from '@/components/results/StickyTopMatchBanner';
@@ -88,10 +96,8 @@ const RunMatchResult = () => {
     return buildRotation(answers);
   }, [answers]);
 
-  const topShoes = useMemo(() => {
-    if (!answers) return [];
-    return scoreShoes(answers).slice(0, 5);
-  }, [answers]);
+  const scoredAll = useMemo(() => (answers ? scoreShoes(answers) : []), [answers]);
+  const topShoes = useMemo(() => scoredAll.slice(0, 5), [scoredAll]);
 
   const recommendedArticles = useMemo(() => answers ? getRecommendedArticles(answers) : [], [answers]);
   const injuryArticles = useMemo(() => answers ? getInjuryArticles(answers.injuries) : [], [answers]);
@@ -117,64 +123,28 @@ const RunMatchResult = () => {
     ];
   }, [answers]);
 
+  // Head tags + JSON-LD come from <SeoHead>, fed by the same PageSeo the
+  // prerenderer uses. Personalised (?d=) links are noindex and canonical to the clean URL.
+  const seo = useMemo(
+    () => (slug && answers ? resultSeo(slug, answers, { personalized: hasEncodedPayload }) : null),
+    [slug, answers, hasEncodedPayload],
+  );
+
+  const safety = useMemo(() => (answers ? getSafetyNotice(answers) : null), [answers]);
+
+  // One result_view per result, once the brief transition has finished.
   useEffect(() => {
-    if (!recommendation || !answers) return;
-
-    const previousTitle = document.title;
-    const title = generateMetaTitle(answers);
-    const description = generateMetaDescription(recommendation);
-    document.title = title;
-
-    const desc = document.querySelector('meta[name="description"]');
-    const previousDescription = desc?.getAttribute('content') ?? null;
-    if (desc) desc.setAttribute('content', description);
-
-    const recommendedShoe = rotation?.primary?.shoe;
-    const cleanupOG = recommendedShoe ? applyOpenGraphImage(recommendedShoe, title, description) : () => {};
-
-    const faqSchema = document.createElement('script');
-    faqSchema.type = 'application/ld+json';
-    faqSchema.textContent = JSON.stringify(generateFAQSchema(faqs));
-    document.head.appendChild(faqSchema);
-
-    const breadcrumbSchema = document.createElement('script');
-    breadcrumbSchema.type = 'application/ld+json';
-    breadcrumbSchema.textContent = JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'GearUpToFit', item: 'https://gearuptofit.com' },
-        { '@type': 'ListItem', position: 2, name: 'Shoe Finder', item: 'https://gearuptofit.com/shoe-finder/' },
-        { '@type': 'ListItem', position: 3, name: 'Your Result' },
-      ],
+    if (isLoading || !slug || !rotation?.primary) return;
+    track.resultView({
+      slug,
+      primaryShoe: `${rotation.primary.shoe.brand} ${rotation.primary.shoe.model}`,
+      matchPercent: rotation.primary.matchPercent,
+      category: rotation.primary.shoe.category,
+      personalized: hasEncodedPayload,
+      hasInjuryNotice: !!safety,
     });
-    document.head.appendChild(breadcrumbSchema);
-
-    const howToSchema = document.createElement('script');
-    howToSchema.type = 'application/ld+json';
-    howToSchema.textContent = JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'HowTo',
-      name: 'How to Pick the Right Running Shoe',
-      description: 'A 4-step framework to find a running shoe that matches your foot type, mileage, and training goals.',
-      step: [
-        { '@type': 'HowToStep', position: 1, name: 'Identify your pronation', text: 'Check wear pattern on an old pair — even = neutral, inner = overpronation, outer = underpronation.' },
-        { '@type': 'HowToStep', position: 2, name: 'Match cushioning to mileage', text: 'Under 20 mpw: 5–7/10 cushioning. 20–50 mpw: 7–8/10. Over 50 mpw: 8–9/10.' },
-        { '@type': 'HowToStep', position: 3, name: 'Confirm terrain', text: 'Road, trail, or mixed — terrain dictates outsole rubber and lug depth.' },
-        { '@type': 'HowToStep', position: 4, name: 'Build a 2-3 shoe rotation', text: 'Rotating shoes reduces injury risk by ~39% (Scand J Med Sci Sports, 2013).' },
-      ],
-    });
-    document.head.appendChild(howToSchema);
-
-    return () => {
-      faqSchema.remove();
-      breadcrumbSchema.remove();
-      howToSchema.remove();
-      cleanupOG();
-      document.title = previousTitle;
-      if (desc && previousDescription !== null) desc.setAttribute('content', previousDescription);
-    };
-  }, [recommendation, answers, faqs, rotation]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading, slug, rotation?.primary?.shoe.id]);
 
   const handleShare = async () => {
     const url = window.location.href;
@@ -212,7 +182,7 @@ const RunMatchResult = () => {
     if (!slug || !recPrimary?.shoe) return;
     saveMatch({
       slug,
-      url: `/app/runmatch/${slug}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`,
+      url: `/results/${slug}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`,
       label: `${recPrimary.shoe.brand} ${recPrimary.shoe.model}`,
       subtitle: answers?.distance ? `${answers.distance.replace('-', ' ')} · ${answers.terrain ?? ''}`.trim() : undefined,
       matchPercent: typeof recPrimary.matchPercent === 'number' ? recPrimary.matchPercent : undefined,
@@ -221,16 +191,28 @@ const RunMatchResult = () => {
 
   const runDownload = useCallback(async () => {
     if (!answers || !recommendation || !rotation) return;
-    toast.info('Generating your report...');
-    await (await import('@/lib/pdf-generator')).generateResultsPDF({ answers, recommendation, rotation, radarData });
-    if (slug) {
-      track.pdfDownload({
-        slug,
-        category: rotation.primary?.shoe?.category,
+    const toastId = toast.loading('Building your report with shoe photos...');
+    try {
+      await (await import('@/lib/pdf-generator')).generateResultsPDF({
+        answers,
+        recommendation,
+        rotation,
+        radarData,
+        topShoes,
+        slug: slug ?? undefined,
       });
+      if (slug) {
+        track.pdfDownload({
+          slug,
+          category: rotation.primary?.shoe?.category,
+        });
+      }
+      toast.success('Your RunMatch Report has been downloaded!', { id: toastId });
+    } catch (err) {
+      console.error('[pdf] generation failed', err);
+      toast.error('Could not build the report. Please try again.', { id: toastId });
     }
-    toast.success('Your RunMatch Report has been downloaded!');
-  }, [answers, recommendation, rotation, radarData, slug]);
+  }, [answers, recommendation, rotation, radarData, topShoes, slug]);
 
   const handleDownloadPDF = useCallback(() => {
     if (hasSubscribed()) { runDownload(); return; }
@@ -250,14 +232,19 @@ const RunMatchResult = () => {
     if (pendingDownload) { setPendingDownload(false); runDownload(); }
   }, [pendingDownload, runDownload]);
 
+  // Social shares point at the clean result page (no personal answers in the URL).
+  const publicResultUrl = slug
+    ? appUrl(`results/${isCanonicalSlug(slug) ? getResultRepresentative(slug) : slug}`)
+    : appUrl();
+
   const shareOnTwitter = () => {
-    const text = `I just found my perfect running shoe match! 🏃‍♂️ Take the free RunMatch AI quiz by @GearUpToFit:`;
-    const quizUrl = 'https://gearuptofit.com/shoe-finder/';
+    const text = `I just found my running shoe match! 🏃‍♂️ Try the free RunMatch AI quiz by @GearUpToFit:`;
+    const quizUrl = publicResultUrl;
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(quizUrl)}`, '_blank');
   };
 
   const shareOnFacebook = () => {
-    const quizUrl = 'https://gearuptofit.com/shoe-finder/';
+    const quizUrl = publicResultUrl;
     window.open(`https://www.facebook.com/dialog/share?app_id=966242223397117&href=${encodeURIComponent(quizUrl)}&quote=${encodeURIComponent('I just found my perfect running shoe match! 🏃‍♂️ Take the free RunMatch AI quiz by GearUpToFit!')}`, '_blank');
   };
 
@@ -266,6 +253,10 @@ const RunMatchResult = () => {
   if (!answers || !recommendation) {
     return (
       <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-dark">
+        <Helmet>
+          <title>No results found | RunMatch AI</title>
+          <meta name="robots" content="noindex,follow" />
+        </Helmet>
         <div className="text-center space-y-6">
           <div className="w-20 h-20 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
             <Zap className="w-10 h-10 text-primary" />
@@ -289,8 +280,9 @@ const RunMatchResult = () => {
   const primaryAmazonUrl = primary?.shoe
     ? getAmazonProductLink(primary.shoe.id, primary.shoe.brand, primary.shoe.model, primary.shoe.amazonASIN)
     : null;
-  const shoesAnalyzed = topShoes.length > 0 ? 40 : 0;
-  const dataPoints = 9;
+  const primaryBrandLink = primary?.shoe ? getBrandBuyLink(primary.shoe) : null;
+  const shoesAnalyzed = scoredAll.length;
+  const topLabel = safety ? safety.topPickLabel : '#1 Match';
 
   // Descriptive result headline components — used in the H1 subtitle and
   // improve AEO/GEO extraction (labeled terrain + mileage tier).
@@ -310,38 +302,7 @@ const RunMatchResult = () => {
 
   // Fit priority — derived from foot type, pronation, injury signals.
   // Rendered as discrete labeled data so both users and LLMs can extract it.
-  const fitPriorities: { label: string; detail: string }[] = [
-    {
-      label: 'Toe room',
-      detail: answers.footType === 'wide'
-        ? 'Roomy toebox — avoid narrow last shoes'
-        : 'About a thumb-width in front of the longest toe',
-    },
-    {
-      label: 'Heel lockdown',
-      detail: answers.injuries?.includes('achilles')
-        ? 'Secure but not aggressive — avoid pinching Achilles'
-        : 'Secure heel counter, no slip on push-off',
-    },
-    {
-      label: 'Midfoot hold',
-      detail: answers.pronation === 'overpronation' || answers.footType === 'flat'
-        ? 'Firm, structured midfoot for medial support'
-        : 'Snug but flexible midfoot wrap',
-    },
-    {
-      label: 'Width',
-      detail: answers.footType === 'wide'
-        ? 'Wide (2E) or extra-wide (4E) sizing recommended'
-        : 'Standard (D) width — try wide if forefoot feels pinched',
-    },
-    {
-      label: 'Orthotic room',
-      detail: answers.injuries && answers.injuries.length > 0 && !answers.injuries.includes('none')
-        ? 'Removable sockliner — accommodates custom orthotics'
-        : 'Not required — stock insole is fine for most runners',
-    },
-  ];
+  const fitPriorities = getFitPriorities(answers);
 
   // Beginner-appropriate contextual link — only surfaced when the runner's
   // profile actually matches beginner intent, to avoid keyword stuffing.
@@ -349,6 +310,7 @@ const RunMatchResult = () => {
 
   return (
     <div className="min-h-screen pb-32 md:pb-28 bg-gradient-dark">
+      {seo && <SeoHead seo={seo} />}
       {/* Header */}
       <header className="sticky top-0 z-20 glass-strong px-4 py-3">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
@@ -385,7 +347,7 @@ const RunMatchResult = () => {
         >
           <div className="text-center mb-8">
             <Badge className="mb-4 bg-primary/20 text-primary border-primary/30 text-xs uppercase tracking-[0.15em] px-4 py-1.5">
-              AI-Powered Analysis Complete
+              {safety ? 'Comfort-first shortlist' : 'Analysis complete'}
             </Badge>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight mb-3 leading-[0.95]">
               {rec.shoeProfile.category}
@@ -407,10 +369,17 @@ const RunMatchResult = () => {
                 Download PDF Report
               </Button>
               <p className="text-[10px] text-muted-foreground uppercase tracking-widest">
-                Database verified · {SHOE_DATABASE_LAST_UPDATED_LABEL}
+                Shoe data last reviewed {SHOE_DATABASE_LAST_UPDATED_LABEL}
               </p>
             </div>
           </div>
+
+          {/* Pain / injury reported: cautious, professional-first notice */}
+          {safety && (
+            <div className="max-w-3xl mx-auto mb-6">
+              <SafetyNotice answers={answers} />
+            </div>
+          )}
 
           {/* FTC affiliate disclosure — required near affiliate CTAs */}
           <div className="max-w-3xl mx-auto mb-6">
@@ -522,8 +491,8 @@ const RunMatchResult = () => {
                   <Award className="w-6 h-6 text-primary-foreground" />
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-xl md:text-2xl font-bold uppercase tracking-tight">#1 Match</h2>
-                  <p className="text-xs text-muted-foreground">Your best shoe match out of {shoesAnalyzed} analyzed</p>
+                  <h2 className="text-xl md:text-2xl font-bold uppercase tracking-tight">{topLabel}</h2>
+                  <p className="text-xs text-muted-foreground">{safety ? 'A cautious option' : 'Your best match'} out of {shoesAnalyzed} shoes scored</p>
                 </div>
                 <MatchScoreBadge percent={primary.matchPercent} size="lg" />
               </div>
@@ -566,7 +535,11 @@ const RunMatchResult = () => {
                     className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground hover:text-primary transition-colors mb-4"
                   >
                     <ShieldCheck className="w-3 h-3 text-primary" />
-                    <span>Specs verified · {primary.shoe.lastVerified ?? SHOE_DATABASE_LAST_UPDATED_LABEL} · {primary.shoe.brand} source</span>
+                    <span>
+                      {primary.shoe.sourceURL
+                        ? `Manufacturer spec page · checked ${primary.shoe.lastVerified ?? SHOE_DATABASE_LAST_UPDATED_LABEL}`
+                        : `Specs from manufacturer listings · confirm on the ${primary.shoe.brand} site`}
+                    </span>
                     <ExternalLink className="w-2.5 h-2.5" />
                   </a>
 
@@ -585,17 +558,33 @@ const RunMatchResult = () => {
                     ))}
                   </ul>
 
+                  <div className="mb-5">
+                    <WhyBreakdown scored={primary} defaultOpen />
+                  </div>
+
                   <div className="flex flex-col sm:flex-row gap-3">
                     {primaryAmazonUrl && (
                       <a
                         href={primaryAmazonUrl}
                         target="_blank"
                         rel="noopener noreferrer sponsored nofollow"
-                        onClick={() => track.affiliateClick({ shoeId: primary.shoe.id, brand: primary.shoe.brand, model: primary.shoe.model, placement: 'result_primary_cta', resultSlug: slug, matchPercent: primary.matchPercent, category: primary.shoe.category, priceBand: getPriceTier(primary.shoe.priceUSD).label, userTerrain: answers?.terrain, userDistance: answers?.distance, userPronation: answers?.pronation })}
+                        onClick={() => track.affiliateClick({ shoeId: primary.shoe.id, brand: primary.shoe.brand, model: primary.shoe.model, placement: 'result_primary_cta', position: 1, resultSlug: slug, matchPercent: primary.matchPercent, category: primary.shoe.category, priceBand: getPriceTier(primary.shoe.priceUSD).label, userTerrain: answers?.terrain, userDistance: answers?.distance, userPronation: answers?.pronation })}
                         className="inline-flex items-center justify-center gap-2 bg-gradient-primary glow-primary text-primary-foreground font-bold uppercase tracking-wider px-6 h-12 rounded-xl hover:opacity-90 transition-all text-sm"
                       >
                         <ShoppingCart className="w-4 h-4" />
-                        Check Latest Price
+                        Check Latest Price{getAmazonListingNote(primary.shoe.id) ? ` (${getAmazonListingNote(primary.shoe.id)})` : ''}
+                      </a>
+                    )}
+                    {!primaryAmazonUrl && primaryBrandLink && (
+                      <a
+                        href={primaryBrandLink.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => track.ctaClick(`brand_site_${primary.shoe.id}`, 'result_primary_cta')}
+                        className="inline-flex items-center justify-center gap-2 bg-gradient-primary glow-primary text-primary-foreground font-bold uppercase tracking-wider px-6 h-12 rounded-xl hover:opacity-90 transition-all text-sm"
+                      >
+                        <ShoppingCart className="w-4 h-4" />
+                        {primaryBrandLink.label}
                       </a>
                     )}
                     <a
@@ -673,10 +662,21 @@ const RunMatchResult = () => {
                             href={rotationAmazonUrl}
                             target="_blank"
                             rel="noopener noreferrer sponsored nofollow"
-                            onClick={() => track.affiliateClick({ shoeId: s.shoe.shoe.id, brand: s.shoe.shoe.brand, model: s.shoe.shoe.model, placement: 'rotation_strategy_card', resultSlug: slug, matchPercent: s.shoe.matchPercent, category: s.shoe.shoe.category, priceBand: getPriceTier(s.shoe.shoe.priceUSD).label, userTerrain: answers?.terrain, userDistance: answers?.distance, userPronation: answers?.pronation })}
+                            onClick={() => track.affiliateClick({ shoeId: s.shoe.shoe.id, brand: s.shoe.shoe.brand, model: s.shoe.shoe.model, placement: 'rotation_strategy_card', position: i + 1, slot: s.role.replace(/^[^A-Za-z]+/, ''), resultSlug: slug, matchPercent: s.shoe.matchPercent, category: s.shoe.shoe.category, priceBand: getPriceTier(s.shoe.shoe.priceUSD).label, userTerrain: answers?.terrain, userDistance: answers?.distance, userPronation: answers?.pronation })}
                             className="flex-1 flex items-center justify-center gap-1.5 bg-primary/10 text-primary font-semibold text-xs px-3 h-9 rounded-lg hover:bg-primary/20 transition-all"
                           >
-                            <ShoppingCart className="w-3 h-3" /> Amazon
+                            <ShoppingCart className="w-3 h-3" /> Amazon{getAmazonListingNote(s.shoe.shoe.id) ? ` · ${getAmazonListingNote(s.shoe.shoe.id)}` : ''}
+                          </a>
+                        )}
+                        {!rotationAmazonUrl && getBrandBuyLink(s.shoe.shoe) && (
+                          <a
+                            href={getBrandBuyLink(s.shoe.shoe)!.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => track.ctaClick(`brand_site_${s.shoe.shoe.id}`, 'rotation_strategy_card')}
+                            className="flex-1 flex items-center justify-center gap-1.5 bg-primary/10 text-primary font-semibold text-xs px-3 h-9 rounded-lg hover:bg-primary/20 transition-all"
+                          >
+                            <ShoppingCart className="w-3 h-3" /> {getBrandBuyLink(s.shoe.shoe)!.label}
                           </a>
                         )}
                         <a
@@ -695,12 +695,12 @@ const RunMatchResult = () => {
               </div>
 
               <a
-                href="https://gearuptofit.com/review/best-running-shoes-for-different-distances/"
+                href="https://gearuptofit.com/running/how-to-choose-the-right-running-shoes/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 mt-5 text-sm text-primary hover:underline font-medium"
               >
-                Best shoes for different distances 2026 <ExternalLink className="w-3 h-3" />
+                How to choose the right running shoe <ExternalLink className="w-3 h-3" />
               </a>
             </div>
           </motion.div>
@@ -719,7 +719,23 @@ const RunMatchResult = () => {
                   <p className="text-xs text-muted-foreground">Your top {Math.min(topShoes.length, 5)} matches side by side</p>
                 </div>
               </div>
-              <ShoeComparisonTable shoes={topShoes} getAmazonLink={getAmazonProductLink} />
+              <ShoeComparisonTable
+                shoes={topShoes}
+                getAmazonLink={getAmazonProductLink}
+                onAffiliateClick={(sc, position) =>
+                  track.affiliateClick({
+                    shoeId: sc.shoe.id,
+                    brand: sc.shoe.brand,
+                    model: sc.shoe.model,
+                    placement: 'comparison_table',
+                    position,
+                    resultSlug: slug,
+                    matchPercent: sc.matchPercent,
+                    category: sc.shoe.category,
+                  })
+                }
+              />
+              <div className="mt-3"><AffiliateDisclosure /></div>
             </div>
           </motion.div>
         )}
@@ -747,10 +763,10 @@ const RunMatchResult = () => {
             {/* Credibility badges */}
             <div className="flex flex-wrap gap-3 mt-5 pt-5 border-t border-border/20">
               {[
-                { label: 'Sports Science Backed', icon: '🔬' },
-                { label: 'Biomechanics Analysis', icon: '🦿' },
-                { label: 'Expert Curated Database', icon: '📚' },
-                { label: '2025/2026 Models Only', icon: '✨' },
+                { label: `${shoesAnalyzed} shoes scored`, icon: '👟' },
+                { label: '9 weighted factors', icon: '⚖️' },
+                { label: 'Reasons shown for every pick', icon: '🔎' },
+                { label: 'Commission never changes rankings', icon: '🚫' },
               ].map(badge => (
                 <div key={badge.label} className="flex items-center gap-1.5 text-[10px] text-muted-foreground bg-secondary/30 px-3 py-1.5 rounded-full">
                   <span>{badge.icon}</span>
@@ -948,9 +964,9 @@ const RunMatchResult = () => {
           <ResearchSources />
         </motion.div>
 
-        {/* SECTION 10.75: Social proof — runner testimonials */}
+        {/* SECTION 10.75: How these shoes are ranked (real, verifiable) */}
         <motion.div {...fadeUp} transition={{ delay: 0.68 }}>
-          <Testimonials />
+          <MethodologyTeaser />
         </motion.div>
 
         {/* SECTION 11: FAQ */}
@@ -1034,15 +1050,10 @@ const RunMatchResult = () => {
             <MedicalDisclaimer variant="compact" />
           </div>
           <p className="text-[10px] text-muted-foreground text-center uppercase tracking-widest">
-            Shoe specifications verified against manufacturer sources · Database last updated {SHOE_DATABASE_LAST_UPDATED_LABEL} ·{' '}
-            <a
-              href="https://gearuptofit.com/methodology/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline normal-case tracking-normal"
-            >
+            Shoe data last reviewed {SHOE_DATABASE_LAST_UPDATED_LABEL} ·{' '}
+            <Link to="/methodology" className="text-primary hover:underline normal-case tracking-normal">
               How we score shoes
-            </a>
+            </Link>
           </p>
         </div>
       </main>
@@ -1057,9 +1068,9 @@ const RunMatchResult = () => {
         source="quiz_gate"
       />
 
-      {/* FOMO toasts + exit-intent capture (suppressed while the gate is open) */}
-      <LiveActivity disabled={gateOpen} />
-      <ExitIntent disabled={gateOpen}>
+      {/* Email capture: opens on exit intent, after ~20s on the page, or once the visitor has read most of it.
+          Once per session, never for subscribers, quiet for 7 days after a dismissal. */}
+      <ExitIntent disabled={gateOpen} minDwellMs={8000} dwellOpenMs={20000} scrollDepth={0.55} mobileIdleMs={20000}>
         {({ open, close }) => (
           <EmailGate
             open={open}
@@ -1068,19 +1079,18 @@ const RunMatchResult = () => {
             primaryShoe={primary?.shoe ? `${primary.shoe.brand} ${primary.shoe.model}` : undefined}
             shoeCategory={primary?.shoe?.category as any}
             source="exit_popup"
-            title="Don't lose your shoe match"
-            subtitle="Email yourself the full PDF report + 7-day training guide. Free, no spam, unsubscribe in 1 click."
+            weeklyMileage={answers?.weeklyMileage}
+            injuries={answers?.injuries}
+            title="Keep your shoe match"
+            subtitle="Email yourself the full PDF report with photos and buy links, plus the 7-day running guide. Free, no spam, unsubscribe in 1 click."
             ctaLabel="Email Me My Report"
           />
         )}
       </ExitIntent>
 
-      {/* Sticky bottom #1 match banner — high-intent monetization */}
-      {primary?.shoe && (
-        <StickyTopMatchBanner
-          scored={primary}
-          amazonUrl={getAmazonProductLink(primary.shoe.id, primary.shoe.brand, primary.shoe.model, primary.shoe.amazonASIN)}
-        />
+      {/* Sticky bottom top-match banner — only when a verified Amazon link exists */}
+      {primary?.shoe && primaryAmazonUrl && (
+        <StickyTopMatchBanner scored={primary} amazonUrl={primaryAmazonUrl} label={topLabel} />
       )}
     </div>
   );

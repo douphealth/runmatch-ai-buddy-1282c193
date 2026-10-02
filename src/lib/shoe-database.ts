@@ -62,7 +62,6 @@ export const shoeDatabase: Shoe[] = [
     reviewURL: 'https://gearuptofit.com/review/nike-pegasus-41/',
     imageURL: '/images/shoes/nike-pegasus-41.jpg',
     highlights: ['ReactX foam', 'Versatile all-rounder', 'Great for beginners'],
-    sourceURL: 'https://www.nike.com/t/pegasus-41-mens-road-running-shoes-MdxBSc',
     lastVerified: '2026-05-04',
   },
   {
@@ -1232,7 +1231,7 @@ export const shoeDatabase: Shoe[] = [
   // === ASICS EXPANDED ===
   {
     id: 'asics-superblast-2',
-    brand: 'ASICS',
+    brand: 'Asics',
     model: 'Superblast 2',
     year: 2024,
     category: 'speed',
@@ -1254,7 +1253,7 @@ export const shoeDatabase: Shoe[] = [
   },
   {
     id: 'asics-magic-speed-4',
-    brand: 'ASICS',
+    brand: 'Asics',
     model: 'Magic Speed 4',
     year: 2024,
     category: 'speed',
@@ -1276,7 +1275,7 @@ export const shoeDatabase: Shoe[] = [
   },
   {
     id: 'asics-metaspeed-sky-paris',
-    brand: 'ASICS',
+    brand: 'Asics',
     model: 'Metaspeed Sky Paris',
     year: 2024,
     category: 'race',
@@ -1341,28 +1340,8 @@ export const shoeDatabase: Shoe[] = [
     highlights: ['Massive Fresh Foam X', 'Recovery champion', 'Pillowy ride'],
     lastVerified: '2026-05-04',
   },
-  {
-    id: 'nb-fresh-foam-1080-v14',
-    brand: 'New Balance',
-    model: 'Fresh Foam X 1080 v14',
-    year: 2024,
-    category: 'daily',
-    cushioning: 9,
-    dropMM: 6,
-    weightGrams: 275,
-    pronation: ['neutral'],
-    terrain: ['road'],
-    bestDistances: ['5k', '10k', 'half-marathon', 'marathon'],
-    bestFor: ['daily', 'long-run', 'beginner'],
-    widthOptions: true,
-    priceUSD: 165,
-    injuryFriendly: ['knee-pain', 'shin-splints', 'plantar-fasciitis'],
-    amazonASIN: '',
-    reviewURL: 'https://gearuptofit.com/review/best-running-shoes/',
-    imageURL: '/images/shoes/placeholder.jpg',
-    highlights: ['Premium Fresh Foam X', 'Wide-fit available', 'All-day comfort'],
-    lastVerified: '2026-05-04',
-  },
+  // (nb-fresh-foam-1080-v14 was a second, lower-quality record of the New Balance
+  // 1080 v14 that conflicted with `nb-1080-v14`; it is now an alias, see below.)
   // === BROOKS EXPANDED ===
   {
     id: 'brooks-hyperion-elite-4',
@@ -1576,7 +1555,6 @@ export const shoeDatabase: Shoe[] = [
     reviewURL: 'https://gearuptofit.com/review/nike-pegasus-42/',
     imageURL: '/images/shoes/placeholder.jpg',
     highlights: ['Curved full-length Air Zoom', 'ReactX midsole', 'Roomier forefoot'],
-    sourceURL: 'https://www.nike.com/t/pegasus-42-mens-road-running-shoes',
     lastVerified: '2026-05-04',
   },
   {
@@ -1623,7 +1601,7 @@ export const shoeDatabase: Shoe[] = [
   },
   {
     id: 'asics-gel-nimbus-29',
-    brand: 'ASICS', model: 'Gel-Nimbus 29', year: 2026, category: 'max-cushion',
+    brand: 'Asics', model: 'Gel-Nimbus 29', year: 2026, category: 'max-cushion',
     cushioning: 10, dropMM: 8, weightGrams: 295,
     pronation: ['neutral'], terrain: ['road'],
     bestDistances: ['10k', 'half-marathon', 'marathon'],
@@ -1636,7 +1614,7 @@ export const shoeDatabase: Shoe[] = [
   },
   {
     id: 'asics-novablast-6',
-    brand: 'ASICS', model: 'Novablast 6', year: 2026, category: 'daily',
+    brand: 'Asics', model: 'Novablast 6', year: 2026, category: 'daily',
     cushioning: 8, dropMM: 8, weightGrams: 255,
     pronation: ['neutral'], terrain: ['road'],
     bestDistances: ['5k', '10k', 'half-marathon', 'marathon'],
@@ -1649,7 +1627,7 @@ export const shoeDatabase: Shoe[] = [
   },
   {
     id: 'asics-metaspeed-edge-tokyo',
-    brand: 'ASICS', model: 'Metaspeed Edge Tokyo', year: 2026, category: 'race',
+    brand: 'Asics', model: 'Metaspeed Edge Tokyo', year: 2026, category: 'race',
     cushioning: 8, dropMM: 5, weightGrams: 190,
     pronation: ['neutral'], terrain: ['road', 'track'],
     bestDistances: ['5k', '10k', 'half-marathon', 'marathon'],
@@ -1830,6 +1808,17 @@ export const shoeDatabase: Shoe[] = [
     lastVerified: '2026-05-04',
   },
 ];
+
+/**
+ * Retired ids that still resolve (old links, saved matches, search results).
+ * Key = retired id, value = the id that replaces it.
+ */
+export const SHOE_ID_ALIASES: Readonly<Record<string, string>> = {
+  'nb-fresh-foam-1080-v14': 'nb-1080-v14',
+};
+
+/** Resolve a possibly-retired shoe id to its current id. */
+export const resolveShoeId = (id: string): string => SHOE_ID_ALIASES[id] ?? id;
 
 /**
  * Returns a direct Amazon product affiliate URL only when a verified ASIN exists.

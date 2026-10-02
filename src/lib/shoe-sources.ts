@@ -39,6 +39,20 @@ export const getManufacturerSourceURL = (shoe: Pick<Shoe, 'brand' | 'model' | 's
 };
 
 /**
+ * Where to buy a shoe that has no verified Amazon listing: the maker's own site. Null when all we
+ * could offer is a generic web search (we never link those as "buy" paths).
+ * `precise` is true when the link is a product page rather than the site's search for the model.
+ */
+export const getBrandBuyLink = (
+  shoe: Pick<Shoe, 'brand' | 'model' | 'sourceURL'>,
+): { url: string; label: string; precise: boolean } | null => {
+  const url = getManufacturerSourceURL(shoe);
+  if (/^https?:\/\/(www\.)?google\./i.test(url)) return null;
+  const precise = !/[?&]q=|\/search/i.test(url);
+  const name = shoe.brand.replace(/\s+/g, '');
+  return { url, precise, label: precise ? `Buy from ${shoe.brand}` : `Find on ${name}.com` };
+};
+/**
  * Whether the shoe's specs are considered "fresh" (verified within the
  * last 180 days). Returns true when the date is missing — we don't want
  * to red-flag every shoe in the absence of explicit verification yet,

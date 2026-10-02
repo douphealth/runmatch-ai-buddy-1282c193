@@ -1,4 +1,5 @@
 import { shoeDatabase, Shoe } from './shoe-database';
+import { ROTATION_STATEMENT, SUPER_SHOE_STATEMENT } from './evidence';
 
 export interface CategoryDef {
   slug: string;
@@ -26,8 +27,8 @@ export const CATEGORIES: CategoryDef[] = [
     sort: byScore(s => s.cushioning * 1.2 + (s.widthOptions ? 1 : 0) - Math.abs(s.weightGrams - 280) / 50),
     faqs: [
       { question: 'What is a daily trainer running shoe?', answer: 'A daily trainer is a durable, well-cushioned road shoe built for the majority of your weekly mileage — easy runs, recovery, and moderate efforts. Look for cushioning 6–8/10 and weights 240–300g.' },
-      { question: 'How long do daily trainers last?', answer: 'Most daily trainers last 400–600 miles (640–960 km). Rotate two pairs to extend lifespan and reduce repetitive-load injury risk.' },
-      { question: 'Do I need more than one daily trainer?', answer: 'A 2-shoe rotation (daily + speed/long-run) reduces injury risk by ~39% according to a 2013 study in the Scandinavian Journal of Medicine & Science in Sports.' },
+      { question: 'How long do daily trainers last?', answer: 'Many daily trainers are replaced after roughly 300–500 miles (500–800 km), depending on your weight, surface and the foam. Alternating two pairs can help each one last longer.' },
+      { question: 'Do I need more than one daily trainer?', answer: `A 2-shoe rotation (daily plus a speed or long-run shoe) is a common approach. ${ROTATION_STATEMENT}` },
     ],
     howTo: {
       name: 'How to Choose a Daily Trainer Running Shoe',
@@ -49,7 +50,7 @@ export const CATEGORIES: CategoryDef[] = [
     filter: s => s.category === 'race' || (s.category === 'max-cushion' && s.bestDistances.includes('marathon')),
     sort: byScore(s => -s.weightGrams + s.cushioning * 8),
     faqs: [
-      { question: 'Are carbon-plated shoes worth it for marathon?', answer: 'Yes — peer-reviewed studies show 2–4% running economy improvement on race-day super shoes for most runners. For a 4-hour marathoner, that is roughly 5–10 minutes.' },
+      { question: 'Are carbon-plated shoes worth it for marathon?', answer: `They can be for racing. ${SUPER_SHOE_STATEMENT}` },
       { question: 'How many miles can I run in a super shoe?', answer: 'Most carbon-plated PEBA shoes last 150–250 miles before significant foam degradation. Save them for races and key workouts.' },
       { question: 'Do I need a super shoe to run a marathon?', answer: 'No. A well-cushioned daily trainer is fine for first marathons. Super shoes shine when chasing a PR or running sub-3:45.' },
     ],

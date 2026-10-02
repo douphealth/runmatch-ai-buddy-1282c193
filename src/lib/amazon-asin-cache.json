@@ -1,10 +1,11 @@
 {
   "nike-pegasus-41": {
-    "asin": "B0CZHK16QG",
-    "title": "Womens Nike Pegasus 41 Gore-tex Wasserdichter Straßenlaufschuh Für Damen",
-    "url": "https://www.amazon.com/dp/B0CZHK16QG?tag=papalex-20",
-    "query": "Nike Pegasus 41 running shoes",
-    "resolvedAt": "2026-05-04T20:18:22.365Z"
+    "asin": "B0CT3X14P9",
+    "title": "Men's Pegasus 41 Running Shoes",
+    "url": "https://www.amazon.com/dp/B0CT3X14P9?tag=papalex-20",
+    "query": "Nike Pegasus 41 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "nike-pegasus-premium": {
     "asin": "B0FRR22Y53",
@@ -14,11 +15,12 @@
     "resolvedAt": "2026-05-04T20:18:39.226Z"
   },
   "nike-vomero-plus": {
-    "asin": "B0FPMT1579",
-    "title": "Women's Nike Vomero Plus Road Running Shoes in Particle Pink, mtlc Rose Gold, silt Red",
-    "url": "https://www.amazon.com/dp/B0FPMT1579?tag=papalex-20",
-    "query": "Nike Vomero Plus running shoes",
-    "resolvedAt": "2026-05-04T20:18:41.218Z"
+    "asin": "B0GSDJQMX3",
+    "title": "Mens Vomero Plus",
+    "url": "https://www.amazon.com/dp/B0GSDJQMX3?tag=papalex-20",
+    "query": "Nike Vomero Plus men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "nike-pegasus-turbo": {
     "asin": "B0BWTHYS8W",
@@ -28,18 +30,20 @@
     "resolvedAt": "2026-05-04T20:18:51.729Z"
   },
   "brooks-ghost-17": {
-    "asin": "B0FBV5LDT3",
-    "title": "Women’s Ghost 17 Neutral Running Shoe",
-    "url": "https://www.amazon.com/dp/B0FBV5LDT3?tag=papalex-20",
-    "query": "Brooks Ghost 17 running shoes",
-    "resolvedAt": "2026-05-04T20:34:47.434Z"
+    "asin": "B0DDF1ZVSF",
+    "title": "Men’s Ghost 17 Neutral Running Shoe",
+    "url": "https://www.amazon.com/dp/B0DDF1ZVSF?tag=papalex-20",
+    "query": "Brooks Ghost 17 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "brooks-glycerin-max-2": {
-    "asin": "B0F5N8MYR1",
-    "title": "Women’s Glycerin Max 2 Neutral Running & Walking Shoe",
-    "url": "https://www.amazon.com/dp/B0F5N8MYR1?tag=papalex-20",
-    "query": "Brooks Glycerin Max 2 running shoes",
-    "resolvedAt": "2026-05-04T20:34:47.868Z"
+    "asin": "B0F5NC98LY",
+    "title": "Men’s Glycerin Max 2 Running Shoe",
+    "url": "https://www.amazon.com/dp/B0F5NC98LY?tag=papalex-20",
+    "query": "Brooks Glycerin Max 2 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "asics-gel-nimbus-28": {
     "asin": "B0FV7HQJ6K",
@@ -49,11 +53,12 @@
     "resolvedAt": "2026-05-04T20:34:48.294Z"
   },
   "asics-gel-kayano-32": {
-    "asin": "B0DPLRJMCJ",
-    "title": "Women's GEL-Kayano 32 in Black & Graphite Grey by Asics",
-    "url": "https://www.amazon.com/dp/B0DPLRJMCJ?tag=papalex-20",
-    "query": "Asics Gel-Kayano 32 running shoes",
-    "resolvedAt": "2026-05-04T20:19:18.212Z"
+    "asin": "B0DPLQN2YT",
+    "title": "ASICS Men's Gel.Kayano 32 Running Shoes, 10, Gravel/Citron",
+    "url": "https://www.amazon.com/dp/B0DPLQN2YT?tag=papalex-20",
+    "query": "Asics Gel-Kayano 32",
+    "resolvedAt": "2026-10-01T05:26:24.590Z",
+    "source": "Amazon Creators API searchItems"
   },
   "asics-novablast-5": {
     "asin": "B0D3JCJG54",
@@ -63,11 +68,12 @@
     "resolvedAt": "2026-05-04T20:34:48.719Z"
   },
   "asics-novablast-4": {
-    "asin": "B0D3JCJG54",
-    "title": "Men's NOVABLAST 5 Running Shoes",
-    "url": "https://www.amazon.com/dp/B0D3JCJG54?tag=papalex-20",
-    "query": "Asics Novablast 4 running shoes",
-    "resolvedAt": "2026-05-04T20:34:49.159Z"
+    "asin": "B0CFNC9NXX",
+    "title": "Men's NOVABLAST 4 Running Shoe",
+    "url": "https://www.amazon.com/dp/B0CFNC9NXX?tag=papalex-20",
+    "query": "Asics Novablast 4 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "asics-superblast-3": {
     "asin": "B0GNT84D7F",
@@ -77,11 +83,12 @@
     "resolvedAt": "2026-05-04T20:34:49.584Z"
   },
   "asics-sonicblast": {
-    "asin": "B0DPLQL9NS",
-    "title": "Women's SONICBLAST Running Shoes",
-    "url": "https://www.amazon.com/dp/B0DPLQL9NS?tag=papalex-20",
-    "query": "Asics Sonicblast running shoes",
-    "resolvedAt": "2026-05-04T20:34:50.009Z"
+    "asin": "B0FGTZJM2T",
+    "title": "ASICS Men's SONICBLAST Running Shoes, 11.5, Vital Green/Black",
+    "url": "https://www.amazon.com/dp/B0FGTZJM2T?tag=papalex-20",
+    "query": "Asics Sonicblast",
+    "resolvedAt": "2026-10-01T05:26:31.328Z",
+    "source": "Amazon Creators API searchItems"
   },
   "asics-megablast": {
     "asin": "B0FV7DV4RL",
@@ -98,11 +105,12 @@
     "resolvedAt": "2026-05-04T20:34:50.867Z"
   },
   "hoka-cielo-x1-3": {
-    "asin": "B0DMTG759T",
-    "title": "Cielo X1 2.0 Running Shoes by Hoka",
-    "url": "https://www.amazon.com/dp/B0DMTG759T?tag=papalex-20",
-    "query": "Hoka Cielo X1 3 running shoes",
-    "resolvedAt": "2026-05-04T20:20:36.598Z"
+    "asin": "B0F9QZ5WM8",
+    "title": "Unisex-Adult Cielo X1 3.0",
+    "url": "https://www.amazon.com/dp/B0F9QZ5WM8?tag=papalex-20",
+    "query": "Hoka Cielo X1 3 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "saucony-ride-19": {
     "asin": "B0F9LKXQC5",
@@ -112,18 +120,20 @@
     "resolvedAt": "2026-05-04T20:34:51.297Z"
   },
   "saucony-endorphin-azura": {
-    "asin": "B0F9LKD8MM",
-    "title": "Women's Endorphin Azura Sneaker",
-    "url": "https://www.amazon.com/dp/B0F9LKD8MM?tag=papalex-20",
-    "query": "Saucony Endorphin Azura running shoes",
-    "resolvedAt": "2026-05-04T20:34:51.729Z"
+    "asin": "B0F9LJB74R",
+    "title": "Men's Endorphin Azura Sneaker",
+    "url": "https://www.amazon.com/dp/B0F9LJB74R?tag=papalex-20",
+    "query": "Saucony Endorphin Azura men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "on-cloudsurfer-2": {
-    "asin": "B0D937D8ZP",
-    "title": "On Cloudsurfer Mens Shoes Size 9, Color: Auburn Bright/Frost-Red",
-    "url": "https://www.amazon.com/dp/B0D937D8ZP?tag=papalex-20",
-    "query": "On Cloudsurfer 2 running shoes",
-    "resolvedAt": "2026-05-04T20:21:29.311Z"
+    "asin": "B0DM2Q76LX",
+    "title": "Mens Cloudsurfer 2",
+    "url": "https://www.amazon.com/dp/B0DM2Q76LX?tag=papalex-20",
+    "query": "On Cloudsurfer 2 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "adidas-adios-pro-4": {
     "asin": "B0FRQJBQYP",
@@ -133,11 +143,9 @@
     "resolvedAt": "2026-05-04T20:21:37.973Z"
   },
   "adidas-adios-9": {
-    "asin": "B0FCY8QP4S",
-    "title": "Mens Adizero Adios Pro 4 M",
-    "url": "https://www.amazon.com/dp/B0FCY8QP4S?tag=papalex-20",
-    "query": "Adidas Adios 9 running shoes",
-    "resolvedAt": "2026-05-04T20:34:52.157Z"
+    "asin": null,
+    "note": "cleared 2026-09-30: missing: 9 (was B0FCY8QP4S: Mens Adizero Adios Pro 4 M)",
+    "resolvedAt": "2026-09-30T20:32:57.220Z"
   },
   "adidas-boston-13": {
     "asin": "B0DK7S8XP4",
@@ -188,11 +196,12 @@
     "resolvedAt": "2026-05-04T20:22:34.568Z"
   },
   "nb-fresh-foam-more-v6": {
-    "asin": "B0DJV8J5K3",
-    "title": "Men's Fresh Foam X More V6",
-    "url": "https://www.amazon.com/dp/B0DJV8J5K3?tag=papalex-20",
-    "query": "New Balance Fresh Foam X More v6 running shoes",
-    "resolvedAt": "2026-05-04T20:35:35.362Z"
+    "asin": "B0DJV8HTC2",
+    "title": "New Balance Men's Fresh Foam X More V6 Running Shoe, Grey Matter/True Red/Castlerock, 10.5 M",
+    "url": "https://www.amazon.com/dp/B0DJV8HTC2?tag=papalex-20",
+    "query": "New Balance Fresh Foam X More v6",
+    "resolvedAt": "2026-10-01T05:26:38.594Z",
+    "source": "Amazon Creators API searchItems"
   },
   "nb-1080-v14": {
     "asin": "B0FBL9TD97",
@@ -202,25 +211,22 @@
     "resolvedAt": "2026-05-04T20:22:42.521Z"
   },
   "salomon-speedcross-6": {
-    "asin": "B0C46H1Y5P",
-    "title": "Mens Speedcross Peak Climasalomon Waterproof",
-    "url": "https://www.amazon.com/dp/B0C46H1Y5P?tag=papalex-20",
-    "query": "Salomon Speedcross 6 running shoes",
-    "resolvedAt": "2026-05-04T20:22:44.791Z"
+    "asin": "B0B317B9C4",
+    "title": "Speedcross 6",
+    "url": "https://www.amazon.com/dp/B0B317B9C4?tag=papalex-20",
+    "query": "Salomon Speedcross 6 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "salomon-ultra-glide-3": {
-    "asin": "B0BRKNNV8P",
-    "title": "Womens Ultra Glide",
-    "url": "https://www.amazon.com/dp/B0BRKNNV8P?tag=papalex-20",
-    "query": "Salomon Ultra Glide 3 running shoes",
-    "resolvedAt": "2026-05-04T20:35:35.784Z"
+    "asin": null,
+    "note": "cleared 2026-09-30: missing: 3 (was B0BRKNNV8P: Womens Ultra Glide)",
+    "resolvedAt": "2026-09-30T20:32:57.220Z"
   },
   "salomon-sense-ride-6": {
-    "asin": "B0CN343YWK",
-    "title": "Womens Sense Ride 5",
-    "url": "https://www.amazon.com/dp/B0CN343YWK?tag=papalex-20",
-    "query": "Salomon Sense Ride 6 running shoes",
-    "resolvedAt": "2026-05-04T20:35:36.214Z"
+    "asin": null,
+    "note": "cleared 2026-09-30: missing: 6 (was B0CN343YWK: Womens Sense Ride 5)",
+    "resolvedAt": "2026-09-30T20:32:57.220Z"
   },
   "altra-lone-peak-8": {
     "asin": "B0DKLS1BHG",
@@ -230,11 +236,12 @@
     "resolvedAt": "2026-05-04T20:35:36.640Z"
   },
   "altra-torin-7": {
-    "asin": "B0DNL6MK88",
-    "title": "Men's Torin 8 Road Running Shoe",
-    "url": "https://www.amazon.com/dp/B0DNL6MK88?tag=papalex-20",
-    "query": "Altra Torin 7 running shoes",
-    "resolvedAt": "2026-05-04T20:35:37.069Z"
+    "asin": "B0BK2LH941",
+    "title": "Men's Torin 7 AL0A82C4 Road Running",
+    "url": "https://www.amazon.com/dp/B0BK2LH941?tag=papalex-20",
+    "query": "Altra Torin 7 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "mizuno-wave-rider-28": {
     "asin": "B0CM418RDN",
@@ -258,11 +265,12 @@
     "resolvedAt": "2026-05-04T20:35:47.548Z"
   },
   "hoka-speedgoat-6": {
-    "asin": "B0DN5VQ44T",
-    "title": "Women's Speedgoat 6 Black/Neon Hoka Citrus 10 Medium",
-    "url": "https://www.amazon.com/dp/B0DN5VQ44T?tag=papalex-20",
-    "query": "Hoka Speedgoat 6 running shoes",
-    "resolvedAt": "2026-05-04T20:24:11.756Z"
+    "asin": "B0GFH1XKSS",
+    "title": "Speedgoat 6 Mens Shoes",
+    "url": "https://www.amazon.com/dp/B0GFH1XKSS?tag=papalex-20",
+    "query": "Hoka Speedgoat 6 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "nike-alphafly-3": {
     "asin": "B0F4MHTW68",
@@ -286,32 +294,33 @@
     "resolvedAt": "2026-05-04T20:25:30.207Z"
   },
   "adidas-adios-pro-3": {
-    "asin": "B0FRQJBQYP",
-    "title": "Adidas Adizero Adios Pro 4 Men's Shoes",
-    "url": "https://www.amazon.com/dp/B0FRQJBQYP?tag=papalex-20",
-    "query": "Adidas Adizero Adios Pro 3 running shoes",
-    "resolvedAt": "2026-05-04T20:25:32.731Z"
+    "asin": "B0DTTH4MNG",
+    "title": "Men's Adizero Adios Pro 3 Shoes",
+    "url": "https://www.amazon.com/dp/B0DTTH4MNG?tag=papalex-20",
+    "query": "Adidas Adizero Adios Pro 3 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "adidas-takumi-sen-10": {
-    "asin": "B0GCJX23F5",
-    "title": "adidas Womens Adizero Takumi Sen 10 Running Sneakers Shoes - Beige",
-    "url": "https://www.amazon.com/dp/B0GCJX23F5?tag=papalex-20",
-    "query": "Adidas Adizero Takumi Sen 10 running shoes",
-    "resolvedAt": "2026-05-04T20:25:38.218Z"
+    "asin": null,
+    "note": "cleared 2026-10-01: women's-only listing B0GCJX23F5 returns 404 and no men's/unisex listing for Takumi Sen 10 was found",
+    "resolvedAt": "2026-10-01T04:49:57.592Z"
   },
   "adidas-boston-12": {
-    "asin": "B0BHPQCRJ1",
-    "title": "Womens Adizero Boston 12 W",
-    "url": "https://www.amazon.com/dp/B0BHPQCRJ1?tag=papalex-20",
-    "query": "Adidas Adizero Boston 12 running shoes",
-    "resolvedAt": "2026-05-04T20:35:47.975Z"
+    "asin": "B0CM7QRST2",
+    "title": "Adizero Boston 12 Running Shoes",
+    "url": "https://www.amazon.com/dp/B0CM7QRST2?tag=papalex-20",
+    "query": "Adidas Adizero Boston 12 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "hoka-mach-6": {
-    "asin": "B0DN459G3C",
-    "title": "Women's Mach 6 White/Neon Hoka Citrus 7 Medium",
-    "url": "https://www.amazon.com/dp/B0DN459G3C?tag=papalex-20",
-    "query": "Hoka Mach 6 running shoes",
-    "resolvedAt": "2026-05-04T20:25:59.777Z"
+    "asin": "B0CN362V35",
+    "title": "Hoka Men's Mach 6 Black/White 9 Medium",
+    "url": "https://www.amazon.com/dp/B0CN362V35?tag=papalex-20",
+    "query": "Hoka Mach 6",
+    "resolvedAt": "2026-10-01T05:26:45.702Z",
+    "source": "Amazon Creators API searchItems"
   },
   "hoka-rocket-x-2": {
     "asin": "B0D5G9LTJ4",
@@ -321,32 +330,36 @@
     "resolvedAt": "2026-05-04T20:35:48.401Z"
   },
   "saucony-endorphin-pro-4": {
-    "asin": "B0DJWP58HG",
-    "title": "Women's Endorphin PRO 4 Sneaker",
-    "url": "https://www.amazon.com/dp/B0DJWP58HG?tag=papalex-20",
-    "query": "Saucony Endorphin Pro 4 running shoes",
-    "resolvedAt": "2026-05-04T20:35:48.828Z"
+    "asin": "B0DJWP1CX7",
+    "title": "Men's Endorphin Pro 4 Sneaker",
+    "url": "https://www.amazon.com/dp/B0DJWP1CX7?tag=papalex-20",
+    "query": "Saucony Endorphin Pro 4 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "saucony-triumph-22": {
-    "asin": "B0G12SZT5S",
-    "title": "6MM Running Shoelaces for Saucony Ride 18/17&Guide 18/17&Triumph 23/22, Durable Flat Polyester Replacement Shoe Lace",
-    "url": "https://www.amazon.com/dp/B0G12SZT5S?tag=papalex-20",
-    "query": "Saucony Triumph 22 running shoes",
-    "resolvedAt": "2026-05-04T20:26:18.287Z"
+    "asin": "B0CMBD8G4X",
+    "title": "Triumph 22 Men's Running Shoe",
+    "url": "https://www.amazon.com/dp/B0CMBD8G4X?tag=papalex-20",
+    "query": "Saucony Triumph 22 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "saucony-kinvara-15": {
-    "asin": "B0CMBCNDL5",
-    "title": "Women's Kinvara 15",
-    "url": "https://www.amazon.com/dp/B0CMBCNDL5?tag=papalex-20",
-    "query": "Saucony Kinvara 15 running shoes",
-    "resolvedAt": "2026-05-04T20:35:51.359Z"
+    "asin": "B0CM9ZND9R",
+    "title": "Men's Kinvara 15 Sneaker",
+    "url": "https://www.amazon.com/dp/B0CM9ZND9R?tag=papalex-20",
+    "query": "Saucony Kinvara 15 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "saucony-peregrine-14": {
-    "asin": "B0C37WN8VK",
-    "title": "Women's Peregrine 14",
-    "url": "https://www.amazon.com/dp/B0C37WN8VK?tag=papalex-20",
-    "query": "Saucony Peregrine 14 running shoes",
-    "resolvedAt": "2026-05-04T20:35:55.787Z"
+    "asin": "B0C37TR2M9",
+    "title": "Men's Peregrine 14 Trail Running Shoe",
+    "url": "https://www.amazon.com/dp/B0C37TR2M9?tag=papalex-20",
+    "query": "Saucony Peregrine 14 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "on-cloudboom-strike": {
     "asin": "B0FHVLMQ91",
@@ -363,11 +376,12 @@
     "resolvedAt": "2026-05-04T20:27:26.453Z"
   },
   "on-cloudmonster-2": {
-    "asin": "B0C5QJ97HD",
-    "title": "Women's Cloudmonster Sneakers",
-    "url": "https://www.amazon.com/dp/B0C5QJ97HD?tag=papalex-20",
-    "query": "On Cloudmonster 2 running shoes",
-    "resolvedAt": "2026-05-04T20:27:48.568Z"
+    "asin": "B0D31VYBZ3",
+    "title": "Mens Cloudmonster 2",
+    "url": "https://www.amazon.com/dp/B0D31VYBZ3?tag=papalex-20",
+    "query": "On Cloudmonster 2 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "asics-superblast-2": {
     "asin": "B0FFLR3L6F",
@@ -377,11 +391,12 @@
     "resolvedAt": "2026-05-04T20:35:56.217Z"
   },
   "asics-magic-speed-4": {
-    "asin": "B0F63YB56T",
-    "title": "Women's Magic Speed 4 Running Shoes",
-    "url": "https://www.amazon.com/dp/B0F63YB56T?tag=papalex-20",
-    "query": "ASICS Magic Speed 4 running shoes",
-    "resolvedAt": "2026-05-04T20:35:56.644Z"
+    "asin": "B0D3XPBSSF",
+    "title": "Men's Magic Speed 4 Running Shoes",
+    "url": "https://www.amazon.com/dp/B0D3XPBSSF?tag=papalex-20",
+    "query": "Asics Magic Speed 4 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "asics-metaspeed-sky-paris": {
     "asin": null,
@@ -397,18 +412,12 @@
     "resolvedAt": "2026-05-04T20:35:57.489Z"
   },
   "nb-fresh-foam-x-more-v5": {
-    "asin": "B0D2Y8161K",
-    "title": "Women's Fresh Foam X More V5",
-    "url": "https://www.amazon.com/dp/B0D2Y8161K?tag=papalex-20",
-    "query": "New Balance Fresh Foam X More v5 running shoes",
-    "resolvedAt": "2026-05-04T20:35:57.914Z"
-  },
-  "nb-fresh-foam-1080-v14": {
-    "asin": "B0FBL9TD97",
-    "title": "Men's New Balance 1080 V14 Fresh Foam X Running Shoe",
-    "url": "https://www.amazon.com/dp/B0FBL9TD97?tag=papalex-20",
-    "query": "New Balance Fresh Foam X 1080 v14 running shoes",
-    "resolvedAt": "2026-05-04T20:28:38.968Z"
+    "asin": "B0CLB71BKQ",
+    "title": "Men's Fresh Foam X More V5",
+    "url": "https://www.amazon.com/dp/B0CLB71BKQ?tag=papalex-20",
+    "query": "New Balance Fresh Foam X More v5 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "brooks-hyperion-elite-4": {
     "asin": "B0CGYHNTJG",
@@ -418,18 +427,20 @@
     "resolvedAt": "2026-05-04T20:36:23.453Z"
   },
   "brooks-hyperion-max-2": {
-    "asin": "B0CRG1NL42",
-    "title": "Women’s Hyperion Max 2 Neutral Running Shoe",
-    "url": "https://www.amazon.com/dp/B0CRG1NL42?tag=papalex-20",
-    "query": "Brooks Hyperion Max 2 running shoes",
-    "resolvedAt": "2026-05-04T20:36:32.072Z"
+    "asin": "B0CRFM5CB6",
+    "title": "Men’s Hyperion Max 2 Neutral Running Shoe",
+    "url": "https://www.amazon.com/dp/B0CRFM5CB6?tag=papalex-20",
+    "query": "Brooks Hyperion Max 2 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "brooks-cascadia-18": {
-    "asin": "B0CPN3KC9T",
-    "title": "Women’s Cascadia 18 Mountain Trail Running Shoe",
-    "url": "https://www.amazon.com/dp/B0CPN3KC9T?tag=papalex-20",
-    "query": "Brooks Cascadia 18 running shoes",
-    "resolvedAt": "2026-05-04T20:36:34.742Z"
+    "asin": "B0CYZQR6LY",
+    "title": "Men’s Cascadia 18 Mountain Trail Running Shoe",
+    "url": "https://www.amazon.com/dp/B0CYZQR6LY?tag=papalex-20",
+    "query": "Brooks Cascadia 18 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "puma-deviate-nitro-elite-3": {
     "asin": "B0DZ72PNG3",
@@ -453,25 +464,28 @@
     "resolvedAt": "2026-05-04T20:36:58.912Z"
   },
   "merrell-agility-peak-5": {
-    "asin": "B0FMZW8CGP",
-    "title": "Kids' Agility Peak Kdz",
-    "url": "https://www.amazon.com/dp/B0FMZW8CGP?tag=papalex-20",
-    "query": "Merrell Agility Peak 5 running shoes",
-    "resolvedAt": "2026-05-04T20:37:06.536Z"
+    "asin": "B0CC6JX53D",
+    "title": "Merrell Men's Agility Peak 5 Sneaker, Black/Black, 8.5",
+    "url": "https://www.amazon.com/dp/B0CC6JX53D?tag=papalex-20",
+    "query": "Merrell Agility Peak 5",
+    "resolvedAt": "2026-10-01T05:26:59.987Z",
+    "source": "Amazon Creators API searchItems"
   },
   "topo-mtn-racer-3": {
-    "asin": "B0DTF7JT3T",
-    "title": "Men's MTN Racer 4 Lightweight Comfortable 5MM Drop Trail Running Shoes, Athletic Shoes for Trail",
-    "url": "https://www.amazon.com/dp/B0DTF7JT3T?tag=papalex-20",
-    "query": "Topo Athletic MTN Racer 3 running shoes",
-    "resolvedAt": "2026-05-04T20:37:22.578Z"
+    "asin": "B0C461CD2G",
+    "title": "Men's MTN Racer 3 Comfortable Lightweight 5MM Drop Trail Running Shoes, Athletic Shoes for Trail Running",
+    "url": "https://www.amazon.com/dp/B0C461CD2G?tag=papalex-20",
+    "query": "Topo Athletic MTN Racer 3 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "topo-cyclone-2": {
-    "asin": "B0DVJ56RY2",
-    "title": "Women's Cyclone 3 Lightweight Comfortable 5MM Drop Road Running Shoes, Athletic Shoes for Road Running",
-    "url": "https://www.amazon.com/dp/B0DVJ56RY2?tag=papalex-20",
-    "query": "Topo Athletic Cyclone 2 running shoes",
-    "resolvedAt": "2026-05-04T20:37:25.705Z"
+    "asin": "B0CRLFWMZD",
+    "title": "Topo Athletic Men's Lightweight Comfortable 5MM Drop Speed Runner Cyclone 2 Road Running Shoes, Athletic Shoes for Road Running, White/Black, Size 11",
+    "url": "https://www.amazon.com/dp/B0CRLFWMZD?tag=papalex-20",
+    "query": "Topo Athletic Cyclone 2",
+    "resolvedAt": "2026-10-01T05:27:07.038Z",
+    "source": "Amazon Creators API searchItems"
   },
   "nike-pegasus-42": {
     "asin": "B0FRNJ61CJ",
@@ -495,11 +509,12 @@
     "resolvedAt": "2026-05-07T06:08:51.578Z"
   },
   "lining-feidian-6-elite": {
-    "asin": "B0G8F9S4HQ",
-    "title": "FEIDIAN 5 Challenger & Elite & Ultra Men's Racing Shoes Boom Fiber Reflective Lightweight Breathable Running Sneakers ARMV001 ARMV003 ARMV005",
-    "url": "https://www.amazon.com/dp/B0G8F9S4HQ?tag=papalex-20",
-    "query": "Li-Ning Feidian 6 Elite running shoes",
-    "resolvedAt": "2026-05-07T06:08:54.496Z"
+    "asin": "B0GGGDX7NM",
+    "title": "FEIDIAN 6 Challenger & Elite Men's Racing Shoes Reflective Lightweight Breathable Running Sneakers for Professional Sports Competitions",
+    "url": "https://www.amazon.com/dp/B0GGGDX7NM?tag=papalex-20",
+    "query": "Li-Ning Feidian 6 Elite men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "asics-gel-nimbus-29": {
     "asin": null,
@@ -508,11 +523,12 @@
     "resolvedAt": "2026-05-07T06:13:55.615Z"
   },
   "asics-novablast-6": {
-    "asin": "B0F64M9SBZ",
-    "title": "Men's NOVABLAST 5 Running Shoes",
-    "url": "https://www.amazon.com/dp/B0F64M9SBZ?tag=papalex-20",
-    "query": "ASICS Novablast 6 running shoes",
-    "resolvedAt": "2026-05-07T06:09:21.943Z"
+    "asin": "B0GZS4NZC1",
+    "title": "Men's NOVABLAST 6 Running Shoes",
+    "url": "https://www.amazon.com/dp/B0GZS4NZC1?tag=papalex-20",
+    "query": "Asics Novablast 6 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "asics-metaspeed-edge-tokyo": {
     "asin": "B0DPLVJG1J",
@@ -522,11 +538,12 @@
     "resolvedAt": "2026-05-07T06:09:24.516Z"
   },
   "brooks-glycerin-22": {
-    "asin": "B0D2ZQ3F5Q",
-    "title": "Women’s Glycerin 22 Neutral Running Shoe",
-    "url": "https://www.amazon.com/dp/B0D2ZQ3F5Q?tag=papalex-20",
-    "query": "Brooks Glycerin 22 running shoes",
-    "resolvedAt": "2026-05-07T06:09:43.151Z"
+    "asin": "B0D2Z182PF",
+    "title": "Men’s Glycerin 22 Neutral Running Shoe",
+    "url": "https://www.amazon.com/dp/B0D2Z182PF?tag=papalex-20",
+    "query": "Brooks Glycerin 22 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "brooks-hyperion-max-3": {
     "asin": "B0F4MJ8LX4",
@@ -536,11 +553,12 @@
     "resolvedAt": "2026-05-07T06:10:10.661Z"
   },
   "saucony-endorphin-speed-5": {
-    "asin": "B0G5YKDBJR",
-    "title": "Womens Endorphin Speed 5",
-    "url": "https://www.amazon.com/dp/B0G5YKDBJR?tag=papalex-20",
-    "query": "Saucony Endorphin Speed 5 running shoes",
-    "resolvedAt": "2026-05-07T06:10:27.166Z"
+    "asin": "B0DJWNZG91",
+    "title": "Men's Endorphin Speed 5 Sneaker",
+    "url": "https://www.amazon.com/dp/B0DJWNZG91?tag=papalex-20",
+    "query": "Saucony Endorphin Speed 5 men's running shoes",
+    "resolvedAt": "2026-10-01T04:48:01.785Z",
+    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "saucony-endorphin-pro-5": {
     "asin": "B0F9LGW7L4",
@@ -556,11 +574,9 @@
     "resolvedAt": "2026-05-07T06:13:56.036Z"
   },
   "on-cloudeclipse-2": {
-    "asin": "B0CN91QBYK",
-    "title": "Women's Cloudeclipse",
-    "url": "https://www.amazon.com/dp/B0CN91QBYK?tag=papalex-20",
-    "query": "On Cloudeclipse 2 running shoes",
-    "resolvedAt": "2026-05-07T06:11:03.452Z"
+    "asin": null,
+    "note": "cleared 2026-09-30: missing: 2 (was B0CN91QBYK: Women's Cloudeclipse)",
+    "resolvedAt": "2026-09-30T20:32:57.220Z"
   },
   "nb-supercomp-trainer-v3": {
     "asin": "B0DJV41ZP5",
@@ -570,18 +586,17 @@
     "resolvedAt": "2026-05-07T06:11:24.177Z"
   },
   "adidas-evo-sl-2": {
-    "asin": "B0DVQ1XL21",
-    "title": "Womens Adizero Evo Sl W",
-    "url": "https://www.amazon.com/dp/B0DVQ1XL21?tag=papalex-20",
-    "query": "Adidas Adizero Evo SL 2 running shoes",
-    "resolvedAt": "2026-05-07T06:11:29.986Z"
+    "asin": null,
+    "note": "cleared 2026-09-30: missing: 2 (was B0DVQ1XL21: Womens Adizero Evo Sl W)",
+    "resolvedAt": "2026-09-30T20:32:57.220Z"
   },
   "hoka-mach-x-2": {
-    "asin": "B0GQ632ZFF",
-    "title": "Mens Mach X 2",
-    "url": "https://www.amazon.com/dp/B0GQ632ZFF?tag=papalex-20",
-    "query": "Hoka Mach X 2 running shoes",
-    "resolvedAt": "2026-05-07T06:11:32.405Z"
+    "asin": "B0CPC2B2W2",
+    "title": "Hoka Men's Mach X 2 Frost/Citrus 12 Medium",
+    "url": "https://www.amazon.com/dp/B0CPC2B2W2?tag=papalex-20",
+    "query": "Hoka Mach X 2",
+    "resolvedAt": "2026-10-01T05:27:13.865Z",
+    "source": "Amazon Creators API searchItems"
   },
   "nnormal-kjerag-2": {
     "asin": "B0FKBVMQJ2",
@@ -597,17 +612,16 @@
     "resolvedAt": "2026-05-07T06:14:13.891Z"
   },
   "puma-fast-r-nitro-elite-3": {
-    "asin": "B0DJ654QR9",
-    "title": "Mens Fast-R Nitro Elite 2 Running Sneakers Shoes",
-    "url": "https://www.amazon.com/dp/B0DJ654QR9?tag=papalex-20",
-    "query": "Puma Fast-R Nitro Elite 3 running shoes",
-    "resolvedAt": "2026-05-07T06:12:17.372Z"
+    "asin": null,
+    "note": "cleared 2026-09-30: missing: 3 (was B0DJ654QR9: Mens Fast-R Nitro Elite 2 Running Sneakers Shoes)",
+    "resolvedAt": "2026-09-30T20:32:57.220Z"
   },
   "mizuno-neo-vista-2": {
-    "asin": "B0F9Z12F98",
-    "title": "Women's Mizuno Neo Vista 2 Women's",
-    "url": "https://www.amazon.com/dp/B0F9Z12F98?tag=papalex-20",
-    "query": "Mizuno Neo Vista 2 running shoes",
-    "resolvedAt": "2026-05-07T06:12:27.796Z"
+    "asin": "B0FBH9SFYK",
+    "title": "Mizuno Men's Wave Neo Vista 2 Running Shoe, Neutral Road-Trail Shoe,Baritone Blue-Frozen Emerald, US Mens 9.5",
+    "url": "https://www.amazon.com/dp/B0FBH9SFYK?tag=papalex-20",
+    "query": "Mizuno Neo Vista 2",
+    "resolvedAt": "2026-10-01T05:27:20.550Z",
+    "source": "Amazon Creators API searchItems"
   }
 }

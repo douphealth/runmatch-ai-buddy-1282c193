@@ -1,43 +1,56 @@
 import { QuizAnswers } from './quiz-data';
+import { PRONATION_STATEMENT, REPLACEMENT_STATEMENT, ROTATION_STATEMENT } from './evidence';
+
+/** "500–800 km at about 45 km a week works out to roughly 2–4 months." or '' when not meaningful. */
+function replacementTimeline(weeklyKm: number): string {
+  if (!Number.isFinite(weeklyKm) || weeklyKm < 5) return '';
+  const weeksPerMonth = 4.345;
+  const lo = Math.max(1, Math.round(500 / (weeklyKm * weeksPerMonth)));
+  const hi = Math.max(lo, Math.round(800 / (weeklyKm * weeksPerMonth)));
+  const span = lo === hi ? `about ${lo} month${lo === 1 ? '' : 's'}` : `roughly ${lo}–${hi} months`;
+  return ` At about ${Math.round(weeklyKm)} km a week, that works out to ${span} of use.`;
+}
 
 export function getDynamicFAQs(answers: QuizAnswers) {
+  const hasInjury = answers.injuries.some((i) => i !== 'none');
   const faqs = [
     {
       question: 'How does RunMatch AI determine my shoe recommendation?',
-      answer: 'RunMatch AI uses a weighted scoring algorithm that analyzes 9 factors: foot type, pronation pattern, weekly mileage, preferred distance, terrain, pace goals, injury history, brand preference, and budget. Each shoe in our database is scored against your profile, with terrain, distance, and pronation carrying the highest weights. The result is a personalized match percentage and a complete rotation strategy.',
+      answer: 'RunMatch AI scores every shoe in its database against your answers across terrain, race distance, gait and support, foot shape, comfort needs, budget, brand preference, pace and weekly mileage. If you name a shoe you already run in, the feel of that shoe is scored too. The same answers always give the same ranking, and each result lists the factors that drove its score.',
     },
     {
-      question: 'What is a shoe rotation and why do I need one?',
-      answer: 'A shoe rotation means alternating between 2-3 different pairs of running shoes throughout the week. Research published in the British Journal of Sports Medicine shows this reduces injury risk by up to 39% because each shoe loads your muscles and joints differently. Your rotation should typically include a daily trainer, a speed shoe for workouts, and possibly a cushioned long-run shoe.',
+      question: 'What is a shoe rotation and why might I want one?',
+      answer: `A shoe rotation means alternating between two or three pairs of running shoes through the week, for example a daily trainer, a faster shoe for workouts and a cushioned shoe for long runs. ${ROTATION_STATEMENT}`,
     },
     {
       question: 'How often should I replace my running shoes?',
-      answer: 'Most running shoes last 500-800 km (300-500 miles) depending on your weight, stride mechanics, and the shoe construction. Signs of worn-out shoes include visible midsole compression, uneven outsole wear, reduced bounce-back, or new aches and pains. At your current mileage, that means replacing shoes roughly every 4-6 months.',
+      answer: `${REPLACEMENT_STATEMENT}${replacementTimeline(answers.weeklyMileage)}`,
     },
   ];
 
   if (answers.pronation === 'unsure' || answers.pronation === 'overpronation') {
     faqs.push({
-      question: 'What if I\'m unsure about my pronation type?',
-      answer: 'If you\'re unsure about your pronation, check the wear pattern on your current shoes. Wear on the inner edge suggests overpronation, outer edge suggests underpronation, and even wear indicates neutral pronation. For a definitive assessment, visit a specialty running store for a gait analysis. Our algorithm accounts for uncertainty by recommending versatile shoes that work across pronation types.',
+      question: "What if I'm unsure about my pronation type?",
+      answer: `You can check the wear pattern on an old pair: wear on the inner edge suggests your foot rolls inward, outer-edge wear suggests it rolls outward, and even wear is neutral. A specialty running store can also watch you run. ${PRONATION_STATEMENT} When you pick "not sure", RunMatch favors versatile neutral shoes.`,
     });
   }
 
-  if (answers.injuries.length > 0 && !answers.injuries.includes('none')) {
+  if (hasInjury) {
     faqs.push({
       question: 'How do my injuries affect the shoe recommendation?',
-      answer: `Based on your injury history, we've prioritized shoes with features that reduce strain on your vulnerable areas. This includes selecting appropriate cushioning levels, heel-to-toe drop, and support structures. We also recommend specific injury prevention exercises and recovery strategies tailored to your profile.`,
+      answer:
+        "Because you mentioned an injury or pain, RunMatch leans toward cautious, well-cushioned everyday shoes and away from race-day plated shoes. Shoes cannot diagnose or treat an injury, so this is a comfort-first shortlist, not medical advice. If the pain is current, getting worse or has lasted more than a couple of weeks, see a physiotherapist, sports-medicine doctor or podiatrist before choosing shoes.",
     });
   }
 
   faqs.push(
     {
       question: 'Can I share my RunMatch results?',
-      answer: 'Yes! Every RunMatch result has a unique shareable URL. Simply copy the page URL from your browser and send it to running partners, coaches, or friends. The link contains your complete runner profile and recommendations.',
+      answer: 'Yes. Use the Copy Link button on your result to send it to running partners, coaches or friends. The link re-creates your result from your answers, so whoever opens it sees the same shortlist.',
     },
     {
       question: 'Are the Amazon links affiliate links?',
-      answer: 'Yes, some links on this page are Amazon affiliate links. This means GearUpToFit may earn a small commission if you purchase through them — at no extra cost to you. This helps us keep RunMatch AI free and continue creating running content.',
+      answer: 'Yes. As an Amazon Associate, GearUpToFit earns from qualifying purchases, at no extra cost to you. That helps keep RunMatch AI free. Rankings are produced by the scoring engine and are not influenced by commission.',
     },
   );
 

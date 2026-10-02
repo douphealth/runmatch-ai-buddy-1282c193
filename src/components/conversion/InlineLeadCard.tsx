@@ -16,7 +16,6 @@ import { motion } from 'framer-motion';
 import { Mail, Loader2, CheckCircle2, FileDown, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { getUTM } from '@/lib/utm';
 import { hasSubscribed } from '@/components/EmailGate';
@@ -39,6 +38,7 @@ const InlineLeadCard = ({ primaryShoe, shoeCategory, weeklyMileage, injuries }: 
     try { return !!sessionStorage.getItem(SESSION_DISMISS); } catch { return false; }
   });
   const [email, setEmail] = useState('');
+  const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
@@ -50,8 +50,14 @@ const InlineLeadCard = ({ primaryShoe, shoeCategory, weeklyMileage, injuries }: 
       toast.error('Please enter a valid email');
       return;
     }
+    if (!consent) {
+      toast.error('Please tick the box to receive your PDF and emails');
+      return;
+    }
     setLoading(true);
     try {
+      // Loaded on demand: the Supabase client is ~100 KB and only needed at submit time.
+      const { supabase } = await import('@/integrations/supabase/client');
       const { data, error } = await supabase.functions.invoke('brevo-subscribe', {
         body: {
           email: email.trim().toLowerCase(),
@@ -66,7 +72,7 @@ const InlineLeadCard = ({ primaryShoe, shoeCategory, weeklyMileage, injuries }: 
       });
       if (error || (data as any)?.error) throw new Error((data as any)?.error || error?.message || 'Failed');
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ email: email.trim().toLowerCase(), ts: Date.now() })); } catch {}
-      track.emailCapture({ source: 'inline_results_card', shoeCategory });
+      track.emailCapture({ source: 'inline_results_card', shoeCategory, marketingConsent: true });
       setDone(true);
     } catch (err) {
       console.error(err);
@@ -118,7 +124,7 @@ const InlineLeadCard = ({ primaryShoe, shoeCategory, weeklyMileage, injuries }: 
                   : 'Want your full shoe match PDF, free?'}
               </h3>
               <p className="text-sm text-muted-foreground leading-snug">
-                Includes your 3-shoe rotation, mileage plan and a 7-day science-backed coaching series. No spam, unsubscribe in 1&nbsp;click.
+                Includes your rotation plan and the reasons behind each pick, plus a 7-day running tips email series. Unsubscribe in 1&nbsp;click.
               </p>
             </div>
 
@@ -136,6 +142,18 @@ const InlineLeadCard = ({ primaryShoe, shoeCategory, weeklyMileage, injuries }: 
                   className="h-11 pl-9"
                 />
               </div>
+              <label className="flex items-start gap-2 text-[11px] text-muted-foreground leading-snug cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
+                  className="mt-0.5 accent-primary"
+                />
+                <span>
+                  Email me the PDF and the 7-day series from GearUpToFit. I can unsubscribe at any time. See the{' '}
+                  <a href="https://gearuptofit.com/privacy-policy/" target="_blank" rel="noopener" className="underline hover:text-primary">privacy policy</a>.
+                </span>
+              </label>
               <Button
                 type="submit"
                 disabled={loading}

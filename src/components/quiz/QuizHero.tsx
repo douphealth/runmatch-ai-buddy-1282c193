@@ -4,8 +4,7 @@ import { Button } from '@/components/ui/button';
 import SEOContent from '@/components/SEOContent';
 import { assetPath } from '@/lib/asset-path';
 import TrustBar from '@/components/conversion/TrustBar';
-import Testimonials from '@/components/conversion/Testimonials';
-import LiveActivity from '@/components/conversion/LiveActivity';
+import MethodologyTeaser from '@/components/conversion/MethodologyTeaser';
 import ExitIntent from '@/components/conversion/ExitIntent';
 import EmailGate from '@/components/EmailGate';
 import SavedMatches from '@/components/SavedMatches';
@@ -20,10 +19,10 @@ const ComparisonHub = () => {
     <section className="relative z-10 px-4 md:px-8 py-14 bg-background border-t border-border/40">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl md:text-3xl font-display font-bold mb-2">Head-to-head comparisons</h2>
-        <p className="text-muted-foreground mb-6">Spec-by-spec breakdowns of the most-searched shoe matchups of 2026.</p>
+        <p className="text-muted-foreground mb-6">Spec-by-spec breakdowns of popular shoe matchups, with who should think twice about each.</p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {comparisons.map(c => (
-            <a key={c.slug} href={`/shoe-finder/compare/${c.slug}`} className="group rounded-xl p-5 bg-card/40 border border-border/60 hover:border-primary/40 hover:bg-card/60 transition-all">
+            <a key={c.slug} href={`/shoe-finder/compare/${c.slug}/`} className="group rounded-xl p-5 bg-card/40 border border-border/60 hover:border-primary/40 hover:bg-card/60 transition-all">
               <div className="flex items-center justify-between mb-1.5">
                 <h3 className="font-semibold group-hover:text-primary transition text-sm">
                   {c.a.brand} {c.a.model} <span className="text-primary">vs</span> {c.b.brand} {c.b.model}
@@ -48,7 +47,7 @@ interface QuizHeroProps {
 const features = [
   { icon: Target, label: 'Shoe Profile', desc: 'Personalized match' },
   { icon: RotateCcw, label: 'Rotation Plan', desc: '2-3 shoe strategy' },
-  { icon: Shield, label: 'Injury Guard', desc: 'Prevention tips' },
+  { icon: Shield, label: 'Safety Notes', desc: 'When to see a pro' },
 ];
 
 const ResumeBanner = ({ onResume, onRestart }: { onResume: () => void; onRestart: () => void }) => (
@@ -242,8 +241,12 @@ const QuizHero = ({ onStart, onResume, onRestart }: QuizHeroProps) => {
               <span>🎯 100% free</span>
             </div>
 
-            {/* Trust bar — live runner count + verified badges */}
+            {/* Trust bar — real, verifiable facts about the tool */}
             <TrustBar className="mt-6 max-w-xl mx-auto" />
+            <p className="text-xs text-muted-foreground">
+              <a href="/shoe-finder/methodology/" className="underline hover:text-primary">How we rank shoes</a>
+              {' · '}Amazon affiliate links are marked and never affect rankings
+            </p>
           </motion.div>
         </motion.div>
 
@@ -295,10 +298,10 @@ const QuizHero = ({ onStart, onResume, onRestart }: QuizHeroProps) => {
     {/* Recall: returning runners see their saved matches first */}
     <SavedMatches />
 
-    {/* Social proof: testimonials below the fold */}
+    {/* How shoes are ranked: real numbers from the engine, not invented reviews */}
     <section className="relative z-10 px-4 md:px-8 py-14 md:py-20 bg-gradient-to-b from-background to-background/95">
-      <div className="max-w-6xl mx-auto">
-        <Testimonials />
+      <div className="max-w-4xl mx-auto">
+        <MethodologyTeaser />
       </div>
     </section>
 
@@ -306,7 +309,7 @@ const QuizHero = ({ onStart, onResume, onRestart }: QuizHeroProps) => {
     <section className="relative z-10 px-4 md:px-8 py-14 bg-background border-t border-border/40">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl md:text-3xl font-display font-bold mb-2">Browse by category</h2>
-        <p className="text-muted-foreground mb-6">Or explore our 2026 shoe guides while the AI quiz loads.</p>
+        <p className="text-muted-foreground mb-6">Or explore our shoe guides by type of run.</p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {[
             { slug: 'daily-trainer', label: 'Daily Trainers', desc: 'Workhorse shoes for everyday miles' },
@@ -314,9 +317,9 @@ const QuizHero = ({ onStart, onResume, onRestart }: QuizHeroProps) => {
             { slug: 'trail', label: 'Trail Shoes', desc: 'Grip, protection, terrain-ready' },
             { slug: 'stability', label: 'Stability Shoes', desc: 'For overpronation & flat feet' },
             { slug: 'max-cushion', label: 'Max-Cushion Shoes', desc: 'Plush rides, joint protection' },
-            { slug: 'budget', label: 'Under $120', desc: 'Best value picks of 2026' },
+            { slug: 'budget', label: 'Under $120', desc: 'Best value picks' },
           ].map(c => (
-            <a key={c.slug} href={`/shoe-finder/best-running-shoes/${c.slug}`} className="group rounded-xl p-5 bg-card/40 border border-border/60 hover:border-primary/40 hover:bg-card/60 transition-all">
+            <a key={c.slug} href={`/shoe-finder/best-running-shoes/${c.slug}/`} className="group rounded-xl p-5 bg-card/40 border border-border/60 hover:border-primary/40 hover:bg-card/60 transition-all">
               <div className="flex items-center justify-between mb-1.5">
                 <h3 className="font-semibold group-hover:text-primary transition">{c.label}</h3>
                 <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition" />
@@ -335,12 +338,12 @@ const QuizHero = ({ onStart, onResume, onRestart }: QuizHeroProps) => {
     <section className="relative z-10 px-4 md:px-8 py-14 bg-background border-t border-border/40">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl md:text-3xl font-display font-bold mb-2">Shop by brand</h2>
-        <p className="text-muted-foreground mb-6">Structured 2026 picks from major running brands.</p>
+        <p className="text-muted-foreground mb-6">Every shoe in our database, grouped by brand.</p>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {BRANDS.map(b => (
             <a
               key={b.slug}
-              href={`/shoe-finder/best-running-shoes/brand/${b.slug}`}
+              href={`/shoe-finder/best-running-shoes/brand/${b.slug}/`}
               className="group rounded-xl p-4 bg-card/40 border border-border/60 hover:border-primary/40 hover:bg-card/60 transition-all text-center"
             >
               <div className="font-semibold group-hover:text-primary transition">{b.name}</div>
@@ -353,9 +356,6 @@ const QuizHero = ({ onStart, onResume, onRestart }: QuizHeroProps) => {
 
     <SEOContent />
 
-    {/* FOMO: subtle live-match toasts */}
-    <LiveActivity />
-
     {/* Exit-intent capture */}
     <ExitIntent>
       {({ open, close }) => (
@@ -364,9 +364,14 @@ const QuizHero = ({ onStart, onResume, onRestart }: QuizHeroProps) => {
           onClose={close}
           onUnlock={close}
           source="exit_popup"
-          title="Wait — get the runner's playbook free"
-          subtitle="Before you go: grab our 7-day shoe & training guide plus a $0 PDF report of the top 3 shoes for your style. No spam, unsubscribe in 1 click."
+          title="Before you go: the free running-shoe guide"
+          subtitle="A short email series on choosing, fitting and rotating running shoes. Take the 2-minute quiz any time for a personalised report. No spam, unsubscribe in 1 click."
           ctaLabel="Send Me The Free Guide"
+          benefits={[
+            'A 7-day email series on shoe choice, fit and rotation',
+            'How to tell when a pair is worn out',
+            'A reminder to take the quiz for your personalised PDF report',
+          ]}
         />
       )}
     </ExitIntent>

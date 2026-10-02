@@ -1,14 +1,16 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { QuizStep, QuizAnswers, popularBrands } from '@/lib/quiz-data';
+import { QuizStep, QuizAnswers, popularBrands, quizSteps } from '@/lib/quiz-data';
+import CurrentShoePicker from '@/components/quiz/CurrentShoePicker';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
-import { Check, Search, X, icons as LucideIcons, type LucideIcon } from 'lucide-react';
+import { Check, Search, X } from 'lucide-react';
 import { assetPath } from '@/lib/asset-path';
+import { QUIZ_ICONS } from '@/lib/quiz-icons';
 
 const renderIcon = (name: string | undefined, isSelected: boolean) => {
   if (!name) return null;
-  const Icon = (LucideIcons as Record<string, LucideIcon>)[name];
+  const Icon = QUIZ_ICONS[name];
   if (!Icon) return null;
   return (
     <span
@@ -114,7 +116,7 @@ const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect, onAutoAd
                 className="inline-flex items-center gap-1.5 text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-[0.18em] sm:tracking-[0.2em] text-primary bg-background/85 backdrop-blur-md border border-primary/30 px-2.5 py-1 rounded-full shadow-lg shadow-background/30"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                Step {(['footType','pronation','weeklyMileage','distance','terrain','paceGoal','injuries','brand','budget'].indexOf(step.id) + 1)} / 9
+                Step {quizSteps.findIndex(s => s.id === step.id) + 1} / {quizSteps.length}
               </motion.span>
             </div>
           </div>
@@ -129,6 +131,11 @@ const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect, onAutoAd
         <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
           {step.subtitle}
         </p>
+        {step.optional && (
+          <span className="inline-flex items-center gap-1.5 mt-3 text-xs text-muted-foreground font-semibold uppercase tracking-wider bg-secondary/40 px-3 py-1.5 rounded-full">
+            Optional · skip anytime
+          </span>
+        )}
         {(step.type === 'multi' || step.type === 'brand-multi') && (
           <motion.span
             initial={{ opacity: 0, x: -10 }}
@@ -196,6 +203,9 @@ const QuizStepContent = ({ step, answers, setAnswer, handleMultiSelect, onAutoAd
           </div>
         </div>
       )}
+
+      {/* Optional: a shoe the runner already knows */}
+      {step.type === 'shoe-select' && <CurrentShoePicker answers={answers} setAnswer={setAnswer} />}
 
       {/* Brand Multi-Select */}
       {step.type === 'brand-multi' && (

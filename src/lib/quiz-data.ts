@@ -9,10 +9,12 @@ export interface QuizStep {
   id: string;
   title: string;
   subtitle: string;
-  type: 'single' | 'multi' | 'slider' | 'brand-multi';
+  type: 'single' | 'multi' | 'slider' | 'brand-multi' | 'shoe-select';
   options?: QuizOption[];
   sliderConfig?: { min: number; max: number; step: number; unit: string; labels?: string[] };
   image?: string;
+  /** Optional steps never block "Next" and are labelled as optional in the UI. */
+  optional?: boolean;
 }
 
 export const quizSteps: QuizStep[] = [
@@ -126,6 +128,15 @@ export const quizSteps: QuizStep[] = [
       { value: '200-plus', label: '$200+', description: 'Top-tier technology', icon: 'Crown' },
     ],
   },
+  // Appended last on purpose: saved quiz progress stores step indices, so the
+  // nine required steps above must keep their positions.
+  {
+    id: 'currentShoe',
+    title: 'Running in a shoe you already know?',
+    subtitle: "Optional. Pick a shoe you love or want to replace and we'll find shoes that ride like it and fix what bugs you.",
+    type: 'shoe-select',
+    optional: true,
+  },
 ];
 
 export const popularBrands = [
@@ -145,6 +156,10 @@ export interface QuizAnswers {
   injuries: string[];
   brand: string[];
   budget: string[];
+  /** Optional: id of a shoe in our database the runner already knows. */
+  currentShoe?: string;
+  /** Optional: what they dislike about it (see CURRENT_SHOE_ISSUES). */
+  currentShoeIssues?: string[];
 }
 
 export const defaultAnswers: QuizAnswers = {
@@ -230,12 +245,55 @@ export function answersFromSlug(slug: string | undefined): QuizAnswers | null {
 }
 
 export function encodeAnswers(answers: QuizAnswers): string {
-  return btoa(JSON.stringify(answers));
+  // Drop empty optional fields so links stay short and match pre-existing ones.
+  const { currentShoe, currentShoeIssues, ...core } = answers;
+  const payload: QuizAnswers = { ...core };
+  if (currentShoe) payload.currentShoe = currentShoe;
+  if (currentShoeIssues && currentShoeIssues.length > 0) payload.currentShoeIssues = currentShoeIssues;
+  return btoa(JSON.stringify(payload));
+}
+
+const VALID_PACE = new Set(['easy', 'moderate', 'tempo', 'race']);
+const VALID_INJURY = new Set(['plantar-fasciitis', 'shin-splints', 'it-band', 'knee-pain', 'achilles', 'none']);
+const VALID_BUDGET = new Set(['under-100', '100-150', '150-200', '200-plus']);
+const VALID_ISSUE = new Set(['too-firm', 'too-soft', 'too-heavy', 'too-narrow', 'none']);
+
+const strings = (v: unknown, keep: (s: string) => boolean, max: number): string[] =>
+  Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string' && keep(x)).slice(0, max) : [];
+
+/**
+ * Validates an untrusted `?d=` payload. Returns null when a required field is
+ * missing or unknown so the caller falls back to slug-derived answers instead
+ * of rendering (or crashing on) garbage from a hand-edited or truncated link.
+ */
+function sanitizeAnswers(p: any): QuizAnswers | null {
+  if (!p || typeof p !== 'object') return null;
+  if (!VALID_FOOT.has(p.footType) || !VALID_PRONATION.has(p.pronation)) return null;
+  if (!VALID_DISTANCE.has(p.distance) || !VALID_TERRAIN.has(p.terrain) || !VALID_PACE.has(p.paceGoal)) return null;
+  const mileage = Number(p.weeklyMileage);
+  if (!Number.isFinite(mileage)) return null;
+
+  const out: QuizAnswers = {
+    footType: p.footType,
+    pronation: p.pronation,
+    weeklyMileage: Math.min(200, Math.max(0, Math.round(mileage))),
+    distance: p.distance,
+    terrain: p.terrain,
+    paceGoal: p.paceGoal,
+    injuries: strings(p.injuries, (s) => VALID_INJURY.has(s), 6),
+    brand: strings(p.brand, (s) => s.length > 0 && s.length <= 40, 12),
+    budget: strings(p.budget, (s) => VALID_BUDGET.has(s), 4),
+  };
+  if (typeof p.currentShoe === 'string' && /^[a-z0-9-]{1,80}$/.test(p.currentShoe)) out.currentShoe = p.currentShoe;
+  const issues = strings(p.currentShoeIssues, (s) => VALID_ISSUE.has(s), 5);
+  if (issues.length > 0) out.currentShoeIssues = issues;
+  return out;
 }
 
 export function decodeAnswers(encoded: string): QuizAnswers | null {
   try {
-    const parsed = JSON.parse(atob(encoded));
+    // A literal "+" in a query string is read back as a space; undo that.
+    const parsed = JSON.parse(atob(encoded.replace(/ /g, '+')));
     // Backward compat: convert old string brand/budget to arrays
     if (typeof parsed.brand === 'string') {
       parsed.brand = parsed.brand && parsed.brand !== 'no-preference' ? [parsed.brand] : [];
@@ -243,7 +301,7 @@ export function decodeAnswers(encoded: string): QuizAnswers | null {
     if (typeof parsed.budget === 'string') {
       parsed.budget = parsed.budget ? [parsed.budget] : [];
     }
-    return parsed;
+    return sanitizeAnswers(parsed);
   } catch {
     return null;
   }

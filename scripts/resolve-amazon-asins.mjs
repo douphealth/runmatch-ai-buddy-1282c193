@@ -17,6 +17,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { cleanModel, isPlausibleMatch } from './asin-match.mjs';
 
 const ROOT = process.cwd();
 const DB_PATH = path.join(ROOT, 'src/lib/shoe-database.ts');
@@ -56,33 +57,9 @@ function saveCache(c) {
   fs.writeFileSync(CACHE_PATH, JSON.stringify(c, null, 2) + '\n');
 }
 
-// Strip parenthetical qualifiers, normalize whitespace.
-function cleanModel(m) {
-  return m.replace(/\s*\([^)]*\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
-}
-
-// Tokens we expect to see in the result title for a confident match.
-function modelTokens(model) {
-  return cleanModel(model)
-    .toLowerCase()
-    .split(/\s+/)
-    .filter(t => t.length >= 2);
-}
-
-// Amazon often strips the brand from titles (e.g. "Men's Ghost 17 ..." for Brooks).
-// So we require: ALL meaningful model tokens present, and either the brand
-// appears OR the result was returned by a brand-specific query (which it is —
-// our query always includes the brand, so SerpAPI already filters strongly).
-function isPlausibleMatch(title, brand, model) {
-  if (!title) return false;
-  const t = title.toLowerCase();
-  const toks = modelTokens(model);
-  if (toks.length === 0) return false;
-  const hits = toks.filter(tok => t.includes(tok)).length;
-  // Require ALL model tokens (e.g. "Ghost" + "17") to be in the title.
-  // This is strict enough to reject the wrong year/variant.
-  return hits === toks.length;
-}
+// Matching lives in scripts/asin-match.mjs (shared with the offline audit):
+// every model token must appear (numbers as whole numbers), the version number
+// must not be contradicted, and women's-only listings are rejected.
 
 let keyIdx = 0;
 function nextKey() {
@@ -113,7 +90,7 @@ async function resolveShoe(shoe) {
     const title = r.title || r.name;
     const asin = r.asin;
     if (!asin || asin.length !== 10) continue;
-    if (!isPlausibleMatch(title, shoe.brand, shoe.model)) continue;
+    if (!isPlausibleMatch(title, shoe.brand, shoe.model).ok) continue;
     return {
       asin: asin.toUpperCase(),
       title,

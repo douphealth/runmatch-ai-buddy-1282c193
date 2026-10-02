@@ -3,11 +3,13 @@
  *
  * Pure read-only utilities over the verified shoe database. No persistence.
  */
-import { shoeDatabase, Shoe } from './shoe-database';
+import { shoeDatabase, Shoe, resolveShoeId } from './shoe-database';
 import { COMPARISONS, buildComparisonSlug } from './comparisons';
 
+/** Looks a shoe up by id, transparently following retired-id aliases. */
 export function getShoeById(id: string): Shoe | undefined {
-  return shoeDatabase.find(s => s.id === id);
+  const resolved = resolveShoeId(id);
+  return shoeDatabase.find(s => s.id === resolved);
 }
 
 export function getAllShoeIds(): string[] {

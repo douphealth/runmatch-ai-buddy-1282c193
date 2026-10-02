@@ -3,7 +3,9 @@ import { HelmetProvider } from "react-helmet-async";
 import App from "./App.tsx";
 import "./index.css";
 import { initErrorMonitoring } from "./lib/error-monitoring";
+import { initAnalytics } from "./lib/analytics";
 
+initAnalytics();
 initErrorMonitoring();
 
 // Register the PWA service worker for offline shell + asset caching.

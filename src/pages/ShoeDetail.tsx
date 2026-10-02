@@ -1,15 +1,22 @@
 import { useEffect, useMemo } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import {
   ArrowRight, ExternalLink, CheckCircle, ChevronRight, Sparkles,
-  Gauge, Scale, Ruler, MapPin, Tag, Award, Footprints,
+  Gauge, Scale, Ruler, MapPin, Tag, Award, Footprints, AlertTriangle,
 } from 'lucide-react';
 import {
   getShoeById, getAlternatives, getSameBrand, getRelatedComparisons, describeUseCase,
 } from '@/lib/shoe-detail';
-import { getAmazonLinkForShoe } from '@/lib/amazon-link';
+import { resolveShoeId } from '@/lib/shoe-database';
+import { getAmazonLinkForShoe, getAmazonListingNote } from '@/lib/amazon-link';
+import BrandBuyButton from '@/components/results/BrandBuyButton';
+import { shoeSeo, shoeFaqs } from '@/lib/entity-seo';
+import { getNewerVersion, getWatchOuts } from '@/lib/shoe-insights';
+import { getManufacturerSourceURL } from '@/lib/shoe-sources';
+import { INJURY_LABELS } from '@/lib/safety';
+import SeoHead from '@/components/SeoHead';
+import NotFound from '@/pages/NotFound';
 import ShoeImage from '@/components/results/ShoeImage';
 import AffiliateDisclosure from '@/components/results/AffiliateDisclosure';
 import TrustBar from '@/components/conversion/TrustBar';
@@ -17,8 +24,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { track } from '@/lib/analytics';
-
-const SITE = 'https://gearuptofit.com';
 
 const ShoeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -33,77 +38,27 @@ const ShoeDetail = () => {
   const sameBrand = useMemo(() => (shoe ? getSameBrand(shoe, 4) : []), [shoe]);
   const comparisons = useMemo(() => (shoe ? getRelatedComparisons(shoe.id) : []), [shoe]);
 
-  if (!shoe) return <Navigate to="/" replace />;
+  if (id && resolveShoeId(id) !== id) return <Navigate to={`/shoes/${resolveShoeId(id)}`} replace />;
+  if (!shoe) return <NotFound />;
 
-  const title = `${shoe.brand} ${shoe.model} Review & Specs (${shoe.year}) | RunMatch AI`;
   const useCase = describeUseCase(shoe);
-  const description = `${shoe.brand} ${shoe.model} (${shoe.year}) — ${useCase}. ${shoe.weightGrams}g, ${shoe.dropMM}mm drop, ${shoe.cushioning}/10 cushioning. Structured specs with source links where available and a free AI quiz.`;
-  const canonical = `${SITE}/shoe-finder/shoes/${shoe.id}/`;
   const amazonUrl = getAmazonLinkForShoe(shoe.id, shoe.brand, shoe.model, shoe.amazonASIN);
-
-  const faqs = [
-    { q: `Who is the ${shoe.brand} ${shoe.model} best for?`, a: `It is a ${useCase}. Best suited to runners who want ${shoe.highlights.join(', ').toLowerCase()}.` },
-    { q: `How much does the ${shoe.brand} ${shoe.model} weigh?`, a: `The men's sample weighs approximately ${shoe.weightGrams}g (~${(shoe.weightGrams * 0.0353).toFixed(1)} oz).` },
-    { q: `What is the heel-to-toe drop?`, a: `${shoe.dropMM}mm — ${shoe.dropMM >= 8 ? 'a traditional drop that suits heel strikers' : shoe.dropMM >= 4 ? 'a balanced low drop' : 'a low/zero drop that loads the calves and Achilles more'}.` },
-    { q: `Is it suitable for ${shoe.terrain.includes('trail') ? 'trails' : 'roads'}?`, a: `Yes — the ${shoe.brand} ${shoe.model} is built for ${shoe.terrain.join(', ')} use.` },
-    { q: `Does it come in wide sizes?`, a: shoe.widthOptions ? `Yes, wide widths are available on the ${shoe.model}.` : `No, the ${shoe.model} only ships in standard (D) width.` },
-  ];
-
-  const jsonLd = [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'RunMatch AI', item: `${SITE}/shoe-finder/` },
-        { '@type': 'ListItem', position: 2, name: 'Shoes', item: `${SITE}/shoe-finder/shoes/` },
-        { '@type': 'ListItem', position: 3, name: `${shoe.brand} ${shoe.model}`, item: canonical },
-      ],
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'Product',
-      name: `${shoe.brand} ${shoe.model}`,
-      brand: { '@type': 'Brand', name: shoe.brand },
-      category: 'Running Shoes',
-      description,
-      releaseDate: String(shoe.year),
-      url: amazonUrl,
-      additionalProperty: [
-        { '@type': 'PropertyValue', name: 'Weight', value: `${shoe.weightGrams}g` },
-        { '@type': 'PropertyValue', name: 'Heel-to-toe drop', value: `${shoe.dropMM}mm` },
-        { '@type': 'PropertyValue', name: 'Cushioning', value: `${shoe.cushioning}/10` },
-        { '@type': 'PropertyValue', name: 'Terrain', value: shoe.terrain.join(', ') },
-        { '@type': 'PropertyValue', name: 'Best distances', value: shoe.bestDistances.join(', ') },
-      ],
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
-    },
-  ];
+  const faqs = shoeFaqs(shoe, useCase);
+  const watchOuts = getWatchOuts(shoe, undefined, 4);
+  const newer = getNewerVersion(shoe);
 
   const specs: { icon: typeof Gauge; label: string; value: string }[] = [
     { icon: Scale, label: 'Weight', value: `${shoe.weightGrams}g` },
     { icon: Ruler, label: 'Drop', value: `${shoe.dropMM}mm` },
     { icon: Gauge, label: 'Cushion', value: `${shoe.cushioning}/10` },
     { icon: MapPin, label: 'Terrain', value: shoe.terrain.join(' / ') },
-    { icon: Tag, label: 'Price', value: `$${shoe.priceUSD}` },
-    { icon: Footprints, label: 'Pronation', value: shoe.pronation.join(', ') },
+    { icon: Tag, label: 'MSRP', value: `$${shoe.priceUSD}` },
+    { icon: Footprints, label: 'Support listed', value: shoe.pronation.join(', ') },
   ];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Helmet>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <link rel="canonical" href={canonical} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:url" content={canonical} />
-        <meta property="og:type" content="product" />
-        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
-      </Helmet>
+      <SeoHead seo={shoeSeo(shoe, useCase)} />
 
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="container mx-auto px-4 pt-6 text-sm text-muted-foreground">
@@ -122,7 +77,7 @@ const ShoeDetail = () => {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <Badge className="mb-3 bg-primary/10 text-primary border-primary/20">
               <Sparkles className="w-3.5 h-3.5 mr-1.5" />
-              {shoe.year} · Verified Spec
+              {shoe.year} model{newer ? ' · previous generation' : ''}
             </Badge>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-3">
               {shoe.brand} {shoe.model}
@@ -146,13 +101,14 @@ const ShoeDetail = () => {
                   href={amazonUrl}
                   target="_blank"
                   rel="sponsored noopener noreferrer"
-                  onClick={() => track.affiliateClick({ shoeId: shoe.id, brand: shoe.brand, model: shoe.model, placement: `shoe-detail-hero` })}
+                  onClick={() => track.affiliateClick({ shoeId: shoe.id, brand: shoe.brand, model: shoe.model, placement: 'shoe-detail-hero', position: 1 })}
                 >
                   <Button size="lg" className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
-                    Check price on Amazon <ExternalLink className="ml-2 w-4 h-4" />
+                    Check price on Amazon{getAmazonListingNote(shoe.id) ? ` (${getAmazonListingNote(shoe.id)})` : ''} <ExternalLink className="ml-2 w-4 h-4" />
                   </Button>
                 </a>
               )}
+              {!amazonUrl && <BrandBuyButton shoe={shoe} placement="shoe-detail-hero" className="sm:w-auto px-6 h-11" />}
               <Link to="/">
                 <Button size="lg" variant="outline">Find your perfect match <ArrowRight className="ml-2 w-4 h-4" /></Button>
               </Link>
@@ -165,15 +121,26 @@ const ShoeDetail = () => {
             <div className="rounded-3xl border border-border/60 bg-card/40 backdrop-blur p-6">
               <ShoeImage brand={shoe.brand} model={shoe.model} imageURL={shoe.imageURL} amazonASIN={shoe.amazonASIN} size="lg" interactive={false} />
             </div>
-            {shoe.sourceURL && (
-              <a
-                href={shoe.sourceURL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3 inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition"
-              >
-                Verified spec source <ExternalLink className="w-3 h-3" />
-              </a>
+            <a
+              href={getManufacturerSourceURL(shoe)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition"
+            >
+              {shoe.sourceURL
+                ? `Manufacturer spec page · checked ${shoe.lastVerified ?? 'recently'}`
+                : `Specs compiled from manufacturer listings. Confirm on the ${shoe.brand} site`}
+              <ExternalLink className="w-3 h-3" />
+            </a>
+            {newer && (
+              <p className="mt-3 flex items-start gap-2 text-sm text-warning">
+                <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                <span>
+                  Previous generation. The newer{' '}
+                  <Link to={`/shoes/${newer.id}`} className="underline font-medium">{newer.brand} {newer.model}</Link>{' '}
+                  is in our database.
+                </span>
+              </p>
             )}
           </div>
         </div>
@@ -198,9 +165,17 @@ const ShoeDetail = () => {
               <li><strong className="text-foreground">Best distances:</strong> {shoe.bestDistances.join(', ')}</li>
               <li><strong className="text-foreground">Use cases:</strong> {shoe.bestFor.join(', ')}</li>
               {shoe.injuryFriendly.length > 0 && (
-                <li><strong className="text-foreground">May help with:</strong> {shoe.injuryFriendly.join(', ')}</li>
+                <li><strong className="text-foreground">Listed as a comfort pick for:</strong> {shoe.injuryFriendly.map(i => INJURY_LABELS[i] ?? i).join(', ')} (not medical advice)</li>
               )}
               <li><strong className="text-foreground">Width options:</strong> {shoe.widthOptions ? 'Standard + Wide' : 'Standard only'}</li>
+            </ul>
+          </div>
+          <div className="rounded-2xl border border-border/60 bg-card/40 p-6 md:col-span-2">
+            <h2 className="text-xl font-bold mb-3">Who should think twice</h2>
+            <ul className="space-y-2 text-sm text-muted-foreground list-disc pl-5">
+              {(watchOuts.length > 0 ? watchOuts : ['Nothing stands out in the specs we track, but fit is personal, so try it on if you can.']).map(w => (
+                <li key={w}>{w}</li>
+              ))}
             </ul>
           </div>
         </div>
@@ -247,7 +222,7 @@ const ShoeDetail = () => {
               >
                 <ShoeImage brand={s.brand} model={s.model} imageURL={s.imageURL} amazonASIN={s.amazonASIN} size="sm" interactive={false} />
                 <div className="mt-3 font-semibold group-hover:text-primary transition text-sm">{s.brand} {s.model}</div>
-                <div className="text-xs text-muted-foreground">{s.weightGrams}g · {s.dropMM}mm · ${s.priceUSD}</div>
+                <div className="text-xs text-muted-foreground">{s.weightGrams}g · {s.dropMM}mm · MSRP ${s.priceUSD}</div>
               </Link>
             ))}
           </div>
@@ -285,8 +260,8 @@ const ShoeDetail = () => {
           <Accordion type="single" collapsible className="space-y-2">
             {faqs.map((f, i) => (
               <AccordionItem key={i} value={`q-${i}`} className="border border-border/60 rounded-lg px-4 bg-card/40">
-                <AccordionTrigger className="text-left font-medium hover:no-underline">{f.q}</AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed">{f.a}</AccordionContent>
+                <AccordionTrigger className="text-left font-medium hover:no-underline">{f.question}</AccordionTrigger>
+                <AccordionContent className="text-muted-foreground leading-relaxed">{f.answer}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
@@ -297,7 +272,7 @@ const ShoeDetail = () => {
       <section className="container mx-auto px-4 pb-20">
         <div className="max-w-3xl mx-auto text-center rounded-3xl p-10 bg-gradient-to-br from-primary/15 via-primary/5 to-transparent border border-primary/20">
           <h2 className="text-3xl md:text-4xl font-display font-bold mb-3">Is the {shoe.model} right for you?</h2>
-          <p className="text-muted-foreground mb-6 text-lg">Take the free RunMatch AI quiz — 9 questions, 90 seconds, a personalized 3-shoe rotation.</p>
+          <p className="text-muted-foreground mb-6 text-lg">Take the free RunMatch AI quiz: about two minutes, with the reasons behind every pick and a 2–3 shoe rotation.</p>
           <Link to="/">
             <Button size="lg" className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
               Find my perfect match <ArrowRight className="ml-2 w-4 h-4" />

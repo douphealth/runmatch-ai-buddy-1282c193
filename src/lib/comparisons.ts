@@ -72,9 +72,29 @@ export function getComparison(slug: string): ResolvedComparison | null {
     (p.a === parsed.bId && p.b === parsed.aId),
   ) || { a: parsed.aId, b: parsed.bId };
   const h1 = `${a.brand} ${a.model} vs ${b.brand} ${b.model} (2026)`;
-  const title = `${a.brand} ${a.model} vs ${b.brand} ${b.model} | RunMatch AI`.slice(0, 60);
-  const description = `${a.brand} ${a.model} vs ${b.brand} ${b.model}: structured specs, weight, drop, cushioning and which one fits your stride. Free AI quiz inside.`.slice(0, 160);
+  // Keep the brand suffix only when it fits; never cut a title mid-word.
+  const versus = `${a.brand} ${a.model} vs ${b.brand} ${b.model}`;
+  const title = `${versus} | RunMatch AI`.length <= 60 ? `${versus} | RunMatch AI` : versus;
+  const description = `${versus}: structured specs, weight, drop, cushioning and which one fits your stride. Free AI quiz inside.`.slice(0, 160);
   return { pair, slug: buildComparisonSlug(a.id, b.id), a, b, title, description, h1 };
+}
+
+/**
+ * Plain-language "which one is better for what" bullets, derived only from the
+ * two shoes' recorded specs. Shared by the comparison page and the prerenderer.
+ */
+export function verdictFor(a: Shoe, b: Shoe): string[] {
+  const points: string[] = [];
+  if (a.weightGrams < b.weightGrams - 10) points.push(`${a.brand} ${a.model} is noticeably lighter — better for tempo and race-day.`);
+  else if (b.weightGrams < a.weightGrams - 10) points.push(`${b.brand} ${b.model} is noticeably lighter — better for tempo and race-day.`);
+  if (a.cushioning > b.cushioning + 1) points.push(`${a.brand} ${a.model} offers more cushioning — better for recovery and long runs.`);
+  else if (b.cushioning > a.cushioning + 1) points.push(`${b.brand} ${b.model} offers more cushioning — better for recovery and long runs.`);
+  if (a.priceUSD < b.priceUSD - 20) points.push(`${a.brand} ${a.model} has a $${b.priceUSD - a.priceUSD} lower MSRP.`);
+  else if (b.priceUSD < a.priceUSD - 20) points.push(`${b.brand} ${b.model} has a $${a.priceUSD - b.priceUSD} lower MSRP.`);
+  if (a.pronation.includes('overpronation') && !b.pronation.includes('overpronation')) points.push(`${a.brand} ${a.model} is listed with support for overpronation; ${b.brand} ${b.model} is not.`);
+  else if (b.pronation.includes('overpronation') && !a.pronation.includes('overpronation')) points.push(`${b.brand} ${b.model} is listed with support for overpronation; ${a.brand} ${a.model} is not.`);
+  if (points.length === 0) points.push('Both shoes are close on paper — the right pick comes down to fit and ride feel.');
+  return points;
 }
 
 export function getAllComparisons(): ResolvedComparison[] {

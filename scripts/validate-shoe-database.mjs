@@ -1,6 +1,7 @@
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { shoeDatabase, getShoeQualityState } from '../src/lib/shoe-database.ts';
+import { shoeDatabase, getShoeQualityState, SHOE_ID_ALIASES } from '../src/lib/shoe-database.ts';
+import { getNewerVersion } from '../src/lib/shoe-insights.ts';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const HARD_STALE_DAYS = 430;
@@ -84,6 +85,40 @@ for (const shoe of shoeDatabase) {
   if (!shoe.reviewURL) note('warning', shoe, 'missing review URL');
   if (!shoe.sourceURL) note('warning', shoe, 'sourceURL not from authoritative source or missing');
   if (shoe.year && shoe.year < now.getUTCFullYear() - 2) note('warning', shoe, 'older model year; verify still relevant');
+}
+
+// --- Cross-record checks (problems that are invisible when looking at one shoe at a time) ---
+
+// One spelling per brand ("Asics" vs "ASICS" split brand pages and "same brand" lists).
+const brandSpellings = new Map();
+for (const shoe of shoeDatabase) {
+  const key = shoe.brand.toLowerCase();
+  if (!brandSpellings.has(key)) brandSpellings.set(key, new Set());
+  brandSpellings.get(key).add(shoe.brand);
+}
+for (const [, spellings] of brandSpellings) {
+  if (spellings.size > 1) note('error', { id: 'brand' }, `inconsistent brand spelling: ${[...spellings].join(' / ')}`);
+}
+
+// The same shoe recorded twice under different ids (conflicting specs, split authority).
+const modelKeys = new Map();
+for (const shoe of shoeDatabase) {
+  const key = `${shoe.brand} ${shoe.model}`.toLowerCase().replace(/fresh foam x? ?/g, '').replace(/adizero /g, '');
+  if (modelKeys.has(key)) note('error', shoe, `duplicate of ${modelKeys.get(key)} (same brand + model)`);
+  else modelKeys.set(key, shoe.id);
+}
+
+// Retired ids must point at a shoe that exists.
+const ids = new Set(shoeDatabase.map((s) => s.id));
+for (const [from, to] of Object.entries(SHOE_ID_ALIASES)) {
+  if (!ids.has(to)) note('error', { id: from }, `alias points at missing shoe id ${to}`);
+  if (ids.has(from)) note('error', { id: from }, 'alias id is still present in the database');
+}
+
+// Informational: previous-generation models are down-ranked automatically.
+const previousGen = shoeDatabase.filter((s) => getNewerVersion(s));
+if (previousGen.length) {
+  console.log(`[validate:shoes] ${previousGen.length} previous-generation model(s) (a newer version exists in the database): ${previousGen.map((s) => s.id).join(', ')}`);
 }
 
 console.log(`[validate:shoes] checked ${shoeDatabase.length} shoes`);

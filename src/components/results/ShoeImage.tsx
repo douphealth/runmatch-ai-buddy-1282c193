@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Footprints, Camera, Sparkles } from 'lucide-react';
-import { resolveShoeImage, type ImageSource } from '@/lib/shoe-images';
+import { resolveShoePhoto } from '@/lib/amazon-images';
 
 interface ShoeImageProps {
   brand: string;
@@ -23,7 +23,7 @@ interface ShoeImageProps {
 const brandAccent: Record<string, string> = {
   Nike: 'from-orange-500/25 via-red-500/15 to-transparent',
   Brooks: 'from-blue-500/25 via-cyan-500/15 to-transparent',
-  ASICS: 'from-blue-600/25 via-indigo-500/15 to-transparent',
+  Asics: 'from-blue-600/25 via-indigo-500/15 to-transparent',
   Hoka: 'from-pink-500/25 via-orange-400/15 to-transparent',
   Saucony: 'from-yellow-500/25 via-orange-500/15 to-transparent',
   On: 'from-cyan-500/25 via-blue-400/15 to-transparent',
@@ -79,15 +79,15 @@ const ShoeImage = ({
   showSourceBadge = true,
   interactive = true,
 }: ShoeImageProps) => {
-  const resolved = resolveShoeImage({ brand, model, imageURL: imageURL || '' });
+  const photo = resolveShoePhoto({ brand, model, imageURL: imageURL || '' });
   const [imgError, setImgError] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
 
   const accent = brandAccent[brand] || 'from-primary/25 via-primary/10 to-transparent';
   const s = sizeMap[size];
 
-  const effectiveSource: ImageSource = imgError || !resolved.url ? 'studio-frame' : resolved.source;
-  const showRealImage = resolved.url && !imgError;
+  const showRealImage = !!photo && !imgError;
+  const effectiveSource = showRealImage ? photo.source : 'studio-frame';
 
   return (
     <motion.div
@@ -125,7 +125,8 @@ const ShoeImage = ({
             <div className="absolute inset-0 shimmer bg-gradient-to-br from-slate-200/40 to-slate-300/40" />
           )}
           <motion.img
-            src={resolved.url!}
+            src={photo!.url}
+            referrerPolicy="no-referrer"
             alt={`${brand} ${model} running shoe`}
             loading="lazy"
             decoding="async"
@@ -174,12 +175,18 @@ const ShoeImage = ({
               ? 'bg-secondary/80 text-muted-foreground border border-border/40'
               : 'bg-emerald-500/25 text-emerald-200 border border-emerald-400/40'
           }`}
-          title={effectiveSource === 'studio-frame' ? 'Branded studio frame fallback' : 'Real product photo'}
+          title={
+            effectiveSource === 'studio-frame'
+              ? 'Branded studio frame fallback'
+              : effectiveSource === 'amazon'
+                ? 'Photo from the Amazon listing we link to'
+                : 'Real product photo'
+          }
         >
           {effectiveSource === 'studio-frame' ? (
             <><Sparkles className="w-2.5 h-2.5" /> Studio</>
           ) : (
-            <><Camera className="w-2.5 h-2.5" /> Real Photo</>
+            <><Camera className="w-2.5 h-2.5" /> {effectiveSource === 'amazon' ? 'Amazon photo' : 'Real Photo'}</>
           )}
         </motion.div>
       )}

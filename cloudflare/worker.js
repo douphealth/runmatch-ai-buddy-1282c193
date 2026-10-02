@@ -1,16 +1,98 @@
 /**
  * GearUpToFit RunMatch — Reverse Proxy Worker
  * Routes: gearuptofit.com/shoe-finder, gearuptofit.com/shoe-finder/*
- * Origin: https://runmatch-ai-buddy.lovable.app
+ * Origin: RUNMATCH_ORIGIN binding (plain-text variable), default below.
  *
- * Serves the Lovable SPA under the /shoe-finder/ path on the WordPress
+ * Serves the RunMatch SPA under the /shoe-finder/ path on the WordPress
  * domain so SEO link equity, AI Overview citations, and organic rankings
  * accrue to gearuptofit.com.
+ *
+ * What this Worker owns (the origin cannot be trusted with these):
+ *  1. Path mapping and link rewriting (/shoe-finder prefix).
+ *  2. Real HTTP 404s. A single-page-app host answers EVERY unknown URL with 200
+ *     and the landing page (a "soft 404"). The build writes route-manifest.json;
+ *     URLs that are not real pages are answered here with status 404, the app
+ *     shell (so users still see the friendly 404 screen) and `noindex`.
+ *     Fail-open: if the manifest cannot be fetched, everything passes through.
+ *  3. Robots policy. Any X-Robots-Tag the origin sends is dropped. Cloudflare
+ *     Pages adds `X-Robots-Tag: noindex` to *.pages.dev preview/branch
+ *     hostnames, and forwarding it would deindex the public site.
+ *     Personalised result links (?d=) get `noindex,follow` (they carry the
+ *     runner's answers and duplicate the clean result page).
  */
 
-const ORIGIN = "https://runmatch-ai-buddy.lovable.app";
+const DEFAULT_ORIGIN = "https://runmatch-ai-buddy.lovable.app";
 const PREFIX = "/shoe-finder";
-const ORIGIN_HOST = new URL(ORIGIN).host;
+const MANIFEST_TTL_MS = 10 * 60 * 1000;
+
+// Mirrors answersFromSlug() in src/lib/quiz-data.ts.
+const PRONATION = new Set(["neutral", "overpronation", "underpronation", "unsure"]);
+const DISTANCE = new Set(["5k", "10k", "half-marathon", "marathon", "ultra", "mixed"]);
+const TERRAIN = new Set(["road", "trail", "track", "mixed"]);
+const FOOT = new Set(["neutral", "flat", "high-arch", "wide"]);
+
+/** True for slugs shaped like {pronation}-{distance}-{terrain}-{foot}. */
+export function isValidResultSlug(slug) {
+  const tokens = String(slug).toLowerCase().split("-").filter(Boolean);
+  if (tokens.length < 4 || !PRONATION.has(tokens[0])) return false;
+  let terrainIdx;
+  if (FOOT.has(tokens.slice(-2).join("-"))) terrainIdx = tokens.length - 3;
+  else if (FOOT.has(tokens[tokens.length - 1])) terrainIdx = tokens.length - 2;
+  else return false;
+  if (!TERRAIN.has(tokens[terrainIdx])) return false;
+  return DISTANCE.has(tokens.slice(1, terrainIdx).join("-"));
+}
+
+const ASSET_PREFIXES = ["/assets/", "/images/", "/~"];
+const ASSET_FILES = new Set([
+  "/index.html",
+  "/sw.js",
+  "/manifest.webmanifest",
+  "/favicon.ico",
+  "/robots.txt",
+  "/sitemap.xml",
+  "/route-manifest.json",
+  "/placeholder.svg",
+]);
+
+/**
+ * Classifies an ORIGIN path (prefix already removed).
+ * @returns {"asset" | "page" | "not-found"}
+ */
+export function classifyPath(path, manifest) {
+  if (!manifest) return "page"; // fail-open
+  const p = path.length > 1 ? path.replace(/\/+$/, "") : path;
+  if (p === "/" || p === "") return "page";
+  if (ASSET_FILES.has(p) || ASSET_PREFIXES.some((x) => p.startsWith(x))) return "asset";
+  if (/\.[a-z0-9]{2,5}$/i.test(p)) return "asset"; // any other file-looking path is passed through
+
+  const seg = p.split("/").filter(Boolean);
+  const [root, a, b] = seg;
+
+  if (seg.length === 1 && root === "methodology") return "page";
+  if (seg.length === 2 && root === "results") return isValidResultSlug(a) ? "page" : "not-found";
+  if (seg.length === 3 && root === "app" && a === "runmatch") return isValidResultSlug(b) ? "page" : "not-found";
+  if (seg.length === 2 && root === "shoes") return manifest.shoeIds.includes(a) || a in manifest.shoeAliases ? "page" : "not-found";
+  if (seg.length === 2 && root === "compare") {
+    if (manifest.comparisonSlugs.includes(a)) return "page";
+    const i = a.indexOf("-vs-");
+    if (i > 0) {
+      const ids = new Set(manifest.shoeIds);
+      if (ids.has(a.slice(0, i)) && ids.has(a.slice(i + 4))) return "page";
+    }
+    return "not-found";
+  }
+  if (seg.length === 2 && root === "best-running-shoes") return manifest.categorySlugs.includes(a) ? "page" : "not-found";
+  if (seg.length === 3 && root === "best-running-shoes" && a === "brand") return manifest.brandSlugs.includes(b) ? "page" : "not-found";
+  return "not-found";
+}
+
+/** Headers to apply for a response, given the classification and the request URL. */
+export function robotsFor(kind, searchParams) {
+  if (kind === "not-found") return "noindex, nofollow";
+  if (searchParams && searchParams.has("d")) return "noindex, follow";
+  return null;
+}
 
 class AttrRewriter {
   constructor(attr) {
@@ -60,9 +142,31 @@ class HeadInjector {
   }
 }
 
+// Per-isolate manifest cache, keyed by origin so a copy fetched from one origin is never
+// applied to another (a stale manifest would wrongly 404 real pages).
+let manifestCache = { origin: "", at: 0, value: null };
+
+async function loadManifest(origin) {
+  const same = manifestCache.origin === origin;
+  if (same && manifestCache.value && Date.now() - manifestCache.at < MANIFEST_TTL_MS) return manifestCache.value;
+  const lastGood = same ? manifestCache.value : null;
+  try {
+    const res = await fetch(`${origin}/route-manifest.json`, { cf: { cacheTtl: 300, cacheEverything: true } });
+    if (!res.ok) return lastGood; // keep the last good copy for this origin, else null (fail-open)
+    const json = await res.json();
+    if (!json || !Array.isArray(json.shoeIds)) return lastGood;
+    manifestCache = { origin, at: Date.now(), value: json };
+    return json;
+  } catch {
+    return lastGood;
+  }
+}
+
 export default {
-  async fetch(request) {
+  async fetch(request, env) {
     const url = new URL(request.url);
+    const origin = ((env && env.RUNMATCH_ORIGIN) || DEFAULT_ORIGIN).replace(/\/$/, "");
+    const originHost = new URL(origin).host;
 
     // Map public path -> origin path
     let path = url.pathname;
@@ -70,11 +174,16 @@ export default {
     else if (path.startsWith(PREFIX + "/")) path = path.slice(PREFIX.length);
     else path = "/"; // safety fallback
 
-    const originUrl = ORIGIN + path + url.search;
+    const manifest = request.method === "GET" || request.method === "HEAD" ? await loadManifest(origin) : null;
+    const kind = classifyPath(path, manifest);
+
+    // Unknown URL: serve the app shell (friendly 404 screen) with a real 404 status.
+    const fetchPath = kind === "not-found" ? "/" : path;
+    const originUrl = origin + fetchPath + (kind === "not-found" ? "" : url.search);
 
     // Build origin request
     const newHeaders = new Headers(request.headers);
-    newHeaders.set("host", ORIGIN_HOST);
+    newHeaders.set("host", originHost);
     newHeaders.delete("cf-connecting-ip");
     newHeaders.delete("cf-ipcountry");
     newHeaders.delete("cf-ray");
@@ -95,10 +204,11 @@ export default {
       if (loc) {
         try {
           const locUrl = new URL(loc, originUrl);
-          if (locUrl.host === ORIGIN_HOST) {
+          if (locUrl.host === originHost) {
             const rewritten = `https://${url.host}${PREFIX}${locUrl.pathname}${locUrl.search}${locUrl.hash}`;
             const h = new Headers(resp.headers);
             h.set("location", rewritten);
+            h.delete("x-robots-tag");
             return new Response(resp.body, { status: resp.status, headers: h });
           }
         } catch {
@@ -107,11 +217,19 @@ export default {
       }
     }
 
+    // Robots policy is decided here, never inherited from the origin.
+    const headers = new Headers(resp.headers);
+    headers.delete("x-robots-tag");
+    const robots = robotsFor(kind, url.searchParams);
+    if (robots) headers.set("x-robots-tag", robots);
+    if (kind === "not-found") headers.set("cache-control", "public, max-age=300");
+
+    const status = kind === "not-found" ? 404 : resp.status;
     const ct = resp.headers.get("content-type") || "";
 
     // HTML: rewrite absolute paths + inject <base>
     if (ct.includes("text/html")) {
-      const out = new HTMLRewriter()
+      const rewritten = new HTMLRewriter()
         .on("a", new AttrRewriter("href"))
         .on("link", new AttrRewriter("href"))
         .on("script", new AttrRewriter("src"))
@@ -128,10 +246,10 @@ export default {
         .on("meta[property='og:image']", new AttrRewriter("content"))
         .on("link[rel='canonical']", new AttrRewriter("href"))
         .on("head", new HeadInjector())
-        .transform(resp);
-      return out;
+        .transform(new Response(resp.body, { status, headers }));
+      return rewritten;
     }
 
-    return resp;
+    return new Response(resp.body, { status, headers });
   },
 };

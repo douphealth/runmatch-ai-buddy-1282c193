@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Lock, CheckCircle2, Loader2, X, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { getUTM } from '@/lib/utm';
+import { track } from '@/lib/analytics';
 
 interface EmailGateProps {
   open: boolean;
@@ -19,7 +19,15 @@ interface EmailGateProps {
   title?: string;
   subtitle?: string;
   ctaLabel?: string;
+  /** Bullet list under the subtitle. Defaults describe the personalised report. */
+  benefits?: string[];
 }
+
+const DEFAULT_BENEFITS = [
+  'Full PDF report with your personalised top shoes',
+  'A 2–3 shoe rotation plan and the reasons behind each pick',
+  'A 7-day running tips email series',
+];
 
 const STORAGE_KEY = 'gutf_subscribed_v1';
 // Re-prompt returning runners after 90 days so they can grab a fresh PDF / updated rotation.
@@ -62,6 +70,7 @@ const EmailGate = ({
   title = 'Unlock Your Personalized Shoe Report',
   subtitle = 'Get your full PDF report, 3-shoe rotation plan, and a free 7-day running coach series — straight to your inbox.',
   ctaLabel = 'Email Me My Report',
+  benefits = DEFAULT_BENEFITS,
 }: EmailGateProps) => {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -73,6 +82,14 @@ const EmailGate = ({
     if (!open) { setDone(false); setLoading(false); }
   }, [open]);
 
+  // Escape closes the dialog.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open, onClose]);
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -80,11 +97,13 @@ const EmailGate = ({
       return;
     }
     if (!consent) {
-      toast.error('Please accept to receive your report');
+      toast.error('Please tick the box to receive your report and emails');
       return;
     }
     setLoading(true);
     try {
+      // Loaded on demand: the Supabase client is ~100 KB and only needed at submit time.
+      const { supabase } = await import('@/integrations/supabase/client');
       const { data, error } = await supabase.functions.invoke('brevo-subscribe', {
         body: {
           email: email.trim().toLowerCase(),
@@ -100,14 +119,8 @@ const EmailGate = ({
       });
       if (error || (data as any)?.error) throw new Error((data as any)?.error || error?.message || 'Failed');
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ email: email.trim().toLowerCase(), ts: Date.now() })); } catch {}
-      // GA4 conversion event
-      try {
-        (window as any).dataLayer?.push({
-          event: 'lead_capture',
-          source,
-          shoe_category: shoeCategory,
-        });
-      } catch {}
+      // GA4 key event (mark email_capture as a key event in GA4 admin)
+      track.emailCapture({ source, shoeCategory, marketingConsent: true });
       setDone(true);
       setTimeout(() => { onUnlock(); }, 900);
     } catch (err) {
@@ -127,6 +140,7 @@ const EmailGate = ({
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/85 backdrop-blur-md"
           onClick={onClose}
+          data-testid="email-gate"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -134,7 +148,10 @@ const EmailGate = ({
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 24, stiffness: 280 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-md glass rounded-2xl border border-primary/20 p-6 md:p-8 shadow-2xl shadow-primary/20"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="email-gate-title"
+            className="relative w-full max-h-[92vh] overflow-y-auto max-w-md glass rounded-2xl border border-primary/20 p-6 md:p-8 shadow-2xl shadow-primary/20"
           >
             <button
               onClick={onClose}
@@ -153,32 +170,19 @@ const EmailGate = ({
                   <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Free · 1-click</span>
                 </div>
 
-                <h2 className="text-2xl md:text-[28px] font-bold uppercase leading-tight tracking-tight mb-2">
+                <h2 id="email-gate-title" className="text-2xl md:text-[28px] font-bold uppercase leading-tight tracking-tight mb-2">
                   {title}
                 </h2>
                 <p className="text-sm text-muted-foreground mb-5 leading-relaxed">{subtitle}</p>
 
                 <ul className="space-y-2 mb-4 text-xs md:text-sm">
-                  {[
-                    'Full PDF report with your personalised top 3 shoes',
-                    '3-shoe rotation plan (39% lower injury risk · BJSM 2013)',
-                    '7-day science-backed running coach email series',
-                  ].map((t) => (
+                  {benefits.map((t) => (
                     <li key={t} className="flex items-start gap-2 text-foreground/90">
                       <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
                       <span>{t}</span>
                     </li>
                   ))}
                 </ul>
-
-                <div className="mb-4 rounded-lg border border-primary/15 bg-primary/5 p-3">
-                  <p className="text-[11px] md:text-xs text-foreground/85 italic leading-snug">
-                    "The rotation plan saved my knees. I went from one painful pair to three shoes I actually look forward to."
-                  </p>
-                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground mt-1.5">
-                    — Marcus T. · Half-marathoner · Verified subscriber
-                  </p>
-                </div>
 
                 <form onSubmit={submit} className="space-y-3">
                   <Input
@@ -211,7 +215,7 @@ const EmailGate = ({
                       className="mt-0.5 accent-primary"
                     />
                     <span>
-                      Yes, also send me running shoe tips and GearUpToFit emails. I can unsubscribe anytime. My result email is separate from marketing consent. By
+                      Email me my report and the 7-day running tips series from GearUpToFit. I can unsubscribe at any time. By
                       continuing I accept the{' '}
                       <a href="https://gearuptofit.com/privacy-policy/" target="_blank" rel="noopener" className="underline hover:text-primary">privacy policy</a>.
                     </span>
@@ -230,9 +234,7 @@ const EmailGate = ({
                   </Button>
 
                   <div className="flex items-center justify-center gap-3 text-[10px] text-muted-foreground/80 uppercase tracking-widest pt-1">
-                    <span className="flex items-center gap-1"><Lock className="w-3 h-3" /> GDPR-safe</span>
-                    <span aria-hidden>·</span>
-                    <span>No spam</span>
+                    <span className="flex items-center gap-1"><Lock className="w-3 h-3" /> Privacy policy linked</span>
                     <span aria-hidden>·</span>
                     <span>1-click unsubscribe</span>
                   </div>
@@ -257,7 +259,7 @@ const EmailGate = ({
                 </div>
                 <h3 className="text-xl font-bold uppercase mb-2">Check your inbox!</h3>
                 <p className="text-sm text-muted-foreground">
-                  Your personalized report is on its way. Your personalized report is on its way.
+                  Your personalized report is on its way.
                 </p>
               </motion.div>
             )}

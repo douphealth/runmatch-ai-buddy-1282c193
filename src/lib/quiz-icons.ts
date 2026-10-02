@@ -1,0 +1,70 @@
+/**
+ * Icons referenced by name in quiz-data.ts.
+ *
+ * Importing lucide-react's `icons` namespace to look them up by string pulls the
+ * ENTIRE icon library (hundreds of KB) into the entry bundle. This explicit map
+ * lets the bundler keep only the icons the quiz actually uses. When you add an
+ * `icon: 'Name'` to quiz-data.ts, add it here too (a test enforces this).
+ */
+import {
+  Activity,
+  ArrowDownLeft,
+  ArrowUpRight,
+  Bone,
+  CheckCircle2,
+  CircleDot,
+  Crown,
+  DollarSign,
+  Flame,
+  Footprints,
+  Gauge,
+  Gem,
+  HelpCircle,
+  Leaf,
+  MapPin,
+  Minus,
+  Mountain,
+  Move,
+  MoveHorizontal,
+  Rocket,
+  Route,
+  ShieldCheck,
+  Shuffle,
+  TrendingUp,
+  Trees,
+  Trophy,
+  Wallet,
+  Zap,
+  type LucideIcon,
+} from 'lucide-react';
+
+export const QUIZ_ICONS: Record<string, LucideIcon> = {
+  Activity,
+  ArrowDownLeft,
+  ArrowUpRight,
+  Bone,
+  CheckCircle2,
+  CircleDot,
+  Crown,
+  DollarSign,
+  Flame,
+  Footprints,
+  Gauge,
+  Gem,
+  HelpCircle,
+  Leaf,
+  MapPin,
+  Minus,
+  Mountain,
+  Move,
+  MoveHorizontal,
+  Rocket,
+  Route,
+  ShieldCheck,
+  Shuffle,
+  TrendingUp,
+  Trees,
+  Trophy,
+  Wallet,
+  Zap,
+};

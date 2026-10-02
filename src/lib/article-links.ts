@@ -145,6 +145,6 @@ export function getKitLinks(): ArticleLink[] {
     { url: 'https://gearuptofit.com/review/best-running-socks-for-blister-prevention/', title: 'Best Running Socks', category: 'Socks', icon: '🧦' },
     { url: 'https://gearuptofit.com/review/best-smartwatches-for-runners/', title: 'Best Running Watches', category: 'Tech', icon: '⌚' },
     { url: 'https://gearuptofit.com/review/low-light-running-headlamps/', title: 'Best Running Headlamps', category: 'Safety', icon: '🔦' },
-    { url: 'https://gearuptofit.com/best-foam-rollers-for-muscle-recovery/', title: 'Best Foam Rollers', category: 'Recovery', icon: '🧘' },
+    { url: 'https://gearuptofit.com/review/best-foam-rollers-for-muscle-recovery/', title: 'Best Foam Rollers', category: 'Recovery', icon: '🧘' },
   ];
 }

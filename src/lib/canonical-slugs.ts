@@ -1,17 +1,21 @@
 /**
- * Canonical pre-rendered URLs.
+ * Canonical pre-rendered result URLs.
  *
  * Each entry is a slug in the form `{pronation}-{distance}-{terrain}-{footType}`
  * matching `generateSlug()` / `answersFromSlug()` in src/lib/quiz-data.ts.
  *
- * Goal: cover the highest-search-volume runner archetypes without bloating
- * the build. ~50 pages is the sweet spot for canonical SEO surface area.
+ * Goal: cover the highest-search-volume runner archetypes without bloating the
+ * build. ~45 pages is the sweet spot for canonical SEO surface area — every
+ * one carries unique title, headline, description and shoe picks (enforced by
+ * tests), so none of them is a doorway page.
  *
- * Long-tail combinations not listed here still work — they fall back to the
- * SPA shell and React renders client-side from the slug.
+ * Long-tail combinations not listed here still work for users (the SPA renders
+ * them from the slug) but are `noindex` so they never compete with these pages.
+ *
+ * Lives in src/ (not scripts/) so the client can tell which slugs are indexable.
  */
 
-export const CANONICAL_SLUGS = [
+export const CANONICAL_SLUGS: readonly string[] = [
   // === Distance × Terrain (broad searcher intent) ===
   'neutral-5k-road-neutral',
   'neutral-10k-road-neutral',
@@ -71,3 +75,9 @@ export const CANONICAL_SLUGS = [
   'neutral-mixed-mixed-flat',
   'overpronation-mixed-mixed-neutral',
 ];
+
+const CANONICAL_SET = new Set(CANONICAL_SLUGS);
+
+/** True when `slug` has a pre-rendered, indexable result page. */
+export const isCanonicalSlug = (slug: string | undefined | null): boolean =>
+  !!slug && CANONICAL_SET.has(slug.toLowerCase());

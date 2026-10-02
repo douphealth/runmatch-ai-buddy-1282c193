@@ -1,10 +1,14 @@
 import { useEffect, useMemo } from 'react';
-import { useParams, Link, Navigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, ExternalLink, Trophy, Sparkles, ChevronRight, Scale } from 'lucide-react';
-import { getComparison, compareSpecs, getAllComparisons } from '@/lib/comparisons';
-import { getAmazonLinkForShoe } from '@/lib/amazon-link';
+import { getComparison, compareSpecs, getAllComparisons, verdictFor } from '@/lib/comparisons';
+import { getAmazonLinkForShoe, getAmazonListingNote } from '@/lib/amazon-link';
+import BrandBuyButton from '@/components/results/BrandBuyButton';
+import { comparisonSeo } from '@/lib/entity-seo';
+import { getNewerVersion } from '@/lib/shoe-insights';
+import SeoHead from '@/components/SeoHead';
+import NotFound from '@/pages/NotFound';
 import ShoeImage from '@/components/results/ShoeImage';
 import AffiliateDisclosure from '@/components/results/AffiliateDisclosure';
 import TrustBar from '@/components/conversion/TrustBar';
@@ -12,25 +16,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { track } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
-import type { Shoe } from '@/lib/shoe-database';
-
-const SITE = 'https://gearuptofit.com';
 
 const tier = (p: number) => (p < 110 ? 'Budget' : p < 160 ? 'Mid-range' : p < 220 ? 'Premium' : 'Super-premium');
-
-const verdictFor = (a: Shoe, b: Shoe) => {
-  const points: string[] = [];
-  if (a.weightGrams < b.weightGrams - 10) points.push(`${a.brand} ${a.model} is noticeably lighter — better for tempo and race-day.`);
-  else if (b.weightGrams < a.weightGrams - 10) points.push(`${b.brand} ${b.model} is noticeably lighter — better for tempo and race-day.`);
-  if (a.cushioning > b.cushioning + 1) points.push(`${a.brand} ${a.model} offers more cushioning — better for recovery and long runs.`);
-  else if (b.cushioning > a.cushioning + 1) points.push(`${b.brand} ${b.model} offers more cushioning — better for recovery and long runs.`);
-  if (a.priceUSD < b.priceUSD - 20) points.push(`${a.brand} ${a.model} costs $${b.priceUSD - a.priceUSD} less.`);
-  else if (b.priceUSD < a.priceUSD - 20) points.push(`${b.brand} ${b.model} costs $${a.priceUSD - b.priceUSD} less.`);
-  if (a.pronation.includes('overpronation') && !b.pronation.includes('overpronation')) points.push(`${a.brand} ${a.model} is better suited for overpronators.`);
-  else if (b.pronation.includes('overpronation') && !a.pronation.includes('overpronation')) points.push(`${b.brand} ${b.model} is better suited for overpronators.`);
-  if (points.length === 0) points.push('Both shoes are close on paper — the right pick comes down to fit and ride feel.');
-  return points;
-};
 
 const ShoeComparison = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -43,67 +30,16 @@ const ShoeComparison = () => {
 
   const otherComparisons = useMemo(() => getAllComparisons().filter(c => c.slug !== data?.slug).slice(0, 6), [data]);
 
-  if (!data) return <Navigate to="/" replace />;
-  const { a, b, h1, title, description } = data;
+  if (!data) return <NotFound />;
+  const { a, b } = data;
   const winners = compareSpecs(a, b);
-  const canonical = `${SITE}/shoe-finder/compare/${data.slug}/`;
   const aUrl = getAmazonLinkForShoe(a.id, a.brand, a.model, a.amazonASIN);
   const bUrl = getAmazonLinkForShoe(b.id, b.brand, b.model, b.amazonASIN);
   const verdict = verdictFor(a, b);
 
-  const jsonLd = [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'RunMatch AI', item: `${SITE}/shoe-finder/` },
-        { '@type': 'ListItem', position: 2, name: 'Compare', item: `${SITE}/shoe-finder/compare/` },
-        { '@type': 'ListItem', position: 3, name: h1, item: canonical },
-      ],
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: [
-        {
-          '@type': 'Question',
-          name: `Which is better: ${a.brand} ${a.model} or ${b.brand} ${b.model}?`,
-          acceptedAnswer: { '@type': 'Answer', text: verdict.join(' ') },
-        },
-        {
-          '@type': 'Question',
-          name: `How much does the ${a.brand} ${a.model} cost vs the ${b.brand} ${b.model}?`,
-          acceptedAnswer: { '@type': 'Answer', text: `The ${a.brand} ${a.model} retails for $${a.priceUSD} USD and the ${b.brand} ${b.model} for $${b.priceUSD} USD.` },
-        },
-        {
-          '@type': 'Question',
-          name: `What is the weight difference between the ${a.brand} ${a.model} and ${b.brand} ${b.model}?`,
-          acceptedAnswer: { '@type': 'Answer', text: `The ${a.brand} ${a.model} weighs ${a.weightGrams}g and the ${b.brand} ${b.model} weighs ${b.weightGrams}g (men's US 9 reference).` },
-        },
-      ],
-    },
-    [a, b].map(s => ({
-      '@context': 'https://schema.org',
-      '@type': 'Product',
-      name: `${s.brand} ${s.model}`,
-      brand: { '@type': 'Brand', name: s.brand },
-      category: 'Running Shoes',
-      url: getAmazonLinkForShoe(s.id, s.brand, s.model, s.amazonASIN),
-    })),
-  ];
-
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Helmet>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <link rel="canonical" href={canonical} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:url" content={canonical} />
-        <meta property="og:type" content="article" />
-        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
-      </Helmet>
+      <SeoHead seo={comparisonSeo(data)} />
 
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="container mx-auto px-4 pt-6 text-sm text-muted-foreground">
@@ -156,11 +92,16 @@ const ShoeComparison = () => {
               >
                 <div className="flex items-start justify-between mb-3">
                   <Badge variant="outline" className="text-xs uppercase">{s.category}</Badge>
-                  <span className="text-sm font-semibold text-primary">${s.priceUSD}</span>
+                  <span className="text-sm font-semibold text-primary" title="Launch MSRP, not a live price">MSRP ${s.priceUSD}</span>
                 </div>
                 <ShoeImage brand={s.brand} model={s.model} imageURL={s.imageURL} amazonASIN={s.amazonASIN} size="lg" interactive={false} />
                 <h2 className="mt-4 text-2xl font-display font-bold leading-tight">{s.brand} {s.model}</h2>
                 <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wide">{tier(s.priceUSD)} · {s.weightGrams}g · {s.dropMM}mm drop</p>
+                {getNewerVersion(s) && (
+                  <p className="mt-2 text-xs text-warning">
+                    Previous generation: a newer version, the {getNewerVersion(s)!.brand} {getNewerVersion(s)!.model}, is in our database.
+                  </p>
+                )}
                 <ul className="mt-4 space-y-1.5 text-sm text-muted-foreground">
                   {s.highlights.slice(0, 3).map(h => <li key={h}>• {h}</li>)}
                 </ul>
@@ -169,18 +110,21 @@ const ShoeComparison = () => {
                     href={url}
                     target="_blank"
                     rel="sponsored noopener noreferrer"
-                    onClick={() => track.affiliateClick({ shoeId: s.id, brand: s.brand, model: s.model, placement: `comparison-${data.slug}` })}
+                    onClick={() => track.affiliateClick({ shoeId: s.id, brand: s.brand, model: s.model, placement: `comparison-${data.slug}`, position: idx + 1 })}
                     className="mt-5 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition"
                   >
-                    Check price on Amazon <ExternalLink className="w-3.5 h-3.5" />
+                    Check price on Amazon{getAmazonListingNote(s.id) ? ` (${getAmazonListingNote(s.id)})` : ''} <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 ) : (
-                  <Link
-                    to={`/shoes/${s.id}`}
-                    className="mt-5 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-secondary text-foreground font-medium hover:bg-secondary/80 transition"
-                  >
-                    View review <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
+                  <>
+                    <BrandBuyButton shoe={s} placement={`comparison-${data.slug}`} className="mt-5" />
+                    <Link
+                      to={`/shoes/${s.id}`}
+                      className="mt-2 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-secondary text-foreground font-medium hover:bg-secondary/80 transition"
+                    >
+                      View review <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </>
                 )}
               </motion.article>
             );

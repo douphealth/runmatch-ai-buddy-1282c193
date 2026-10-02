@@ -3,13 +3,18 @@ import { ScoredShoe } from '@/lib/scoring-engine';
 import { Badge } from '@/components/ui/badge';
 import ShoeImage from './ShoeImage';
 import { ShoppingCart, Star, CheckCircle } from 'lucide-react';
+import { getAmazonListingNote } from '@/lib/amazon-link';
+import { getBrandBuyLink } from '@/lib/shoe-sources';
+import { track } from '@/lib/analytics';
 
 interface ShoeComparisonTableProps {
   shoes: ScoredShoe[];
   getAmazonLink: (id: string, brand: string, model: string, asin?: string | null) => string | null;
+  /** Called when an affiliate link in the table is clicked; `position` is the 1-based column. */
+  onAffiliateClick?: (scored: ScoredShoe, position: number) => void;
 }
 
-const ShoeComparisonTable = ({ shoes, getAmazonLink }: ShoeComparisonTableProps) => {
+const ShoeComparisonTable = ({ shoes, getAmazonLink, onAffiliateClick }: ShoeComparisonTableProps) => {
   // Compliance: never display hard-coded prices (Amazon Operating Agreement § 5.h).
   // Show MSRP tier instead — the live price is on Amazon.
   const tierLabel = (p: number) => {
@@ -101,9 +106,17 @@ const ShoeComparisonTable = ({ shoes, getAmazonLink }: ShoeComparisonTableProps)
               })}
             </tr>
           ))}
+          <tr className="border-b border-border/10">
+            <td className="py-2.5 px-2 font-medium text-muted-foreground align-top">Watch out for</td>
+            {shoes.slice(0, 5).map((s) => (
+              <td key={s.shoe.id} className="px-2 py-2.5 text-center align-top text-[10px] leading-snug text-muted-foreground">
+                {s.watchOuts[0] ?? 'Nothing notable in the specs we track'}
+              </td>
+            ))}
+          </tr>
           <tr>
             <td className="py-3 px-2"></td>
-            {shoes.slice(0, 5).map(s => {
+            {shoes.slice(0, 5).map((s, i) => {
               const amazonUrl = getAmazonLink(s.shoe.id, s.shoe.brand, s.shoe.model, s.shoe.amazonASIN);
               return (
                 <td key={s.shoe.id} className="text-center py-3 px-2">
@@ -112,9 +125,20 @@ const ShoeComparisonTable = ({ shoes, getAmazonLink }: ShoeComparisonTableProps)
                       href={amazonUrl}
                       target="_blank"
                       rel="noopener noreferrer sponsored nofollow"
+                      onClick={() => onAffiliateClick?.(s, i + 1)}
                       className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-primary hover:underline"
                     >
-                      <ShoppingCart className="w-3 h-3" /> Buy
+                      <ShoppingCart className="w-3 h-3" /> Buy{getAmazonListingNote(s.shoe.id) ? ` (${getAmazonListingNote(s.shoe.id)})` : ''}
+                    </a>
+                  ) : getBrandBuyLink(s.shoe) ? (
+                    <a
+                      href={getBrandBuyLink(s.shoe)!.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => track.ctaClick(`brand_site_${s.shoe.id}`, 'comparison_table')}
+                      className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-primary hover:underline"
+                    >
+                      <ShoppingCart className="w-3 h-3" /> {getBrandBuyLink(s.shoe)!.label}
                     </a>
                   ) : (
                     <span className="text-[10px] text-muted-foreground">Review</span>

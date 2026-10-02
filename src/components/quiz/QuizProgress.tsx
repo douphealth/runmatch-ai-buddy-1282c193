@@ -6,8 +6,8 @@ interface QuizProgressProps {
   progress: number;
 }
 
-const stepLabels = ['Foot Type', 'Pronation', 'Mileage', 'Distance', 'Terrain', 'Pace', 'Injuries', 'Brand', 'Budget'];
-const stepIcons = ['🦶', '🔄', '📊', '🏁', '🌍', '⚡', '🛡️', '👟', '💰'];
+const stepLabels = ['Foot Type', 'Pronation', 'Mileage', 'Distance', 'Terrain', 'Pace', 'Injuries', 'Brand', 'Budget', 'Your shoe'];
+const stepIcons = ['🦶', '🔄', '📊', '🏁', '🌍', '⚡', '🛡️', '👟', '💰', '⭐'];
 
 const QuizProgress = ({ currentStep, totalSteps, progress }: QuizProgressProps) => {
   return (

@@ -1,0 +1,114 @@
+{
+  "nike-pegasus-premium": {
+    "shoeId": "nike-pegasus-premium",
+    "asin": "B0FRR22Y53",
+    "url": "https://m.media-amazon.com/images/I/31OEGJRKbfL._SL500_.jpg",
+    "title": "Premium Men's Nike Pegasus Shoes",
+    "fetchedAt": "2026-10-01"
+  },
+  "nike-pegasus-turbo": {
+    "shoeId": "nike-pegasus-turbo",
+    "asin": "B0BWTHYS8W",
+    "url": "https://m.media-amazon.com/images/I/31z+WGmYgoL._SL500_.jpg",
+    "title": "NIKE PEGASUS TURBO NEXT NATURE - WHITE/UNIVERSITY BLUE-PINKSICLE",
+    "fetchedAt": "2026-10-01"
+  },
+  "hoka-cielo-x1-3": {
+    "shoeId": "hoka-cielo-x1-3",
+    "asin": "B0F9QZ5WM8",
+    "url": "https://m.media-amazon.com/images/I/41YXgw2lBXL._SL500_.jpg",
+    "title": "Hoka Unisex Cielo X1 3.0 Neon Yuzu/Thyme 11.5 Medium",
+    "fetchedAt": "2026-10-01"
+  },
+  "saucony-ride-19": {
+    "shoeId": "saucony-ride-19",
+    "asin": "B0F9LKXQC5",
+    "url": "https://m.media-amazon.com/images/I/41UVixbjfEL._SL500_.jpg",
+    "title": "Saucony Men's Ride 19 Sneaker, Ivory/Storm, 11.5",
+    "fetchedAt": "2026-10-01"
+  },
+  "saucony-endorphin-azura": {
+    "shoeId": "saucony-endorphin-azura",
+    "asin": "B0F9LJB74R",
+    "url": "https://m.media-amazon.com/images/I/41jhUTSKGuL._SL500_.jpg",
+    "title": "Saucony Men's Endorphin Azura Sneaker, White/Navy, 11",
+    "fetchedAt": "2026-10-01"
+  },
+  "adidas-evo-sl-atr": {
+    "shoeId": "adidas-evo-sl-atr",
+    "asin": "B0FTTMX6L3",
+    "url": "https://m.media-amazon.com/images/I/31VoHwG0SRL._SL500_.jpg",
+    "title": "adidas Men's Adizero EVO SL ATR M Wonder SageAurora Ink/Wonder Silver 8 US",
+    "fetchedAt": "2026-10-01"
+  },
+  "mizuno-wave-inspire-21": {
+    "shoeId": "mizuno-wave-inspire-21",
+    "asin": "B0D464KJBQ",
+    "url": "https://m.media-amazon.com/images/I/417pXw1pI0L._SL500_.jpg",
+    "title": "Mizuno Men's Wave Inspire 21 Running Shoe, Support Road-Trail Shoe,Tradewinds-Neo Mint, US Mens 10",
+    "fetchedAt": "2026-10-01"
+  },
+  "asics-magic-speed-4": {
+    "shoeId": "asics-magic-speed-4",
+    "asin": "B0D3XPBSSF",
+    "url": "https://m.media-amazon.com/images/I/31Mvrgs3LaL._SL500_.jpg",
+    "title": "ASICS Men's Magic Speed 4 Running Shoes, 12.5, Soothing SEA/Black",
+    "fetchedAt": "2026-10-01"
+  },
+  "brooks-hyperion-elite-4": {
+    "shoeId": "brooks-hyperion-elite-4",
+    "asin": "B0CGYHNTJG",
+    "url": "https://m.media-amazon.com/images/I/412JEqfpYyL._SL500_.jpg",
+    "title": "Brooks Unisex Hyperion Elite 4 Neutral Running Shoe for Men & Women - Illusion Blue/Coral/Orange - 9 Medium",
+    "fetchedAt": "2026-10-01"
+  },
+  "puma-deviate-nitro-elite-3": {
+    "shoeId": "puma-deviate-nitro-elite-3",
+    "asin": "B0DZ72PNG3",
+    "url": "https://m.media-amazon.com/images/I/31v5eurZB1L._SL500_.jpg",
+    "title": "Puma Deviate Nitro Elite 3 Road Running Shoes Mens, Heat Fire, 8",
+    "fetchedAt": "2026-10-01"
+  },
+  "inov-8-trailfly-ultra-g-300-max": {
+    "shoeId": "inov8-trailfly-ultra-g-300",
+    "asin": "B0949J7532",
+    "url": "https://m.media-amazon.com/images/I/31sHMeDGO5L._SL500_.jpg",
+    "title": "Inov-8 Men's TrailFly Ultra G 300 Max - Trail Running Shoes - Olive/Orange - 7",
+    "fetchedAt": "2026-10-01"
+  },
+  "topo-athletic-mtn-racer-3": {
+    "shoeId": "topo-mtn-racer-3",
+    "asin": "B0C461CD2G",
+    "url": "https://m.media-amazon.com/images/I/41jia3Azg4L._SL500_.jpg",
+    "title": "Topo Athletic Men's MTN Racer 3 Comfortable Lightweight 5MM Drop Trail Running Shoes, Athletic Shoes for Trail Running, Black/Lime, Size 12.5",
+    "fetchedAt": "2026-10-01"
+  },
+  "topo-athletic-cyclone-2": {
+    "shoeId": "topo-cyclone-2",
+    "asin": "B0CRLFWMZD",
+    "url": "https://m.media-amazon.com/images/I/31Ib27CqW7L._SL500_.jpg",
+    "title": "Topo Athletic Men's Lightweight Comfortable 5MM Drop Speed Runner Cyclone 2 Road Running Shoes, Athletic Shoes for Road Running, White/Black, Size 11",
+    "fetchedAt": "2026-10-01"
+  },
+  "brooks-hyperion-max-3": {
+    "shoeId": "brooks-hyperion-max-3",
+    "asin": "B0F4MJ8LX4",
+    "url": "https://m.media-amazon.com/images/I/41pA4eJYudL._SL500_.jpg",
+    "title": "Brooks Men's Hyperion Max 3 Neutral Running Shoe - Coconut/Ipanema/Nightlife - 7 Medium",
+    "fetchedAt": "2026-10-01"
+  },
+  "saucony-endorphin-speed-5": {
+    "shoeId": "saucony-endorphin-speed-5",
+    "asin": "B0DJWNZG91",
+    "url": "https://m.media-amazon.com/images/I/410OzuoqpeL._SL500_.jpg",
+    "title": "Saucony Men's Endorphin Speed 5 Sneaker, Black/White, 11",
+    "fetchedAt": "2026-10-01"
+  },
+  "saucony-endorphin-pro-5": {
+    "shoeId": "saucony-endorphin-pro-5",
+    "asin": "B0F9LGW7L4",
+    "url": "https://m.media-amazon.com/images/I/31zJ2q974EL._SL500_.jpg",
+    "title": "Saucony Men's Endorphin Pro 5 Sneaker, Citron/Black, 9.5",
+    "fetchedAt": "2026-10-01"
+  }
+}

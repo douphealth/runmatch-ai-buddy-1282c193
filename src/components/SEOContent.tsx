@@ -1,7 +1,10 @@
+import { LANDING_FAQS, RELATED_GUIDES } from '@/lib/landing-content';
+
 /**
  * Visible SEO/AEO content section that renders below the hero on the landing page.
  * Provides crawlable explanatory content, internal links, FAQ, and disclaimer.
  * Intentionally low-visual-weight so it does not distort the hero experience.
+ * The FAQ text comes from landing-content.ts, the same source as the FAQPage JSON-LD.
  */
 const SEOContent = () => {
   return (
@@ -12,12 +15,11 @@ const SEOContent = () => {
             How RunMatch AI works
           </h2>
           <p>
-            RunMatch AI does not diagnose injuries or prescribe medical footwear. It organizes
-            your answers into a practical running shoe profile. The tool considers your running
-            surface, distance, support needs, cushioning preference, foot comfort signals,
-            injury history, and budget. It then suggests the type of shoe category to compare,
-            such as neutral daily trainer, stability shoe, max-cushion shoe, trail shoe, race
-            shoe, or walking-friendly running shoe.
+            RunMatch AI does not diagnose injuries or prescribe medical footwear. It scores every
+            shoe in its database against your answers (running surface, distance, support needs,
+            cushioning preference, foot comfort signals, injury history and budget) and shows
+            which factors drove each score. The weights are published on the{' '}
+            <a className="text-primary hover:underline" href="/shoe-finder/methodology/">methodology page</a>.
           </p>
         </header>
 
@@ -57,37 +59,21 @@ const SEOContent = () => {
         <section className="space-y-3">
           <h2 className="text-xl md:text-2xl font-bold text-foreground">Related guides on GearUpToFit</h2>
           <ul className="space-y-2 list-disc pl-5">
-            <li><a className="text-primary hover:underline" href="https://gearuptofit.com/review/best-running-shoes/" target="_blank" rel="noopener">Best running shoes</a></li>
-            <li><a className="text-primary hover:underline" href="https://gearuptofit.com/review/best-daily-running-shoes/" target="_blank" rel="noopener">Best daily running shoes</a></li>
-            <li><a className="text-primary hover:underline" href="https://gearuptofit.com/review/best-running-shoes-for-beginners/" target="_blank" rel="noopener">Best beginner running shoes</a></li>
-            <li><a className="text-primary hover:underline" href="https://gearuptofit.com/running/how-to-choose-the-right-running-shoes/" target="_blank" rel="noopener">How to choose running shoes</a></li>
-            <li><a className="text-primary hover:underline" href="https://gearuptofit.com/running/zone-2-running-calculator/" target="_blank" rel="noopener">Zone 2 running calculator</a></li>
+            {RELATED_GUIDES.map((g) => (
+              <li key={g.href}><a className="text-primary hover:underline" href={g.href} target="_blank" rel="noopener">{g.label}</a></li>
+            ))}
           </ul>
         </section>
 
         <section className="space-y-4">
           <h2 className="text-xl md:text-2xl font-bold text-foreground">Frequently asked questions</h2>
           <div className="space-y-4">
-            <div>
-              <h3 className="font-semibold text-foreground">Is RunMatch AI a medical tool?</h3>
-              <p>No. It is an educational running shoe finder that helps organize your preferences and training needs. It does not diagnose injuries or prescribe treatment.</p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground">Can this tool tell me the exact shoe model to buy?</h3>
-              <p>It can help narrow your shoe category and comparison list, but fit is personal. Try shoes on when possible and prioritize comfort, secure heel lockdown, and enough toe room.</p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground">Should beginners use neutral or stability shoes?</h3>
-              <p>Many beginners do well in comfortable neutral daily trainers, but some runners prefer or need added stability. The best choice depends on comfort, support needs, gait, injury history, and professional guidance when pain is present.</p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground">How should running shoes fit?</h3>
-              <p>Most runners need a secure heel, comfortable midfoot hold, and roughly a thumb-width of space in front of the longest toe. Shoes should feel stable and comfortable while walking or jogging.</p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground">Does terrain matter?</h3>
-              <p>Yes. Road and treadmill shoes prioritize smooth cushioning and transition, while trail shoes need grip, protection, and stability on uneven ground.</p>
-            </div>
+            {LANDING_FAQS.map((f) => (
+              <div key={f.question}>
+                <h3 className="font-semibold text-foreground">{f.question}</h3>
+                <p>{f.answer}</p>
+              </div>
+            ))}
           </div>
         </section>
 
