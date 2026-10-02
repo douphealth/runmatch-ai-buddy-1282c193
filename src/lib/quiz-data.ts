@@ -266,6 +266,7 @@ const strings = (v: unknown, keep: (s: string) => boolean, max: number): string[
  * missing or unknown so the caller falls back to slug-derived answers instead
  * of rendering (or crashing on) garbage from a hand-edited or truncated link.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- untrusted JSON from a link; every field is checked below
 function sanitizeAnswers(p: any): QuizAnswers | null {
   if (!p || typeof p !== 'object') return null;
   if (!VALID_FOOT.has(p.footType) || !VALID_PRONATION.has(p.pronation)) return null;

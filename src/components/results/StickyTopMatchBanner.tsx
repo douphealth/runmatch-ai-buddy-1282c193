@@ -39,7 +39,7 @@ const StickyTopMatchBanner = ({ scored, amazonUrl, label = '#1 Match' }: Props) 
   }, [dismissed]);
 
   const dismiss = () => {
-    try { sessionStorage.setItem(DISMISS_KEY, '1'); } catch {}
+    try { sessionStorage.setItem(DISMISS_KEY, '1'); } catch { /* storage blocked: hide for this view only */ }
     setDismissed(true);
   };
 

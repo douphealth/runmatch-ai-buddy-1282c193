@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import worker from '../../cloudflare/worker.js';
+import worker, { patchEntryBundle } from '../../cloudflare/worker.js';
 
 const manifest = {
   version: 1,
@@ -15,8 +15,9 @@ let originCalls: string[] = [];
 let manifestStatus = 200;
 let originHeaders: Record<string, string> = {};
 
+const rewriterSelectors: string[] = [];
 class FakeRewriter {
-  on() { return this; }
+  on(selector: string) { rewriterSelectors.push(selector); return this; }
   transform(res: Response) { return res; }
 }
 
@@ -102,6 +103,43 @@ describe('worker.fetch', () => {
     expect(originCalls.some((u) => u.includes('flock'))).toBe(false);
   });
 
+  it('puts the public prefix in front of root-absolute lazy-chunk URLs in an older entry bundle', async () => {
+    const old = 'x=1;const $C="modulepreload",HC=function(e){return"/"+e},pg={};y=2';
+    expect(patchEntryBundle(old)).toBe('x=1;const $C="modulepreload",HC=function(e){return"/shoe-finder/"+e},pg={};y=2');
+  });
+
+  it('leaves a bundle that already uses relative preload URLs alone', () => {
+    const fixed = 'HC=function(e,t){return new URL(e,t).href},pg={}';
+    expect(patchEntryBundle(fixed)).toBe(fixed);
+  });
+
+  it('does nothing when the pattern is ambiguous (two matches) instead of guessing', () => {
+    const two = 'a=function(e){return"/"+e};b=function(t){return"/"+t}';
+    expect(patchEntryBundle(two)).toBe(two);
+  });
+
+  it('serves the patched entry bundle with the origin ETag kept and no stale length or encoding', async () => {
+    const js = 'HC=function(e){return"/"+e},pg={}';
+    vi.stubGlobal('fetch', async (input: Request | string) => {
+      const url = typeof input === 'string' ? input : input.url;
+      if (/route-manifest/.test(url)) return new Response(JSON.stringify(manifest), { status: 200 });
+      return new Response(js, { status: 200, headers: { 'content-type': 'application/javascript', etag: '"abc"', 'content-encoding': 'br', 'content-length': '999' } });
+    });
+    const res = await get('/shoe-finder/assets/index.js', fresh());
+    expect(await res.text()).toContain('return"/shoe-finder/"+e');
+    expect(res.headers.get('x-runmatch-patched')).toBe('preload-prefix');
+    expect(res.headers.get('etag')).toBe('"abc"');
+    expect(res.headers.get('content-encoding')).toBeNull();
+    expect(res.headers.get('content-length')).toBeNull();
+  });
+
+  it('removes the Lovable badge the host writes into the HTML, and its script', async () => {
+    rewriterSelectors.length = 0;
+    await get('/shoe-finder/', fresh());
+    expect(rewriterSelectors).toContain('aside#lovable-badge');
+    expect(rewriterSelectors.some((s) => s.includes('~flock'))).toBe(true);
+  });
+
   it('revalidates HTML and the entry bundle on every load, whatever the origin says', async () => {
     originHeaders = { 'cache-control': 'public, max-age=31536000' };
     const bundle = await get('/shoe-finder/assets/index.js', fresh());
@@ -114,7 +152,37 @@ describe('worker.fetch', () => {
     const env = fresh();
     await get('/shoe-finder/assets/index.js', env);
     await get('/shoe-finder', env);
-    expect(originCalls.some((u) => u === `${env.RUNMATCH_ORIGIN}/assets/index.js`)).toBe(true);
-    expect(originCalls.some((u) => u === `${env.RUNMATCH_ORIGIN}/`)).toBe(true);
+    expect(originCalls.some((u) => new RegExp(`^${env.RUNMATCH_ORIGIN}/assets/index\\.js\\?_rm=\\d+$`).test(u))).toBe(true);
+    expect(originCalls.some((u) => new RegExp(`^${env.RUNMATCH_ORIGIN}/\\?_rm=\\d+$`).test(u))).toBe(true);
+  });
+
+  it('asks for the entry files and HTML under a key that changes every minute, so a publish shows up without a purge', async () => {
+    const env = fresh();
+    vi.useFakeTimers();
+    try {
+      vi.setSystemTime(new Date('2026-10-02T12:00:10Z'));
+      await get('/shoe-finder/assets/index.js', env);
+      vi.setSystemTime(new Date('2026-10-02T12:01:10Z'));
+      await get('/shoe-finder/assets/index.js', env);
+    } finally {
+      vi.useRealTimers();
+    }
+    const keys = originCalls.filter((u) => u.includes('/assets/index.js')).map((u) => u.split('_rm=')[1]);
+    expect(keys).toHaveLength(2);
+    expect(keys[0]).not.toBe(keys[1]);
+  });
+
+  it('keeps the runner\'s own query string and appends the key after it', async () => {
+    const env = fresh();
+    await get('/shoe-finder/results/neutral-10k-road-neutral/?d=abc', env);
+    expect(originCalls.some((u) => /\/results\/neutral-10k-road-neutral\/\?d=abc&_rm=\d+$/.test(u))).toBe(true);
+  });
+
+  it('leaves hashed chunks and images exactly as requested so they stay cached', async () => {
+    const env = fresh();
+    await get('/shoe-finder/assets/chunks/KitPicks-abc123.js', env);
+    await get('/shoe-finder/images/shoes/nike-pegasus-41.jpg', env);
+    expect(originCalls).toContain(`${env.RUNMATCH_ORIGIN}/assets/chunks/KitPicks-abc123.js`);
+    expect(originCalls).toContain(`${env.RUNMATCH_ORIGIN}/images/shoes/nike-pegasus-41.jpg`);
   });
 });

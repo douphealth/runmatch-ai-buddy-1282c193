@@ -70,8 +70,9 @@ const InlineLeadCard = ({ primaryShoe, shoeCategory, weeklyMileage, injuries }: 
           utm: getUTM(),
         },
       });
-      if (error || (data as any)?.error) throw new Error((data as any)?.error || error?.message || 'Failed');
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ email: email.trim().toLowerCase(), ts: Date.now() })); } catch {}
+      const reply = data as { error?: string } | null;
+      if (error || reply?.error) throw new Error(reply?.error || error?.message || 'Failed');
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ email: email.trim().toLowerCase(), ts: Date.now() })); } catch { /* storage blocked: signup still succeeded */ }
       track.emailCapture({ source: 'inline_results_card', shoeCategory, marketingConsent: true });
       setDone(true);
     } catch (err) {
@@ -83,7 +84,7 @@ const InlineLeadCard = ({ primaryShoe, shoeCategory, weeklyMileage, injuries }: 
   };
 
   const dismiss = () => {
-    try { sessionStorage.setItem(SESSION_DISMISS, '1'); } catch {}
+    try { sessionStorage.setItem(SESSION_DISMISS, '1'); } catch { /* storage blocked: hide for this view only */ }
     setHidden(true);
   };
 

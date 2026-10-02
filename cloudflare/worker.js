@@ -24,6 +24,8 @@
 const DEFAULT_ORIGIN = "https://runmatch-ai-buddy.lovable.app";
 const PREFIX = "/shoe-finder";
 const MANIFEST_TTL_MS = 10 * 60 * 1000;
+// Entry files and HTML are asked for from the origin under a cache key that changes this often.
+const FRESH_WINDOW_MS = 60 * 1000;
 
 // Mirrors answersFromSlug() in src/lib/quiz-data.ts.
 const PRONATION = new Set(["neutral", "overpronation", "underpronation", "unsure"]);
@@ -110,6 +112,44 @@ export function cachePolicy(path, contentType) {
   if (path.startsWith("/images/")) return "public, max-age=2592000";
   if (String(contentType || "").includes("text/html")) return revalidate;
   return null;
+}
+
+const FRESH_FILES = new Set([
+  "/index.html",
+  "/assets/index.js",
+  "/assets/index.css",
+  "/sw.js",
+  "/manifest.webmanifest",
+  "/robots.txt",
+  "/sitemap.xml",
+]);
+
+/**
+ * Query string that gives the origin's mutable files a new cache key every minute.
+ * The origin host's CDN keeps a copy of "/" and "/assets/index.js" (fixed names) for a day while it
+ * revalidates in the background, and a Worker's request to that host is served from the same cache,
+ * so after a publish the public URL kept returning the previous build (HTML and bundle) for hours.
+ * A purge on this zone cannot reach that copy. Hashed chunks, images and other files are left alone.
+ * @returns {string} "_rm=<n>" or "" when the path is not one of the mutable files.
+ */
+export function freshnessParam(path, nowMs) {
+  const p = path.length > 1 ? path.replace(/\/+$/, "") : path;
+  const mutable = p === "/" || FRESH_FILES.has(p) || !/\.[a-z0-9]{2,5}$/i.test(p);
+  return mutable ? `_rm=${Math.floor(nowMs / FRESH_WINDOW_MS)}` : "";
+}
+
+/**
+ * Builds published before the Vite setting "experimental.renderBuiltUrl" (see vite.config.ts) write lazy-chunk
+ * preload URLs as root-absolute paths: the entry bundle contains `function(e){return"/"+e}`. Under /shoe-finder/
+ * that asks WordPress for /assets/chunks/... (404), and the stylesheet preload failure rejects the dynamic import,
+ * which is how the PDF download (a lazy chunk) failed. This puts the public prefix in front of those paths.
+ * It only acts on exactly one match, so a build that already uses relative URLs passes through untouched.
+ */
+export function patchEntryBundle(js) {
+  const re = /function\((\w+)\)\{return"\/"\+\1\}/g;
+  const hits = js.match(re);
+  if (!hits || hits.length !== 1) return js;
+  return js.replace(re, (_m, arg) => `function(${arg}){return"${PREFIX}/"+${arg}}`);
 }
 
 class AttrRewriter {
@@ -228,7 +268,9 @@ export default {
 
     // Unknown URL: serve the app shell (friendly 404 screen) with a real 404 status.
     const fetchPath = kind === "not-found" ? "/" : path;
-    const originUrl = origin + fetchPath + (kind === "not-found" ? "" : url.search);
+    const search = kind === "not-found" ? "" : url.search;
+    const fresh = freshnessParam(fetchPath, Date.now());
+    const originUrl = origin + fetchPath + (fresh ? search + (search ? "&" : "?") + fresh : search);
 
     // Build origin request
     const newHeaders = new Headers(request.headers);
@@ -297,9 +339,22 @@ export default {
         .on("meta[property='og:image']", new AttrRewriter("content"))
         .on("link[rel='canonical']", new AttrRewriter("href"))
         .on("script[src*='~flock']", new RemoveElement())
+        // The host writes the whole "Edit with Lovable" badge into the HTML (an <aside>, its styles and a script that
+        // tolerates the element being absent). Removing the element is enough; the leftover rules match nothing.
+        .on("aside#lovable-badge", new RemoveElement())
         .on("head", new HeadInjector())
         .transform(new Response(resp.body, { status, headers }));
       return rewritten;
+    }
+
+    if (path === "/assets/index.js" && status === 200 && ct.includes("javascript")) {
+      // The body is read (so decoded) to apply patchEntryBundle; the edge compresses it again for the client.
+      const text = await resp.text();
+      headers.delete("content-length");
+      headers.delete("content-encoding");
+      const fixed = patchEntryBundle(text);
+      if (fixed !== text) headers.set("x-runmatch-patched", "preload-prefix");
+      return new Response(fixed, { status, headers });
     }
 
     return new Response(resp.body, { status, headers });

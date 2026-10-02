@@ -414,6 +414,13 @@ const TERRAIN_LABEL: Record<string, string> = { road: 'Road', trail: 'Trail', tr
 const PACE_LABEL: Record<string, string> = { easy: 'Easy / recovery', moderate: 'Moderate', tempo: 'Tempo', race: 'Race / intervals' };
 const BUDGET_LABEL: Record<string, string> = { 'under-100': 'Under $100', '100-150': '$100-150', '150-200': '$150-200', '200-plus': '$200+' };
 
+/** Every band accepted (or none picked) is "Any budget", not a list of all four ranges. */
+export function budgetText(budget: string[] | undefined): string {
+  const picked = (budget ?? []).filter(Boolean);
+  if (picked.length === 0 || Object.keys(BUDGET_LABEL).every((k) => picked.includes(k))) return 'Any budget';
+  return picked.map((b) => BUDGET_LABEL[b] ?? b).join(', ');
+}
+
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const nameOf = (s: Shoe) => `${s.brand} ${s.model}`;
 
@@ -540,7 +547,7 @@ export async function buildResultsPDF(data: PDFData, options: BuildOptions = {})
     ['RACE DISTANCE', DIST_LABEL[answers.distance] ?? answers.distance],
     ['TERRAIN', TERRAIN_LABEL[answers.terrain] ?? answers.terrain],
     ['PACE GOAL', PACE_LABEL[answers.paceGoal] ?? answers.paceGoal],
-    ['BUDGET', answers.budget.length ? answers.budget.map((b) => BUDGET_LABEL[b] ?? b).join(', ') : 'Any'],
+    ['BUDGET', budgetText(answers.budget)],
     ['PAIN / INJURY', safety ? safety.reported.map(cap).join(', ') : 'None reported'],
   ];
   const cw = (CW - 3 * 3) / 4;

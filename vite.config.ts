@@ -1,25 +1,25 @@
-import { defineConfig, type Plugin } from "vite";
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
-/**
- * The entry bundle and stylesheet keep fixed file names (a cached page that still points at them must never
- * 404 after a publish), so a browser or CDN that cached an old copy would keep using it. Appending a build id
- * to their URLs in the HTML makes every build a new URL, without renaming the files on the host.
- */
-const buildId = (process.env.GITHUB_SHA || process.env.COMMIT_SHA || Date.now().toString(36)).slice(0, 10);
-const versionEntryFiles = (): Plugin => ({
-  name: "version-entry-files",
-  apply: "build",
-  transformIndexHtml: {
-    order: "post",
-    handler: (html) => html.replace(/(["'])(\/assets\/index\.(?:js|css))\1/g, `$1$2?v=${buildId}$1`),
-  },
-});
+// The entry bundle and stylesheet keep fixed file names, and their URLs must stay exactly "/assets/index.js" and
+// "/assets/index.css": lazy chunks import the entry bundle by that URL, and the browser keys modules by full URL, so a
+// "?v=" on the <script> tag loads the entry twice (two copies of React: "Invalid hook call" on every lazy route).
+// Freshness after a publish is handled by the Worker (cloudflare/worker.js: revalidation headers and a per-minute
+// origin cache key), and scripts/check-dist.mjs fails the build if the entry URLs ever get a query string.
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  // The app is served at "/" on the Lovable host and at "/shoe-finder/" through the Worker. Preload URLs that
+  // the build writes into the JavaScript (lazy chunks and their stylesheets) are therefore relative to the file that
+  // asks for them; a root-absolute "/assets/..." would hit the WordPress site and 404 (this broke the PDF download).
+  experimental: {
+    renderBuiltUrl(_filename, { hostType }) {
+      if (hostType === "js") return { relative: true };
+      return undefined;
+    },
+  },
   build: {
     rollupOptions: {
       output: {
@@ -42,7 +42,7 @@ export default defineConfig(({ mode }) => ({
       overlay: false,
     },
   },
-  plugins: [react(), versionEntryFiles(), mode === "development" && componentTagger()].filter(Boolean),
+  plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

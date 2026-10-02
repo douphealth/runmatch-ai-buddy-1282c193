@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { buildResultsPDF, getShoeActions, pdfSafe, replacementWindow, type PDFData } from './pdf-generator';
+import { budgetText, buildResultsPDF, getShoeActions, pdfSafe, replacementWindow, type PDFData } from './pdf-generator';
 import { generateRecommendation } from './recommendation-engine';
 import { buildRotation, scoreShoes } from './scoring-engine';
 import { getAmazonLinkForShoe } from './amazon-link';
@@ -186,5 +186,17 @@ describe('replacementWindow', () => {
     expect(replacementWindow(80)).toContain('80 km a week');
     expect(replacementWindow(0)).toBe('at around 500-800 km (300-500 miles)');
     expect(replacementWindow(Number.NaN)).toBe('at around 500-800 km (300-500 miles)');
+  });
+});
+
+describe('budgetText', () => {
+  it('says Any budget when every band is accepted or none is picked', () => {
+    expect(budgetText(['under-100', '100-150', '150-200', '200-plus'])).toBe('Any budget');
+    expect(budgetText([])).toBe('Any budget');
+    expect(budgetText(undefined)).toBe('Any budget');
+  });
+  it('lists the chosen bands otherwise', () => {
+    expect(budgetText(['100-150', '150-200'])).toBe('$100-150, $150-200');
+    expect(budgetText(['under-100'])).toBe('Under $100');
   });
 });
