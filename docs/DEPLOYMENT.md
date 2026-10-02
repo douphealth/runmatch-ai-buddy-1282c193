@@ -24,6 +24,8 @@ WordPress serves everything else on gearuptofit.com. The app is only ever reache
 4. **Cache policy.** HTML, the fixed-name entry bundle (`assets/index.js`, `assets/index.css`), `sw.js` and the web manifest are always revalidated; hashed chunks and photos are cached. Without this, a publish can be hidden for hours (or a year, for a visitor's browser) behind a stale copy, and visitors see the previous build or a mix of old and new files.
 5. **No Lovable overlay.** The Lovable host injects an "Edit with Lovable" badge script (`~flock.js`). The Worker neither requests nor delivers it, and `src/index.css` hides the badge element for visits straight to the Lovable address. (Lovable's own switch for this is in the project's settings.)
 
+**Live Worker:** `gearuptofit-runmatch-repo` (account papalexios@gmail.com), route `gearuptofit.com/shoe-finder*`. Deployed from this file on 2 Oct 2026 through the Cloudflare API (`PUT /accounts/<id>/workers/scripts/gearuptofit-runmatch-repo` with `keep_bindings`). The version it replaced is saved as `cloudflare/archive/gearuptofit-runmatch-repo.before-2026-10-02.js`; to roll back, upload that file the same way (or paste it in the dashboard). Every response carries `x-runmatch-manifest: fresh|cached|http-<status>|…` which says whether the Worker could load `route-manifest.json`; if it says `http-404` the Worker is failing open (everything passes through, no real 404s), which usually means the origin has not finished publishing.
+
 Deploy: Cloudflare dashboard → Workers & Pages → the RunMatch worker → Edit code → paste `cloudflare/worker.js` → Deploy. (Or `wrangler deploy`.) Add a plain-text variable `RUNMATCH_ORIGIN` if the origin is not the default. Then verify:
 
 ```bash
@@ -32,6 +34,8 @@ curl -sI https://gearuptofit.com/shoe-finder/results/neutral-10k-road-neutral/ |
 ```
 
 ### Publishing the app build
+
+The built HTML references `/assets/index.js?v=<build id>` and `/assets/index.css?v=<build id>` (`vite.config.ts`, plugin `version-entry-files`). The files keep their fixed names on the host so an older cached page never 404s, but every build is a new URL, so a browser or CDN that cached an old copy of the entry file can no longer hide a publish.
 
 **After every publish:** in Cloudflare, *Caching → Configuration → Purge Cache → Custom purge* for `gearuptofit.com/shoe-finder/` (prefix), or *Purge Everything* if unsure. Deploy the current `cloudflare/worker.js` first so the cache rules above are in place; after that a purge is rarely needed. The old service worker is retired by `public/sw.js` (it clears its caches and unregisters itself), so returning visitors pick up the new build on their next visit.
 

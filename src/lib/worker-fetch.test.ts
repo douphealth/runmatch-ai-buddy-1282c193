@@ -28,7 +28,7 @@ beforeEach(() => {
   vi.stubGlobal('fetch', async (input: Request | string) => {
     const url = typeof input === 'string' ? input : input.url;
     originCalls.push(url);
-    if (url.endsWith('/route-manifest.json')) {
+    if (/\/route-manifest\.json(\?|$)/.test(url)) {
       return manifestStatus === 200 ? new Response(JSON.stringify(manifest), { status: 200 }) : new Response('nope', { status: manifestStatus });
     }
     return new Response('<html><head></head><body>app</body></html>', {
@@ -54,6 +54,20 @@ describe('worker.fetch', () => {
     expect(await res.text()).toContain('app');
     // it asked the origin for the shell ("/"), not for the made-up path
     expect(originCalls.some((u) => u.endsWith('/definitely-not-a-page/'))).toBe(false);
+  });
+
+  it('looks the manifest up with a changing query string so a stale cached 404 cannot hide it', async () => {
+    const env = fresh();
+    await get('/shoe-finder/shoes/nike-pegasus-41/', env);
+    expect(originCalls.some((u) => /\/route-manifest\.json\?t=\d+$/.test(u))).toBe(true);
+  });
+
+  it('reports how the manifest lookup ended in a header', async () => {
+    const ok = await get('/shoe-finder/', fresh());
+    expect(ok.headers.get('x-runmatch-manifest')).toBe('fresh');
+    manifestStatus = 404;
+    const down = await get('/shoe-finder/', fresh());
+    expect(down.headers.get('x-runmatch-manifest')).toBe('http-404');
   });
 
   it('serves a real page with 200 and no robots header of its own', async () => {

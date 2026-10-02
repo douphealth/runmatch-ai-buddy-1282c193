@@ -169,19 +169,35 @@ class HeadInjector {
 // Per-isolate manifest cache, keyed by origin so a copy fetched from one origin is never
 // applied to another (a stale manifest would wrongly 404 real pages).
 let manifestCache = { origin: "", at: 0, value: null };
+// Why the last manifest lookup ended the way it did; sent as the x-runmatch-manifest header so it can be checked with curl.
+let manifestState = "none";
 
 async function loadManifest(origin) {
   const same = manifestCache.origin === origin;
-  if (same && manifestCache.value && Date.now() - manifestCache.at < MANIFEST_TTL_MS) return manifestCache.value;
+  if (same && manifestCache.value && Date.now() - manifestCache.at < MANIFEST_TTL_MS) {
+    manifestState = "cached";
+    return manifestCache.value;
+  }
   const lastGood = same ? manifestCache.value : null;
   try {
-    const res = await fetch(`${origin}/route-manifest.json`, { cf: { cacheTtl: 300, cacheEverything: true } });
-    if (!res.ok) return lastGood; // keep the last good copy for this origin, else null (fail-open)
+    // The query string changes every MANIFEST_TTL_MS. Without it a 404 that the origin's CDN cached before the
+    // manifest existed (for example from an earlier deployment) would keep being served to this lookup.
+    const bucket = Math.floor(Date.now() / MANIFEST_TTL_MS);
+    const res = await fetch(`${origin}/route-manifest.json?t=${bucket}`, { headers: { accept: "application/json" } });
+    if (!res.ok) {
+      manifestState = `http-${res.status}`;
+      return lastGood; // keep the last good copy for this origin, else null (fail-open)
+    }
     const json = await res.json();
-    if (!json || !Array.isArray(json.shoeIds)) return lastGood;
+    if (!json || !Array.isArray(json.shoeIds)) {
+      manifestState = "invalid";
+      return lastGood;
+    }
     manifestCache = { origin, at: Date.now(), value: json };
+    manifestState = "fresh";
     return json;
-  } catch {
+  } catch (e) {
+    manifestState = `error-${String((e && e.message) || e).slice(0, 40)}`;
     return lastGood;
   }
 }
@@ -257,6 +273,7 @@ export default {
     if (robots) headers.set("x-robots-tag", robots);
     const status = kind === "not-found" ? 404 : resp.status;
     const ct = resp.headers.get("content-type") || "";
+    headers.set("x-runmatch-manifest", manifestState);
     const policy = cachePolicy(path, ct);
     if (policy && resp.status === 200) headers.set("cache-control", policy);
     if (kind === "not-found") headers.set("cache-control", "public, max-age=300");
