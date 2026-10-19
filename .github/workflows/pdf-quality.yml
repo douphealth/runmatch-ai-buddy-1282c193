@@ -23,5 +23,16 @@ jobs:
         run: npm run audit:shoe-images
       - name: Run tests
         run: npm test
+      - name: Generate representative PDF samples
+        env:
+          PDF_DUMP_DIR: pdf-samples
+        run: npx vitest run src/lib/pdf-generator.test.ts
+      - name: Upload PDF samples
+        uses: actions/upload-artifact@v4
+        with:
+          name: runmatch-pdf-samples
+          path: pdf-samples/*.pdf
+          if-no-files-found: error
+          retention-days: 7
       - name: Build production app
         run: npm run build
