@@ -6,12 +6,13 @@
   "scripts": {
     "dev": "vite",
     "validate:shoes": "tsx scripts/validate-shoe-database.mjs",
-    "build": "tsx scripts/validate-shoe-database.mjs && vite build && tsx scripts/prerender.mts && node scripts/check-dist.mjs",
+    "build": "node scripts/audit-shoe-images.mjs --check && tsx scripts/validate-shoe-database.mjs && vite build && tsx scripts/prerender.mts && node scripts/check-dist.mjs",
     "build:dev": "vite build --mode development && tsx scripts/prerender.mts",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "audit:shoe-images": "node scripts/audit-shoe-images.mjs --check"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { scoreShoes, buildRotation } from './scoring-engine';
 import { defaultAnswers, type QuizAnswers } from './quiz-data';
 import { shoeDatabase } from './shoe-database';
+import { resolveShoePhoto } from './amazon-images';
 
 const makeAnswers = (overrides: Partial<QuizAnswers> = {}): QuizAnswers => ({
   ...defaultAnswers,
@@ -25,9 +26,12 @@ describe('scoring-engine: determinism', () => {
     expect(r1).toEqual(r2);
   });
 
-  it('returns one ScoredShoe per shoe in the database', () => {
+  it('returns only recommendation-ready shoes with a trusted exact-model photo', () => {
     const scored = scoreShoes(makeAnswers());
-    expect(scored.length).toBe(shoeDatabase.length);
+    const eligible = shoeDatabase.filter((shoe) => resolveShoePhoto(shoe) !== null);
+    expect(scored.length).toBeLessThanOrEqual(eligible.length);
+    expect(scored.length).toBeGreaterThan(10);
+    for (const scoredShoe of scored) expect(resolveShoePhoto(scoredShoe.shoe)).not.toBeNull();
   });
 
   it('all match percentages are 0–100', () => {

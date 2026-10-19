@@ -1,6 +1,7 @@
 import { QuizAnswers } from './quiz-data';
 import { Shoe, shoeDatabase, getShoeQualityState } from './shoe-database';
 import { getNewerVersion, getWatchOuts, issueFit, similarityToCurrent } from './shoe-insights';
+import { resolveShoePhoto } from './amazon-images';
 
 export type FactorKey =
   | 'terrain'
@@ -254,7 +255,7 @@ export function scoreShoes(answers: QuizAnswers): ScoredShoe[] {
   const current = answers.currentShoe ? SHOE_BY_ID.get(answers.currentShoe) : undefined;
 
   return shoeDatabase
-    .filter((shoe) => getShoeQualityState(shoe).isRecommendationReady)
+    .filter((shoe) => getShoeQualityState(shoe).isRecommendationReady && resolveShoePhoto(shoe) !== null)
     .map((shoe) => scoreOne(shoe, answers, current))
     .sort((a, b) => {
       if (b.score !== a.score) return b.score - a.score;

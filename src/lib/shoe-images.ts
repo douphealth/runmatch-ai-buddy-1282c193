@@ -23,7 +23,8 @@ export interface ResolvedShoeImage {
 }
 
 /** True when the bundled photo for this shoe is not known to show a different model. */
-export function hasVerifiedPhoto(shoe: Pick<Shoe, 'brand' | 'model'>): boolean {
+export function hasVerifiedPhoto(shoe: Pick<Shoe, 'brand' | 'model' | 'imageURL'>): boolean {
+  if (!shoe.imageURL || shoe.imageURL.includes('placeholder')) return false;
   return !UNVERIFIED_SHOE_IMAGE_SLUGS.has(shoeImageSlug(shoe.brand, shoe.model));
 }
 
