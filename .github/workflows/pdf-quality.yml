@@ -1,0 +1,27 @@
+name: PDF and shoe image quality
+
+on:
+  push:
+    branches:
+      - "fix/pdf-verified-shoe-images-*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Verify shoe image audit
+        run: npm run audit:shoe-images
+      - name: Run tests
+        run: npm test
+      - name: Build production app
+        run: npm run build
