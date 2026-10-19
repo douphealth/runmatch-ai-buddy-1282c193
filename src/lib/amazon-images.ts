@@ -13,6 +13,7 @@ import imageCache from './amazon-image-cache.json';
 import { getAmazonLinkForShoe } from './amazon-link';
 import { hasVerifiedPhoto, resolveShoeImage, shoeImageSlug } from './shoe-images';
 import type { Shoe } from './shoe-database';
+import { getVerifiedBrandImage } from './verified-brand-images';
 
 interface AmazonImageEntry {
   shoeId: string;
@@ -32,7 +33,7 @@ export function getAmazonListingImage(shoe: Pick<Shoe, 'brand' | 'model'>): Amaz
   return link && link.includes(`/dp/${entry.asin}/`) ? entry : null;
 }
 
-export type ShoePhotoSource = 'local' | 'amazon';
+export type ShoePhotoSource = 'local' | 'brand' | 'amazon';
 
 export interface ShoePhoto {
   url: string;
@@ -48,6 +49,8 @@ export function resolveShoePhoto(shoe: Pick<Shoe, 'brand' | 'model' | 'imageURL'
     const local = resolveShoeImage(shoe);
     return local.url ? { url: local.url, source: 'local' } : null;
   }
+  const brand = getVerifiedBrandImage(shoe);
+  if (brand) return { url: brand.url, source: 'brand' };
   const amazon = getAmazonListingImage(shoe);
   return amazon ? { url: amazon.url, source: 'amazon' } : null;
 }
