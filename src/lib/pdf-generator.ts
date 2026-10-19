@@ -17,9 +17,9 @@
  *   - A "BUY ON AMAZON" button exists only when scripts/audit-asin-cache.mjs has a
  *     verified listing for that exact shoe. Otherwise the shoe gets a precise
  *     fallback (its GearUpToFit review, or the brand's own site), never a guess.
- *   - A photo is embedded only when it is known to show that exact model: our own
- *     verified photo, else the photo on the verified Amazon listing (resolveShoePhoto);
- *     otherwise a clearly labelled placeholder is drawn.
+ *   - A photo is embedded only when it is known to show that exact model: an explicitly
+ *     verified local product image or the photo on the verified Amazon listing.
+ *     Recommendations without one of those exact-model image sources are excluded.
  *   - Women's-only Amazon listings are labelled as such on the button.
  *   - Only characters in the PDF standard font encoding are written.
  */
@@ -119,6 +119,7 @@ const firstSentence = (s?: string): string | undefined => (s ? (s.match(/^.*?[.!
 interface Img {
   data: string;
   format: 'JPEG' | 'PNG';
+  source?: 'local' | 'amazon' | 'brand';
 }
 
 // ---------------------------------------------------------------------------
@@ -357,8 +358,9 @@ async function loadShoePhoto(shoe: Shoe, get: (u: string) => Promise<Blob | null
   const photo = resolveShoePhoto(shoe);
   if (!photo) return null;
   try {
-    const blob = await get(photo.source === 'local' ? assetPath(`/images/shoes/${shoeImageSlug(shoe.brand, shoe.model)}.jpg`) : photo.url);
-    return blob ? await blobToImg(blob) : null;
+    const blob = await get(photo.url);
+    const img = blob ? await blobToImg(blob) : null;
+    return img ? { ...img, source: photo.source } : null;
   } catch {
     return null;
   }
@@ -377,6 +379,15 @@ function photoFrame(d: Doc, x: number, y: number, w: number, h: number, img: Img
       const dw = p.width * s;
       const dh = p.height * s;
       d.addImage(img.data, img.format, x + pad + (bw - dw) / 2, y + pad + (bh - dh) / 2, dw, dh, undefined, 'FAST');
+      const sourceLabel = img.source === 'amazon' ? 'VERIFIED AMAZON LISTING PHOTO' : 'VERIFIED PRODUCT PHOTO';
+      box(d, x + 2, y + 2, Math.min(w - 4, img.source === 'amazon' ? 39 : 31), 5.6, 2.8, C.band);
+      text(d, sourceLabel, x + 4, y + 3.1, {
+        size: 5.2,
+        bold: true,
+        color: C.white,
+        maxW: w - 8,
+        maxLines: 1,
+      });
       return;
     } catch {
       /* fall through to the placeholder */
