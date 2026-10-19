@@ -37,7 +37,6 @@ import {
   type ScoredShoe,
 } from './scoring-engine';
 import { getInjuryArticles, getKitLinks, getRecommendedArticles, getToolLinks } from './article-links';
-import { shoeImageSlug } from './shoe-images';
 import { resolveShoePhoto } from './amazon-images';
 import { assetPath } from './asset-path';
 import { REPLACEMENT_STATEMENT, ROTATION_STATEMENT, ROTATION_STATEMENT_SHORT } from './evidence';
@@ -808,6 +807,50 @@ export async function buildResultsPDF(data: PDFData, options: BuildOptions = {})
   let ny = y + 8;
   for (const n of notes) ny += text(d, n, M + 4, ny, noteOpts) + 1.6;
   y += notesH + 6;
+
+  // =========================================================================
+  // DECISION CHEAT SHEET — translate rankings into an actual purchase choice
+  // =========================================================================
+  const fastest = top.find((s) => s.shoe.category === 'race' || s.shoe.category === 'speed') ?? top[1] ?? primary;
+  const cushioned = [...top].sort((a, b) => b.shoe.cushioning - a.shoe.cushioning)[0] ?? primary;
+  const decisionPicks = [
+    {
+      label: 'BEST OVERALL',
+      scored: primary,
+      why: 'Choose this if you want the strongest all-around fit for the answers you gave RunMatch.',
+      tone: C.redSoft,
+      accent: C.red,
+    },
+    {
+      label: 'FASTER OPTION',
+      scored: fastest,
+      why: 'Choose this when tempo work, intervals or race-day speed matter more than everyday versatility.',
+      tone: C.blueSoft,
+      accent: C.blue,
+    },
+    {
+      label: 'MORE CUSHION',
+      scored: cushioned,
+      why: 'Choose this when comfort, longer runs and a softer protective feel are your priority.',
+      tone: C.greenSoft,
+      accent: C.green,
+    },
+  ];
+
+  ensure(66);
+  y = sectionHeading(d, y, 'Decision cheat sheet', 'Three practical ways to choose from your shortlist. Fit and comfort still override the score.');
+  const decisionW = (CW - 8) / 3;
+  decisionPicks.forEach((pick, i) => {
+    const x = M + i * (decisionW + 4);
+    box(d, x, y, decisionW, 49, 3, C.white, C.line);
+    box(d, x + 3, y + 3, decisionW - 6, 7, 2, pick.tone);
+    text(d, pick.label, x + 6, y + 4.2, { size: 6.5, bold: true, color: pick.accent, maxW: decisionW - 12, maxLines: 1 });
+    text(d, pick.scored.shoe.brand.toUpperCase(), x + 5, y + 14, { size: 6.2, bold: true, color: C.red, maxW: decisionW - 10, maxLines: 1 });
+    text(d, pick.scored.shoe.model, x + 5, y + 18, { size: 10.2, bold: true, color: C.ink, maxW: decisionW - 10, maxLines: 2, lh: 1.12 });
+    text(d, `${pick.scored.matchPercent}% match  |  ${pick.scored.shoe.cushioning}/10 cushion`, x + 5, y + 29, { size: 7, bold: true, color: pick.accent, maxW: decisionW - 10, maxLines: 1 });
+    text(d, pick.why, x + 5, y + 34, { size: 7.2, color: C.text, maxW: decisionW - 10, maxLines: 4, lh: 1.25 });
+  });
+  y += 56;
 
   // =========================================================================
   // FIT, PROFILE, TRAINING
