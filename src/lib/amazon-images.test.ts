@@ -26,6 +26,14 @@ describe('Amazon listing photos', () => {
     expect(photo?.url).toContain('m.media-amazon.com');
   });
 
+  it('uses an exact verified manufacturer image when the local asset is only a placeholder', () => {
+    const shoe = byId('nike-pegasus-42');
+    expect(hasVerifiedPhoto(shoe)).toBe(false);
+    const photo = resolveShoePhoto(shoe);
+    expect(photo?.source).toBe('brand');
+    expect(photo?.url).toContain('static.nike.com');
+  });
+
   it('never replace a verified local photo', () => {
     const photo = resolveShoePhoto(byId('brooks-ghost-17'));
     expect(photo?.source).toBe('local');
