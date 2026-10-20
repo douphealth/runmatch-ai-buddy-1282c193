@@ -1,3 +1,6 @@
+import asinCache from './amazon-asin-cache.json';
+import imageCache from './amazon-image-cache.json';
+
 export interface Shoe {
   id: string;
   brand: string;
@@ -40,7 +43,7 @@ export interface Shoe {
   dataQualityNotes?: string[];
 }
 
-export const shoeDatabase: Shoe[] = [
+const ALL_SHOES: Shoe[] = [
   // === NIKE ===
   {
     id: 'nike-pegasus-41',
@@ -4707,6 +4710,30 @@ export const shoeDatabase: Shoe[] = [
     lastVerified: '2026-10-19',
   },
 ];
+
+const photoSlug = (s: Pick<Shoe, 'brand' | 'model'>) => `${s.brand}-${s.model}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+/**
+ * The one rule for being in the app: a shoe needs a SPECIFIC, verified Amazon listing (a /dp/ASIN link from
+ * amazon-asin-cache.json, men's or unisex) AND the photo from that same listing (amazon-image-cache.json).
+ * No guess, no search link, no maker-site stand-in, no placeholder picture. A shoe that fails this is not
+ * recommended, listed, compared or given a page; it stays in the data file above and comes back by itself when
+ * `node scripts/amazon-catalog.mjs resolve --write <id>` and `images --all` find a listing for it.
+ */
+export function isBuyable(shoe: Pick<Shoe, 'id' | 'brand' | 'model'>): boolean {
+  const link = (asinCache as Record<string, { asin: string | null; title?: string }>)[shoe.id];
+  if (!link?.asin || !/^[A-Z0-9]{10}$/.test(link.asin)) return false;
+  const t = (link.title ?? '').toLowerCase();
+  if (/\bwomen['’]?s?\b/.test(t) && !/\bmen['’]?s?\b/.test(t.replace(/women['’]?s?/g, ''))) return false; // women's-only version
+  const photo = (imageCache as Record<string, { asin: string; url: string }>)[photoSlug(shoe)];
+  return !!photo?.url && photo.asin === link.asin;
+}
+
+/** Everything in the data file, including shoes hidden because they cannot be bought on Amazon today. Tools only. */
+export const allShoesIncludingHidden: Shoe[] = ALL_SHOES;
+
+/** The shoes the app shows: only the ones that pass `isBuyable`. */
+export const shoeDatabase: Shoe[] = ALL_SHOES.filter(isBuyable);
 
 /**
  * Retired ids that still resolve (old links, saved matches, search results).

@@ -112,12 +112,9 @@
     "source": "Amazon Creators API searchItems"
   },
   "hoka-cielo-x1-3": {
-    "asin": "B0F9QBLHFG",
-    "title": "Hoka Unisex Cielo X1 3.0 Sneaker, Alabaster/Yellow Gold, 11.5 US Men",
-    "url": "https://www.amazon.com/dp/B0F9QBLHFG?tag=papalex-20",
-    "query": "Hoka Cielo X1 3",
-    "resolvedAt": "2026-10-20T04:38:04.422Z",
-    "source": "Amazon Creators API searchItems"
+    "asin": null,
+    "note": "hidden 2026-10-20: the only Amazon listing is currently unavailable (no price). Re-run: node scripts/amazon-catalog.mjs resolve --write hoka-cielo-x1-3",
+    "resolvedAt": "2026-10-20T05:25:12.786Z"
   },
   "saucony-ride-19": {
     "asin": "B0F9LKXQC5",
@@ -262,11 +259,9 @@
     "source": "Amazon Creators API searchItems"
   },
   "mizuno-wave-rider-28": {
-    "asin": "B0CM418RDN",
-    "title": "Mens Wave Rider 28",
-    "url": "https://www.amazon.com/dp/B0CM418RDN?tag=papalex-20",
-    "query": "Mizuno Wave Rider 28 running shoes",
-    "resolvedAt": "2026-05-04T20:35:37.498Z"
+    "asin": null,
+    "note": "hidden 2026-10-20: the only Amazon listing is currently unavailable (no price). Re-run: node scripts/amazon-catalog.mjs resolve --write mizuno-wave-rider-28",
+    "resolvedAt": "2026-10-20T05:25:12.789Z"
   },
   "mizuno-wave-inspire-21": {
     "asin": "B0D462SWQL",

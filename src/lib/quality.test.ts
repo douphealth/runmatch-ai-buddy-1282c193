@@ -11,7 +11,7 @@ import { decodeAnswers, defaultAnswers, encodeAnswers, quizSteps, type QuizAnswe
 import { QUIZ_ICONS } from './quiz-icons';
 import { getNewerVersion, getWatchOuts, parseModel, similarityToCurrent } from './shoe-insights';
 import { getSafetyNotice, hasReportedInjury } from './safety';
-import { resolveShoeId, shoeDatabase } from './shoe-database';
+import { allShoesIncludingHidden, isBuyable, resolveShoeId, shoeDatabase } from './shoe-database';
 import { getShoeById } from './shoe-detail';
 import { getDynamicFAQs } from './dynamic-faqs';
 import { generateRecommendation } from './recommendation-engine';
@@ -263,7 +263,7 @@ describe('database integrity', () => {
     }
     // These share one file with a different shoe (a Brooks Ghost 15 photo) and must fall back to the studio frame.
     for (const slugOwner of ['saucony-ride-19', 'hoka-cielo-x1-3', 'mizuno-wave-inspire-21', 'salomon-sense-ride-6']) {
-      const s = shoeDatabase.find((x) => x.id === slugOwner)!;
+      const s = allShoesIncludingHidden.find((x) => x.id === slugOwner)!;
       expect(hasVerifiedPhoto(s), slugOwner).toBe(false);
     }
     expect(hasVerifiedPhoto(shoeDatabase.find((x) => x.id === 'nike-pegasus-41')!)).toBe(true);

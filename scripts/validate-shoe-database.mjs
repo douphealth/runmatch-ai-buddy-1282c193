@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { shoeDatabase, getShoeQualityState, SHOE_ID_ALIASES } from '../src/lib/shoe-database.ts';
+import { shoeDatabase, allShoesIncludingHidden, isBuyable, getShoeQualityState, SHOE_ID_ALIASES } from '../src/lib/shoe-database.ts';
 import { getNewerVersion } from '../src/lib/shoe-insights.ts';
 
 const ROOT = resolve(import.meta.dirname, '..');
@@ -121,6 +121,9 @@ if (previousGen.length) {
   console.log(`[validate:shoes] ${previousGen.length} previous-generation model(s) (a newer version exists in the database): ${previousGen.map((s) => s.id).join(', ')}`);
 }
 
+// The app shows only shoes with a specific Amazon link AND that listing's photo (see isBuyable). Say which are held back.
+const hidden = allShoesIncludingHidden.filter((s) => !isBuyable(s));
+if (hidden.length) console.log(`[validate:shoes] ${hidden.length} shoe(s) hidden from the app until Amazon has a listing for them: ${hidden.map((s) => s.id).join(', ')}`);
 console.log(`[validate:shoes] checked ${shoeDatabase.length} shoes`);
 if (warnings.length) {
   console.warn(`[validate:shoes] warnings (${warnings.length})`);

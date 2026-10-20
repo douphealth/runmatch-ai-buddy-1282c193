@@ -3,7 +3,7 @@ import imageCache from './amazon-image-cache.json';
 import asinCache from './amazon-asin-cache.json';
 import { getAmazonListingImage, resolveShoePhoto } from './amazon-images';
 import { hasVerifiedPhoto } from './shoe-images';
-import { shoeDatabase } from './shoe-database';
+import { allShoesIncludingHidden, isBuyable, shoeDatabase } from './shoe-database';
 
 type ImageEntry = { shoeId: string; asin: string; url: string; title: string };
 const images = imageCache as Record<string, ImageEntry>;
@@ -47,10 +47,14 @@ describe('Amazon listing photos', () => {
     }
   });
 
-  it('are not invented for shoes Amazon does not list', () => {
-    const none = shoeDatabase.filter((s) => !hasVerifiedPhoto(s) && !asins[s.id]?.asin);
-    expect(none.length).toBeGreaterThan(0);
-    for (const s of none) expect(resolveShoePhoto(s), s.id).toBeNull();
+  it('are never invented: a shoe Amazon does not list is hidden from the app, not shown with a stand-in', () => {
+    const hidden = allShoesIncludingHidden.filter((s) => !isBuyable(s));
+    expect(hidden.length).toBeGreaterThan(0);
+    for (const s of hidden) {
+      expect(shoeDatabase.some((x) => x.id === s.id), `${s.id} must not be in the app`).toBe(false);
+      expect(asins[s.id]?.asin ?? null, `${s.id}`).toBeNull();
+    }
+    for (const s of shoeDatabase) expect(resolveShoePhoto(s)?.source, `${s.id} needs its listing photo`).toBe('amazon');
   });
 
   it('are ignored once the ASIN behind them changes', async () => {

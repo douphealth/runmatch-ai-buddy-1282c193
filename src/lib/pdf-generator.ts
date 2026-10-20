@@ -895,7 +895,10 @@ export async function buildResultsPDF(
   // =========================================================================
   // PICK BY PRIORITY
   // =========================================================================
-  if (priorities.length) {
+  // Drawn right after the hero when it fits on that page; otherwise after the comparison table (so it never sits alone on a page).
+  let picksDone = false;
+  const drawPriorities = () => {
+    picksDone = true;
     ensure(14 + 62);
     y = sectionHeading(d, y, 'If one thing matters most', 'Strong matches that beat your #1 on a single point. Each is within 20 points of the top score.');
     const gap = 3;
@@ -918,7 +921,8 @@ export async function buildResultsPDF(
       countBuy(s);
     });
     y += 58 + 7;
-  }
+  };
+  if (priorities.length && y + 14 + 62 <= BOTTOM) drawPriorities();
 
   // =========================================================================
   // COMPARE THE TOP 3
@@ -1004,6 +1008,7 @@ export async function buildResultsPDF(
     for (const t of advice) ay += text(d, `${BUL}  ${t}`, M + 4, ay, adviceOpts) + 1.4;
     y += adviceH + 7;
   }
+  if (priorities.length && !picksDone) drawPriorities();
 
   // =========================================================================
   // ROTATION (one card per job; a runner on one shoe gets a short note instead of a repeat of the #1 card)

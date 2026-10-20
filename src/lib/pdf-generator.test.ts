@@ -8,7 +8,7 @@ import { getAmazonLinkForShoe } from './amazon-link';
 import { hasVerifiedPhoto } from './shoe-images';
 import { resolveShoePhoto } from './amazon-images';
 import { generateSlug, type QuizAnswers } from './quiz-data';
-import { shoeDatabase } from './shoe-database';
+import { allShoesIncludingHidden, isBuyable, shoeDatabase } from './shoe-database';
 
 const IMAGES = resolve(__dirname, '../../public/images/shoes');
 const LOGO = resolve(__dirname, '../../public/images/gearuptofit-logo.png');
@@ -115,8 +115,10 @@ describe('PDF report', () => {
   });
 
   it('gives a shoe without a verified Amazon listing an honest fallback instead of a guess', () => {
-    const noLink = shoeDatabase.find((s) => !getAmazonLinkForShoe(s.id, s.brand, s.model, s.amazonASIN));
-    expect(noLink, 'expected at least one shoe without a verified listing').toBeTruthy();
+    // The app hides such shoes now; the report still never guesses if one ever reaches it.
+    const noLink = allShoesIncludingHidden.find((s) => !getAmazonLinkForShoe(s.id, s.brand, s.model, s.amazonASIN));
+    expect(noLink, 'expected at least one shoe without a verified listing in the data file').toBeTruthy();
+    expect(isBuyable(noLink!)).toBe(false);
     const a = getShoeActions(noLink!);
     expect(a.buy).toBeNull();
     expect(a.review.url).toMatch(/^https:\/\/(www\.)?gearuptofit\.com\//);
@@ -130,17 +132,18 @@ describe('PDF report', () => {
     if (womens) expect(womens.a.buy!.url).toContain('/dp/');
   });
 
-  it('shows an honest placeholder, not a wrong photo, when a shoe has no verified photo at all', async () => {
-    const unverified = shoeDatabase.filter((s) => !resolveShoePhoto(s));
-    expect(unverified.length).toBeGreaterThan(0);
+  it('every shoe in the report has an Amazon link and its listing photo; a photo that fails to load is drawn as an honest placeholder', async () => {
     const answers = base();
-    const top = scoreShoes(answers).slice(0, 5);
-    const forced = { ...dataFor(answers), topShoes: top };
-    const { doc } = await buildResultsPDF(forced, { compress: false, fetchImage: fetchFromDisk });
-    const raw = bytesOf(doc);
-    const { stats } = await buildResultsPDF(forced, { compress: false, fetchImage: fetchFromDisk });
-    const unverifiedShown = stats.shownShoeIds.filter((id) => !resolveShoePhoto(shoeDatabase.find((s) => s.id === id)!)).length;
-    expect(unverifiedShown > 0 ? raw.includes('Photo not available') : !raw.includes('Photo not available')).toBe(true);
+    const data = dataFor(answers);
+    const { doc, stats } = await buildResultsPDF(data, { compress: false, fetchImage: fetchFromDisk });
+    for (const id of stats.shownShoeIds) {
+      const shoe = shoeDatabase.find((s) => s.id === id)!;
+      expect(resolveShoePhoto(shoe)?.source, id).toBe('amazon');
+      expect(getShoeActions(shoe).buy, id).not.toBeNull();
+    }
+    expect(bytesOf(doc)).not.toContain('Photo not available');
+    const failed = await buildResultsPDF(data, { compress: false, fetchImage: async () => null });
+    expect(bytesOf(failed.doc)).toContain('Photo not available');
   });
 
   it('is accurate and carries the safety and disclosure copy', async () => {

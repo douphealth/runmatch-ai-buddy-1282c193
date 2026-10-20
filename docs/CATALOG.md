@@ -1,6 +1,8 @@
 # Shoe catalog: what is in it, where every number comes from, how to keep it true
 
-As of **20 Oct 2026**: **218 shoes, 18 brands**. 208 have a verified men's/unisex Amazon listing (206 in stock, 2 out of stock when checked: Cielo X1 3.0 and the older Wave Rider 28), and every one of those shows the photo from the listing its Buy button opens. The other 10 have no Amazon US listing for that exact model and offer the maker's site instead.
+**The rule: a shoe is in the app only if it has a SPECIFIC, verified Amazon affiliate link and the photo from that same listing. Everything else is not in the app.** No search links, no maker-site stand-ins, no placeholder pictures, no "photo not available". The rule is `isBuyable()` in `src/lib/shoe-database.ts`; `shoeDatabase` (what every page, the quiz engine, comparisons, the sitemap and the PDF use) is the data file filtered by it, and `src/lib/buyable.test.ts` fails the build if a shoe without a link and photo is ever recommended (it sweeps quiz profiles and the case that exposed this).
+
+As of **20 Oct 2026**: **218 shoes in the data file, 206 in the app** (18 brands), every one with a /dp/ link carrying our tag and its listing's photo; 206 were in stock when checked. The other **12 are hidden, not deleted**: hoka-cielo-x1-3 and mizuno-wave-rider-28 (their only Amazon listing is "Currently unavailable"), and adidas-adios-9, adidas-takumi-sen-10, adidas-evo-sl-2, asics-gel-nimbus-29, asics-metaspeed-sky-paris, on-cloudboom-strike-ls, on-cloudeclipse-2, salomon-s-lab-genesis, salomon-sense-ride-6, salomon-ultra-glide-3 (no Amazon US listing for that exact model). `npm run build` prints the hidden list. A hidden shoe returns by itself once `node scripts/amazon-catalog.mjs resolve --write <id>` and `images --all` find an in-stock listing.
 
 ## What changed on 19 Oct 2026 and why
 
