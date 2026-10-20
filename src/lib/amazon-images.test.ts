@@ -26,10 +26,25 @@ describe('Amazon listing photos', () => {
     expect(photo?.url).toContain('m.media-amazon.com');
   });
 
-  it('never replace a verified local photo', () => {
+  it('come first: the photo on the listing the Buy button opens beats a bundled photo', () => {
     const photo = resolveShoePhoto(byId('brooks-ghost-17'));
-    expect(photo?.source).toBe('local');
-    expect(photo?.url).toContain('/images/shoes/brooks-ghost-17.jpg');
+    expect(photo?.source).toBe('amazon');
+    expect(photo?.url).toContain('m.media-amazon.com');
+  });
+
+  it('are available for every shoe that has a verified Amazon listing (re-run: node scripts/amazon-catalog.mjs images --all)', () => {
+    for (const s of shoeDatabase) {
+      if (asins[s.id]?.asin) expect(getAmazonListingImage(s), `${s.id}: has an Amazon link but no matching listing photo`).not.toBeNull();
+    }
+  });
+
+  it('leave a verified bundled photo in place only for shoes without a listing photo', () => {
+    for (const s of shoeDatabase) {
+      if (getAmazonListingImage(s)) continue;
+      const photo = resolveShoePhoto(s);
+      if (hasVerifiedPhoto(s)) expect(photo?.source, s.id).toBe('local');
+      else expect(photo, s.id).toBeNull();
+    }
   });
 
   it('are not invented for shoes Amazon does not list', () => {

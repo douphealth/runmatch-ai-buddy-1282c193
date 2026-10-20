@@ -1,114 +1,1458 @@
 {
+  "nike-pegasus-41": {
+    "shoeId": "nike-pegasus-41",
+    "asin": "B0D2DKNV5R",
+    "url": "https://m.media-amazon.com/images/I/419PeHctXEL._SL500_.jpg",
+    "title": "Nike Pegasus 41 Men's Road Running Shoes (FD2722-103, White/Dusty Cactus/Glacier Blue/Black) Size 7.5",
+    "fetchedAt": "2026-10-20"
+  },
   "nike-pegasus-premium": {
     "shoeId": "nike-pegasus-premium",
-    "asin": "B0FRR22Y53",
-    "url": "https://m.media-amazon.com/images/I/31OEGJRKbfL._SL500_.jpg",
-    "title": "Premium Men's Nike Pegasus Shoes",
-    "fetchedAt": "2026-10-01"
+    "asin": "B0FSB99ZNN",
+    "url": "https://m.media-amazon.com/images/I/3149+TQFp-L._SL500_.jpg",
+    "title": "Nike HQ2592-005 Pegasus Premium Mens Running Shoe | Men's Size 8.5 US",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-vomero-plus": {
+    "shoeId": "nike-vomero-plus",
+    "asin": "B0F2WKSGDF",
+    "url": "https://m.media-amazon.com/images/I/41dsV7lLduL._SL500_.jpg",
+    "title": "Nike Men Vomero Plus Black/Dark Smoke Grey/Metallic Dark Grey 9 Medium",
+    "fetchedAt": "2026-10-20"
   },
   "nike-pegasus-turbo": {
     "shoeId": "nike-pegasus-turbo",
-    "asin": "B0BWTHYS8W",
-    "url": "https://m.media-amazon.com/images/I/31z+WGmYgoL._SL500_.jpg",
-    "title": "NIKE PEGASUS TURBO NEXT NATURE - WHITE/UNIVERSITY BLUE-PINKSICLE",
-    "fetchedAt": "2026-10-01"
+    "asin": "B0C67XGZBF",
+    "url": "https://m.media-amazon.com/images/I/41Cl5-xvuRL._SL500_.jpg",
+    "title": "Nike Men's Pegasus Turbo Next Nature Running Shoes, Game Royal/University Blue, 10 M US",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-ghost-17": {
+    "shoeId": "brooks-ghost-17",
+    "asin": "B0DDFDKNH5",
+    "url": "https://m.media-amazon.com/images/I/41NvumVo4aL._SL500_.jpg",
+    "title": "Brooks Men’s Ghost 17 Neutral Running Shoe - Black/Black/Ebony - 12.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-glycerin-max-2": {
+    "shoeId": "brooks-glycerin-max-2",
+    "asin": "B0F5NC98LY",
+    "url": "https://m.media-amazon.com/images/I/31Uy90nFDUL._SL500_.jpg",
+    "title": "Brooks Men’s Glycerin Max 2 Neutral Running & Walking Shoe - White/Black/Chateau Gray - 10 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-gel-nimbus-28": {
+    "shoeId": "asics-gel-nimbus-28",
+    "asin": "B0FTP5CNR5",
+    "url": "https://m.media-amazon.com/images/I/31TY0VdviOL._SL500_.jpg",
+    "title": "ASICS Men's Gel-Nimbus 28 Running Shoes, 9.5, Black/Graphite Grey",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-gel-kayano-32": {
+    "shoeId": "asics-gel-kayano-32",
+    "asin": "B0DPLQN2YT",
+    "url": "https://m.media-amazon.com/images/I/31F4y0jv7mL._SL500_.jpg",
+    "title": "ASICS Men's Gel.Kayano 32 Running Shoes, 10, Gravel/Citron",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-novablast-5": {
+    "shoeId": "asics-novablast-5",
+    "asin": "B0F63XNLMY",
+    "url": "https://m.media-amazon.com/images/I/3143DK3q+IL._SL500_.jpg",
+    "title": "ASICS Men's NOVABLAST 5 Running Shoes, 11.5, Oatmeal/Black",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-novablast-4": {
+    "shoeId": "asics-novablast-4",
+    "asin": "B0CFNC9NXX",
+    "url": "https://m.media-amazon.com/images/I/315royBO4WL._SL500_.jpg",
+    "title": "ASICS Men's NOVABLAST 4 Running Shoe, 13, White/White",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-superblast-3": {
+    "shoeId": "asics-superblast-3",
+    "asin": "B0H952CNWP",
+    "url": "https://m.media-amazon.com/images/I/31WkxoU3yLL._SL500_.jpg",
+    "title": "ASICS Unisex SUPERBLAST 3 Running, 11.5M / 13W, White/Orange Glow",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-sonicblast": {
+    "shoeId": "asics-sonicblast",
+    "asin": "B0FGTZJM2T",
+    "url": "https://m.media-amazon.com/images/I/31mCEz78mxL._SL500_.jpg",
+    "title": "ASICS Men's SONICBLAST Running Shoes, 11.5, Vital Green/Black",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-megablast": {
+    "shoeId": "asics-megablast",
+    "asin": "B0H2JVPMRW",
+    "url": "https://m.media-amazon.com/images/I/31Ewq1K93AL._SL500_.jpg",
+    "title": "ASICS Unisex MEGABLAST Running Shoes, 13M / 14.5W, White/Orange Glow",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-bondi-9": {
+    "shoeId": "hoka-bondi-9",
+    "asin": "B0D5G2Y6DD",
+    "url": "https://m.media-amazon.com/images/I/31c6X26dQnL._SL500_.jpg",
+    "title": "Hoka Men's Bondi 9 Black/Black 10 Medium",
+    "fetchedAt": "2026-10-20"
   },
   "hoka-cielo-x1-3": {
     "shoeId": "hoka-cielo-x1-3",
-    "asin": "B0F9QZ5WM8",
-    "url": "https://m.media-amazon.com/images/I/41YXgw2lBXL._SL500_.jpg",
-    "title": "Hoka Unisex Cielo X1 3.0 Neon Yuzu/Thyme 11.5 Medium",
-    "fetchedAt": "2026-10-01"
+    "asin": "B0F9QBLHFG",
+    "url": "https://m.media-amazon.com/images/I/31Qt0qCoBgL._SL500_.jpg",
+    "title": "Hoka Unisex Cielo X1 3.0 Sneaker, Alabaster/Yellow Gold, 11.5 US Men",
+    "fetchedAt": "2026-10-20"
   },
   "saucony-ride-19": {
     "shoeId": "saucony-ride-19",
     "asin": "B0F9LKXQC5",
     "url": "https://m.media-amazon.com/images/I/41UVixbjfEL._SL500_.jpg",
     "title": "Saucony Men's Ride 19 Sneaker, Ivory/Storm, 11.5",
-    "fetchedAt": "2026-10-01"
+    "fetchedAt": "2026-10-20"
   },
   "saucony-endorphin-azura": {
     "shoeId": "saucony-endorphin-azura",
     "asin": "B0F9LJB74R",
     "url": "https://m.media-amazon.com/images/I/41jhUTSKGuL._SL500_.jpg",
     "title": "Saucony Men's Endorphin Azura Sneaker, White/Navy, 11",
-    "fetchedAt": "2026-10-01"
+    "fetchedAt": "2026-10-20"
+  },
+  "on-cloudsurfer-2": {
+    "shoeId": "on-cloudsurfer-2",
+    "asin": "B0DM2Q76LX",
+    "url": "https://m.media-amazon.com/images/I/31lUykQpHeL._SL500_.jpg",
+    "title": "On Mens Cloudsurfer 2 Truffle/Honeydew 11 M",
+    "fetchedAt": "2026-10-20"
+  },
+  "adidas-adios-pro-4": {
+    "shoeId": "adidas-adios-pro-4",
+    "asin": "B0F64CJGZV",
+    "url": "https://m.media-amazon.com/images/I/318ko-lfUDL._SL500_.jpg",
+    "title": "adidas Men's Adizero Adios PRO 4 M Solar blueSilver met./Lucid red 10.5 US",
+    "fetchedAt": "2026-10-20"
+  },
+  "adidas-boston-13": {
+    "shoeId": "adidas-boston-13",
+    "asin": "B0F6487PKR",
+    "url": "https://m.media-amazon.com/images/I/31W33PZGfNL._SL500_.jpg",
+    "title": "adidas, Mens, Adizero Boston 13 Running Shoes, Black/Lime Burst/Energy Ink, 12, D - Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "adidas-evo-sl": {
+    "shoeId": "adidas-evo-sl",
+    "asin": "B0FG38CTV1",
+    "url": "https://m.media-amazon.com/images/I/31q+PveYspL._SL500_.jpg",
+    "title": "adidas Men's Adizero EVO SL Woven M Core blackFtwr White/Carbon 9.5 US",
+    "fetchedAt": "2026-10-20"
   },
   "adidas-evo-sl-atr": {
     "shoeId": "adidas-evo-sl-atr",
-    "asin": "B0FTTMX6L3",
-    "url": "https://m.media-amazon.com/images/I/31VoHwG0SRL._SL500_.jpg",
-    "title": "adidas Men's Adizero EVO SL ATR M Wonder SageAurora Ink/Wonder Silver 8 US",
-    "fetchedAt": "2026-10-01"
+    "asin": "B0FXJL4N58",
+    "url": "https://m.media-amazon.com/images/I/21BqIM317bL._SL500_.jpg",
+    "title": "adidas Men's Adizero EVO SL ATR M Khaki SixShadow Olive/Khaki Three 10.5 US",
+    "fetchedAt": "2026-10-20"
+  },
+  "adidas-takumi-sen-11": {
+    "shoeId": "adidas-takumi-sen-11",
+    "asin": "B0G736FWJ5",
+    "url": "https://m.media-amazon.com/images/I/316jAaVK15L._SL500_.jpg",
+    "title": "adidas Performance Adizero Takumi Sen 11 running shoes White Men, Yellow Purple, 9.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "puma-deviate-elite-4": {
+    "shoeId": "puma-deviate-elite-4",
+    "asin": "B0GPWZTHCW",
+    "url": "https://m.media-amazon.com/images/I/31XDw1lwwXL._SL500_.jpg",
+    "title": "PUMA Deviate Elite 4 Men's Running Shoes, Hyrox Pink, 10.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "puma-deviate-nitro-elite-2": {
+    "shoeId": "puma-deviate-nitro-elite-2",
+    "asin": "B0CB5X2964",
+    "url": "https://m.media-amazon.com/images/I/31sBAhO6K1L._SL500_.jpg",
+    "title": "PUMA Deviate Nitro Elite 2 Mens Running Shoes - Blue - UK, Blue, 8",
+    "fetchedAt": "2026-10-20"
+  },
+  "puma-magmax-2": {
+    "shoeId": "puma-magmax-2",
+    "asin": "B0GD2LHJ1K",
+    "url": "https://m.media-amazon.com/images/I/31GLDi+Vp0L._SL500_.jpg",
+    "title": "PUMA Men's Magmax Nitro 2 Running Shoes, Warm White-Puma Black, Size 10 D Medium US",
+    "fetchedAt": "2026-10-20"
+  },
+  "new-balance-fresh-foam-x-more-v6": {
+    "shoeId": "nb-fresh-foam-more-v6",
+    "asin": "B0DJV8HTC2",
+    "url": "https://m.media-amazon.com/images/I/41VRiGu9DjL._SL500_.jpg",
+    "title": "New Balance Men's Fresh Foam X More V6 Running Shoe, Grey Matter/True Red/Castlerock, 10.5 M",
+    "fetchedAt": "2026-10-20"
+  },
+  "new-balance-1080-v14": {
+    "shoeId": "nb-1080-v14",
+    "asin": "B0CLB6SPLW",
+    "url": "https://m.media-amazon.com/images/I/31RO7PTG2FL._SL500_.jpg",
+    "title": "New Balance Men's Fresh Foam X 1080 V14 Running Shoe",
+    "fetchedAt": "2026-10-20"
+  },
+  "salomon-speedcross-6": {
+    "shoeId": "salomon-speedcross-6",
+    "asin": "B0CQMYZXFG",
+    "url": "https://m.media-amazon.com/images/I/31WrTff840L._SL500_.jpg",
+    "title": "Salomon Mens Speedcross 6 Black/Peat/Deep Lichen Green 10 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "altra-lone-peak-8": {
+    "shoeId": "altra-lone-peak-8",
+    "asin": "B0C4M5V586",
+    "url": "https://m.media-amazon.com/images/I/31gooowvYKL._SL500_.jpg",
+    "title": "ALTRA Men's Lone Peak 8 Trail Running Shoe, Black/Green, 10",
+    "fetchedAt": "2026-10-20"
+  },
+  "altra-torin-7": {
+    "shoeId": "altra-torin-7",
+    "asin": "B0BK2MG4Y2",
+    "url": "https://m.media-amazon.com/images/I/31eVFL548ML._SL500_.jpg",
+    "title": "ALTRA Men's Torin 7 Road Running Shoe, Black, 10",
+    "fetchedAt": "2026-10-20"
+  },
+  "mizuno-wave-rider-28": {
+    "shoeId": "mizuno-wave-rider-28",
+    "asin": "B0CM418RDN",
+    "url": "https://m.media-amazon.com/images/I/41MeQwyrILL._SL500_.jpg",
+    "title": "Mizuno Men's Wave Rider 28 Running Shoe | Neutral Running Shoe | Quiet Shade-Nmbs Cld | US Mens 11.5",
+    "fetchedAt": "2026-10-20"
   },
   "mizuno-wave-inspire-21": {
     "shoeId": "mizuno-wave-inspire-21",
-    "asin": "B0D464KJBQ",
-    "url": "https://m.media-amazon.com/images/I/417pXw1pI0L._SL500_.jpg",
-    "title": "Mizuno Men's Wave Inspire 21 Running Shoe, Support Road-Trail Shoe,Tradewinds-Neo Mint, US Mens 10",
-    "fetchedAt": "2026-10-01"
+    "asin": "B0D462SWQL",
+    "url": "https://m.media-amazon.com/images/I/41RZTofIdPL._SL500_.jpg",
+    "title": "Mizuno Men's Wave Inspire 21 Running Shoe, Support Road-Trail Shoe,Ultimate Grey-Black, US Mens 8.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-adrenaline-gts-25": {
+    "shoeId": "brooks-adrenaline-gts-25",
+    "asin": "B0DM3DL995",
+    "url": "https://m.media-amazon.com/images/I/41Rl71dPKGL._SL500_.jpg",
+    "title": "Brooks Men’s Adrenaline GTS 25 Supportive Running & Walking Shoe - White/Black/White - 10.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-speedgoat-6": {
+    "shoeId": "hoka-speedgoat-6",
+    "asin": "B0GFH1XKSS",
+    "url": "https://m.media-amazon.com/images/I/41eAMcBB9aL._SL500_.jpg",
+    "title": "HOKA Speedgoat 6 Mens Shoes Size 8.5, Color: Galactic Grey/Blue-Grey",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-alphafly-3": {
+    "shoeId": "nike-alphafly-3",
+    "asin": "B0GZLVVH2C",
+    "url": "https://m.media-amazon.com/images/I/31BPe1AZ6ZL._SL500_.jpg",
+    "title": "Nike Alphafly 3 Men's Road Racing Shoes (White/Hyper Turquoise/Concord/Black) Size 12",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-vaporfly-3": {
+    "shoeId": "nike-vaporfly-3",
+    "asin": "B0DK2GKCHR",
+    "url": "https://m.media-amazon.com/images/I/3121hmJVgnL._SL500_.jpg",
+    "title": "Nike Vaporfly 3 Men's Road Racing Shoes (HQ3450-147, Sail/Volt/Pacific Moss/Glacier Blue) Size 11.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-streakfly": {
+    "shoeId": "nike-streakfly",
+    "asin": "B0DMGT2CHH",
+    "url": "https://m.media-amazon.com/images/I/31vr7MW3B2L._SL500_.jpg",
+    "title": "Nike Streakfly Men's Road Racing Shoes (DJ6566-105, Pale Ivory/Guava Ice/Black) Size 10.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "adidas-adizero-adios-pro-3": {
+    "shoeId": "adidas-adios-pro-3",
+    "asin": "B0BXYYM8RV",
+    "url": "https://m.media-amazon.com/images/I/41VpBKutE2L._SL500_.jpg",
+    "title": "adidas Adizero Adios Pro 3 Running Shoes Men's, Purple, Size 12",
+    "fetchedAt": "2026-10-20"
+  },
+  "adidas-adizero-boston-12": {
+    "shoeId": "adidas-boston-12",
+    "asin": "B0CM7QRST2",
+    "url": "https://m.media-amazon.com/images/I/41j2cGvMJhL._SL500_.jpg",
+    "title": "Adidas Mens Adizero Boston 12 Running Shoes, Black/Zero Metallic/Spark 9 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-mach-6": {
+    "shoeId": "hoka-mach-6",
+    "asin": "B0DN3F2DCW",
+    "url": "https://m.media-amazon.com/images/I/31Jbu0rpMhL._SL500_.jpg",
+    "title": "Hoka Men's Mach 6 Gravel/Asphalt Grey 11 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-rocket-x-2": {
+    "shoeId": "hoka-rocket-x-2",
+    "asin": "B0CPKLNQCR",
+    "url": "https://m.media-amazon.com/images/I/31-GGvPHeFL._SL500_.jpg",
+    "title": "Hoka Unisex Rocket X 2 Sneaker, Lettuce/Solar Flare, 6.5 US Men",
+    "fetchedAt": "2026-10-20"
+  },
+  "saucony-endorphin-pro-4": {
+    "shoeId": "saucony-endorphin-pro-4",
+    "asin": "B0DJWP1CX7",
+    "url": "https://m.media-amazon.com/images/I/31CadsyBCIL._SL500_.jpg",
+    "title": "Saucony Men's Endorphin Pro 4 Sneaker, White/Mutant, 12.5 | Lightweight Carbon Plated Running Shoes with Dual Foam Cushioning for Race Day and Speed Training",
+    "fetchedAt": "2026-10-20"
+  },
+  "saucony-triumph-22": {
+    "shoeId": "saucony-triumph-22",
+    "asin": "B0CMBD8G4X",
+    "url": "https://m.media-amazon.com/images/I/31-8PDjKNoL._SL500_.jpg",
+    "title": "Saucony Triumph 22 Men's Running Shoe",
+    "fetchedAt": "2026-10-20"
+  },
+  "saucony-kinvara-15": {
+    "shoeId": "saucony-kinvara-15",
+    "asin": "B0CM9ZND9R",
+    "url": "https://m.media-amazon.com/images/I/31PvwhZwseL._SL500_.jpg",
+    "title": "Saucony Kinvara 15 Men's Running Shoe",
+    "fetchedAt": "2026-10-20"
+  },
+  "saucony-peregrine-14": {
+    "shoeId": "saucony-peregrine-14",
+    "asin": "B0CMBFHHQY",
+    "url": "https://m.media-amazon.com/images/I/41fZOgiAUeL._SL500_.jpg",
+    "title": "Saucony Men's Peregrine 14 Sneaker, Dove/Dusk, 8",
+    "fetchedAt": "2026-10-20"
+  },
+  "on-cloudboom-strike": {
+    "shoeId": "on-cloudboom-strike",
+    "asin": "B0FGHTP4TS",
+    "url": "https://m.media-amazon.com/images/I/31nHUfsXyML._SL500_.jpg",
+    "title": "On Running | Cloudboom Strike | Men's | White/Horizon",
+    "fetchedAt": "2026-10-20"
+  },
+  "on-cloudsurfer-next": {
+    "shoeId": "on-cloudsurfer-next",
+    "asin": "B0CN8ZXPJW",
+    "url": "https://m.media-amazon.com/images/I/31AllAykiML._SL500_.jpg",
+    "title": "On Mens, Cloudsurfer Next Black/Lima 10.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "on-cloudmonster-2": {
+    "shoeId": "on-cloudmonster-2",
+    "asin": "B0D31VYBZ3",
+    "url": "https://m.media-amazon.com/images/I/41He2PgHOIL._SL500_.jpg",
+    "title": "On Mens Cloudmonster 2 Tempest/Horizon 12 M",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-superblast-2": {
+    "shoeId": "asics-superblast-2",
+    "asin": "B0FFL9993R",
+    "url": "https://m.media-amazon.com/images/I/31v-vgPYC+L._SL500_.jpg",
+    "title": "ASICS Unisex SUPERBLAST 2 Running Shoes, 12M / 13.5W, Blue Fade/EDO Purple",
+    "fetchedAt": "2026-10-20"
   },
   "asics-magic-speed-4": {
     "shoeId": "asics-magic-speed-4",
-    "asin": "B0D3XPBSSF",
-    "url": "https://m.media-amazon.com/images/I/31Mvrgs3LaL._SL500_.jpg",
-    "title": "ASICS Men's Magic Speed 4 Running Shoes, 12.5, Soothing SEA/Black",
-    "fetchedAt": "2026-10-01"
+    "asin": "B0F63YVVBT",
+    "url": "https://m.media-amazon.com/images/I/41JifH4lCFL._SL500_.jpg",
+    "title": "ASICS Men Magic Speed 4 Flash Red/White 12.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "new-balance-fuelcell-supercomp-elite-v4": {
+    "shoeId": "nb-fuelcell-supercomp-elite-v4",
+    "asin": "B0D2BS8HPH",
+    "url": "https://m.media-amazon.com/images/I/31QcHil5JBL._SL500_.jpg",
+    "title": "New Balance Men's FuelCell SuperComp Elite V4 Running Shoe, White/Angora/Hot Mango, 12.5 M",
+    "fetchedAt": "2026-10-20"
+  },
+  "new-balance-fresh-foam-x-more-v5": {
+    "shoeId": "nb-fresh-foam-x-more-v5",
+    "asin": "B0CLB755S3",
+    "url": "https://m.media-amazon.com/images/I/41ceot19NxL._SL500_.jpg",
+    "title": "New Balance Men's Fresh Foam X More V5 Running Shoe, Brighton Grey/Calcium/Cyber Jade, 7.5 M",
+    "fetchedAt": "2026-10-20"
   },
   "brooks-hyperion-elite-4": {
     "shoeId": "brooks-hyperion-elite-4",
-    "asin": "B0CGYHNTJG",
+    "asin": "B0CGZ8816F",
     "url": "https://m.media-amazon.com/images/I/412JEqfpYyL._SL500_.jpg",
-    "title": "Brooks Unisex Hyperion Elite 4 Neutral Running Shoe for Men & Women - Illusion Blue/Coral/Orange - 9 Medium",
-    "fetchedAt": "2026-10-01"
+    "title": "Brooks Unisex Hyperion Elite 4 Neutral Running Shoe for Men & Women - Illusion Blue/Coral/Orange - 6 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-hyperion-max-2": {
+    "shoeId": "brooks-hyperion-max-2",
+    "asin": "B0D3J8M7BW",
+    "url": "https://m.media-amazon.com/images/I/41cWp6Bf+6L._SL500_.jpg",
+    "title": "Brooks Men’s Hyperion Max 2 Neutral Running Shoe - Black/Gold/Pink - 12.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-cascadia-18": {
+    "shoeId": "brooks-cascadia-18",
+    "asin": "B0CPMGNQZF",
+    "url": "https://m.media-amazon.com/images/I/312Q41Rm3aL._SL500_.jpg",
+    "title": "Brooks Men’s Cascadia 18 Mountain Trail Running Shoe - Oyster/Primer Grey/Coconut - 8.5 Medium",
+    "fetchedAt": "2026-10-20"
   },
   "puma-deviate-nitro-elite-3": {
     "shoeId": "puma-deviate-nitro-elite-3",
     "asin": "B0DZ72PNG3",
     "url": "https://m.media-amazon.com/images/I/31v5eurZB1L._SL500_.jpg",
     "title": "Puma Deviate Nitro Elite 3 Road Running Shoes Mens, Heat Fire, 8",
-    "fetchedAt": "2026-10-01"
+    "fetchedAt": "2026-10-20"
+  },
+  "puma-velocity-nitro-3": {
+    "shoeId": "puma-velocity-nitro-3",
+    "asin": "B0CV9RWGWT",
+    "url": "https://m.media-amazon.com/images/I/31ecImh1iJL._SL500_.jpg",
+    "title": "PUMA Mens Velocity Nitro 3 Running Sneakers Shoes - White - Size 10 M",
+    "fetchedAt": "2026-10-20"
   },
   "inov-8-trailfly-ultra-g-300-max": {
     "shoeId": "inov8-trailfly-ultra-g-300",
-    "asin": "B0949J7532",
-    "url": "https://m.media-amazon.com/images/I/31sHMeDGO5L._SL500_.jpg",
-    "title": "Inov-8 Men's TrailFly Ultra G 300 Max - Trail Running Shoes - Olive/Orange - 7",
-    "fetchedAt": "2026-10-01"
+    "asin": "B09K8M6NBZ",
+    "url": "https://m.media-amazon.com/images/I/41MVg88Um2L._SL500_.jpg",
+    "title": "INOV-8 Men TrailFly Ultra G 300 Max, Color: Blue/Grey/Nectar, Size: 10 (000977-BLGYNE-S-01-10)",
+    "fetchedAt": "2026-10-20"
+  },
+  "merrell-agility-peak-5": {
+    "shoeId": "merrell-agility-peak-5",
+    "asin": "B0CC6JX53D",
+    "url": "https://m.media-amazon.com/images/I/418-fkfNfhL._SL500_.jpg",
+    "title": "Merrell Men's Agility Peak 5 Sneaker, Black/Black, 8.5 | Why We Like The Merrell Agility Peak 5 Shoe",
+    "fetchedAt": "2026-10-20"
   },
   "topo-athletic-mtn-racer-3": {
     "shoeId": "topo-mtn-racer-3",
-    "asin": "B0C461CD2G",
-    "url": "https://m.media-amazon.com/images/I/41jia3Azg4L._SL500_.jpg",
-    "title": "Topo Athletic Men's MTN Racer 3 Comfortable Lightweight 5MM Drop Trail Running Shoes, Athletic Shoes for Trail Running, Black/Lime, Size 12.5",
-    "fetchedAt": "2026-10-01"
+    "asin": "B0CRLFYBRW",
+    "url": "https://m.media-amazon.com/images/I/41KcF5Pj+kL._SL500_.jpg",
+    "title": "Topo Athletic Men's MTN Racer 3 Comfortable Lightweight 5MM Drop Trail Running Shoes, Athletic Shoes for Trail Running, Blue/Orange, Size 11.5",
+    "fetchedAt": "2026-10-20"
   },
   "topo-athletic-cyclone-2": {
     "shoeId": "topo-cyclone-2",
     "asin": "B0CRLFWMZD",
     "url": "https://m.media-amazon.com/images/I/31Ib27CqW7L._SL500_.jpg",
     "title": "Topo Athletic Men's Lightweight Comfortable 5MM Drop Speed Runner Cyclone 2 Road Running Shoes, Athletic Shoes for Road Running, White/Black, Size 11",
-    "fetchedAt": "2026-10-01"
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-pegasus-42": {
+    "shoeId": "nike-pegasus-42",
+    "asin": "B0FRN9QWPD",
+    "url": "https://m.media-amazon.com/images/I/317bwn4xmkL._SL500_.jpg",
+    "title": "Nike Mens, Air Zoom Pegasus 42, Black/White/Photon Dust, 8.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-clifton-10": {
+    "shoeId": "hoka-clifton-10",
+    "asin": "B0D5FNNH7X",
+    "url": "https://m.media-amazon.com/images/I/31jOXZvQZwL._SL500_.jpg",
+    "title": "Hoka Men's Clifton 10 Black/White 9 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-skyward-x": {
+    "shoeId": "hoka-skyward-x",
+    "asin": "B0D5G6PQJM",
+    "url": "https://m.media-amazon.com/images/I/41UIeXCwZmL._SL500_.jpg",
+    "title": "Hoka Men's Skyward X Luna Moth/Black 10.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "li-ning-feidian-6-elite": {
+    "shoeId": "lining-feidian-6-elite",
+    "asin": "B0GGGDX7NM",
+    "url": "https://m.media-amazon.com/images/I/41EnafNRY-L._SL500_.jpg",
+    "title": "LI-NING FEIDIAN 6 Elite Men's Racing Shoes Reflective Lightweight Breathable Running Sneakers Quiet Gray US 10",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-novablast-6": {
+    "shoeId": "asics-novablast-6",
+    "asin": "B0GZS4NZC1",
+    "url": "https://m.media-amazon.com/images/I/31nNfmXqr1L._SL500_.jpg",
+    "title": "ASICS Men's NOVABLAST 6 Running Shoes, 11, Energy Aqua/White",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-metaspeed-edge-tokyo": {
+    "shoeId": "asics-metaspeed-edge-tokyo",
+    "asin": "B0DPLVJG1J",
+    "url": "https://m.media-amazon.com/images/I/41xf4fCFq9L._SL500_.jpg",
+    "title": "ASICS Unisex METASPEED Edge Tokyo Running, 9M / 10.5W, Flash RED/Black",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-glycerin-22": {
+    "shoeId": "brooks-glycerin-22",
+    "asin": "B0D2Z182PF",
+    "url": "https://m.media-amazon.com/images/I/41R4w+sOLvL._SL500_.jpg",
+    "title": "Brooks Men’s Glycerin 22 Neutral Running Shoe - Primer Gray/Ebony/Bluewash - 12.5 Medium",
+    "fetchedAt": "2026-10-20"
   },
   "brooks-hyperion-max-3": {
     "shoeId": "brooks-hyperion-max-3",
-    "asin": "B0F4MJ8LX4",
-    "url": "https://m.media-amazon.com/images/I/41pA4eJYudL._SL500_.jpg",
-    "title": "Brooks Men's Hyperion Max 3 Neutral Running Shoe - Coconut/Ipanema/Nightlife - 7 Medium",
-    "fetchedAt": "2026-10-01"
+    "asin": "B0DM3MLZBV",
+    "url": "https://m.media-amazon.com/images/I/31AOLAhI1ML._SL500_.jpg",
+    "title": "Brooks Men's Hyperion Max 3 Neutral Running Shoe - Coconut/Green Gecko/Pink Clay - 10.5 Medium",
+    "fetchedAt": "2026-10-20"
   },
   "saucony-endorphin-speed-5": {
     "shoeId": "saucony-endorphin-speed-5",
     "asin": "B0DJWNZG91",
     "url": "https://m.media-amazon.com/images/I/410OzuoqpeL._SL500_.jpg",
     "title": "Saucony Men's Endorphin Speed 5 Sneaker, Black/White, 11",
-    "fetchedAt": "2026-10-01"
+    "fetchedAt": "2026-10-20"
   },
   "saucony-endorphin-pro-5": {
     "shoeId": "saucony-endorphin-pro-5",
     "asin": "B0F9LGW7L4",
     "url": "https://m.media-amazon.com/images/I/31zJ2q974EL._SL500_.jpg",
     "title": "Saucony Men's Endorphin Pro 5 Sneaker, Citron/Black, 9.5",
-    "fetchedAt": "2026-10-01"
+    "fetchedAt": "2026-10-20"
+  },
+  "new-balance-fuelcell-supercomp-trainer-v3": {
+    "shoeId": "nb-supercomp-trainer-v3",
+    "asin": "B0F4LSF2W1",
+    "url": "https://m.media-amazon.com/images/I/31hy+MuDlyL._SL500_.jpg",
+    "title": "New Balance Men's FuelCell SuperComp Trainer V3 Running Shoe, Fairweather Blue/Glint Blue, 10.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-mach-x-2": {
+    "shoeId": "hoka-mach-x-2",
+    "asin": "B0CPC2G8PC",
+    "url": "https://m.media-amazon.com/images/I/31eSTiSsoeL._SL500_.jpg",
+    "title": "Hoka Men's Mach X 2 Frost/Citrus 8.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "nnormal-kjerag-2": {
+    "shoeId": "nnormal-kjerag-2",
+    "asin": "B0FKBVMQJ2",
+    "url": "https://m.media-amazon.com/images/I/31N-nQng8cL._SL500_.jpg",
+    "title": "Nnormal Unisex Kjerag 02 Trail Running Shoe Black",
+    "fetchedAt": "2026-10-20"
+  },
+  "puma-fast-r-nitro-elite-3": {
+    "shoeId": "puma-fast-r-nitro-elite-3",
+    "asin": "B0H1WPZ1N4",
+    "url": "https://m.media-amazon.com/images/I/31JkcNc0eqL._SL500_.jpg",
+    "title": "Puma Mens Fast-r Nitro™Elite 3 Running Shoe, Sunny Lime-Black, 11 US",
+    "fetchedAt": "2026-10-20"
+  },
+  "mizuno-neo-vista-2": {
+    "shoeId": "mizuno-neo-vista-2",
+    "asin": "B0FBH7QD87",
+    "url": "https://m.media-amazon.com/images/I/31qtsDtewLL._SL500_.jpg",
+    "title": "Mizuno Men's Wave Neo Vista 2 Running Shoe, Neutral Road-Trail Shoe,Baritone Blue-Frozen Emerald, US Mens 14",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-downshifter-14": {
+    "shoeId": "nike-downshifter-14",
+    "asin": "B0FQMWLLF7",
+    "url": "https://m.media-amazon.com/images/I/31h8RR1Kc3L._SL500_.jpg",
+    "title": "Nike Men's Downshifter 14 Road Running Shoes, Summit White/Metallic Silver-Black-White, 10.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-journey-run": {
+    "shoeId": "nike-journey-run",
+    "asin": "B0DJGBZNPH",
+    "url": "https://m.media-amazon.com/images/I/31MVep9Y1SL._SL500_.jpg",
+    "title": "Nike Men's Journey Run Road Running Shoes, White/Metallic Silver-Black-Ashen Slate, 11",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-juniper-trail-3": {
+    "shoeId": "nike-juniper-trail-3",
+    "asin": "B0F2K3FSWW",
+    "url": "https://m.media-amazon.com/images/I/31oXkGdpYgL._SL500_.jpg",
+    "title": "Nike Men's Juniper Trail 3 Trail Running Shoes, Light Bone/Light Bone-Midnight Navy, 9",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-kiger-10": {
+    "shoeId": "nike-kiger-10",
+    "asin": "B0F4M97YMM",
+    "url": "https://m.media-amazon.com/images/I/41OXbULGwrL._SL500_.jpg",
+    "title": "Nike Kiger 10 Men's Trail Running Shoes (Glacier Blue/Dusty Cactus/Opti Yellow/Field Purple) Size",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-pegasus-plus": {
+    "shoeId": "nike-pegasus-plus",
+    "asin": "B0DLYCSJQX",
+    "url": "https://m.media-amazon.com/images/I/31uTv7Y07uL._SL500_.jpg",
+    "title": "Nike Pegasus Plus Men's Road Running Shoes (HQ3451-101, Sail/Pale Ivory/Volt/Black) Size 8",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-pegasus-trail-5": {
+    "shoeId": "nike-pegasus-trail-5",
+    "asin": "B0D1YD98G8",
+    "url": "https://m.media-amazon.com/images/I/41mirv1PvpL._SL500_.jpg",
+    "title": "Nike Men's Pegasus Trail 5 Black/White/Anthracite/Wolf Grey 8 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-quest-6": {
+    "shoeId": "nike-quest-6",
+    "asin": "B0D9446XKC",
+    "url": "https://m.media-amazon.com/images/I/31xSWZ1EgRL._SL500_.jpg",
+    "title": "Nike Men's Quest 6 Road Running Shoes, Black/White-Iron Grey, 13",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-revolution-8": {
+    "shoeId": "nike-revolution-8",
+    "asin": "B0DPHXKMHV",
+    "url": "https://m.media-amazon.com/images/I/31RkP5XYARL._SL500_.jpg",
+    "title": "Nike Men's Revolution 8 Road Running Shoes, Black/White-Black, 12.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-structure-26": {
+    "shoeId": "nike-structure-26",
+    "asin": "B0FDW9N4N3",
+    "url": "https://m.media-amazon.com/images/I/31b9PKfdHmL._SL500_.jpg",
+    "title": "Nike Mens Structure 26 White/Bright Crimson/Medium Ash 10 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-structure-plus": {
+    "shoeId": "nike-structure-plus",
+    "asin": "B0FFNXSNZM",
+    "url": "https://m.media-amazon.com/images/I/41LahA5fKVL._SL500_.jpg",
+    "title": "Nike Men Structure Plus Black/White/Anthracite 10.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-vaporfly-4": {
+    "shoeId": "nike-vaporfly-4",
+    "asin": "B0F71K7MNM",
+    "url": "https://m.media-amazon.com/images/I/41YLkEMVllL._SL500_.jpg",
+    "title": "Nike Vaporfly 4 Men's Road Racing Shoes (HF6414-600, Bright Crimson/Mint Foam/Cave Purple/Lime Blast) Size 8",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-vomero-18": {
+    "shoeId": "nike-vomero-18",
+    "asin": "B0F2G4568B",
+    "url": "https://m.media-amazon.com/images/I/41C1XErqEOL._SL500_.jpg",
+    "title": "Nike Men's Vomero 18 Black/Summit White/Bright Crimson 11 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-wildhorse-10": {
+    "shoeId": "nike-wildhorse-10",
+    "asin": "B0GPX87RDV",
+    "url": "https://m.media-amazon.com/images/I/31mmrXxqVnL._SL500_.jpg",
+    "title": "Nike Wildhorse 10 Men's Trail Running Shoes (Light Orewood Brown/Safety Orange/Cream II) Size 10.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-winflo-12": {
+    "shoeId": "nike-winflo-12",
+    "asin": "B0FQMT87DF",
+    "url": "https://m.media-amazon.com/images/I/31pXJO0sopL._SL500_.jpg",
+    "title": "Nike Men's Air Winflo 12, White/Blue Crystal-Off White-Lapis, 9.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-zegama-2": {
+    "shoeId": "nike-zegama-2",
+    "asin": "B0D9V434YW",
+    "url": "https://m.media-amazon.com/images/I/31JemzR8OBL._SL500_.jpg",
+    "title": "Nike Zegama 2 Men's Trail Running Shoes (FD5190-001, Black/Wolf Grey/Anthracite/White) Size 8",
+    "fetchedAt": "2026-10-20"
+  },
+  "nike-zoom-fly-6": {
+    "shoeId": "nike-zoom-fly-6",
+    "asin": "B0DCZVSHVV",
+    "url": "https://m.media-amazon.com/images/I/31goGL10WIL._SL500_.jpg",
+    "title": "Nike Zoom Fly 6 Men's Road Running Shoe FN8454, Black White Lt Smoke Grey, 42 EU",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-caldera-8": {
+    "shoeId": "brooks-caldera-8",
+    "asin": "B0DYLLFRSS",
+    "url": "https://m.media-amazon.com/images/I/41C2RispcyL._SL500_.jpg",
+    "title": "Brooks Men’s Caldera 8 Ultra Trail Running Shoe - Dusty Olive/Lime/Oyster - 9 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-cascadia-20": {
+    "shoeId": "brooks-cascadia-20",
+    "asin": "B0G1HT6NX6",
+    "url": "https://m.media-amazon.com/images/I/41LGQ40wk9L._SL500_.jpg",
+    "title": "Brooks Men’s Cascadia 20 Trail Running Shoe - Black/Tigerlily/Orange - 12 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-catamount-4": {
+    "shoeId": "brooks-catamount-4",
+    "asin": "B0D6RC2YSY",
+    "url": "https://m.media-amazon.com/images/I/41Wb3ZuPinL._SL500_.jpg",
+    "title": "Brooks Men's Catamount 4 Speed Trail Running Shoe - Quince/Celestial/Neo Ember - 10.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-ghost-18": {
+    "shoeId": "brooks-ghost-18",
+    "asin": "B0FP79W5FR",
+    "url": "https://m.media-amazon.com/images/I/41IHhQ9osuL._SL500_.jpg",
+    "title": "Brooks Men’s Ghost 18 Neutral Running & Walking Shoe - Black/Black/Ebony - 9 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-ghost-max-4": {
+    "shoeId": "brooks-ghost-max-4",
+    "asin": "B0FY3L1PTQ",
+    "url": "https://m.media-amazon.com/images/I/31uKIVkHI9L._SL500_.jpg",
+    "title": "Brooks Men’s Ghost Max 4 Neutral Running & Walking Shoe - Black/Black/Ebony - 9.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-glycerin-23": {
+    "shoeId": "brooks-glycerin-23",
+    "asin": "B0F5N9WKQT",
+    "url": "https://m.media-amazon.com/images/I/41scHgIJV3L._SL500_.jpg",
+    "title": "Brooks Men’s Glycerin 23 Neutral Running Shoe - Black/Grey/White - 10 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-glycerin-gts-22": {
+    "shoeId": "brooks-glycerin-gts-22",
+    "asin": "B0D38G6GPJ",
+    "url": "https://m.media-amazon.com/images/I/31a3JRCF3zL._SL500_.jpg",
+    "title": "Brooks Men’s Glycerin GTS 22 Supportive Running Shoe - Black/Grey/White - 12.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-hyperion-elite-6": {
+    "shoeId": "brooks-hyperion-elite-6",
+    "asin": "B0G88K45X7",
+    "url": "https://m.media-amazon.com/images/I/417o1sH41LL._SL500_.jpg",
+    "title": "Brooks Hyperion Elite 6 Race Running Shoe for Men & Women - Tigerlily/Red/White - 10.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-hyperion-max-4": {
+    "shoeId": "brooks-hyperion-max-4",
+    "asin": "B0FZXMFYDM",
+    "url": "https://m.media-amazon.com/images/I/41bkf2VTQyL._SL500_.jpg",
+    "title": "Brooks Men’s Hyperion Max 4 Neutral Running Shoe - White/Blue/Nightlife - 11.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-launch-12": {
+    "shoeId": "brooks-launch-12",
+    "asin": "B0F5NPLXJZ",
+    "url": "https://m.media-amazon.com/images/I/41QQ2-77jhL._SL500_.jpg",
+    "title": "Brooks Men’s Launch 12 Neutral Running Shoe - Moonlight/Black/Orange - 12 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-revel-9": {
+    "shoeId": "brooks-revel-9",
+    "asin": "B0FZXKBJF2",
+    "url": "https://m.media-amazon.com/images/I/41R1gombY+L._SL500_.jpg",
+    "title": "Brooks Men’s Revel 9 Neutral Running & Walking Shoe - Navy/Blue/Blue Wash - 10 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "brooks-trace-3": {
+    "shoeId": "brooks-trace-3",
+    "asin": "B0BMV17GQ5",
+    "url": "https://m.media-amazon.com/images/I/41epG4j6W1L._SL500_.jpg",
+    "title": "Brooks Men’s Trace 3 Neutral Running Shoe - Blue/Peacoat/Yellow - 11 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-dynablast-5": {
+    "shoeId": "asics-dynablast-5",
+    "asin": "B0F55ZRCBX",
+    "url": "https://m.media-amazon.com/images/I/31IQrd9uDIL._SL500_.jpg",
+    "title": "ASICS Men's DYNABLAST 5 Running Shoe, 11.5, Black/Brown Stone",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-gel-contend-9": {
+    "shoeId": "asics-gel-contend-9",
+    "asin": "B0F6NSC6XC",
+    "url": "https://m.media-amazon.com/images/I/31s-lT-leML._SL500_.jpg",
+    "title": "ASICS Men's Gel-Contend 9 Running Shoes, 14, Carrier Grey/ANZU",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-gel-cumulus-28": {
+    "shoeId": "asics-gel-cumulus-28",
+    "asin": "B0FV5ZFB4V",
+    "url": "https://m.media-amazon.com/images/I/31vtDM5fz4L._SL500_.jpg",
+    "title": "ASICS Men's Gel-Cumulus 28 Running Shoes, 9.5, Black/Carrier Grey",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-gel-excite-11": {
+    "shoeId": "asics-gel-excite-11",
+    "asin": "B0DPLWVTZ1",
+    "url": "https://m.media-amazon.com/images/I/31slfq1+aHL._SL500_.jpg",
+    "title": "ASICS Men's Gel-Excite 11 Running Shoes, 10.5, Black/Meteor Grey",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-gel-kayano-33": {
+    "shoeId": "asics-gel-kayano-33",
+    "asin": "B0GY9RKJ3X",
+    "url": "https://m.media-amazon.com/images/I/31nQHPlaeGL._SL500_.jpg",
+    "title": "ASICS Men's Gel-Kayano 33 Running Shoes, 11.5, Black/Black",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-gel-pulse-17": {
+    "shoeId": "asics-gel-pulse-17",
+    "asin": "B0FTPKFLWD",
+    "url": "https://m.media-amazon.com/images/I/31ZSMyRqlIL._SL500_.jpg",
+    "title": "ASICS Men's Gel-Pulse 17 Running Shoes, 11.5, Black/Graphite Grey",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-gel-venture-11": {
+    "shoeId": "asics-gel-venture-11",
+    "asin": "B0FV7F3ZC1",
+    "url": "https://m.media-amazon.com/images/I/31mKhBC5IRL._SL500_.jpg",
+    "title": "ASICS Men's Gel-Venture 11 Running Shoes, 11, Midnight/Grey Blue",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-glideride-max-2": {
+    "shoeId": "asics-glideride-max-2",
+    "asin": "B0FV77RJK7",
+    "url": "https://m.media-amazon.com/images/I/41zsXcMhVnL._SL500_.jpg",
+    "title": "ASICS Men's GLIDERIDE MAX 2 Running Shoes, 10, Black/White",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-gt-1000-15": {
+    "shoeId": "asics-gt-1000-15",
+    "asin": "B0GY9V69J2",
+    "url": "https://m.media-amazon.com/images/I/31G3KZbtYIL._SL500_.jpg",
+    "title": "ASICS Men's GT-1000 15 Running Shoes, 10, Prussian Blue/White",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-gt-2000-15": {
+    "shoeId": "asics-gt-2000-15",
+    "asin": "B0H6GNVHB3",
+    "url": "https://m.media-amazon.com/images/I/31fAnO+mWvL._SL500_.jpg",
+    "title": "ASICS Men's GT-2000 15 Running Shoes, 10, Black/White",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-magic-speed-5": {
+    "shoeId": "asics-magic-speed-5",
+    "asin": "B0FV7RYZGF",
+    "url": "https://m.media-amazon.com/images/I/41dlUeRDnQL._SL500_.jpg",
+    "title": "ASICS Unisex Magic Speed 5 Running Shoes, 10.5M / 12W, Vital Green/Carrier Grey",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-metafuji-trail-2": {
+    "shoeId": "asics-metafuji-trail-2",
+    "asin": "B0HCW71G7H",
+    "url": "https://m.media-amazon.com/images/I/41-V7mPq4bL._SL500_.jpg",
+    "title": "ASICS Unisex METAFUJI Trail 2 Trail Running, 8.5M / 10W, Illuminate Yellow/Dark Aubergine",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-metaspeed-sky-tokyo": {
+    "shoeId": "asics-metaspeed-sky-tokyo",
+    "asin": "B0DPLTGPM1",
+    "url": "https://m.media-amazon.com/images/I/41C-fBkRQaL._SL500_.jpg",
+    "title": "ASICS Unisex METASPEED Sky Tokyo Running, 11M / 12.5W, Flash RED/Black",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-noosa-tri-16": {
+    "shoeId": "asics-noosa-tri-16",
+    "asin": "B0F642YXKT",
+    "url": "https://m.media-amazon.com/images/I/41WS14QwpvL._SL500_.jpg",
+    "title": "ASICS Men's Noosa TRI 16 Running Shoes, 10.5, Black/Jasper Green",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-sonicblast-2": {
+    "shoeId": "asics-sonicblast-2",
+    "asin": "B0H8G7ZLQ2",
+    "url": "https://m.media-amazon.com/images/I/31cyeRFcpnL._SL500_.jpg",
+    "title": "ASICS Men's SONICBLAST 2 Running, 8, White/Stadium Orange",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-trabuco-14": {
+    "shoeId": "asics-trabuco-14",
+    "asin": "B0GY9V5WFV",
+    "url": "https://m.media-amazon.com/images/I/41dbScy9UyL._SL500_.jpg",
+    "title": "ASICS Men's Trabuco 14 Running Shoes, 11, Vintage Khaki/Black",
+    "fetchedAt": "2026-10-20"
+  },
+  "asics-versablast-4": {
+    "shoeId": "asics-versablast-4",
+    "asin": "B0D82G4Q92",
+    "url": "https://m.media-amazon.com/images/I/31uAomx6ICL._SL500_.jpg",
+    "title": "ASICS Men's VERSABLAST 4 Running Shoes, 9, Black/Carrier Grey",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-arahi-9": {
+    "shoeId": "hoka-arahi-9",
+    "asin": "B0FXFHKP2H",
+    "url": "https://m.media-amazon.com/images/I/31AU-qQzm6L._SL500_.jpg",
+    "title": "Hoka Mens Arahi 9 Black/White 10.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-challenger-8": {
+    "shoeId": "hoka-challenger-8",
+    "asin": "B0F9QPQFYY",
+    "url": "https://m.media-amazon.com/images/I/41D60qvFcEL._SL500_.jpg",
+    "title": "Hoka Men's Challenger 8 Faded Navy/Pampas Grass 10 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-clifton-11": {
+    "shoeId": "hoka-clifton-11",
+    "asin": "B0FXFBR6BV",
+    "url": "https://m.media-amazon.com/images/I/31hgiZbkXnL._SL500_.jpg",
+    "title": "Hoka Mens Clifton 11 Black/Black 8.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-gaviota-6": {
+    "shoeId": "hoka-gaviota-6",
+    "asin": "B0F9QMSCH5",
+    "url": "https://m.media-amazon.com/images/I/31YbgWVPDlL._SL500_.jpg",
+    "title": "Hoka Men's Gaviota 6 Black/White 9 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-kawana-2": {
+    "shoeId": "hoka-kawana-2",
+    "asin": "B0CN35PCVW",
+    "url": "https://m.media-amazon.com/images/I/31nM-rnhBjL._SL500_.jpg",
+    "title": "Hoka Men's Kawana 2 White/Nimbus Cloud 8 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-mach-7": {
+    "shoeId": "hoka-mach-7",
+    "asin": "B0F9QHLBF3",
+    "url": "https://m.media-amazon.com/images/I/419UCcAMGCL._SL500_.jpg",
+    "title": "Hoka Men's Mach 7 Ash Grey/Cobalt Blue 9.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-mach-x-3": {
+    "shoeId": "hoka-mach-x-3",
+    "asin": "B0DN61DGH2",
+    "url": "https://m.media-amazon.com/images/I/413ICyYngFL._SL500_.jpg",
+    "title": "Hoka Men's Mach X 3 White/Neon Tangerine 11.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-rincon-4": {
+    "shoeId": "hoka-rincon-4",
+    "asin": "B0CP2WZDQ5",
+    "url": "https://m.media-amazon.com/images/I/31Tbk70IVHL._SL500_.jpg",
+    "title": "Hoka Men's Rincon 4 Black/White 11.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-rocket-x-3": {
+    "shoeId": "hoka-rocket-x-3",
+    "asin": "B0DN5MR4QZ",
+    "url": "https://m.media-amazon.com/images/I/41AvETRgEfL._SL500_.jpg",
+    "title": "Hoka Unisex Rocket X 3 White/Black Men's 7, Women's 8 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-skyflow": {
+    "shoeId": "hoka-skyflow",
+    "asin": "B0CPMZYL8W",
+    "url": "https://m.media-amazon.com/images/I/41vOvyKYTTL._SL500_.jpg",
+    "title": "HOKA Skyflow Mens Shoes Size 10.5, Color: Black/White",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-speedgoat-7": {
+    "shoeId": "hoka-speedgoat-7",
+    "asin": "B0F9R4N598",
+    "url": "https://m.media-amazon.com/images/I/41TxEhkRq7L._SL500_.jpg",
+    "title": "Hoka Men's Speedgoat 7 Black/White 9.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "hoka-tecton-x-3": {
+    "shoeId": "hoka-tecton-x-3",
+    "asin": "B0CPC386BR",
+    "url": "https://m.media-amazon.com/images/I/41MQ81BA5eL._SL500_.jpg",
+    "title": "Hoka Men's Tecton X 3 Sneaker, Stormy Skies/Cerise, 13",
+    "fetchedAt": "2026-10-20"
+  },
+  "saucony-endorphin-trainer": {
+    "shoeId": "saucony-endorphin-trainer",
+    "asin": "B0DJWPSB2F",
+    "url": "https://m.media-amazon.com/images/I/317fvyDFF4L._SL500_.jpg",
+    "title": "Saucony Men's Endorphin Trainer Sneaker, White/Mutant, 12",
+    "fetchedAt": "2026-10-20"
+  },
+  "saucony-guide-19": {
+    "shoeId": "saucony-guide-19",
+    "asin": "B0F9LJFCT9",
+    "url": "https://m.media-amazon.com/images/I/41BaP+ru1yL._SL500_.jpg",
+    "title": "Saucony Men's Guide 19 Sneaker, Black/Silver, 10",
+    "fetchedAt": "2026-10-20"
+  },
+  "saucony-hurricane-26": {
+    "shoeId": "saucony-hurricane-26",
+    "asin": "B0FYT2VFJ4",
+    "url": "https://m.media-amazon.com/images/I/41VAmEyyxDL._SL500_.jpg",
+    "title": "Saucony Men's Hurricane 26 Road Running Shoe, Triple Black, 11 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "saucony-kinvara-16": {
+    "shoeId": "saucony-kinvara-16",
+    "asin": "B0DJWPHF9D",
+    "url": "https://m.media-amazon.com/images/I/31foIa-SzwL._SL500_.jpg",
+    "title": "Saucony Men's Kinvara 16 Sneaker, Black/White, 13",
+    "fetchedAt": "2026-10-20"
+  },
+  "saucony-omni-22": {
+    "shoeId": "saucony-omni-22",
+    "asin": "B0C34RTX3P",
+    "url": "https://m.media-amazon.com/images/I/317yoSLaSGL._SL500_.jpg",
+    "title": "Saucony Men's Omni 22 Sneaker, Black/White, 10",
+    "fetchedAt": "2026-10-20"
+  },
+  "saucony-peregrine-16": {
+    "shoeId": "saucony-peregrine-16",
+    "asin": "B0FY7SXH6C",
+    "url": "https://m.media-amazon.com/images/I/41pdBUHtEtL._SL500_.jpg",
+    "title": "Saucony Men's Peregrine 16 Sneaker, Field/Black, 9.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "saucony-tempus-2": {
+    "shoeId": "saucony-tempus-2",
+    "asin": "B0CMB88JS2",
+    "url": "https://m.media-amazon.com/images/I/414y3XW0hfL._SL500_.jpg",
+    "title": "Saucony Men's Tempus 2 Sneaker, Royal/Silver, 8.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "saucony-triumph-24": {
+    "shoeId": "saucony-triumph-24",
+    "asin": "B0FYTGCXSB",
+    "url": "https://m.media-amazon.com/images/I/41v6jlbkYsL._SL500_.jpg",
+    "title": "Saucony Men's Triumph 24 Road Running Shoe, Fossil/Gunmetal, 11 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "on-cloudboom-max": {
+    "shoeId": "on-cloudboom-max",
+    "asin": "B0FPGC32JX",
+    "url": "https://m.media-amazon.com/images/I/31ibYWbHkPL._SL500_.jpg",
+    "title": "Men's Cloudboom Max (White/Black)",
+    "fetchedAt": "2026-10-20"
+  },
+  "on-cloudflow-5": {
+    "shoeId": "on-cloudflow-5",
+    "asin": "B0D31W2K9N",
+    "url": "https://m.media-amazon.com/images/I/31Po-n7qdTL._SL500_.jpg",
+    "title": "On Running Men's Cloudflow 5, Arctic/Stone, 11 US | Running, Walking, GYM",
+    "fetchedAt": "2026-10-20"
+  },
+  "on-cloudflyer-5": {
+    "shoeId": "on-cloudflyer-5",
+    "asin": "B0CN943NXF",
+    "url": "https://m.media-amazon.com/images/I/31nSyoeMNdL._SL500_.jpg",
+    "title": "On Cloudflyer 5 Men's Shoes",
+    "fetchedAt": "2026-10-20"
+  },
+  "on-cloudmonster-3": {
+    "shoeId": "on-cloudmonster-3",
+    "asin": "B0F7D7G58H",
+    "url": "https://m.media-amazon.com/images/I/31R8LI+koAL._SL500_.jpg",
+    "title": "On Mens Cloudmonster 3 White/White 11.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "on-cloudrunner-3": {
+    "shoeId": "on-cloudrunner-3",
+    "asin": "B0F7D7VZV1",
+    "url": "https://m.media-amazon.com/images/I/410PkuvnHqL._SL500_.jpg",
+    "title": "On Mens Cloudrunner 3, Linen/Ivory 10.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "on-cloudstratus-3": {
+    "shoeId": "on-cloudstratus-3",
+    "asin": "B0CN91HLQY",
+    "url": "https://m.media-amazon.com/images/I/31C0KTDKVuL._SL500_.jpg",
+    "title": "Men's Cloudstratus 3 (Metal/Glacier)",
+    "fetchedAt": "2026-10-20"
+  },
+  "on-cloudsurfer-max": {
+    "shoeId": "on-cloudsurfer-max",
+    "asin": "B0DM2M8WLT",
+    "url": "https://m.media-amazon.com/images/I/31ulDdPPerL._SL500_.jpg",
+    "title": "On Mens Cloudsurfer Max Black/Eclipse 8 M",
+    "fetchedAt": "2026-10-20"
+  },
+  "on-cloudsurfer-trail-2": {
+    "shoeId": "on-cloudsurfer-trail-2",
+    "asin": "B0DM2LQ2PD",
+    "url": "https://m.media-amazon.com/images/I/41hYRqfWELL._SL500_.jpg",
+    "title": "On Mens Cloudsurfer Trail 2 Rock/Niagara 10 M",
+    "fetchedAt": "2026-10-20"
+  },
+  "on-cloudswift-4": {
+    "shoeId": "on-cloudswift-4",
+    "asin": "B0D31SBR63",
+    "url": "https://m.media-amazon.com/images/I/31NKC8laiNL._SL500_.jpg",
+    "title": "On Mens, Cloudswift 4 Black/Eclipse 8 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "on-cloudultra-3": {
+    "shoeId": "on-cloudultra-3",
+    "asin": "B0FKB9CQGZ",
+    "url": "https://m.media-amazon.com/images/I/31O4SpviA5L._SL500_.jpg",
+    "title": "ON CLOUDULTRA 3 - HOMME",
+    "fetchedAt": "2026-10-20"
+  },
+  "on-cloudvista-2": {
+    "shoeId": "on-cloudvista-2",
+    "asin": "B0CN946PJZ",
+    "url": "https://m.media-amazon.com/images/I/21glJ2nxjNL._SL500_.jpg",
+    "title": "On Mens, Cloudvista 2 Glacier/Eclipse 12.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "adidas-adistar-4": {
+    "shoeId": "adidas-adistar-4",
+    "asin": "B0DK61BDX7",
+    "url": "https://m.media-amazon.com/images/I/318pgFJMyKL._SL500_.jpg",
+    "title": "Adidas, Mens, Adistar 4 Running Shoes, Halo Silver/Onix/Solar Slime, 10, D - Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "adidas-adizero-sl2": {
+    "shoeId": "adidas-adizero-sl2",
+    "asin": "B0DK61ST77",
+    "url": "https://m.media-amazon.com/images/I/417zccoGI+L._SL500_.jpg",
+    "title": "Adidas, Mens, Adizero SL2 Running Shoes, Black/White/Grey, 11.5, D - Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "adidas-duramo-speed": {
+    "shoeId": "adidas-duramo-speed",
+    "asin": "B0CKMCG8RQ",
+    "url": "https://m.media-amazon.com/images/I/31X0KDawMDL._SL500_.jpg",
+    "title": "Adidas Men's Duramo Speed, White/Aurora Met./Solar Red, 10",
+    "fetchedAt": "2026-10-20"
+  },
+  "adidas-runfalcon-5": {
+    "shoeId": "adidas-runfalcon-5",
+    "asin": "B0CKRZ2GZV",
+    "url": "https://m.media-amazon.com/images/I/210+W5Z3UTL._SL500_.jpg",
+    "title": "Adidas Men's Runfalcon 5 Running Shoes, 10.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "adidas-supernova-prima-3": {
+    "shoeId": "adidas-supernova-prima-3",
+    "asin": "B0FXJFTN8P",
+    "url": "https://m.media-amazon.com/images/I/218bXbIPpKL._SL500_.jpg",
+    "title": "adidas, Men's, Supernova Prima 3 Running Shoes, Crystal Jade/Iron Metallic/Signal Green, Men 12 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "adidas-supernova-rise-3": {
+    "shoeId": "adidas-supernova-rise-3",
+    "asin": "B0FWBWGH8T",
+    "url": "https://m.media-amazon.com/images/I/21KXJyIHg6L._SL500_.jpg",
+    "title": "adidas Men's Supernova Rise 3 Running, Crystal Jade/Silver Metallic/Lucid Tangerine, 10.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "adidas-ultraboost-5": {
+    "shoeId": "adidas-ultraboost-5",
+    "asin": "B0CMS6SJ7V",
+    "url": "https://m.media-amazon.com/images/I/319nQJ0GQIL._SL500_.jpg",
+    "title": "Adidas Men's Ultraboost 5, Olive Strata/Iron Metallic/Shadow Olive, 8",
+    "fetchedAt": "2026-10-20"
+  },
+  "puma-deviate-nitro-4": {
+    "shoeId": "puma-deviate-nitro-4",
+    "asin": "B0GD2VV11K",
+    "url": "https://m.media-amazon.com/images/I/319DOZGeRML._SL500_.jpg",
+    "title": "PUMA Men's Deviate Nitro 4 Running Shoes, Baltic Sea Blue-Fresh Water, Size 11.5 D Medium US",
+    "fetchedAt": "2026-10-20"
+  },
+  "puma-foreverrun-nitro-2": {
+    "shoeId": "puma-foreverrun-nitro-2",
+    "asin": "B0FT4455QN",
+    "url": "https://m.media-amazon.com/images/I/41xaK1mqfBL._SL500_.jpg",
+    "title": "PUMA Men's Foreverrun Nitro 2 Running Shoes, Vibrant Silver-Apple Spritz, Size 12 D Medium US",
+    "fetchedAt": "2026-10-20"
+  },
+  "puma-magnify-nitro-3": {
+    "shoeId": "puma-magnify-nitro-3",
+    "asin": "B0FT4T4VGG",
+    "url": "https://m.media-amazon.com/images/I/41ts4HU3skL._SL500_.jpg",
+    "title": "PUMA Men's Magnify Nitro 3 Running Shoes, Baltic Sea Blue-Puma Black, Size 8.5 D Medium US",
+    "fetchedAt": "2026-10-20"
+  },
+  "puma-velocity-nitro-5": {
+    "shoeId": "puma-velocity-nitro-5",
+    "asin": "B0GP2CFMSC",
+    "url": "https://m.media-amazon.com/images/I/31xT9hv6cTL._SL500_.jpg",
+    "title": "PUMA Men's Velocity Nitro 5 Running Shoes, White-Ultra Red AH26, 12.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "new-balance-1080-v15": {
+    "shoeId": "nb-1080-v15",
+    "asin": "B0F4M8QZSN",
+    "url": "https://m.media-amazon.com/images/I/41x8CunLheL._SL500_.jpg",
+    "title": "New Balance Men's Fresh Foam X 1080 V15 Running Shoe, Reflection/Graphite, 10",
+    "fetchedAt": "2026-10-20"
+  },
+  "new-balance-fresh-foam-680-v9": {
+    "shoeId": "nb-680-v9",
+    "asin": "B0F4LFYFN5",
+    "url": "https://m.media-amazon.com/images/I/31BLZWTDKEL._SL500_.jpg",
+    "title": "New Balance Men's Fresh Foam 680 V9 Running Shoe, Vintage Indigo/Nb Navy, 12 W",
+    "fetchedAt": "2026-10-20"
+  },
+  "new-balance-860-v15": {
+    "shoeId": "nb-860-v15",
+    "asin": "B0F4LYBW5Y",
+    "url": "https://m.media-amazon.com/images/I/312KlpqtUCL._SL500_.jpg",
+    "title": "New Balance Men's Fresh Foam X 860 V15 Running Shoe, Black/Nb 103 White, 12 W",
+    "fetchedAt": "2026-10-20"
+  },
+  "new-balance-880-v15": {
+    "shoeId": "nb-880-v15",
+    "asin": "B0D2BRYN8R",
+    "url": "https://m.media-amazon.com/images/I/41b1whW2nCL._SL500_.jpg",
+    "title": "New Balance Men's Fresh Foam X 880 V15 Running Shoe, Sea Stone/Nb Navy/Marmalade, 11.5 W",
+    "fetchedAt": "2026-10-20"
+  },
+  "new-balance-fresh-foam-arishi-v4": {
+    "shoeId": "nb-arishi-v4",
+    "asin": "B09H3P88NR",
+    "url": "https://m.media-amazon.com/images/I/41NhuxdSHdL._SL500_.jpg",
+    "title": "New Balance Men's Fresh Foam Arishi V4 Running Shoe Black/Silver Metallic",
+    "fetchedAt": "2026-10-20"
+  },
+  "new-balance-fresh-foam-x-balos": {
+    "shoeId": "nb-balos",
+    "asin": "B0CNKX8WB7",
+    "url": "https://m.media-amazon.com/images/I/41iW5UBbGOL._SL500_.jpg",
+    "title": "New Balance Men's Fresh Foam X Balos White/Relic Brown 8 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "new-balance-fresh-foam-x-hierro-v9": {
+    "shoeId": "nb-hierro-v9",
+    "asin": "B0D2BS22MV",
+    "url": "https://m.media-amazon.com/images/I/41-Z4EgenJL._SL500_.jpg",
+    "title": "New Balance Men's Fresh Foam X Hierro V9 Trail Running Shoe, Arid Stone/Castlerock, 10 M",
+    "fetchedAt": "2026-10-20"
+  },
+  "new-balance-fresh-foam-x-kaiha-road": {
+    "shoeId": "nb-kaiha-road",
+    "asin": "B09YGLJTX4",
+    "url": "https://m.media-amazon.com/images/I/311ozWpakHL._SL500_.jpg",
+    "title": "New Balance Men's Fresh Foam X Kaiha Road V1 Running Shoe, Black/Phantom/Dark Silver Metallic, 9.5 M",
+    "fetchedAt": "2026-10-20"
+  },
+  "new-balance-fresh-foam-x-more-trail-v3": {
+    "shoeId": "nb-more-trail-v3",
+    "asin": "B09ZPSZH2T",
+    "url": "https://m.media-amazon.com/images/I/41MOKV9jcFL._SL500_.jpg",
+    "title": "New Balance Men's Fresh Foam X More Trail V3 Running Shoe, Yellow/Concrete, 5 Wide",
+    "fetchedAt": "2026-10-20"
+  },
+  "new-balance-fuelcell-propel-v5": {
+    "shoeId": "nb-propel-v5",
+    "asin": "B0D2BN693T",
+    "url": "https://m.media-amazon.com/images/I/31JOPnaddcL._SL500_.jpg",
+    "title": "New Balance Men's FuelCell Propel V5 Running Shoe, Linen/Nb Navy/Neo Flame, 14 M",
+    "fetchedAt": "2026-10-20"
+  },
+  "new-balance-fuelcell-rebel-v5": {
+    "shoeId": "nb-rebel-v5",
+    "asin": "B0DJV83WZR",
+    "url": "https://m.media-amazon.com/images/I/31STc987MFL._SL500_.jpg",
+    "title": "New Balance Men's FuelCell Rebel V5 Running Shoe, Raincloud/Mineral/White, 10.5 M",
+    "fetchedAt": "2026-10-20"
+  },
+  "new-balance-fresh-foam-x-vongo-v6": {
+    "shoeId": "nb-vongo-v6",
+    "asin": "B0BJ7MM3ZP",
+    "url": "https://m.media-amazon.com/images/I/31vq31bvPRL._SL500_.jpg",
+    "title": "New Balance Men's Fresh Foam X Vongo V6 Running Shoe, Black/White, 10.5 M",
+    "fetchedAt": "2026-10-20"
+  },
+  "salomon-thundercross": {
+    "shoeId": "salomon-thundercross",
+    "asin": "B0CQMXCG66",
+    "url": "https://m.media-amazon.com/images/I/31MNdus0JJL._SL500_.jpg",
+    "title": "Salomon Mens Thundercross Black/Cherry Tomato/Electric Green 8.5 Medium",
+    "fetchedAt": "2026-10-20"
+  },
+  "altra-escalante-5": {
+    "shoeId": "altra-escalante-5",
+    "asin": "B0GGLNPGQ3",
+    "url": "https://m.media-amazon.com/images/I/31Urup1lREL._SL500_.jpg",
+    "title": "ALTRA Men's Escalante 5 Road Running Shoe, Birch/Mountain Trail/As, 11",
+    "fetchedAt": "2026-10-20"
+  },
+  "altra-experience-flow-3": {
+    "shoeId": "altra-experience-flow-3",
+    "asin": "B0FD2MR73D",
+    "url": "https://m.media-amazon.com/images/I/31z7YslIitL._SL500_.jpg",
+    "title": "ALTRA Men's Experience Flow 3 Road Running Shoe, Black/White, 11",
+    "fetchedAt": "2026-10-20"
+  },
+  "altra-fwd-via-2": {
+    "shoeId": "altra-fwd-via-2",
+    "asin": "B0FD2SWR8Y",
+    "url": "https://m.media-amazon.com/images/I/314ptj3jNrL._SL500_.jpg",
+    "title": "ALTRA Men's FWD VIA 2 Road Running Shoe, Navy/Light Blue, 10.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "altra-lone-peak-9": {
+    "shoeId": "altra-lone-peak-9",
+    "asin": "B0D482FL2D",
+    "url": "https://m.media-amazon.com/images/I/31PBz1nlNwL._SL500_.jpg",
+    "title": "ALTRA Men's Lone Peak 9 Trail Running Shoe, Black, 9",
+    "fetchedAt": "2026-10-20"
+  },
+  "altra-olympus-6": {
+    "shoeId": "altra-olympus-6",
+    "asin": "B0CPRPKJQ9",
+    "url": "https://m.media-amazon.com/images/I/31+PoaH5P1L._SL500_.jpg",
+    "title": "ALTRA Men's Olympus 6 Trail Running Shoe, Black/Black, 11",
+    "fetchedAt": "2026-10-20"
+  },
+  "altra-paradigm-8": {
+    "shoeId": "altra-paradigm-8",
+    "asin": "B0DMBWBV67",
+    "url": "https://m.media-amazon.com/images/I/31DaXpxc7CL._SL500_.jpg",
+    "title": "ALTRA Men's Paradigm 8 Road Running Shoe, Black/White, 10",
+    "fetchedAt": "2026-10-20"
+  },
+  "altra-provision-8": {
+    "shoeId": "altra-provision-8",
+    "asin": "B0D481GX2P",
+    "url": "https://m.media-amazon.com/images/I/31sbnwTB0BL._SL500_.jpg",
+    "title": "ALTRA Men's Provision 8 Road Running Shoe, Gray/Blue, 9",
+    "fetchedAt": "2026-10-20"
+  },
+  "altra-superior-7": {
+    "shoeId": "altra-superior-7",
+    "asin": "B0DN2763P2",
+    "url": "https://m.media-amazon.com/images/I/31XcDqjLxNL._SL500_.jpg",
+    "title": "ALTRA Men's Superior 7 Trail Running Shoe, Dark Blue, 10.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "altra-timp-6": {
+    "shoeId": "altra-timp-6",
+    "asin": "B0FD2NMW3D",
+    "url": "https://m.media-amazon.com/images/I/31usEyUCYSL._SL500_.jpg",
+    "title": "ALTRA Men's TIMP 6 Trail Running Shoe, Dusty Olive, 10.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "altra-torin-9": {
+    "shoeId": "altra-torin-9",
+    "asin": "B0GGJVT6DB",
+    "url": "https://m.media-amazon.com/images/I/31KNpFNlCaL._SL500_.jpg",
+    "title": "ALTRA Men's Torin 9 Road Running Shoe, Black/Black/Castlerock, 11",
+    "fetchedAt": "2026-10-20"
+  },
+  "altra-vanish-carbon-2": {
+    "shoeId": "altra-vanish-carbon-2",
+    "asin": "B0DT2172BK",
+    "url": "https://m.media-amazon.com/images/I/31bj5eqKUEL._SL500_.jpg",
+    "title": "ALTRA Men's Vanish Carbon 2 Road Running Shoe, Gray/Lime, 10.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "mizuno-neo-vista-3": {
+    "shoeId": "mizuno-neo-vista-3",
+    "asin": "B0FZMG6VSD",
+    "url": "https://m.media-amazon.com/images/I/31DYGcZgUeL._SL500_.jpg",
+    "title": "Mizuno Men's Wave Neo Vista 3 Running Shoe, White-Black, US Mens 9",
+    "fetchedAt": "2026-10-20"
+  },
+  "mizuno-neo-zen-2": {
+    "shoeId": "mizuno-neo-zen-2",
+    "asin": "B0F9Z3KRHF",
+    "url": "https://m.media-amazon.com/images/I/31mNLwUbxjL._SL500_.jpg",
+    "title": "Mizuno Men's Neo Zen 2 Running Shoes, Black-White, US Mens 8",
+    "fetchedAt": "2026-10-20"
+  },
+  "mizuno-wave-horizon-7": {
+    "shoeId": "mizuno-wave-horizon-7",
+    "asin": "B0CLVQCR33",
+    "url": "https://m.media-amazon.com/images/I/414IHaB3KzL._SL500_.jpg",
+    "title": "Mizuno Men's Wave Horizon 7 Running Shoe | Support Running Shoe | Black/Citrus | US 7",
+    "fetchedAt": "2026-10-20"
+  },
+  "mizuno-wave-inspire-22": {
+    "shoeId": "mizuno-wave-inspire-22",
+    "asin": "B0F9Z433KY",
+    "url": "https://m.media-amazon.com/images/I/31heeC2EkpL._SL500_.jpg",
+    "title": "Mizuno Men's Wave Inspire 22 Running Shoes, Black-Ultimate Grey US Mens 9.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "mizuno-wave-rebellion-pro-3": {
+    "shoeId": "mizuno-wave-rebellion-pro-3",
+    "asin": "B0DMQQR3XV",
+    "url": "https://m.media-amazon.com/images/I/41Plohnk0jL._SL500_.jpg",
+    "title": "Mizuno Wave Rebellion Pro 3 Unisex Running Shoe | Neutral Road-Trail Runner | White-Baritone Blue | US Unisex 12.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "mizuno-wave-rider-30": {
+    "shoeId": "mizuno-wave-rider-30",
+    "asin": "B0FZMF5K6Y",
+    "url": "https://m.media-amazon.com/images/I/31-wVg81OWL._SL500_.jpg",
+    "title": "Mizuno Men's Wave Rider 30 Running Shoe, White-Blue Jewel, US Mens 9",
+    "fetchedAt": "2026-10-20"
+  },
+  "merrell-moab-flight": {
+    "shoeId": "merrell-moab-flight",
+    "asin": "B0BMM7B6NS",
+    "url": "https://m.media-amazon.com/images/I/51DsRF+R2vL._SL500_.jpg",
+    "title": "Merrell Mens Moab Flight Performance Trainers Blue, Tahoe Incense, 10",
+    "fetchedAt": "2026-10-20"
+  },
+  "topo-athletic-atmos-2": {
+    "shoeId": "topo-atmos-2",
+    "asin": "B0FGRRVTJD",
+    "url": "https://m.media-amazon.com/images/I/31N27SlK-PL._SL500_.jpg",
+    "title": "Topo Athletic Men's Atmos 2 Road Running Shoes, Black/Black, Size 11 | Comfortable, 5MM Drop, Daily Running, Walking Shoes",
+    "fetchedAt": "2026-10-20"
+  },
+  "topo-athletic-cyclone-3": {
+    "shoeId": "topo-cyclone-3",
+    "asin": "B0FGRHWNY8",
+    "url": "https://m.media-amazon.com/images/I/41W92bmaK2L._SL500_.jpg",
+    "title": "Topo Athletic Men's Cyclone 3 Lightweight Comfortable 5MM Drop Road Running Shoes, Athletic Shoes for Road Running, Blue/Blue, Size 11",
+    "fetchedAt": "2026-10-20"
+  },
+  "topo-athletic-phantom-4": {
+    "shoeId": "topo-phantom-4",
+    "asin": "B0DTF699QG",
+    "url": "https://m.media-amazon.com/images/I/41UzzuPq5mL._SL500_.jpg",
+    "title": "Topo Athletic Men's Phantom 4 Lightweight 5MM Drop Road Shoes Blue/Lime | ZipFoam Midsole, Comfortable Feel, Running, Athletic Footwear, Blue/Lime, Size 9.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "topo-athletic-specter-2": {
+    "shoeId": "topo-specter-2",
+    "asin": "B0FGRX7V68",
+    "url": "https://m.media-amazon.com/images/I/311lKhOc+mL._SL500_.jpg",
+    "title": "Topo Athletic Men's Specter 2 Comfortable Cushioned Durable 5MM Drop Road Running Shoes, Athletic Shoes for Road Running, Black/White, Size 10",
+    "fetchedAt": "2026-10-20"
+  },
+  "topo-athletic-terraventure-5": {
+    "shoeId": "topo-terraventure-5",
+    "asin": "B0FGRHZ2HW",
+    "url": "https://m.media-amazon.com/images/I/41UUFlFcK2L._SL500_.jpg",
+    "title": "Topo Athletic Men's Terraventure 5 Comfortable 3MM Drop Trail Running Shoes, Athletic Shoes, Navy/Orange, Size 11.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "topo-athletic-ultrafly-6": {
+    "shoeId": "topo-ultrafly-6",
+    "asin": "B0FGRVJMMN",
+    "url": "https://m.media-amazon.com/images/I/41Ktuhi3BeL._SL500_.jpg",
+    "title": "Topo Athletic Men's Ultrafly 6 Comfortable Lightweight Cushioned Durable 5MM Drop Road Running Shoes, Athletic Shoes for Road Running, Navy/Lime, Size 10",
+    "fetchedAt": "2026-10-20"
+  },
+  "topo-athletic-ultraventure-4": {
+    "shoeId": "topo-ultraventure-4",
+    "asin": "B0D7NSK6W2",
+    "url": "https://m.media-amazon.com/images/I/31C4HZYJdcL._SL500_.jpg",
+    "title": "Topo Athletic Men's Ultraventure 4 Comfortable Cushioned Durable 5MM Drop Trail Running Shoes, Athletic Shoes for Trail Running, Grey/Grey, Size 11.5W",
+    "fetchedAt": "2026-10-20"
+  },
+  "under-armour-charged-assert-10": {
+    "shoeId": "ua-charged-assert-10",
+    "asin": "B09XBVM335",
+    "url": "https://m.media-amazon.com/images/I/31+RSafvaDL._SL500_.jpg",
+    "title": "Under Armour Men's Charged Assert 10 Shoes, (001) Black/Black/White, 12",
+    "fetchedAt": "2026-10-20"
+  },
+  "under-armour-charged-pursuit-3": {
+    "shoeId": "ua-charged-pursuit-3",
+    "asin": "B0DJRWYR7W",
+    "url": "https://m.media-amazon.com/images/I/313+WqxiSuL._SL500_.jpg",
+    "title": "Under Armour Men's Charged Pursuit 3, 008 Black, 10.5",
+    "fetchedAt": "2026-10-20"
+  },
+  "under-armour-hovr-sonic-6": {
+    "shoeId": "ua-hovr-sonic-6",
+    "asin": "B0BZXPFBKX",
+    "url": "https://m.media-amazon.com/images/I/315CqAWVXeL._SL500_.jpg",
+    "title": "Under Armour Men's HOVR Sonic 6, 108 Gray, 7",
+    "fetchedAt": "2026-10-20"
+  },
+  "under-armour-infinite-elite-2": {
+    "shoeId": "ua-infinite-elite-2",
+    "asin": "B0DWNG8KSJ",
+    "url": "https://m.media-amazon.com/images/I/41uKFhUwllL._SL500_.jpg",
+    "title": "Under Armour Infinite Elite 2 Running Shoes Mens, Electric Blue, 8",
+    "fetchedAt": "2026-10-20"
+  },
+  "under-armour-infinite-pro": {
+    "shoeId": "ua-infinite-pro",
+    "asin": "B0BZXH2J46",
+    "url": "https://m.media-amazon.com/images/I/31WftlL6jJL._SL500_.jpg",
+    "title": "Under Armour Men's Infinite Pro, 001 Black, 11 | Running Shoes",
+    "fetchedAt": "2026-10-20"
+  },
+  "under-armour-surge-4": {
+    "shoeId": "ua-surge-4",
+    "asin": "B0BZXT1RHW",
+    "url": "https://m.media-amazon.com/images/I/31o2X+9qyRL._SL500_.jpg",
+    "title": "Under Armour Men's Charged Surge 4, 002 Black, 10.5",
+    "fetchedAt": "2026-10-20"
   }
 }

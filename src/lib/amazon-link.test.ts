@@ -1,11 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { getAmazonLinkForShoe } from './amazon-link';
+import asinCache from './amazon-asin-cache.json';
 
 describe('getAmazonLinkForShoe', () => {
   it('returns a direct /dp/ URL with affiliate tag for verified cached ASINs', () => {
-    expect(getAmazonLinkForShoe('nike-pegasus-41', 'Nike', 'Pegasus 41')).toBe(
-      'https://www.amazon.com/dp/B0CT3X14P9/?tag=papalex-20',
-    );
+    const asin = (asinCache as Record<string, { asin: string }>)['nike-pegasus-41'].asin;
+    expect(asin).toMatch(/^[A-Z0-9]{10}$/);
+    expect(getAmazonLinkForShoe('nike-pegasus-41', 'Nike', 'Pegasus 41')).toBe(`https://www.amazon.com/dp/${asin}/?tag=papalex-20`);
   });
 
   it('uses a valid ASIN hint only as a direct product URL', () => {

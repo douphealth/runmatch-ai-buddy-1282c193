@@ -17,6 +17,8 @@ import { getDynamicFAQs } from './dynamic-faqs';
 import { generateRecommendation } from './recommendation-engine';
 import { getAllComparisons } from './comparisons';
 import { hasVerifiedPhoto, shoeImageSlug } from './shoe-images';
+import { resolveShoePhoto } from './amazon-images';
+import { getAmazonLinkForShoe } from './amazon-link';
 import { existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { resolve } from 'node:path';
@@ -253,9 +255,11 @@ describe('database integrity', () => {
     }
   });
 
-  it('every shoe has a photo file on disk, and known-wrong photos are not shown', () => {
+  it('every shoe shows a trustworthy photo or an honest placeholder, and known-wrong photos are not shown', () => {
     for (const s of shoeDatabase) {
-      expect(existsSync(resolve('public/images/shoes', `${shoeImageSlug(s.brand, s.model)}.jpg`)), s.id).toBe(true);
+      // A bundled photo that is trusted must exist; a shoe with a verified Amazon listing shows that listing's photo.
+      if (hasVerifiedPhoto(s)) expect(existsSync(resolve('public/images/shoes', `${shoeImageSlug(s.brand, s.model)}.jpg`)), `${s.id}: trusted photo missing on disk`).toBe(true);
+      if (getAmazonLinkForShoe(s.id, s.brand, s.model, s.amazonASIN)) expect(resolveShoePhoto(s)?.source, s.id).toBe('amazon');
     }
     // These share one file with a different shoe (a Brooks Ghost 15 photo) and must fall back to the studio frame.
     for (const slugOwner of ['saucony-ride-19', 'hoka-cielo-x1-3', 'mizuno-wave-inspire-21', 'salomon-sense-ride-6']) {

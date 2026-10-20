@@ -6,7 +6,7 @@ The app is only as trustworthy as its data. These scripts keep it honest. All ru
 
 1. Edit `src/lib/shoe-database.ts`. Copy the newest entry, keep ids kebab-case, use the brand spelling already in use (`Asics`, not `ASICS`).
 2. If it replaces an older model, add nothing else: the **previous generation is detected automatically** (same brand + model name, higher version number) and down-ranked with a "newer version available" note.
-3. Put a photo at `public/images/shoes/{brand}-{model}.jpg` (slug = lower-case, non-alphanumerics → `-`, e.g. `nike-pegasus-42.jpg`), then:
+3. **Photos come from the Amazon listing** the Buy button opens (step 4), so a bundled file is optional and only a fallback for shoes without a listing. If you do add one at `public/images/shoes/{brand}-{model}.jpg` (slug = lower-case, non-alphanumerics → `-`, e.g. `nike-pegasus-42.jpg`), then:
    ```bash
    npm i --no-save sharp && node scripts/optimize-images.mjs   # shrink it (idempotent)
    node scripts/audit-shoe-images.mjs                          # regenerates src/lib/shoe-image-audit.ts
@@ -21,8 +21,9 @@ The app is only as trustworthy as its data. These scripts keep it honest. All ru
    node scripts/amazon-catalog.mjs images                           # Amazon photo URLs for shoes without a trustworthy local photo
    node scripts/audit-asin-cache.mjs                                # offline audit of the cached listing titles
    ```
-   The API is throttled to about one request per second, so a full `verify` takes about 15 seconds. Shoes Amazon does not list keep `asin: null`: the Amazon button is hidden and the page, results and PDF offer the maker's site and our review instead (`getBrandBuyLink`). Never fall back to an Amazon search URL. As of 2026-10-01: 73 of 87 shoes have a verified men's/unisex listing, 2 only a women's one (labelled "women's version") and 12 none because Amazon US does not list them (2026 releases such as Gel-Nimbus 29, Cloudeclipse 2, Fast-R Nitro Elite 3, and a few 2024-25 models).
-   Photos: a shoe whose own photo is untrustworthy shows the photo of its verified Amazon listing (`src/lib/amazon-image-cache.json`, URLs only, loaded from Amazon's CDN). The cache is used only while its ASIN is still the cached one. Re-run `images` when you change an ASIN.
+   Also: `status` (stock of every linked listing), `resolve --refresh --write` (moves a shoe to a better-stocked listing), `discover <file>` (vets shoes not in the database yet), `images --all` (a photo URL for every linked listing; run it after any ASIN change). The whole add-a-shoe routine, the rules and the sources are in `docs/CATALOG.md`.
+   The API is throttled to about one request per second, so a full `verify` takes about 15 seconds. Shoes Amazon does not list keep `asin: null`: the Amazon button is hidden and the page, results and PDF offer the maker's site and our review instead (`getBrandBuyLink`). Never fall back to an Amazon search URL. As of 2026-10-20: 208 of 218 shoes have a verified men's/unisex listing (206 in stock) and 10 have none because Amazon US does not list that exact model (2026 releases such as Gel-Nimbus 29, Cloudeclipse 2, Fast-R Nitro Elite 3, and a few 2024-25 models).
+   Photos: every shoe with a verified listing shows the photo of THAT listing (`src/lib/amazon-image-cache.json`, URLs only, loaded from Amazon's CDN); a bundled photo is used only for shoes with no listing. The cache is used only while its ASIN is still the cached one, and a test fails if a linked shoe has no matching photo. Re-run `images --all` when you change an ASIN.
 5. `npm test && npm run build`. `validate-shoe-database` fails the build on duplicate ids/models, inconsistent brand spelling, bad ranges, missing local image files.
 
 ## Gear ("Complete your kit") and landing top picks
@@ -31,7 +32,7 @@ The app is only as trustworthy as its data. These scripts keep it honest. All ru
 
 ## The PDF report
 
-`src/lib/pdf-generator.ts` builds the report with jsPDF. A **Buy on Amazon** button exists only for shoes with a verified ASIN; a photo is embedded only when `hasVerifiedPhoto` is true, otherwise a labelled placeholder is drawn. `src/lib/pdf-generator.test.ts` pins both rules. To eyeball the layout, run `PDF_DUMP_DIR=some/dir npx vitest run src/lib/pdf-generator.test.ts` and open the four sample PDFs it writes.
+`src/lib/pdf-generator.ts` builds the report with jsPDF (about 7 pages): top 3 at a glance, the #1 match in depth (who it suits and who should look elsewhere), "if one thing matters most" alternatives (softest / lightest / best value / wide sizes, all within 20 points of the top score), the top 3 side by side with the leader marked on each row, the rotation, ranks 4 to 10, try-on guide, a printable shoe log, verified gear with photos, the radar and the scoring method. A **Buy on Amazon** button exists only for shoes with a verified ASIN; a photo is embedded only when `resolveShoePhoto` has one (the Amazon listing photo first, trimmed of its white margin), otherwise a labelled placeholder is drawn. No live price is ever printed. `src/lib/pdf-generator.test.ts` pins these rules. To eyeball the layout, run `PDF_DUMP_DIR=some/dir npx vitest run src/lib/pdf-generator.test.ts` and open the four sample PDFs it writes (the test stands in one local photo for every Amazon photo, so check real photos with a real browser download).
 
 ## Email popup
 

@@ -16,7 +16,7 @@ import { BRANDS, getBrandShoes, type BrandDef } from './brands';
 import { CATEGORIES, getCategoryShoes, type CategoryDef } from './categories';
 import { COMPARISONS, buildComparisonSlug, getAllComparisons, verdictFor, type ResolvedComparison } from './comparisons';
 import { shoeDatabase, getShoeQualityState, type Shoe } from './shoe-database';
-import { hasVerifiedPhoto, resolveShoeImage } from './shoe-images';
+import { hasShoePhoto, shoePhotoAbsoluteUrl } from './amazon-images';
 import { getWatchOuts, getNewerVersion } from './shoe-insights';
 import { APP_BASE_PATH, APP_ORIGIN, BRAND_LOGO_URL, BRAND_NAME, DEFAULT_OG_IMAGE, SITE_ORIGIN, TOOL_NAME, appUrl } from './site-config';
 
@@ -42,9 +42,9 @@ export function absoluteAssetUrl(path: string | null | undefined): string | null
   return `${APP_ORIGIN}${clean.startsWith('/') ? '' : '/'}${clean}`;
 }
 
-/** Best social/preview image for a shoe: its verified photo, else the branded default. */
+/** Best social/preview image for a shoe: the photo on its Amazon listing (or a verified bundled one), else the branded default. */
 export function shoeOgImage(shoe: Shoe): string {
-  return absoluteAssetUrl(resolveShoeImage(shoe).url) ?? DEFAULT_OG_IMAGE;
+  return shoePhotoAbsoluteUrl(shoe, absoluteAssetUrl) ?? DEFAULT_OG_IMAGE;
 }
 
 const publisher = { '@type': 'Organization', name: BRAND_NAME, url: `${SITE_ORIGIN}/`, logo: BRAND_LOGO_URL };
@@ -109,10 +109,10 @@ const curatedComparison = (c: ResolvedComparison) => COMPARISONS.find((p) => (p.
  * photo that really shows them, and each has a dedicated GearUpToFit review.
  */
 export const isComparisonIndexable = (c: ResolvedComparison): boolean =>
-  !!curatedComparison(c) && [c.a, c.b].every((s) => hasVerifiedPhoto(s) && !s.reviewURL.endsWith('/review/best-running-shoes/'));
+  !!curatedComparison(c) && [c.a, c.b].every((s) => hasShoePhoto(s) && !s.reviewURL.endsWith('/review/best-running-shoes/'));
 
 /** Shoe pages stay behind the existing data-quality gate (source, review, affiliate, photo). */
-export const isShoeIndexable = (shoe: Shoe): boolean => getShoeQualityState(shoe).isIndexable && hasVerifiedPhoto(shoe);
+export const isShoeIndexable = (shoe: Shoe): boolean => getShoeQualityState(shoe).isIndexable && hasShoePhoto(shoe);
 
 const robotsFor = (indexable: boolean) => (indexable ? ROBOTS_INDEX : ROBOTS_NOINDEX);
 
@@ -184,7 +184,7 @@ export function comparisonSeo(c: ResolvedComparison): PageSeo {
   const curated = curatedComparison(c);
   const canonical = appUrl(`compare/${curated ? buildComparisonSlug(curated.a, curated.b) : c.slug}`);
   const indexable = isComparisonIndexable(c);
-  const ogImage = hasVerifiedPhoto(c.a) ? shoeOgImage(c.a) : DEFAULT_OG_IMAGE;
+  const ogImage = hasShoePhoto(c.a) ? shoeOgImage(c.a) : DEFAULT_OG_IMAGE;
   return {
     title: c.title,
     description: c.description,

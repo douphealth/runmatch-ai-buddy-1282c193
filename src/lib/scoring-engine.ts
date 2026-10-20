@@ -288,7 +288,10 @@ export function buildRotation(answers: QuizAnswers): ShoeRotation {
     longRun = scored.find((s) =>
       s.shoe.id !== primary.shoe.id &&
       s.shoe.id !== speed?.shoe.id &&
-      !(injured && s.shoe.category === 'race') &&
+      // The long run is the cushioned, comfortable day. A race shoe or speed shoe may score a high cushion number
+      // but is built for the opposite job, so it never fills this slot.
+      s.shoe.category !== 'race' &&
+      s.shoe.category !== 'speed' &&
       (s.shoe.category === 'max-cushion' || s.shoe.cushioning >= 8)
     ) || null;
   }

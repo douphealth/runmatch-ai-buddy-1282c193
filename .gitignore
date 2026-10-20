@@ -27,3 +27,6 @@ dist-ssr
 link-report.json
 GearUpToFit-RunMatch-Report-*.pdf
 .claude/
+
+# Catalog research workspace (scripts/catalog, docs/CATALOG.md)
+.catalog-work/

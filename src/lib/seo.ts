@@ -1,7 +1,7 @@
 import { ShoeRecommendation } from './recommendation-engine';
 import { QuizAnswers } from './quiz-data';
 import { Shoe } from './shoe-database';
-import { resolveShoeImage } from './shoe-images';
+import { resolveShoePhoto } from './amazon-images';
 import { APP_BASE_PATH, BRAND_LOGO_URL, SITE_ORIGIN } from './site-config';
 
 export function generateFAQSchema(faqs: Array<{ question: string; answer: string }>) {
@@ -35,10 +35,13 @@ export function generateProductSchema(rec: ShoeRecommendation, answers: QuizAnsw
     brand: { '@type': 'Brand', name: recommendedShoe.brand },
   };
 
-  const img = resolveShoeImage(recommendedShoe);
-  if (img.url && !img.url.includes('placeholder')) {
-    const path = img.url.startsWith(APP_BASE_PATH) ? img.url : `${APP_BASE_PATH}${img.url.startsWith('/') ? '' : '/'}${img.url}`;
-    base.image = `${SITE_ORIGIN}${path}`;
+  const photo = resolveShoePhoto(recommendedShoe);
+  if (photo && !photo.url.includes('placeholder')) {
+    if (/^https?:\/\//i.test(photo.url)) base.image = photo.url;
+    else {
+      const path = photo.url.startsWith(APP_BASE_PATH) ? photo.url : `${APP_BASE_PATH}${photo.url.startsWith('/') ? '' : '/'}${photo.url}`;
+      base.image = `${SITE_ORIGIN}${path}`;
+    }
   }
 
   // ASIN is a merchant SKU, not GTIN. Do not emit Offer/availability/price unless verified and visible.
@@ -58,8 +61,8 @@ export function generateProductSchema(rec: ShoeRecommendation, answers: QuizAnsw
  * Returns a cleanup function that removes the tags it created.
  */
 export function applyOpenGraphImage(shoe: Shoe, title: string, description: string): () => void {
-  const img = resolveShoeImage(shoe);
-  const imageUrl = img.url || BRAND_LOGO_URL;
+  const photo = resolveShoePhoto(shoe);
+  const imageUrl = photo?.url || BRAND_LOGO_URL;
   const url = typeof window !== 'undefined' ? window.location.href : '';
 
   const metas: Array<[string, string, string]> = [

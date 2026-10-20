@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { budgetText, buildResultsPDF, getShoeActions, pdfSafe, replacementWindow, type PDFData } from './pdf-generator';
+import { budgetText, buildResultsPDF, fitSummary, getShoeActions, pdfSafe, pickByPriority, replacementWindow, type PDFData } from './pdf-generator';
 import { generateRecommendation } from './recommendation-engine';
 import { buildRotation, scoreShoes } from './scoring-engine';
 import { getAmazonLinkForShoe } from './amazon-link';
@@ -69,8 +69,8 @@ const SCENARIOS: Record<string, QuizAnswers> = {
 describe('PDF report', () => {
   it('builds a multi-page report with real photos and clickable links', async () => {
     const { doc, stats } = await buildResultsPDF(dataFor(SCENARIOS['flat-overpronator-10k']), { compress: false, fetchImage: fetchFromDisk });
-    expect(stats.pages).toBeGreaterThanOrEqual(4);
-    expect(stats.pages).toBeLessThanOrEqual(8);
+    expect(stats.pages).toBeGreaterThanOrEqual(6);
+    expect(stats.pages).toBeLessThanOrEqual(11);
     expect(stats.photos).toBeGreaterThanOrEqual(1);
     const raw = bytesOf(doc);
     expect(raw).toContain('/Subtype /Image');
@@ -81,9 +81,9 @@ describe('PDF report', () => {
     const data = dataFor(SCENARIOS['marathon-neutral']);
     const { doc, stats } = await buildResultsPDF(data, { compress: false, fetchImage: fetchFromDisk });
     const shown = new Map<string, boolean>();
-    for (const s of [data.rotation.primary, data.rotation.speed, data.rotation.longRun, ...(data.topShoes ?? [])]) {
-      if (s) shown.set(s.shoe.id, !!resolveShoePhoto(s.shoe));
-    }
+    for (const id of stats.shownShoeIds) shown.set(id, !!resolveShoePhoto(shoeDatabase.find((s) => s.id === id)!));
+    // the report shows more than the top 5: the rotation, ranks 4 to 10 and the priority alternatives
+    expect(stats.shownShoeIds.length).toBeGreaterThanOrEqual(8);
     const verified = [...shown.values()].filter(Boolean).length;
     expect(stats.photos).toBe(verified);
     // image XObjects: one per distinct photo (jsPDF de-duplicates by content) + the logo
@@ -103,7 +103,7 @@ describe('PDF report', () => {
 
       // each shown shoe: an Amazon link iff the cache has a verified ASIN
       const shown = new Map<string, (typeof data.rotation.primary)['shoe']>();
-      for (const s of [data.rotation.primary, data.rotation.speed, data.rotation.longRun, ...(data.topShoes ?? [])]) if (s) shown.set(s.shoe.id, s.shoe);
+      for (const id of stats.shownShoeIds) shown.set(id, shoeDatabase.find((s) => s.id === id)!);
       for (const shoe of shown.values()) {
         const url = getAmazonLinkForShoe(shoe.id, shoe.brand, shoe.model, shoe.amazonASIN);
         const escaped = url ? url.replace(/[()\\]/g, '\\$&') : null;
@@ -138,8 +138,8 @@ describe('PDF report', () => {
     const forced = { ...dataFor(answers), topShoes: top };
     const { doc } = await buildResultsPDF(forced, { compress: false, fetchImage: fetchFromDisk });
     const raw = bytesOf(doc);
-    const expectedPlaceholders = new Set([forced.rotation.primary, forced.rotation.speed, forced.rotation.longRun, ...top].filter(Boolean).map((s) => s!.shoe.id));
-    const unverifiedShown = [...expectedPlaceholders].filter((id) => !resolveShoePhoto(shoeDatabase.find((s) => s.id === id)!)).length;
+    const { stats } = await buildResultsPDF(forced, { compress: false, fetchImage: fetchFromDisk });
+    const unverifiedShown = stats.shownShoeIds.filter((id) => !resolveShoePhoto(shoeDatabase.find((s) => s.id === id)!)).length;
     expect(unverifiedShown > 0 ? raw.includes('Photo not available') : !raw.includes('Photo not available')).toBe(true);
   });
 
@@ -153,10 +153,25 @@ describe('PDF report', () => {
     expect(raw).not.toMatch(/\bguarantee|\bcures?\b|\bheals? your|reduces? injury risk by/i);
   });
 
+  it('has every section a runner needs: top 3, comparison, alternatives, shoe log and verified gear', async () => {
+    const { doc } = await buildResultsPDF(dataFor(SCENARIOS['marathon-neutral']), { compress: false, fetchImage: fetchFromDisk });
+    const raw = bytesOf(doc);
+    for (const heading of ['Your top 3 at a glance', 'Your top 3, side by side', 'HOW TO CHOOSE BETWEEN THEM', 'Your shoe rotation', 'More strong matches', 'Your shoe log', 'Complete your kit', 'WHO IT SUITS', 'WHO SHOULD LOOK ELSEWHERE']) {
+      expect(raw, heading).toContain(heading);
+    }
+  });
+
+  it('never prints a live price (Amazon Associates rule), only the launch price band', async () => {
+    const { doc } = await buildResultsPDF(dataFor(base()), { compress: false, fetchImage: fetchFromDisk });
+    const raw = bytesOf(doc);
+    expect(raw).not.toMatch(/\$\s?\d{2,3}\.\d{2}/);
+    expect(raw).toMatch(/Launch price band/);
+  });
+
   it('survives photos failing to load', async () => {
     const { doc, stats } = await buildResultsPDF(dataFor(base()), { compress: false, fetchImage: async () => null });
     expect(stats.photos).toBe(0);
-    expect(stats.pages).toBeGreaterThanOrEqual(4);
+    expect(stats.pages).toBeGreaterThanOrEqual(6);
     expect(doc.getNumberOfPages()).toBe(stats.pages);
   });
 
@@ -198,5 +213,48 @@ describe('budgetText', () => {
   it('lists the chosen bands otherwise', () => {
     expect(budgetText(['100-150', '150-200'])).toBe('$100-150, $150-200');
     expect(budgetText(['under-100'])).toBe('Under $100');
+  });
+});
+
+describe('fitSummary', () => {
+  const by = (id: string) => shoeDatabase.find((x) => x.id === id)!;
+  it('describes who a shoe suits from its own category and specs', () => {
+    const racer = shoeDatabase.find((x) => x.category === 'race')!;
+    const f = fitSummary(racer, { footType: 'neutral' });
+    expect(f.suits.join(' ')).toMatch(/race day/i);
+    expect(f.elsewhere.join(' ')).toMatch(/easy daily miles/i);
+    expect(f.suits.length).toBeGreaterThan(0);
+    expect(f.suits.length).toBeLessThanOrEqual(3);
+    expect(f.elsewhere.length).toBeLessThanOrEqual(3);
+  });
+  it('warns a wide-footed runner when only a standard width is listed', () => {
+    const narrow = shoeDatabase.find((x) => !x.widthOptions)!;
+    expect(fitSummary(narrow, { footType: 'wide' }).elsewhere[0]).toMatch(/wide forefoot/i);
+    expect(fitSummary(narrow, { footType: 'neutral' }).elsewhere.join(' ')).not.toMatch(/wide forefoot/i);
+  });
+  it('flags a low drop for a gradual switch', () => {
+    const low = shoeDatabase.find((x) => x.dropMM <= 4 && x.dropMM > 0);
+    if (low) expect(fitSummary(low, { footType: 'neutral' }).elsewhere.join(' ')).toMatch(/gradually/i);
+    void by;
+  });
+});
+
+describe('pickByPriority', () => {
+  it('only offers current, strong matches that really beat the #1 on one point, each shoe once', () => {
+    for (const answers of Object.values(SCENARIOS)) {
+      const pool = scoreShoes(answers);
+      const picks = pickByPriority(pool, pool[0], answers.footType === 'wide');
+      const ids = picks.map((p) => p.sc.shoe.id);
+      expect(new Set(ids).size).toBe(ids.length);
+      for (const p of picks) {
+        expect(p.sc.shoe.id).not.toBe(pool[0].shoe.id);
+        expect(p.sc.newerVersion).toBeUndefined();
+        expect(p.sc.matchPercent).toBeGreaterThanOrEqual(Math.max(40, pool[0].matchPercent - 20));
+        if (p.label === 'SOFTEST RIDE') expect(p.sc.shoe.cushioning).toBeGreaterThan(pool[0].shoe.cushioning);
+        if (p.label === 'LIGHTEST') expect(p.sc.shoe.weightGrams).toBeLessThan(pool[0].shoe.weightGrams);
+        if (p.label === 'BEST VALUE') expect(p.sc.shoe.priceUSD).toBeLessThan(pool[0].shoe.priceUSD);
+        if (p.label === 'WIDE SIZES LISTED') expect(p.sc.shoe.widthOptions).toBe(true);
+      }
+    }
   });
 });

@@ -1,41 +1,43 @@
 {
   "nike-pegasus-41": {
-    "asin": "B0CT3X14P9",
-    "title": "Men's Pegasus 41 Running Shoes",
-    "url": "https://www.amazon.com/dp/B0CT3X14P9?tag=papalex-20",
+    "asin": "B0D2DKNV5R",
+    "title": "Nike Pegasus 41 Men's Road Running Shoes (FD2722-103, White/Dusty Cactus/Glacier Blue/Black) Size 7.5",
+    "url": "https://www.amazon.com/dp/B0D2DKNV5R?tag=papalex-20",
     "query": "Nike Pegasus 41 men's running shoes",
-    "resolvedAt": "2026-10-01T04:48:01.785Z",
-    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
+    "resolvedAt": "2026-10-19T17:00:02.445Z",
+    "source": "Amazon Creators API searchItems"
   },
   "nike-pegasus-premium": {
-    "asin": "B0FRR22Y53",
-    "title": "Premium Men's Nike Pegasus Shoes",
-    "url": "https://www.amazon.com/dp/B0FRR22Y53?tag=papalex-20",
+    "asin": "B0FSB99ZNN",
+    "title": "Nike HQ2592-005 Pegasus Premium Mens Running Shoe | Men's Size 8.5 US",
+    "url": "https://www.amazon.com/dp/B0FSB99ZNN?tag=papalex-20",
     "query": "Nike Pegasus Premium running shoes",
-    "resolvedAt": "2026-05-04T20:18:39.226Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "nike-vomero-plus": {
-    "asin": "B0GSDJQMX3",
-    "title": "Mens Vomero Plus",
-    "url": "https://www.amazon.com/dp/B0GSDJQMX3?tag=papalex-20",
+    "asin": "B0F2WKSGDF",
+    "title": "Nike Men Vomero Plus Black/Dark Smoke Grey/Metallic Dark Grey 9 Medium",
+    "url": "https://www.amazon.com/dp/B0F2WKSGDF?tag=papalex-20",
     "query": "Nike Vomero Plus men's running shoes",
-    "resolvedAt": "2026-10-01T04:48:01.785Z",
-    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "nike-pegasus-turbo": {
-    "asin": "B0BWTHYS8W",
-    "title": "NIKE PEGASUS TURBO NEXT NATURE - WHITE/UNIVERSITY BLUE-PINKSICLE",
-    "url": "https://www.amazon.com/dp/B0BWTHYS8W?tag=papalex-20",
+    "asin": "B0C67XGZBF",
+    "title": "Nike Men's Pegasus Turbo Next Nature Running Shoes, Game Royal/University Blue, 10 M US",
+    "url": "https://www.amazon.com/dp/B0C67XGZBF?tag=papalex-20",
     "query": "Nike Pegasus Turbo running shoes",
-    "resolvedAt": "2026-05-04T20:18:51.729Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "brooks-ghost-17": {
-    "asin": "B0DDF1ZVSF",
-    "title": "Men’s Ghost 17 Neutral Running Shoe",
-    "url": "https://www.amazon.com/dp/B0DDF1ZVSF?tag=papalex-20",
+    "asin": "B0DDFDKNH5",
+    "title": "Brooks Men’s Ghost 17 Neutral Running Shoe - Black/Black/Ebony - 12.5 Medium",
+    "url": "https://www.amazon.com/dp/B0DDFDKNH5?tag=papalex-20",
     "query": "Brooks Ghost 17 men's running shoes",
-    "resolvedAt": "2026-10-01T04:48:01.785Z",
-    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "brooks-glycerin-max-2": {
     "asin": "B0F5NC98LY",
@@ -46,11 +48,12 @@
     "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "asics-gel-nimbus-28": {
-    "asin": "B0FV7HQJ6K",
-    "title": "Men's Gel-Nimbus 28 Running Shoes",
-    "url": "https://www.amazon.com/dp/B0FV7HQJ6K?tag=papalex-20",
+    "asin": "B0FTP5CNR5",
+    "title": "ASICS Men's Gel-Nimbus 28 Running Shoes, 9.5, Black/Graphite Grey",
+    "url": "https://www.amazon.com/dp/B0FTP5CNR5?tag=papalex-20",
     "query": "Asics Gel-Nimbus 28 running shoes",
-    "resolvedAt": "2026-05-04T20:34:48.294Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "asics-gel-kayano-32": {
     "asin": "B0DPLQN2YT",
@@ -61,11 +64,12 @@
     "source": "Amazon Creators API searchItems"
   },
   "asics-novablast-5": {
-    "asin": "B0D3JCJG54",
-    "title": "Men's NOVABLAST 5 Running Shoes",
-    "url": "https://www.amazon.com/dp/B0D3JCJG54?tag=papalex-20",
+    "asin": "B0F63XNLMY",
+    "title": "ASICS Men's NOVABLAST 5 Running Shoes, 11.5, Oatmeal/Black",
+    "url": "https://www.amazon.com/dp/B0F63XNLMY?tag=papalex-20",
     "query": "Asics Novablast 5 running shoes",
-    "resolvedAt": "2026-05-04T20:34:48.719Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "asics-novablast-4": {
     "asin": "B0CFNC9NXX",
@@ -76,11 +80,12 @@
     "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "asics-superblast-3": {
-    "asin": "B0GNT84D7F",
-    "title": "Unisex SUPERBLAST 3 Running Shoes",
-    "url": "https://www.amazon.com/dp/B0GNT84D7F?tag=papalex-20",
+    "asin": "B0H952CNWP",
+    "title": "ASICS Unisex SUPERBLAST 3 Running, 11.5M / 13W, White/Orange Glow",
+    "url": "https://www.amazon.com/dp/B0H952CNWP?tag=papalex-20",
     "query": "Asics Superblast 3 running shoes",
-    "resolvedAt": "2026-05-04T20:34:49.584Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "asics-sonicblast": {
     "asin": "B0FGTZJM2T",
@@ -91,26 +96,28 @@
     "source": "Amazon Creators API searchItems"
   },
   "asics-megablast": {
-    "asin": "B0FV7DV4RL",
-    "title": "Unisex MEGABLAST Running Shoes",
-    "url": "https://www.amazon.com/dp/B0FV7DV4RL?tag=papalex-20",
+    "asin": "B0H2JVPMRW",
+    "title": "ASICS Unisex MEGABLAST Running Shoes, 13M / 14.5W, White/Orange Glow",
+    "url": "https://www.amazon.com/dp/B0H2JVPMRW?tag=papalex-20",
     "query": "Asics Megablast running shoes",
-    "resolvedAt": "2026-05-04T20:34:50.436Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "hoka-bondi-9": {
-    "asin": "B0D5G74Z4Q",
-    "title": "Men's Bondi 9",
-    "url": "https://www.amazon.com/dp/B0D5G74Z4Q?tag=papalex-20",
+    "asin": "B0D5G2Y6DD",
+    "title": "Hoka Men's Bondi 9 Black/Black 10 Medium",
+    "url": "https://www.amazon.com/dp/B0D5G2Y6DD?tag=papalex-20",
     "query": "Hoka Bondi 9 running shoes",
-    "resolvedAt": "2026-05-04T20:34:50.867Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "hoka-cielo-x1-3": {
-    "asin": "B0F9QZ5WM8",
-    "title": "Unisex-Adult Cielo X1 3.0",
-    "url": "https://www.amazon.com/dp/B0F9QZ5WM8?tag=papalex-20",
-    "query": "Hoka Cielo X1 3 men's running shoes",
-    "resolvedAt": "2026-10-01T04:48:01.785Z",
-    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
+    "asin": "B0F9QBLHFG",
+    "title": "Hoka Unisex Cielo X1 3.0 Sneaker, Alabaster/Yellow Gold, 11.5 US Men",
+    "url": "https://www.amazon.com/dp/B0F9QBLHFG?tag=papalex-20",
+    "query": "Hoka Cielo X1 3",
+    "resolvedAt": "2026-10-20T04:38:04.422Z",
+    "source": "Amazon Creators API searchItems"
   },
   "saucony-ride-19": {
     "asin": "B0F9LKXQC5",
@@ -136,11 +143,12 @@
     "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "adidas-adios-pro-4": {
-    "asin": "B0FRQJBQYP",
-    "title": "Adidas Adizero Adios Pro 4 Men's Shoes",
-    "url": "https://www.amazon.com/dp/B0FRQJBQYP?tag=papalex-20",
+    "asin": "B0F64CJGZV",
+    "title": "adidas Men's Adizero Adios PRO 4 M Solar blueSilver met./Lucid red 10.5 US",
+    "url": "https://www.amazon.com/dp/B0F64CJGZV?tag=papalex-20",
     "query": "Adidas Adios Pro 4 running shoes",
-    "resolvedAt": "2026-05-04T20:21:37.973Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "adidas-adios-9": {
     "asin": null,
@@ -148,52 +156,60 @@
     "resolvedAt": "2026-09-30T20:32:57.220Z"
   },
   "adidas-boston-13": {
-    "asin": "B0DK7S8XP4",
-    "title": "Mens Adizero Boston 13 Running Shoes",
-    "url": "https://www.amazon.com/dp/B0DK7S8XP4?tag=papalex-20",
+    "asin": "B0F6487PKR",
+    "title": "adidas, Mens, Adizero Boston 13 Running Shoes, Black/Lime Burst/Energy Ink, 12, D - Medium",
+    "url": "https://www.amazon.com/dp/B0F6487PKR?tag=papalex-20",
     "query": "Adidas Boston 13 running shoes",
-    "resolvedAt": "2026-05-04T20:34:52.583Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "adidas-evo-sl": {
-    "asin": "B0D3JBYC9T",
-    "title": "Mens Adizero Evo Sl M",
-    "url": "https://www.amazon.com/dp/B0D3JBYC9T?tag=papalex-20",
+    "asin": "B0FG38CTV1",
+    "title": "adidas Men's Adizero EVO SL Woven M Core blackFtwr White/Carbon 9.5 US",
+    "url": "https://www.amazon.com/dp/B0FG38CTV1?tag=papalex-20",
     "query": "Adidas EVO SL running shoes",
-    "resolvedAt": "2026-05-04T20:34:53.013Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "adidas-evo-sl-atr": {
-    "asin": "B0FTTMX6L3",
-    "title": "Men's Adizero EVO SL ATR M Wonder SageAurora Ink/Wonder Silver 8 US",
-    "url": "https://www.amazon.com/dp/B0FTTMX6L3?tag=papalex-20",
+    "asin": "B0FXJL4N58",
+    "title": "adidas Men's Adizero EVO SL ATR M Khaki SixShadow Olive/Khaki Three 10.5 US",
+    "url": "https://www.amazon.com/dp/B0FXJL4N58?tag=papalex-20",
     "query": "Adidas EVO SL ATR running shoes",
-    "resolvedAt": "2026-05-04T20:34:53.440Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "adidas-takumi-sen-11": {
-    "asin": null,
+    "asin": "B0G736FWJ5",
+    "title": "adidas Performance Adizero Takumi Sen 11 running shoes White Men, Yellow Purple, 9.5",
+    "url": "https://www.amazon.com/dp/B0G736FWJ5?tag=papalex-20",
     "query": "Adidas Takumi Sen 11 running shoes",
-    "note": "no plausible match",
-    "resolvedAt": "2026-05-07T06:13:53.235Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "puma-deviate-elite-4": {
-    "asin": "B0GD2XDF8K",
-    "title": "Mens Deviate Nitro Elite 4 Running Sneakers Shoes - White",
-    "url": "https://www.amazon.com/dp/B0GD2XDF8K?tag=papalex-20",
+    "asin": "B0GPWZTHCW",
+    "title": "PUMA Deviate Elite 4 Men's Running Shoes, Hyrox Pink, 10.5",
+    "url": "https://www.amazon.com/dp/B0GPWZTHCW?tag=papalex-20",
     "query": "Puma Deviate Elite 4 running shoes",
-    "resolvedAt": "2026-05-04T20:35:06.636Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "puma-deviate-nitro-elite-2": {
-    "asin": "B0C658V227",
-    "title": "Womens Deviate Nitro Elite 2 Running Sneakers Shoes - Green",
-    "url": "https://www.amazon.com/dp/B0C658V227?tag=papalex-20",
+    "asin": "B0CB5X2964",
+    "title": "PUMA Deviate Nitro Elite 2 Mens Running Shoes - Blue - UK, Blue, 8",
+    "url": "https://www.amazon.com/dp/B0CB5X2964?tag=papalex-20",
     "query": "Puma Deviate Nitro Elite 2 running shoes",
-    "resolvedAt": "2026-05-04T20:35:34.935Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "puma-magmax-2": {
-    "asin": "B0F9KVPXCD",
-    "title": "Men's Magmax Nitro 2 312125 Running Shoe, 26 Spring/Summer Color PUMA Black/Shadow Gray (09), 8.5",
-    "url": "https://www.amazon.com/dp/B0F9KVPXCD?tag=papalex-20",
-    "query": "Puma Magmax 2 running shoes",
-    "resolvedAt": "2026-05-04T20:22:34.568Z"
+    "asin": "B0GD2LHJ1K",
+    "title": "PUMA Men's Magmax Nitro 2 Running Shoes, Warm White-Puma Black, Size 10 D Medium US",
+    "url": "https://www.amazon.com/dp/B0GD2LHJ1K?tag=papalex-20",
+    "query": "Puma Magmax Nitro 2",
+    "resolvedAt": "2026-10-20T04:34:34.152Z",
+    "source": "Amazon Creators API searchItems (model is \"Magmax Nitro 2\" on Amazon)"
   },
   "nb-fresh-foam-more-v6": {
     "asin": "B0DJV8HTC2",
@@ -204,19 +220,20 @@
     "source": "Amazon Creators API searchItems"
   },
   "nb-1080-v14": {
-    "asin": "B0FBL9TD97",
-    "title": "Men's New Balance 1080 V14 Fresh Foam X Running Shoe",
-    "url": "https://www.amazon.com/dp/B0FBL9TD97?tag=papalex-20",
+    "asin": "B0CLB6SPLW",
+    "title": "New Balance Men's Fresh Foam X 1080 V14 Running Shoe",
+    "url": "https://www.amazon.com/dp/B0CLB6SPLW?tag=papalex-20",
     "query": "New Balance 1080 v14 running shoes",
-    "resolvedAt": "2026-05-04T20:22:42.521Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "salomon-speedcross-6": {
-    "asin": "B0B317B9C4",
-    "title": "Speedcross 6",
-    "url": "https://www.amazon.com/dp/B0B317B9C4?tag=papalex-20",
+    "asin": "B0CQMYZXFG",
+    "title": "Salomon Mens Speedcross 6 Black/Peat/Deep Lichen Green 10 Medium",
+    "url": "https://www.amazon.com/dp/B0CQMYZXFG?tag=papalex-20",
     "query": "Salomon Speedcross 6 men's running shoes",
-    "resolvedAt": "2026-10-01T04:48:01.785Z",
-    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "salomon-ultra-glide-3": {
     "asin": null,
@@ -229,19 +246,20 @@
     "resolvedAt": "2026-09-30T20:32:57.220Z"
   },
   "altra-lone-peak-8": {
-    "asin": "B0DKLS1BHG",
-    "title": "Men's Lone Peak 8 Trail Running Shoe",
-    "url": "https://www.amazon.com/dp/B0DKLS1BHG?tag=papalex-20",
+    "asin": "B0C4M5V586",
+    "title": "ALTRA Men's Lone Peak 8 Trail Running Shoe, Black/Green, 10",
+    "url": "https://www.amazon.com/dp/B0C4M5V586?tag=papalex-20",
     "query": "Altra Lone Peak 8 running shoes",
-    "resolvedAt": "2026-05-04T20:35:36.640Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "altra-torin-7": {
-    "asin": "B0BK2LH941",
-    "title": "Men's Torin 7 AL0A82C4 Road Running",
-    "url": "https://www.amazon.com/dp/B0BK2LH941?tag=papalex-20",
+    "asin": "B0BK2MG4Y2",
+    "title": "ALTRA Men's Torin 7 Road Running Shoe, Black, 10",
+    "url": "https://www.amazon.com/dp/B0BK2MG4Y2?tag=papalex-20",
     "query": "Altra Torin 7 men's running shoes",
-    "resolvedAt": "2026-10-01T04:48:01.785Z",
-    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "mizuno-wave-rider-28": {
     "asin": "B0CM418RDN",
@@ -251,18 +269,20 @@
     "resolvedAt": "2026-05-04T20:35:37.498Z"
   },
   "mizuno-wave-inspire-21": {
-    "asin": "B0D464KJBQ",
-    "title": "Men's Wave Inspire 21 Mens",
-    "url": "https://www.amazon.com/dp/B0D464KJBQ?tag=papalex-20",
+    "asin": "B0D462SWQL",
+    "title": "Mizuno Men's Wave Inspire 21 Running Shoe, Support Road-Trail Shoe,Ultimate Grey-Black, US Mens 8.5",
+    "url": "https://www.amazon.com/dp/B0D462SWQL?tag=papalex-20",
     "query": "Mizuno Wave Inspire 21 running shoes",
-    "resolvedAt": "2026-05-04T20:35:37.937Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "brooks-adrenaline-gts-25": {
-    "asin": "B0DM3PRNH6",
-    "title": "Men’s Adrenaline GTS 25 Supportive Running & Walking Shoe",
-    "url": "https://www.amazon.com/dp/B0DM3PRNH6?tag=papalex-20",
+    "asin": "B0DM3DL995",
+    "title": "Brooks Men’s Adrenaline GTS 25 Supportive Running & Walking Shoe - White/Black/White - 10.5 Medium",
+    "url": "https://www.amazon.com/dp/B0DM3DL995?tag=papalex-20",
     "query": "Brooks Adrenaline GTS 25 running shoes",
-    "resolvedAt": "2026-05-04T20:35:47.548Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "hoka-speedgoat-6": {
     "asin": "B0GFH1XKSS",
@@ -273,33 +293,36 @@
     "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "nike-alphafly-3": {
-    "asin": "B0F4MHTW68",
-    "title": "Mens Nike Alphafly 3 Herren-straßenlaufschuh Für Wettkämpfe",
-    "url": "https://www.amazon.com/dp/B0F4MHTW68?tag=papalex-20",
+    "asin": "B0GZLVVH2C",
+    "title": "Nike Alphafly 3 Men's Road Racing Shoes (White/Hyper Turquoise/Concord/Black) Size 12",
+    "url": "https://www.amazon.com/dp/B0GZLVVH2C?tag=papalex-20",
     "query": "Nike Alphafly 3 running shoes",
-    "resolvedAt": "2026-05-04T20:24:36.490Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "nike-vaporfly-3": {
-    "asin": "B0DJGCHD2V",
-    "title": "Mens Nike Vaporfly 3 Herren-straßenlaufschuh Für Wettkämpfe",
-    "url": "https://www.amazon.com/dp/B0DJGCHD2V?tag=papalex-20",
+    "asin": "B0DK2GKCHR",
+    "title": "Nike Vaporfly 3 Men's Road Racing Shoes (HQ3450-147, Sail/Volt/Pacific Moss/Glacier Blue) Size 11.5",
+    "url": "https://www.amazon.com/dp/B0DK2GKCHR?tag=papalex-20",
     "query": "Nike Vaporfly 3 running shoes",
-    "resolvedAt": "2026-05-04T20:25:09.343Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "nike-streakfly": {
-    "asin": "B0F68LCVTH",
-    "title": "Unisex Nike Streakfly 2 (600 - Crimson/Lime Blast-Hyper Orange)",
-    "url": "https://www.amazon.com/dp/B0F68LCVTH?tag=papalex-20",
+    "asin": "B0DMGT2CHH",
+    "title": "Nike Streakfly Men's Road Racing Shoes (DJ6566-105, Pale Ivory/Guava Ice/Black) Size 10.5",
+    "url": "https://www.amazon.com/dp/B0DMGT2CHH?tag=papalex-20",
     "query": "Nike Streakfly running shoes",
-    "resolvedAt": "2026-05-04T20:25:30.207Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "adidas-adios-pro-3": {
-    "asin": "B0DTTH4MNG",
-    "title": "Men's Adizero Adios Pro 3 Shoes",
-    "url": "https://www.amazon.com/dp/B0DTTH4MNG?tag=papalex-20",
+    "asin": "B0BXYYM8RV",
+    "title": "adidas Adizero Adios Pro 3 Running Shoes Men's, Purple, Size 12",
+    "url": "https://www.amazon.com/dp/B0BXYYM8RV?tag=papalex-20",
     "query": "Adidas Adizero Adios Pro 3 men's running shoes",
-    "resolvedAt": "2026-10-01T04:48:01.785Z",
-    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "adidas-takumi-sen-10": {
     "asin": null,
@@ -315,19 +338,20 @@
     "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "hoka-mach-6": {
-    "asin": "B0CN362V35",
-    "title": "Hoka Men's Mach 6 Black/White 9 Medium",
-    "url": "https://www.amazon.com/dp/B0CN362V35?tag=papalex-20",
+    "asin": "B0DN3F2DCW",
+    "title": "Hoka Men's Mach 6 Gravel/Asphalt Grey 11 Medium",
+    "url": "https://www.amazon.com/dp/B0DN3F2DCW?tag=papalex-20",
     "query": "Hoka Mach 6",
-    "resolvedAt": "2026-10-01T05:26:45.702Z",
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
     "source": "Amazon Creators API searchItems"
   },
   "hoka-rocket-x-2": {
-    "asin": "B0D5G9LTJ4",
-    "title": "Unisex-Adult Rocket X 2",
-    "url": "https://www.amazon.com/dp/B0D5G9LTJ4?tag=papalex-20",
+    "asin": "B0CPKLNQCR",
+    "title": "Hoka Unisex Rocket X 2 Sneaker, Lettuce/Solar Flare, 6.5 US Men",
+    "url": "https://www.amazon.com/dp/B0CPKLNQCR?tag=papalex-20",
     "query": "Hoka Rocket X 2 running shoes",
-    "resolvedAt": "2026-05-04T20:35:48.401Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "saucony-endorphin-pro-4": {
     "asin": "B0DJWP1CX7",
@@ -354,26 +378,28 @@
     "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "saucony-peregrine-14": {
-    "asin": "B0C37TR2M9",
-    "title": "Men's Peregrine 14 Trail Running Shoe",
-    "url": "https://www.amazon.com/dp/B0C37TR2M9?tag=papalex-20",
+    "asin": "B0CMBFHHQY",
+    "title": "Saucony Men's Peregrine 14 Sneaker, Dove/Dusk, 8",
+    "url": "https://www.amazon.com/dp/B0CMBFHHQY?tag=papalex-20",
     "query": "Saucony Peregrine 14 men's running shoes",
-    "resolvedAt": "2026-10-01T04:48:01.785Z",
-    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "on-cloudboom-strike": {
-    "asin": "B0FHVLMQ91",
-    "title": "On Cloudboom Strike Women's Shoe",
-    "url": "https://www.amazon.com/dp/B0FHVLMQ91?tag=papalex-20",
+    "asin": "B0FGHTP4TS",
+    "title": "On Running | Cloudboom Strike | Men's | White/Horizon",
+    "url": "https://www.amazon.com/dp/B0FGHTP4TS?tag=papalex-20",
     "query": "On Cloudboom Strike running shoes",
-    "resolvedAt": "2026-05-04T20:26:47.001Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "on-cloudsurfer-next": {
-    "asin": "B0F7D9SSP1",
-    "title": "Men's Cloudsurfer Next Sneaker, Stone/Marsh, 15",
-    "url": "https://www.amazon.com/dp/B0F7D9SSP1?tag=papalex-20",
+    "asin": "B0CN8ZXPJW",
+    "title": "On Mens, Cloudsurfer Next Black/Lima 10.5 Medium",
+    "url": "https://www.amazon.com/dp/B0CN8ZXPJW?tag=papalex-20",
     "query": "On Cloudsurfer Next running shoes",
-    "resolvedAt": "2026-05-04T20:27:26.453Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "on-cloudmonster-2": {
     "asin": "B0D31VYBZ3",
@@ -384,19 +410,20 @@
     "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "asics-superblast-2": {
-    "asin": "B0FFLR3L6F",
-    "title": "Unisex SUPERBLAST 2 Running Shoes",
-    "url": "https://www.amazon.com/dp/B0FFLR3L6F?tag=papalex-20",
+    "asin": "B0FFL9993R",
+    "title": "ASICS Unisex SUPERBLAST 2 Running Shoes, 12M / 13.5W, Blue Fade/EDO Purple",
+    "url": "https://www.amazon.com/dp/B0FFL9993R?tag=papalex-20",
     "query": "ASICS Superblast 2 running shoes",
-    "resolvedAt": "2026-05-04T20:35:56.217Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "asics-magic-speed-4": {
-    "asin": "B0D3XPBSSF",
-    "title": "Men's Magic Speed 4 Running Shoes",
-    "url": "https://www.amazon.com/dp/B0D3XPBSSF?tag=papalex-20",
-    "query": "Asics Magic Speed 4 men's running shoes",
-    "resolvedAt": "2026-10-01T04:48:01.785Z",
-    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
+    "asin": "B0F63YVVBT",
+    "title": "ASICS Men Magic Speed 4 Flash Red/White 12.5 Medium",
+    "url": "https://www.amazon.com/dp/B0F63YVVBT?tag=papalex-20",
+    "query": "Asics Magic Speed 4",
+    "resolvedAt": "2026-10-20T04:38:15.400Z",
+    "source": "Amazon Creators API searchItems"
   },
   "asics-metaspeed-sky-paris": {
     "asin": null,
@@ -405,42 +432,44 @@
     "resolvedAt": "2026-05-07T06:13:55.184Z"
   },
   "nb-fuelcell-supercomp-elite-v4": {
-    "asin": "B0D2BSW58S",
-    "title": "Men's FuelCell Supercomp Elite V4 Running Shoes",
-    "url": "https://www.amazon.com/dp/B0D2BSW58S?tag=papalex-20",
+    "asin": "B0D2BS8HPH",
+    "title": "New Balance Men's FuelCell SuperComp Elite V4 Running Shoe, White/Angora/Hot Mango, 12.5 M",
+    "url": "https://www.amazon.com/dp/B0D2BS8HPH?tag=papalex-20",
     "query": "New Balance FuelCell SuperComp Elite v4 running shoes",
-    "resolvedAt": "2026-05-04T20:35:57.489Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "nb-fresh-foam-x-more-v5": {
-    "asin": "B0CLB71BKQ",
-    "title": "Men's Fresh Foam X More V5",
-    "url": "https://www.amazon.com/dp/B0CLB71BKQ?tag=papalex-20",
+    "asin": "B0CLB755S3",
+    "title": "New Balance Men's Fresh Foam X More V5 Running Shoe, Brighton Grey/Calcium/Cyber Jade, 7.5 M",
+    "url": "https://www.amazon.com/dp/B0CLB755S3?tag=papalex-20",
     "query": "New Balance Fresh Foam X More v5 men's running shoes",
-    "resolvedAt": "2026-10-01T04:48:01.785Z",
-    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "brooks-hyperion-elite-4": {
-    "asin": "B0CGYHNTJG",
-    "title": "Unisex Hyperion Elite 4 Neutral Running Shoe for Men & Women",
-    "url": "https://www.amazon.com/dp/B0CGYHNTJG?tag=papalex-20",
+    "asin": "B0CGZ8816F",
+    "title": "Brooks Unisex Hyperion Elite 4 Neutral Running Shoe for Men & Women - Illusion Blue/Coral/Orange - 6 Medium",
+    "url": "https://www.amazon.com/dp/B0CGZ8816F?tag=papalex-20",
     "query": "Brooks Hyperion Elite 4 running shoes",
-    "resolvedAt": "2026-05-04T20:36:23.453Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "brooks-hyperion-max-2": {
-    "asin": "B0CRFM5CB6",
-    "title": "Men’s Hyperion Max 2 Neutral Running Shoe",
-    "url": "https://www.amazon.com/dp/B0CRFM5CB6?tag=papalex-20",
-    "query": "Brooks Hyperion Max 2 men's running shoes",
-    "resolvedAt": "2026-10-01T04:48:01.785Z",
-    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
+    "asin": "B0D3J8M7BW",
+    "title": "Brooks Men’s Hyperion Max 2 Neutral Running Shoe - Black/Gold/Pink - 12.5 Medium",
+    "url": "https://www.amazon.com/dp/B0D3J8M7BW?tag=papalex-20",
+    "query": "Brooks Hyperion Max 2",
+    "resolvedAt": "2026-10-20T04:38:17.430Z",
+    "source": "Amazon Creators API searchItems"
   },
   "brooks-cascadia-18": {
-    "asin": "B0CYZQR6LY",
-    "title": "Men’s Cascadia 18 Mountain Trail Running Shoe",
-    "url": "https://www.amazon.com/dp/B0CYZQR6LY?tag=papalex-20",
-    "query": "Brooks Cascadia 18 men's running shoes",
-    "resolvedAt": "2026-10-01T04:48:01.785Z",
-    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
+    "asin": "B0CPMGNQZF",
+    "title": "Brooks Men’s Cascadia 18 Mountain Trail Running Shoe - Oyster/Primer Grey/Coconut - 8.5 Medium",
+    "url": "https://www.amazon.com/dp/B0CPMGNQZF?tag=papalex-20",
+    "query": "Brooks Cascadia 18",
+    "resolvedAt": "2026-10-20T04:38:19.662Z",
+    "source": "Amazon Creators API searchItems"
   },
   "puma-deviate-nitro-elite-3": {
     "asin": "B0DZ72PNG3",
@@ -450,18 +479,20 @@
     "resolvedAt": "2026-05-04T20:36:45.341Z"
   },
   "puma-velocity-nitro-3": {
-    "asin": "B0CN3824GM",
-    "title": "Mens Velocity Nitro 3 Running Shoes",
-    "url": "https://www.amazon.com/dp/B0CN3824GM?tag=papalex-20",
+    "asin": "B0CV9RWGWT",
+    "title": "PUMA Mens Velocity Nitro 3 Running Sneakers Shoes - White - Size 10 M",
+    "url": "https://www.amazon.com/dp/B0CV9RWGWT?tag=papalex-20",
     "query": "Puma Velocity Nitro 3 running shoes",
-    "resolvedAt": "2026-05-04T20:36:49.146Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "inov8-trailfly-ultra-g-300": {
-    "asin": "B0949J7532",
-    "title": "Mens TrailFly Ultra G 300 Max Athletic Hiking Shoes",
-    "url": "https://www.amazon.com/dp/B0949J7532?tag=papalex-20",
+    "asin": "B09K8M6NBZ",
+    "title": "INOV-8 Men TrailFly Ultra G 300 Max, Color: Blue/Grey/Nectar, Size: 10 (000977-BLGYNE-S-01-10)",
+    "url": "https://www.amazon.com/dp/B09K8M6NBZ?tag=papalex-20",
     "query": "Inov-8 TrailFly Ultra G 300 Max running shoes",
-    "resolvedAt": "2026-05-04T20:36:58.912Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "merrell-agility-peak-5": {
     "asin": "B0CC6JX53D",
@@ -472,12 +503,12 @@
     "source": "Amazon Creators API searchItems"
   },
   "topo-mtn-racer-3": {
-    "asin": "B0C461CD2G",
-    "title": "Men's MTN Racer 3 Comfortable Lightweight 5MM Drop Trail Running Shoes, Athletic Shoes for Trail Running",
-    "url": "https://www.amazon.com/dp/B0C461CD2G?tag=papalex-20",
+    "asin": "B0CRLFYBRW",
+    "title": "Topo Athletic Men's MTN Racer 3 Comfortable Lightweight 5MM Drop Trail Running Shoes, Athletic Shoes for Trail Running, Blue/Orange, Size 11.5",
+    "url": "https://www.amazon.com/dp/B0CRLFYBRW?tag=papalex-20",
     "query": "Topo Athletic MTN Racer 3 men's running shoes",
-    "resolvedAt": "2026-10-01T04:48:01.785Z",
-    "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "topo-cyclone-2": {
     "asin": "B0CRLFWMZD",
@@ -488,11 +519,12 @@
     "source": "Amazon Creators API searchItems"
   },
   "nike-pegasus-42": {
-    "asin": "B0FRNJ61CJ",
-    "title": "Mens Air Zoom Pegasus 42",
-    "url": "https://www.amazon.com/dp/B0FRNJ61CJ?tag=papalex-20",
+    "asin": "B0FRN9QWPD",
+    "title": "Nike Mens, Air Zoom Pegasus 42, Black/White/Photon Dust, 8.5 Medium",
+    "url": "https://www.amazon.com/dp/B0FRN9QWPD?tag=papalex-20",
     "query": "Nike Pegasus 42 running shoes",
-    "resolvedAt": "2026-05-07T06:08:37.986Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "hoka-clifton-10": {
     "asin": "B0D5FNNH7X",
@@ -502,11 +534,12 @@
     "resolvedAt": "2026-05-07T06:08:48.072Z"
   },
   "hoka-skyward-x": {
-    "asin": "B0CPBYMLKZ",
-    "title": "Mens Skyward X",
-    "url": "https://www.amazon.com/dp/B0CPBYMLKZ?tag=papalex-20",
+    "asin": "B0D5G6PQJM",
+    "title": "Hoka Men's Skyward X Luna Moth/Black 10.5 Medium",
+    "url": "https://www.amazon.com/dp/B0D5G6PQJM?tag=papalex-20",
     "query": "Hoka Skyward X running shoes",
-    "resolvedAt": "2026-05-07T06:08:51.578Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "lining-feidian-6-elite": {
     "asin": "B0GGGDX7NM",
@@ -546,11 +579,12 @@
     "source": "Amazon US search (Men's Fashion), matched strictly on brand + model + version"
   },
   "brooks-hyperion-max-3": {
-    "asin": "B0F4MJ8LX4",
-    "title": "Men's Hyperion Max 3 Neutral Running Shoe",
-    "url": "https://www.amazon.com/dp/B0F4MJ8LX4?tag=papalex-20",
+    "asin": "B0DM3MLZBV",
+    "title": "Brooks Men's Hyperion Max 3 Neutral Running Shoe - Coconut/Green Gecko/Pink Clay - 10.5 Medium",
+    "url": "https://www.amazon.com/dp/B0DM3MLZBV?tag=papalex-20",
     "query": "Brooks Hyperion Max 3 running shoes",
-    "resolvedAt": "2026-05-07T06:10:10.661Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "saucony-endorphin-speed-5": {
     "asin": "B0DJWNZG91",
@@ -579,11 +613,12 @@
     "resolvedAt": "2026-09-30T20:32:57.220Z"
   },
   "nb-supercomp-trainer-v3": {
-    "asin": "B0DJV41ZP5",
-    "title": "Men's FuelCell Supercomp Trainer V3",
-    "url": "https://www.amazon.com/dp/B0DJV41ZP5?tag=papalex-20",
+    "asin": "B0F4LSF2W1",
+    "title": "New Balance Men's FuelCell SuperComp Trainer V3 Running Shoe, Fairweather Blue/Glint Blue, 10.5",
+    "url": "https://www.amazon.com/dp/B0F4LSF2W1?tag=papalex-20",
     "query": "New Balance FuelCell SuperComp Trainer v3 running shoes",
-    "resolvedAt": "2026-05-07T06:11:24.177Z"
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "adidas-evo-sl-2": {
     "asin": null,
@@ -591,11 +626,11 @@
     "resolvedAt": "2026-09-30T20:32:57.220Z"
   },
   "hoka-mach-x-2": {
-    "asin": "B0CPC2B2W2",
-    "title": "Hoka Men's Mach X 2 Frost/Citrus 12 Medium",
-    "url": "https://www.amazon.com/dp/B0CPC2B2W2?tag=papalex-20",
+    "asin": "B0CPC2G8PC",
+    "title": "Hoka Men's Mach X 2 Frost/Citrus 8.5 Medium",
+    "url": "https://www.amazon.com/dp/B0CPC2G8PC?tag=papalex-20",
     "query": "Hoka Mach X 2",
-    "resolvedAt": "2026-10-01T05:27:13.865Z",
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
     "source": "Amazon Creators API searchItems"
   },
   "nnormal-kjerag-2": {
@@ -612,16 +647,1067 @@
     "resolvedAt": "2026-05-07T06:14:13.891Z"
   },
   "puma-fast-r-nitro-elite-3": {
-    "asin": null,
-    "note": "cleared 2026-09-30: missing: 3 (was B0DJ654QR9: Mens Fast-R Nitro Elite 2 Running Sneakers Shoes)",
-    "resolvedAt": "2026-09-30T20:32:57.220Z"
+    "asin": "B0H1WPZ1N4",
+    "title": "Puma Mens Fast-r Nitro™Elite 3 Running Shoe, Sunny Lime-Black, 11 US",
+    "url": "https://www.amazon.com/dp/B0H1WPZ1N4?tag=papalex-20",
+    "query": "puma-fast-r-nitro-elite-3",
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
   },
   "mizuno-neo-vista-2": {
-    "asin": "B0FBH9SFYK",
-    "title": "Mizuno Men's Wave Neo Vista 2 Running Shoe, Neutral Road-Trail Shoe,Baritone Blue-Frozen Emerald, US Mens 9.5",
-    "url": "https://www.amazon.com/dp/B0FBH9SFYK?tag=papalex-20",
+    "asin": "B0FBH7QD87",
+    "title": "Mizuno Men's Wave Neo Vista 2 Running Shoe, Neutral Road-Trail Shoe,Baritone Blue-Frozen Emerald, US Mens 14",
+    "url": "https://www.amazon.com/dp/B0FBH7QD87?tag=papalex-20",
     "query": "Mizuno Neo Vista 2",
-    "resolvedAt": "2026-10-01T05:27:20.550Z",
+    "resolvedAt": "2026-10-19T17:00:02.447Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nike-downshifter-14": {
+    "asin": "B0FQMWLLF7",
+    "title": "Nike Men's Downshifter 14 Road Running Shoes, Summit White/Metallic Silver-Black-White, 10.5",
+    "url": "https://www.amazon.com/dp/B0FQMWLLF7?tag=papalex-20",
+    "query": "Nike Downshifter 14",
+    "resolvedAt": "2026-10-19T17:09:13.047Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nike-journey-run": {
+    "asin": "B0DJGBZNPH",
+    "title": "Nike Men's Journey Run Road Running Shoes, White/Metallic Silver-Black-Ashen Slate, 11",
+    "url": "https://www.amazon.com/dp/B0DJGBZNPH?tag=papalex-20",
+    "query": "Nike Journey Run",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nike-juniper-trail-3": {
+    "asin": "B0F2K3FSWW",
+    "title": "Nike Men's Juniper Trail 3 Trail Running Shoes, Light Bone/Light Bone-Midnight Navy, 9",
+    "url": "https://www.amazon.com/dp/B0F2K3FSWW?tag=papalex-20",
+    "query": "Nike Juniper Trail 3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nike-kiger-10": {
+    "asin": "B0F4M97YMM",
+    "title": "Nike Kiger 10 Men's Trail Running Shoes (Glacier Blue/Dusty Cactus/Opti Yellow/Field Purple) Size",
+    "url": "https://www.amazon.com/dp/B0F4M97YMM?tag=papalex-20",
+    "query": "Nike Kiger 10",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nike-pegasus-plus": {
+    "asin": "B0DLYCSJQX",
+    "title": "Nike Pegasus Plus Men's Road Running Shoes (HQ3451-101, Sail/Pale Ivory/Volt/Black) Size 8",
+    "url": "https://www.amazon.com/dp/B0DLYCSJQX?tag=papalex-20",
+    "query": "Nike Pegasus Plus",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nike-pegasus-trail-5": {
+    "asin": "B0D1YD98G8",
+    "title": "Nike Men's Pegasus Trail 5 Black/White/Anthracite/Wolf Grey 8 Medium",
+    "url": "https://www.amazon.com/dp/B0D1YD98G8?tag=papalex-20",
+    "query": "Nike Pegasus Trail 5",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nike-quest-6": {
+    "asin": "B0D9446XKC",
+    "title": "Nike Men's Quest 6 Road Running Shoes, Black/White-Iron Grey, 13",
+    "url": "https://www.amazon.com/dp/B0D9446XKC?tag=papalex-20",
+    "query": "Nike Quest 6",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nike-revolution-8": {
+    "asin": "B0DPHXKMHV",
+    "title": "Nike Men's Revolution 8 Road Running Shoes, Black/White-Black, 12.5",
+    "url": "https://www.amazon.com/dp/B0DPHXKMHV?tag=papalex-20",
+    "query": "Nike Revolution 8",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nike-structure-26": {
+    "asin": "B0FDW9N4N3",
+    "title": "Nike Mens Structure 26 White/Bright Crimson/Medium Ash 10 Medium",
+    "url": "https://www.amazon.com/dp/B0FDW9N4N3?tag=papalex-20",
+    "query": "Nike Structure 26",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nike-structure-plus": {
+    "asin": "B0FFNXSNZM",
+    "title": "Nike Men Structure Plus Black/White/Anthracite 10.5 Medium",
+    "url": "https://www.amazon.com/dp/B0FFNXSNZM?tag=papalex-20",
+    "query": "Nike Structure Plus",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nike-vaporfly-4": {
+    "asin": "B0F71K7MNM",
+    "title": "Nike Vaporfly 4 Men's Road Racing Shoes (HF6414-600, Bright Crimson/Mint Foam/Cave Purple/Lime Blast) Size 8",
+    "url": "https://www.amazon.com/dp/B0F71K7MNM?tag=papalex-20",
+    "query": "Nike Vaporfly 4",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nike-vomero-18": {
+    "asin": "B0F2G4568B",
+    "title": "Nike Men's Vomero 18 Black/Summit White/Bright Crimson 11 Medium",
+    "url": "https://www.amazon.com/dp/B0F2G4568B?tag=papalex-20",
+    "query": "Nike Vomero 18",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nike-wildhorse-10": {
+    "asin": "B0GPX87RDV",
+    "title": "Nike Wildhorse 10 Men's Trail Running Shoes (Light Orewood Brown/Safety Orange/Cream II) Size 10.5",
+    "url": "https://www.amazon.com/dp/B0GPX87RDV?tag=papalex-20",
+    "query": "Nike Wildhorse 10",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nike-winflo-12": {
+    "asin": "B0FQMT87DF",
+    "title": "Nike Men's Air Winflo 12, White/Blue Crystal-Off White-Lapis, 9.5",
+    "url": "https://www.amazon.com/dp/B0FQMT87DF?tag=papalex-20",
+    "query": "Nike Winflo 12",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nike-zegama-2": {
+    "asin": "B0D9V434YW",
+    "title": "Nike Zegama 2 Men's Trail Running Shoes (FD5190-001, Black/Wolf Grey/Anthracite/White) Size 8",
+    "url": "https://www.amazon.com/dp/B0D9V434YW?tag=papalex-20",
+    "query": "Nike Zegama 2",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nike-zoom-fly-6": {
+    "asin": "B0DCZVSHVV",
+    "title": "Nike Zoom Fly 6 Men's Road Running Shoe FN8454, Black White Lt Smoke Grey, 42 EU",
+    "url": "https://www.amazon.com/dp/B0DCZVSHVV?tag=papalex-20",
+    "query": "Nike Zoom Fly 6",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "brooks-caldera-8": {
+    "asin": "B0DYLLFRSS",
+    "title": "Brooks Men’s Caldera 8 Ultra Trail Running Shoe - Dusty Olive/Lime/Oyster - 9 Medium",
+    "url": "https://www.amazon.com/dp/B0DYLLFRSS?tag=papalex-20",
+    "query": "Brooks Caldera 8",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "brooks-cascadia-20": {
+    "asin": "B0G1HT6NX6",
+    "title": "Brooks Men’s Cascadia 20 Trail Running Shoe - Black/Tigerlily/Orange - 12 Medium",
+    "url": "https://www.amazon.com/dp/B0G1HT6NX6?tag=papalex-20",
+    "query": "Brooks Cascadia 20",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "brooks-catamount-4": {
+    "asin": "B0D6RC2YSY",
+    "title": "Brooks Men's Catamount 4 Speed Trail Running Shoe - Quince/Celestial/Neo Ember - 10.5 Medium",
+    "url": "https://www.amazon.com/dp/B0D6RC2YSY?tag=papalex-20",
+    "query": "Brooks Catamount 4",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "brooks-ghost-18": {
+    "asin": "B0FP79W5FR",
+    "title": "Brooks Men’s Ghost 18 Neutral Running & Walking Shoe - Black/Black/Ebony - 9 Medium",
+    "url": "https://www.amazon.com/dp/B0FP79W5FR?tag=papalex-20",
+    "query": "Brooks Ghost 18",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "brooks-ghost-max-4": {
+    "asin": "B0FY3L1PTQ",
+    "title": "Brooks Men’s Ghost Max 4 Neutral Running & Walking Shoe - Black/Black/Ebony - 9.5 Medium",
+    "url": "https://www.amazon.com/dp/B0FY3L1PTQ?tag=papalex-20",
+    "query": "Brooks Ghost Max 4",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "brooks-glycerin-23": {
+    "asin": "B0F5N9WKQT",
+    "title": "Brooks Men’s Glycerin 23 Neutral Running Shoe - Black/Grey/White - 10 Medium",
+    "url": "https://www.amazon.com/dp/B0F5N9WKQT?tag=papalex-20",
+    "query": "Brooks Glycerin 23",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "brooks-glycerin-gts-22": {
+    "asin": "B0D38G6GPJ",
+    "title": "Brooks Men’s Glycerin GTS 22 Supportive Running Shoe - Black/Grey/White - 12.5 Medium",
+    "url": "https://www.amazon.com/dp/B0D38G6GPJ?tag=papalex-20",
+    "query": "Brooks Glycerin GTS 22",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "brooks-hyperion-elite-6": {
+    "asin": "B0G88K45X7",
+    "title": "Brooks Hyperion Elite 6 Race Running Shoe for Men & Women - Tigerlily/Red/White - 10.5 Medium",
+    "url": "https://www.amazon.com/dp/B0G88K45X7?tag=papalex-20",
+    "query": "Brooks Hyperion Elite 6",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "brooks-hyperion-max-4": {
+    "asin": "B0FZXMFYDM",
+    "title": "Brooks Men’s Hyperion Max 4 Neutral Running Shoe - White/Blue/Nightlife - 11.5 Medium",
+    "url": "https://www.amazon.com/dp/B0FZXMFYDM?tag=papalex-20",
+    "query": "Brooks Hyperion Max 4",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "brooks-launch-12": {
+    "asin": "B0F5NPLXJZ",
+    "title": "Brooks Men’s Launch 12 Neutral Running Shoe - Moonlight/Black/Orange - 12 Medium",
+    "url": "https://www.amazon.com/dp/B0F5NPLXJZ?tag=papalex-20",
+    "query": "Brooks Launch 12",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "brooks-revel-9": {
+    "asin": "B0FZXKBJF2",
+    "title": "Brooks Men’s Revel 9 Neutral Running & Walking Shoe - Navy/Blue/Blue Wash - 10 Medium",
+    "url": "https://www.amazon.com/dp/B0FZXKBJF2?tag=papalex-20",
+    "query": "Brooks Revel 9",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "brooks-trace-3": {
+    "asin": "B0BMV17GQ5",
+    "title": "Brooks Men’s Trace 3 Neutral Running Shoe - Blue/Peacoat/Yellow - 11 Medium",
+    "url": "https://www.amazon.com/dp/B0BMV17GQ5?tag=papalex-20",
+    "query": "Brooks Trace 3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "asics-dynablast-5": {
+    "asin": "B0F55ZRCBX",
+    "title": "ASICS Men's DYNABLAST 5 Running Shoe, 11.5, Black/Brown Stone",
+    "url": "https://www.amazon.com/dp/B0F55ZRCBX?tag=papalex-20",
+    "query": "Asics Dynablast 5",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "asics-gel-contend-9": {
+    "asin": "B0F6NSC6XC",
+    "title": "ASICS Men's Gel-Contend 9 Running Shoes, 14, Carrier Grey/ANZU",
+    "url": "https://www.amazon.com/dp/B0F6NSC6XC?tag=papalex-20",
+    "query": "Asics Gel-Contend 9",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "asics-gel-cumulus-28": {
+    "asin": "B0FV5ZFB4V",
+    "title": "ASICS Men's Gel-Cumulus 28 Running Shoes, 9.5, Black/Carrier Grey",
+    "url": "https://www.amazon.com/dp/B0FV5ZFB4V?tag=papalex-20",
+    "query": "Asics Gel-Cumulus 28",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "asics-gel-excite-11": {
+    "asin": "B0DPLWVTZ1",
+    "title": "ASICS Men's Gel-Excite 11 Running Shoes, 10.5, Black/Meteor Grey",
+    "url": "https://www.amazon.com/dp/B0DPLWVTZ1?tag=papalex-20",
+    "query": "Asics Gel-Excite 11",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "asics-gel-kayano-33": {
+    "asin": "B0GY9RKJ3X",
+    "title": "ASICS Men's Gel-Kayano 33 Running Shoes, 11.5, Black/Black",
+    "url": "https://www.amazon.com/dp/B0GY9RKJ3X?tag=papalex-20",
+    "query": "Asics Gel-Kayano 33",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "asics-gel-pulse-17": {
+    "asin": "B0FTPKFLWD",
+    "title": "ASICS Men's Gel-Pulse 17 Running Shoes, 11.5, Black/Graphite Grey",
+    "url": "https://www.amazon.com/dp/B0FTPKFLWD?tag=papalex-20",
+    "query": "Asics Gel-Pulse 17",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "asics-gel-venture-11": {
+    "asin": "B0FV7F3ZC1",
+    "title": "ASICS Men's Gel-Venture 11 Running Shoes, 11, Midnight/Grey Blue",
+    "url": "https://www.amazon.com/dp/B0FV7F3ZC1?tag=papalex-20",
+    "query": "Asics Gel-Venture 11",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "asics-glideride-max-2": {
+    "asin": "B0FV77RJK7",
+    "title": "ASICS Men's GLIDERIDE MAX 2 Running Shoes, 10, Black/White",
+    "url": "https://www.amazon.com/dp/B0FV77RJK7?tag=papalex-20",
+    "query": "Asics Glideride Max 2",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "asics-gt-1000-15": {
+    "asin": "B0GY9V69J2",
+    "title": "ASICS Men's GT-1000 15 Running Shoes, 10, Prussian Blue/White",
+    "url": "https://www.amazon.com/dp/B0GY9V69J2?tag=papalex-20",
+    "query": "Asics GT-1000 15",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "asics-gt-2000-15": {
+    "asin": "B0H6GNVHB3",
+    "title": "ASICS Men's GT-2000 15 Running Shoes, 10, Black/White",
+    "url": "https://www.amazon.com/dp/B0H6GNVHB3?tag=papalex-20",
+    "query": "Asics GT-2000 15",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "asics-magic-speed-5": {
+    "asin": "B0FV7RYZGF",
+    "title": "ASICS Unisex Magic Speed 5 Running Shoes, 10.5M / 12W, Vital Green/Carrier Grey",
+    "url": "https://www.amazon.com/dp/B0FV7RYZGF?tag=papalex-20",
+    "query": "Asics Magic Speed 5",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "asics-metafuji-trail-2": {
+    "asin": "B0HCW71G7H",
+    "title": "ASICS Unisex METAFUJI Trail 2 Trail Running, 8.5M / 10W, Illuminate Yellow/Dark Aubergine",
+    "url": "https://www.amazon.com/dp/B0HCW71G7H?tag=papalex-20",
+    "query": "Asics Metafuji Trail 2",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "asics-metaspeed-sky-tokyo": {
+    "asin": "B0DPLTGPM1",
+    "title": "ASICS Unisex METASPEED Sky Tokyo Running, 11M / 12.5W, Flash RED/Black",
+    "url": "https://www.amazon.com/dp/B0DPLTGPM1?tag=papalex-20",
+    "query": "Asics Metaspeed Sky Tokyo",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "asics-noosa-tri-16": {
+    "asin": "B0F642YXKT",
+    "title": "ASICS Men's Noosa TRI 16 Running Shoes, 10.5, Black/Jasper Green",
+    "url": "https://www.amazon.com/dp/B0F642YXKT?tag=papalex-20",
+    "query": "Asics Noosa Tri 16",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "asics-sonicblast-2": {
+    "asin": "B0H8G7ZLQ2",
+    "title": "ASICS Men's SONICBLAST 2 Running, 8, White/Stadium Orange",
+    "url": "https://www.amazon.com/dp/B0H8G7ZLQ2?tag=papalex-20",
+    "query": "Asics Sonicblast 2",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "asics-trabuco-14": {
+    "asin": "B0GY9V5WFV",
+    "title": "ASICS Men's Trabuco 14 Running Shoes, 11, Vintage Khaki/Black",
+    "url": "https://www.amazon.com/dp/B0GY9V5WFV?tag=papalex-20",
+    "query": "Asics Trabuco 14",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "asics-versablast-4": {
+    "asin": "B0D82G4Q92",
+    "title": "ASICS Men's VERSABLAST 4 Running Shoes, 9, Black/Carrier Grey",
+    "url": "https://www.amazon.com/dp/B0D82G4Q92?tag=papalex-20",
+    "query": "Asics Versablast 4",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "hoka-arahi-9": {
+    "asin": "B0FXFHKP2H",
+    "title": "Hoka Mens Arahi 9 Black/White 10.5 Medium",
+    "url": "https://www.amazon.com/dp/B0FXFHKP2H?tag=papalex-20",
+    "query": "Hoka Arahi 9",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "hoka-challenger-8": {
+    "asin": "B0F9QPQFYY",
+    "title": "Hoka Men's Challenger 8 Faded Navy/Pampas Grass 10 Medium",
+    "url": "https://www.amazon.com/dp/B0F9QPQFYY?tag=papalex-20",
+    "query": "Hoka Challenger 8",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "hoka-clifton-11": {
+    "asin": "B0FXFBR6BV",
+    "title": "Hoka Mens Clifton 11 Black/Black 8.5 Medium",
+    "url": "https://www.amazon.com/dp/B0FXFBR6BV?tag=papalex-20",
+    "query": "Hoka Clifton 11",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "hoka-gaviota-6": {
+    "asin": "B0F9QMSCH5",
+    "title": "Hoka Men's Gaviota 6 Black/White 9 Medium",
+    "url": "https://www.amazon.com/dp/B0F9QMSCH5?tag=papalex-20",
+    "query": "Hoka Gaviota 6",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "hoka-kawana-2": {
+    "asin": "B0CN35PCVW",
+    "title": "Hoka Men's Kawana 2 White/Nimbus Cloud 8 Medium",
+    "url": "https://www.amazon.com/dp/B0CN35PCVW?tag=papalex-20",
+    "query": "Hoka Kawana 2",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "hoka-mach-7": {
+    "asin": "B0F9QHLBF3",
+    "title": "Hoka Men's Mach 7 Ash Grey/Cobalt Blue 9.5 Medium",
+    "url": "https://www.amazon.com/dp/B0F9QHLBF3?tag=papalex-20",
+    "query": "Hoka Mach 7",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "hoka-mach-x-3": {
+    "asin": "B0DN61DGH2",
+    "title": "Hoka Men's Mach X 3 White/Neon Tangerine 11.5 Medium",
+    "url": "https://www.amazon.com/dp/B0DN61DGH2?tag=papalex-20",
+    "query": "Hoka Mach X 3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "hoka-rincon-4": {
+    "asin": "B0CP2WZDQ5",
+    "title": "Hoka Men's Rincon 4 Black/White 11.5 Medium",
+    "url": "https://www.amazon.com/dp/B0CP2WZDQ5?tag=papalex-20",
+    "query": "Hoka Rincon 4",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "hoka-rocket-x-3": {
+    "asin": "B0DN5MR4QZ",
+    "title": "Hoka Unisex Rocket X 3 White/Black Men's 7, Women's 8 Medium",
+    "url": "https://www.amazon.com/dp/B0DN5MR4QZ?tag=papalex-20",
+    "query": "Hoka Rocket X 3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "hoka-skyflow": {
+    "asin": "B0CPMZYL8W",
+    "title": "HOKA Skyflow Mens Shoes Size 10.5, Color: Black/White",
+    "url": "https://www.amazon.com/dp/B0CPMZYL8W?tag=papalex-20",
+    "query": "Hoka Skyflow",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "hoka-speedgoat-7": {
+    "asin": "B0F9R4N598",
+    "title": "Hoka Men's Speedgoat 7 Black/White 9.5 Medium",
+    "url": "https://www.amazon.com/dp/B0F9R4N598?tag=papalex-20",
+    "query": "Hoka Speedgoat 7",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "hoka-tecton-x-3": {
+    "asin": "B0CPC386BR",
+    "title": "Hoka Men's Tecton X 3 Sneaker, Stormy Skies/Cerise, 13",
+    "url": "https://www.amazon.com/dp/B0CPC386BR?tag=papalex-20",
+    "query": "Hoka Tecton X 3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "saucony-endorphin-trainer": {
+    "asin": "B0DJWPSB2F",
+    "title": "Saucony Men's Endorphin Trainer Sneaker, White/Mutant, 12",
+    "url": "https://www.amazon.com/dp/B0DJWPSB2F?tag=papalex-20",
+    "query": "Saucony Endorphin Trainer",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "saucony-guide-19": {
+    "asin": "B0F9LJFCT9",
+    "title": "Saucony Men's Guide 19 Sneaker, Black/Silver, 10",
+    "url": "https://www.amazon.com/dp/B0F9LJFCT9?tag=papalex-20",
+    "query": "Saucony Guide 19",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "saucony-hurricane-26": {
+    "asin": "B0FYT2VFJ4",
+    "title": "Saucony Men's Hurricane 26 Road Running Shoe, Triple Black, 11 Medium",
+    "url": "https://www.amazon.com/dp/B0FYT2VFJ4?tag=papalex-20",
+    "query": "Saucony Hurricane 26",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "saucony-kinvara-16": {
+    "asin": "B0DJWPHF9D",
+    "title": "Saucony Men's Kinvara 16 Sneaker, Black/White, 13",
+    "url": "https://www.amazon.com/dp/B0DJWPHF9D?tag=papalex-20",
+    "query": "Saucony Kinvara 16",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "saucony-omni-22": {
+    "asin": "B0C34RTX3P",
+    "title": "Saucony Men's Omni 22 Sneaker, Black/White, 10",
+    "url": "https://www.amazon.com/dp/B0C34RTX3P?tag=papalex-20",
+    "query": "Saucony Omni 22",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "saucony-peregrine-16": {
+    "asin": "B0FY7SXH6C",
+    "title": "Saucony Men's Peregrine 16 Sneaker, Field/Black, 9.5",
+    "url": "https://www.amazon.com/dp/B0FY7SXH6C?tag=papalex-20",
+    "query": "Saucony Peregrine 16",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "saucony-tempus-2": {
+    "asin": "B0CMB88JS2",
+    "title": "Saucony Men's Tempus 2 Sneaker, Royal/Silver, 8.5",
+    "url": "https://www.amazon.com/dp/B0CMB88JS2?tag=papalex-20",
+    "query": "Saucony Tempus 2",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "saucony-triumph-24": {
+    "asin": "B0FYTGCXSB",
+    "title": "Saucony Men's Triumph 24 Road Running Shoe, Fossil/Gunmetal, 11 Medium",
+    "url": "https://www.amazon.com/dp/B0FYTGCXSB?tag=papalex-20",
+    "query": "Saucony Triumph 24",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "on-cloudboom-max": {
+    "asin": "B0FPGC32JX",
+    "title": "Men's Cloudboom Max (White/Black)",
+    "url": "https://www.amazon.com/dp/B0FPGC32JX?tag=papalex-20",
+    "query": "On Cloudboom Max",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "on-cloudflow-5": {
+    "asin": "B0D31W2K9N",
+    "title": "On Running Men's Cloudflow 5, Arctic/Stone, 11 US | Running, Walking, GYM",
+    "url": "https://www.amazon.com/dp/B0D31W2K9N?tag=papalex-20",
+    "query": "On Cloudflow 5",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "on-cloudflyer-5": {
+    "asin": "B0CN943NXF",
+    "title": "On Cloudflyer 5 Men's Shoes",
+    "url": "https://www.amazon.com/dp/B0CN943NXF?tag=papalex-20",
+    "query": "On Cloudflyer 5",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "on-cloudmonster-3": {
+    "asin": "B0F7D7G58H",
+    "title": "On Mens Cloudmonster 3 White/White 11.5 Medium",
+    "url": "https://www.amazon.com/dp/B0F7D7G58H?tag=papalex-20",
+    "query": "On Cloudmonster 3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "on-cloudrunner-3": {
+    "asin": "B0F7D7VZV1",
+    "title": "On Mens Cloudrunner 3, Linen/Ivory 10.5 Medium",
+    "url": "https://www.amazon.com/dp/B0F7D7VZV1?tag=papalex-20",
+    "query": "On Cloudrunner 3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "on-cloudstratus-3": {
+    "asin": "B0CN91HLQY",
+    "title": "Men's Cloudstratus 3 (Metal/Glacier)",
+    "url": "https://www.amazon.com/dp/B0CN91HLQY?tag=papalex-20",
+    "query": "On Cloudstratus 3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "on-cloudsurfer-max": {
+    "asin": "B0DM2M8WLT",
+    "title": "On Mens Cloudsurfer Max Black/Eclipse 8 M",
+    "url": "https://www.amazon.com/dp/B0DM2M8WLT?tag=papalex-20",
+    "query": "On Cloudsurfer Max",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "on-cloudsurfer-trail-2": {
+    "asin": "B0DM2LQ2PD",
+    "title": "On Mens Cloudsurfer Trail 2 Rock/Niagara 10 M",
+    "url": "https://www.amazon.com/dp/B0DM2LQ2PD?tag=papalex-20",
+    "query": "On Cloudsurfer Trail 2",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "on-cloudswift-4": {
+    "asin": "B0D31SBR63",
+    "title": "On Mens, Cloudswift 4 Black/Eclipse 8 Medium",
+    "url": "https://www.amazon.com/dp/B0D31SBR63?tag=papalex-20",
+    "query": "On Cloudswift 4",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "on-cloudultra-3": {
+    "asin": "B0FKB9CQGZ",
+    "title": "ON CLOUDULTRA 3 - HOMME",
+    "url": "https://www.amazon.com/dp/B0FKB9CQGZ?tag=papalex-20",
+    "query": "On Cloudultra 3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "on-cloudvista-2": {
+    "asin": "B0CN946PJZ",
+    "title": "On Mens, Cloudvista 2 Glacier/Eclipse 12.5 Medium",
+    "url": "https://www.amazon.com/dp/B0CN946PJZ?tag=papalex-20",
+    "query": "On Cloudvista 2",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "adidas-adistar-4": {
+    "asin": "B0DK61BDX7",
+    "title": "Adidas, Mens, Adistar 4 Running Shoes, Halo Silver/Onix/Solar Slime, 10, D - Medium",
+    "url": "https://www.amazon.com/dp/B0DK61BDX7?tag=papalex-20",
+    "query": "Adidas Adistar 4",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "adidas-adizero-sl2": {
+    "asin": "B0DK61ST77",
+    "title": "Adidas, Mens, Adizero SL2 Running Shoes, Black/White/Grey, 11.5, D - Medium",
+    "url": "https://www.amazon.com/dp/B0DK61ST77?tag=papalex-20",
+    "query": "Adidas Adizero SL2",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "adidas-duramo-speed": {
+    "asin": "B0CKMCG8RQ",
+    "title": "Adidas Men's Duramo Speed, White/Aurora Met./Solar Red, 10",
+    "url": "https://www.amazon.com/dp/B0CKMCG8RQ?tag=papalex-20",
+    "query": "Adidas Duramo Speed",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "adidas-runfalcon-5": {
+    "asin": "B0CKRZ2GZV",
+    "title": "Adidas Men's Runfalcon 5 Running Shoes, 10.5",
+    "url": "https://www.amazon.com/dp/B0CKRZ2GZV?tag=papalex-20",
+    "query": "Adidas Runfalcon 5",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "adidas-supernova-prima-3": {
+    "asin": "B0FXJFTN8P",
+    "title": "adidas, Men's, Supernova Prima 3 Running Shoes, Crystal Jade/Iron Metallic/Signal Green, Men 12 Medium",
+    "url": "https://www.amazon.com/dp/B0FXJFTN8P?tag=papalex-20",
+    "query": "Adidas Supernova Prima 3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "adidas-supernova-rise-3": {
+    "asin": "B0FWBWGH8T",
+    "title": "adidas Men's Supernova Rise 3 Running, Crystal Jade/Silver Metallic/Lucid Tangerine, 10.5",
+    "url": "https://www.amazon.com/dp/B0FWBWGH8T?tag=papalex-20",
+    "query": "Adidas Supernova Rise 3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "adidas-ultraboost-5": {
+    "asin": "B0CMS6SJ7V",
+    "title": "Adidas Men's Ultraboost 5, Olive Strata/Iron Metallic/Shadow Olive, 8",
+    "url": "https://www.amazon.com/dp/B0CMS6SJ7V?tag=papalex-20",
+    "query": "Adidas Ultraboost 5",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "puma-deviate-nitro-4": {
+    "asin": "B0GD2VV11K",
+    "title": "PUMA Men's Deviate Nitro 4 Running Shoes, Baltic Sea Blue-Fresh Water, Size 11.5 D Medium US",
+    "url": "https://www.amazon.com/dp/B0GD2VV11K?tag=papalex-20",
+    "query": "Puma Deviate Nitro 4",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "puma-foreverrun-nitro-2": {
+    "asin": "B0FT4455QN",
+    "title": "PUMA Men's Foreverrun Nitro 2 Running Shoes, Vibrant Silver-Apple Spritz, Size 12 D Medium US",
+    "url": "https://www.amazon.com/dp/B0FT4455QN?tag=papalex-20",
+    "query": "Puma ForeverRun Nitro 2",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "puma-magnify-nitro-3": {
+    "asin": "B0FT4T4VGG",
+    "title": "PUMA Men's Magnify Nitro 3 Running Shoes, Baltic Sea Blue-Puma Black, Size 8.5 D Medium US",
+    "url": "https://www.amazon.com/dp/B0FT4T4VGG?tag=papalex-20",
+    "query": "Puma Magnify Nitro 3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "puma-velocity-nitro-5": {
+    "asin": "B0GP2CFMSC",
+    "title": "PUMA Men's Velocity Nitro 5 Running Shoes, White-Ultra Red AH26, 12.5",
+    "url": "https://www.amazon.com/dp/B0GP2CFMSC?tag=papalex-20",
+    "query": "Puma Velocity Nitro 5",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nb-1080-v15": {
+    "asin": "B0F4M8QZSN",
+    "title": "New Balance Men's Fresh Foam X 1080 V15 Running Shoe, Reflection/Graphite, 10",
+    "url": "https://www.amazon.com/dp/B0F4M8QZSN?tag=papalex-20",
+    "query": "New Balance 1080 v15",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nb-680-v9": {
+    "asin": "B0F4LFYFN5",
+    "title": "New Balance Men's Fresh Foam 680 V9 Running Shoe, Vintage Indigo/Nb Navy, 12 W",
+    "url": "https://www.amazon.com/dp/B0F4LFYFN5?tag=papalex-20",
+    "query": "New Balance Fresh Foam 680 v9",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nb-860-v15": {
+    "asin": "B0F4LYBW5Y",
+    "title": "New Balance Men's Fresh Foam X 860 V15 Running Shoe, Black/Nb 103 White, 12 W",
+    "url": "https://www.amazon.com/dp/B0F4LYBW5Y?tag=papalex-20",
+    "query": "New Balance 860 v15",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nb-880-v15": {
+    "asin": "B0D2BRYN8R",
+    "title": "New Balance Men's Fresh Foam X 880 V15 Running Shoe, Sea Stone/Nb Navy/Marmalade, 11.5 W",
+    "url": "https://www.amazon.com/dp/B0D2BRYN8R?tag=papalex-20",
+    "query": "New Balance 880 v15",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nb-arishi-v4": {
+    "asin": "B09H3P88NR",
+    "title": "New Balance Men's Fresh Foam Arishi V4 Running Shoe Black/Silver Metallic",
+    "url": "https://www.amazon.com/dp/B09H3P88NR?tag=papalex-20",
+    "query": "New Balance Fresh Foam Arishi v4",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nb-balos": {
+    "asin": "B0CNKX8WB7",
+    "title": "New Balance Men's Fresh Foam X Balos White/Relic Brown 8 Medium",
+    "url": "https://www.amazon.com/dp/B0CNKX8WB7?tag=papalex-20",
+    "query": "New Balance Fresh Foam X Balos",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nb-hierro-v9": {
+    "asin": "B0D2BS22MV",
+    "title": "New Balance Men's Fresh Foam X Hierro V9 Trail Running Shoe, Arid Stone/Castlerock, 10 M",
+    "url": "https://www.amazon.com/dp/B0D2BS22MV?tag=papalex-20",
+    "query": "New Balance Fresh Foam X Hierro v9",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nb-kaiha-road": {
+    "asin": "B09YGLJTX4",
+    "title": "New Balance Men's Fresh Foam X Kaiha Road V1 Running Shoe, Black/Phantom/Dark Silver Metallic, 9.5 M",
+    "url": "https://www.amazon.com/dp/B09YGLJTX4?tag=papalex-20",
+    "query": "New Balance Fresh Foam X Kaiha Road",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nb-more-trail-v3": {
+    "asin": "B09ZPSZH2T",
+    "title": "New Balance Men's Fresh Foam X More Trail V3 Running Shoe, Yellow/Concrete, 5 Wide",
+    "url": "https://www.amazon.com/dp/B09ZPSZH2T?tag=papalex-20",
+    "query": "New Balance Fresh Foam X More Trail v3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nb-propel-v5": {
+    "asin": "B0D2BN693T",
+    "title": "New Balance Men's FuelCell Propel V5 Running Shoe, Linen/Nb Navy/Neo Flame, 14 M",
+    "url": "https://www.amazon.com/dp/B0D2BN693T?tag=papalex-20",
+    "query": "New Balance FuelCell Propel v5",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nb-rebel-v5": {
+    "asin": "B0DJV83WZR",
+    "title": "New Balance Men's FuelCell Rebel V5 Running Shoe, Raincloud/Mineral/White, 10.5 M",
+    "url": "https://www.amazon.com/dp/B0DJV83WZR?tag=papalex-20",
+    "query": "New Balance FuelCell Rebel v5",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "nb-vongo-v6": {
+    "asin": "B0BJ7MM3ZP",
+    "title": "New Balance Men's Fresh Foam X Vongo V6 Running Shoe, Black/White, 10.5 M",
+    "url": "https://www.amazon.com/dp/B0BJ7MM3ZP?tag=papalex-20",
+    "query": "New Balance Fresh Foam X Vongo v6",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "salomon-thundercross": {
+    "asin": "B0CQMXCG66",
+    "title": "Salomon Mens Thundercross Black/Cherry Tomato/Electric Green 8.5 Medium",
+    "url": "https://www.amazon.com/dp/B0CQMXCG66?tag=papalex-20",
+    "query": "Salomon Thundercross",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "altra-escalante-5": {
+    "asin": "B0GGLNPGQ3",
+    "title": "ALTRA Men's Escalante 5 Road Running Shoe, Birch/Mountain Trail/As, 11",
+    "url": "https://www.amazon.com/dp/B0GGLNPGQ3?tag=papalex-20",
+    "query": "Altra Escalante 5",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "altra-experience-flow-3": {
+    "asin": "B0FD2MR73D",
+    "title": "ALTRA Men's Experience Flow 3 Road Running Shoe, Black/White, 11",
+    "url": "https://www.amazon.com/dp/B0FD2MR73D?tag=papalex-20",
+    "query": "Altra Experience Flow 3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "altra-fwd-via-2": {
+    "asin": "B0FD2SWR8Y",
+    "title": "ALTRA Men's FWD VIA 2 Road Running Shoe, Navy/Light Blue, 10.5",
+    "url": "https://www.amazon.com/dp/B0FD2SWR8Y?tag=papalex-20",
+    "query": "Altra FWD Via 2",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "altra-lone-peak-9": {
+    "asin": "B0D482FL2D",
+    "title": "ALTRA Men's Lone Peak 9 Trail Running Shoe, Black, 9",
+    "url": "https://www.amazon.com/dp/B0D482FL2D?tag=papalex-20",
+    "query": "Altra Lone Peak 9",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "altra-olympus-6": {
+    "asin": "B0CPRPKJQ9",
+    "title": "ALTRA Men's Olympus 6 Trail Running Shoe, Black/Black, 11",
+    "url": "https://www.amazon.com/dp/B0CPRPKJQ9?tag=papalex-20",
+    "query": "Altra Olympus 6",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "altra-paradigm-8": {
+    "asin": "B0DMBWBV67",
+    "title": "ALTRA Men's Paradigm 8 Road Running Shoe, Black/White, 10",
+    "url": "https://www.amazon.com/dp/B0DMBWBV67?tag=papalex-20",
+    "query": "Altra Paradigm 8",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "altra-provision-8": {
+    "asin": "B0D481GX2P",
+    "title": "ALTRA Men's Provision 8 Road Running Shoe, Gray/Blue, 9",
+    "url": "https://www.amazon.com/dp/B0D481GX2P?tag=papalex-20",
+    "query": "Altra Provision 8",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "altra-superior-7": {
+    "asin": "B0DN2763P2",
+    "title": "ALTRA Men's Superior 7 Trail Running Shoe, Dark Blue, 10.5",
+    "url": "https://www.amazon.com/dp/B0DN2763P2?tag=papalex-20",
+    "query": "Altra Superior 7",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "altra-timp-6": {
+    "asin": "B0FD2NMW3D",
+    "title": "ALTRA Men's TIMP 6 Trail Running Shoe, Dusty Olive, 10.5",
+    "url": "https://www.amazon.com/dp/B0FD2NMW3D?tag=papalex-20",
+    "query": "Altra Timp 6",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "altra-torin-9": {
+    "asin": "B0GGJVT6DB",
+    "title": "ALTRA Men's Torin 9 Road Running Shoe, Black/Black/Castlerock, 11",
+    "url": "https://www.amazon.com/dp/B0GGJVT6DB?tag=papalex-20",
+    "query": "Altra Torin 9",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "altra-vanish-carbon-2": {
+    "asin": "B0DT2172BK",
+    "title": "ALTRA Men's Vanish Carbon 2 Road Running Shoe, Gray/Lime, 10.5",
+    "url": "https://www.amazon.com/dp/B0DT2172BK?tag=papalex-20",
+    "query": "Altra Vanish Carbon 2",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "mizuno-neo-vista-3": {
+    "asin": "B0FZMG6VSD",
+    "title": "Mizuno Men's Wave Neo Vista 3 Running Shoe, White-Black, US Mens 9",
+    "url": "https://www.amazon.com/dp/B0FZMG6VSD?tag=papalex-20",
+    "query": "Mizuno Neo Vista 3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "mizuno-neo-zen-2": {
+    "asin": "B0F9Z3KRHF",
+    "title": "Mizuno Men's Neo Zen 2 Running Shoes, Black-White, US Mens 8",
+    "url": "https://www.amazon.com/dp/B0F9Z3KRHF?tag=papalex-20",
+    "query": "Mizuno Neo Zen 2",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "mizuno-wave-horizon-7": {
+    "asin": "B0CLVQCR33",
+    "title": "Mizuno Men's Wave Horizon 7 Running Shoe | Support Running Shoe | Black/Citrus | US 7",
+    "url": "https://www.amazon.com/dp/B0CLVQCR33?tag=papalex-20",
+    "query": "Mizuno Wave Horizon 7",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "mizuno-wave-inspire-22": {
+    "asin": "B0F9Z433KY",
+    "title": "Mizuno Men's Wave Inspire 22 Running Shoes, Black-Ultimate Grey US Mens 9.5",
+    "url": "https://www.amazon.com/dp/B0F9Z433KY?tag=papalex-20",
+    "query": "Mizuno Wave Inspire 22",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "mizuno-wave-rebellion-pro-3": {
+    "asin": "B0DMQQR3XV",
+    "title": "Mizuno Wave Rebellion Pro 3 Unisex Running Shoe | Neutral Road-Trail Runner | White-Baritone Blue | US Unisex 12.5",
+    "url": "https://www.amazon.com/dp/B0DMQQR3XV?tag=papalex-20",
+    "query": "Mizuno Wave Rebellion Pro 3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "mizuno-wave-rider-30": {
+    "asin": "B0FZMF5K6Y",
+    "title": "Mizuno Men's Wave Rider 30 Running Shoe, White-Blue Jewel, US Mens 9",
+    "url": "https://www.amazon.com/dp/B0FZMF5K6Y?tag=papalex-20",
+    "query": "Mizuno Wave Rider 30",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "merrell-moab-flight": {
+    "asin": "B0BMM7B6NS",
+    "title": "Merrell Mens Moab Flight Performance Trainers Blue, Tahoe Incense, 10",
+    "url": "https://www.amazon.com/dp/B0BMM7B6NS?tag=papalex-20",
+    "query": "Merrell Moab Flight",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "topo-atmos-2": {
+    "asin": "B0FGRRVTJD",
+    "title": "Topo Athletic Men's Atmos 2 Road Running Shoes, Black/Black, Size 11 | Comfortable, 5MM Drop, Daily Running, Walking Shoes",
+    "url": "https://www.amazon.com/dp/B0FGRRVTJD?tag=papalex-20",
+    "query": "Topo Athletic Atmos 2",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "topo-cyclone-3": {
+    "asin": "B0FGRHWNY8",
+    "title": "Topo Athletic Men's Cyclone 3 Lightweight Comfortable 5MM Drop Road Running Shoes, Athletic Shoes for Road Running, Blue/Blue, Size 11",
+    "url": "https://www.amazon.com/dp/B0FGRHWNY8?tag=papalex-20",
+    "query": "Topo Athletic Cyclone 3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "topo-phantom-4": {
+    "asin": "B0DTF699QG",
+    "title": "Topo Athletic Men's Phantom 4 Lightweight 5MM Drop Road Shoes Blue/Lime | ZipFoam Midsole, Comfortable Feel, Running, Athletic Footwear, Blue/Lime, Size 9.5",
+    "url": "https://www.amazon.com/dp/B0DTF699QG?tag=papalex-20",
+    "query": "Topo Athletic Phantom 4",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "topo-specter-2": {
+    "asin": "B0FGRX7V68",
+    "title": "Topo Athletic Men's Specter 2 Comfortable Cushioned Durable 5MM Drop Road Running Shoes, Athletic Shoes for Road Running, Black/White, Size 10",
+    "url": "https://www.amazon.com/dp/B0FGRX7V68?tag=papalex-20",
+    "query": "Topo Athletic Specter 2",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "topo-terraventure-5": {
+    "asin": "B0FGRHZ2HW",
+    "title": "Topo Athletic Men's Terraventure 5 Comfortable 3MM Drop Trail Running Shoes, Athletic Shoes, Navy/Orange, Size 11.5",
+    "url": "https://www.amazon.com/dp/B0FGRHZ2HW?tag=papalex-20",
+    "query": "Topo Athletic Terraventure 5",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "topo-ultrafly-6": {
+    "asin": "B0FGRVJMMN",
+    "title": "Topo Athletic Men's Ultrafly 6 Comfortable Lightweight Cushioned Durable 5MM Drop Road Running Shoes, Athletic Shoes for Road Running, Navy/Lime, Size 10",
+    "url": "https://www.amazon.com/dp/B0FGRVJMMN?tag=papalex-20",
+    "query": "Topo Athletic Ultrafly 6",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "topo-ultraventure-4": {
+    "asin": "B0D7NSK6W2",
+    "title": "Topo Athletic Men's Ultraventure 4 Comfortable Cushioned Durable 5MM Drop Trail Running Shoes, Athletic Shoes for Trail Running, Grey/Grey, Size 11.5W",
+    "url": "https://www.amazon.com/dp/B0D7NSK6W2?tag=papalex-20",
+    "query": "Topo Athletic Ultraventure 4",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "ua-charged-assert-10": {
+    "asin": "B09XBVM335",
+    "title": "Under Armour Men's Charged Assert 10 Shoes, (001) Black/Black/White, 12",
+    "url": "https://www.amazon.com/dp/B09XBVM335?tag=papalex-20",
+    "query": "Under Armour Charged Assert 10",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "ua-charged-pursuit-3": {
+    "asin": "B0DJRWYR7W",
+    "title": "Under Armour Men's Charged Pursuit 3, 008 Black, 10.5",
+    "url": "https://www.amazon.com/dp/B0DJRWYR7W?tag=papalex-20",
+    "query": "Under Armour Charged Pursuit 3",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "ua-hovr-sonic-6": {
+    "asin": "B0BZXPFBKX",
+    "title": "Under Armour Men's HOVR Sonic 6, 108 Gray, 7",
+    "url": "https://www.amazon.com/dp/B0BZXPFBKX?tag=papalex-20",
+    "query": "Under Armour HOVR Sonic 6",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "ua-infinite-elite-2": {
+    "asin": "B0DWNG8KSJ",
+    "title": "Under Armour Infinite Elite 2 Running Shoes Mens, Electric Blue, 8",
+    "url": "https://www.amazon.com/dp/B0DWNG8KSJ?tag=papalex-20",
+    "query": "Under Armour Infinite Elite 2",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "ua-infinite-pro": {
+    "asin": "B0BZXH2J46",
+    "title": "Under Armour Men's Infinite Pro, 001 Black, 11 | Running Shoes",
+    "url": "https://www.amazon.com/dp/B0BZXH2J46?tag=papalex-20",
+    "query": "Under Armour Infinite Pro",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
+    "source": "Amazon Creators API searchItems"
+  },
+  "ua-surge-4": {
+    "asin": "B0BZXT1RHW",
+    "title": "Under Armour Men's Charged Surge 4, 002 Black, 10.5",
+    "url": "https://www.amazon.com/dp/B0BZXT1RHW?tag=papalex-20",
+    "query": "Under Armour Surge 4",
+    "resolvedAt": "2026-10-19T17:09:13.049Z",
     "source": "Amazon Creators API searchItems"
   }
 }

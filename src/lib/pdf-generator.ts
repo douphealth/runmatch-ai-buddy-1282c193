@@ -6,20 +6,23 @@
  * new page instead of being clipped.
  *
  * What the report contains:
- *   1  Cover + runner profile + result (+ a safety box when pain was reported)
- *   -  #1 match: real photo, specs, why it scored, what to watch out for, buy button
+ *   1  Cover + result (+ a safety box when pain was reported) + the top 3 at a glance
+ *   2  Your answers, then the #1 match in depth: photo, specs, why it scored, what to check,
+ *      who it suits and who should look elsewhere, buy button
+ *   -  "If one thing matters most": softest / lightest / best-value / wide-size alternatives
+ *   -  Top 3 side by side with the leader marked on each row, and how to choose between them
  *   -  Rotation: one card per shoe (daily / speed / long run) with photo and buttons
- *   -  Top 5 side by side with thumbnails and a buy button on every row
- *   -  Fit and try-on guide, runner-profile radar, training emphasis, shoe lifespan
- *   -  Reading list, how the scoring works, disclosures, link to the live result
+ *   -  Ranks 4 to 10 with thumbnails and a buy button on every row
+ *   -  Try-on guide, a printable shoe log, and verified gear ("Complete your kit")
+ *   -  Runner-profile radar, training emphasis, reading list, how the scoring works, disclosures
  *
  * Accuracy rules (these are deliberate, do not "simplify" them away):
  *   - A "BUY ON AMAZON" button exists only when scripts/audit-asin-cache.mjs has a
  *     verified listing for that exact shoe. Otherwise the shoe gets a precise
  *     fallback (its GearUpToFit review, or the brand's own site), never a guess.
- *   - A photo is embedded only when it is known to show that exact model: our own
- *     verified photo, else the photo on the verified Amazon listing (resolveShoePhoto);
- *     otherwise a clearly labelled placeholder is drawn.
+ *   - A photo is embedded only when it is known to show that exact model: the photo on the
+ *     verified Amazon listing the Buy button opens, else our own verified photo
+ *     (resolveShoePhoto); otherwise a clearly labelled placeholder is drawn.
  *   - Women's-only Amazon listings are labelled as such on the button.
  *   - Only characters in the PDF standard font encoding are written.
  */
@@ -42,6 +45,7 @@ import { resolveShoePhoto } from './amazon-images';
 import { assetPath } from './asset-path';
 import { REPLACEMENT_STATEMENT, ROTATION_STATEMENT, ROTATION_STATEMENT_SHORT } from './evidence';
 import { getAmazonLinkForShoe, getAmazonListingNote } from './amazon-link';
+import { selectGear, toGearCard } from './gear-catalog';
 import { getBrandBuyLink } from './shoe-sources';
 import { getPriceTier, SHOE_DATABASE_LAST_UPDATED_LABEL } from './price-tier';
 import { getSafetyNotice, INJURY_LABELS } from './safety';
@@ -329,8 +333,69 @@ function shoeButtons(d: Doc, x: number, y: number, w: number, h: number, shoe: S
 // Photos
 // ---------------------------------------------------------------------------
 
+/**
+ * Crops the empty white margin off a product photo (Amazon photos float the shoe in a large white canvas, at
+ * very different scales), so every shoe fills its frame. Returns null when the image cannot be analysed
+ * (no canvas, a photo with a coloured background, or nothing to trim) and the original is used instead.
+ */
+async function trimWhitespace(blob: Blob): Promise<string | null> {
+  if (typeof document === 'undefined' || typeof createImageBitmap === 'undefined') return null;
+  try {
+    const bmp = await createImageBitmap(blob);
+    const w = bmp.width;
+    const h = bmp.height;
+    const c = document.createElement('canvas');
+    c.width = w;
+    c.height = h;
+    const ctx = c.getContext('2d', { willReadFrequently: true });
+    if (!ctx) return null;
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, w, h);
+    ctx.drawImage(bmp, 0, 0);
+    const { data } = ctx.getImageData(0, 0, w, h);
+    let x0 = w;
+    let y0 = h;
+    let x1 = -1;
+    let y1 = -1;
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const i = (y * w + x) * 4;
+        if (data[i] < 244 || data[i + 1] < 244 || data[i + 2] < 244) {
+          if (x < x0) x0 = x;
+          if (x > x1) x1 = x;
+          if (y < y0) y0 = y;
+          if (y > y1) y1 = y;
+        }
+      }
+    }
+    if (x1 < 0) return null;
+    const padX = Math.round((x1 - x0) * 0.05);
+    const padY = Math.round((y1 - y0) * 0.1);
+    x0 = Math.max(0, x0 - padX);
+    y0 = Math.max(0, y0 - padY);
+    x1 = Math.min(w - 1, x1 + padX);
+    y1 = Math.min(h - 1, y1 + padY);
+    const cw = x1 - x0 + 1;
+    const ch = y1 - y0 + 1;
+    if (cw >= w * 0.9 && ch >= h * 0.9) return null; // little to trim (or a coloured background)
+    const out = document.createElement('canvas');
+    out.width = cw;
+    out.height = ch;
+    const octx = out.getContext('2d');
+    if (!octx) return null;
+    octx.fillStyle = '#fff';
+    octx.fillRect(0, 0, cw, ch);
+    octx.drawImage(c, x0, y0, cw, ch, 0, 0, cw, ch);
+    return out.toDataURL('image/jpeg', 0.9);
+  } catch {
+    return null;
+  }
+}
+
 async function blobToImg(blob: Blob): Promise<Img | null> {
   if (!blob || blob.size < 1500) return null;
+  const trimmed = await trimWhitespace(blob);
+  if (trimmed) return { data: trimmed, format: 'JPEG' };
   const data = await new Promise<string>((resolve, reject) => {
     const fr = new FileReader();
     fr.onloadend = () => resolve(fr.result as string);
@@ -365,7 +430,7 @@ async function loadShoePhoto(shoe: Shoe, get: (u: string) => Promise<Blob | null
 }
 
 /** Photo in a clean studio frame, contain-fitted. Draws a labelled placeholder when there is none. */
-function photoFrame(d: Doc, x: number, y: number, w: number, h: number, img: Img | null, shoe: Shoe) {
+function photoFrame(d: Doc, x: number, y: number, w: number, h: number, img: Img | null, shoe: Pick<Shoe, 'brand' | 'model'>) {
   box(d, x, y, w, h, 2.5, [250, 251, 253], C.line);
   if (img) {
     try {
@@ -470,19 +535,132 @@ function pageFooter(d: Doc, page: number, total: number, slug: string) {
 }
 
 // ---------------------------------------------------------------------------
+// Guidance derived from a shoe's own data (nothing in here is invented)
+// ---------------------------------------------------------------------------
+
+const CATEGORY_LABEL: Record<Shoe['category'], string> = {
+  daily: 'Daily trainer',
+  speed: 'Speed trainer',
+  race: 'Race shoe',
+  trail: 'Trail shoe',
+  'max-cushion': 'Max cushion',
+  stability: 'Stability',
+  hybrid: 'Road-to-trail',
+};
+const supportLabel = (s: Shoe) => (s.pronation.includes('overpronation') ? (s.pronation.includes('neutral') ? 'Neutral + stability' : 'Stability') : 'Neutral');
+const terrainLabel = (s: Shoe) => (s.terrain.includes('trail') ? (s.terrain.includes('road') ? 'Road + trail' : 'Trail') : 'Road');
+const prettyTag = (t: string) => cap(t.replace(/-/g, ' '));
+
+/** Who a shoe suits and who should look elsewhere, in plain words, from its category and specs. */
+export function fitSummary(shoe: Shoe, answers: Pick<QuizAnswers, 'footType'>): { suits: string[]; elsewhere: string[] } {
+  const suits: string[] = [];
+  const elsewhere: string[] = [];
+  switch (shoe.category) {
+    case 'daily':
+      suits.push('Easy and steady runs: the shoe you reach for most days');
+      elsewhere.push('Race day or hard intervals, where a lighter, faster shoe is the better tool');
+      break;
+    case 'max-cushion':
+      suits.push('Long, easy miles and recovery days when your legs are tired');
+      elsewhere.push(`A light, quick feel: max-cushion shoes are heavier (about ${shoe.weightGrams} g here)`);
+      break;
+    case 'stability':
+      suits.push('Runners whose feet roll inward (overpronation) or who want extra guidance');
+      elsewhere.push('A neutral gait that needs no guidance: a neutral shoe may feel more natural');
+      break;
+    case 'speed':
+      suits.push('Tempo runs, intervals and fast days when you want a quick-feeling shoe');
+      elsewhere.push('Every easy run: keep a softer daily trainer for most of your weekly mileage');
+      break;
+    case 'race':
+      suits.push('Race day and your hardest workouts');
+      elsewhere.push('Easy daily miles: it is built for speed, so pair it with a daily trainer');
+      break;
+    case 'trail':
+      suits.push('Dirt, gravel and uneven ground');
+      elsewhere.push('Pavement-only running, where a road shoe is the better tool');
+      break;
+    case 'hybrid':
+      suits.push('Routes that mix road and trail');
+      elsewhere.push('Technical trail or all-out road racing, where a specialist shoe does more');
+      break;
+  }
+  if (shoe.widthOptions) suits.push('Wide sizes are listed, useful if your forefoot is broad');
+  else if (answers.footType === 'wide') elsewhere.unshift('A wide forefoot: only a standard width is listed for this shoe');
+  if (shoe.dropMM <= 4) {
+    suits.push(shoe.dropMM === 0 ? 'A flat, zero-drop platform' : `A low ${shoe.dropMM} mm drop and a flatter feel`);
+    elsewhere.push('A sudden switch from a higher-drop shoe: move across gradually, since low drop loads the calves and Achilles more');
+  } else if (shoe.dropMM >= 10) {
+    suits.push(`A traditional ${shoe.dropMM} mm drop that is gentle on the calves`);
+  }
+  if (shoe.weightGrams <= 240 && shoe.category !== 'race') suits.push(`A light feel underfoot (about ${shoe.weightGrams} g)`);
+  if (shoe.weightGrams >= 300 && shoe.category !== 'max-cushion') elsewhere.push(`A light, quick feel (about ${shoe.weightGrams} g)`);
+  return { suits: suits.slice(0, 3), elsewhere: elsewhere.slice(0, 3) };
+}
+
+export interface PriorityPick {
+  label: string;
+  why: string;
+  sc: ScoredShoe;
+}
+
+/**
+ * Alternatives to the #1 match for a runner who cares most about one thing, chosen from the best matches only
+ * (within 20 points of the top score, current models only). Each shoe appears once.
+ */
+export function pickByPriority(pool: ScoredShoe[], primary: ScoredShoe, wantsWide: boolean): PriorityPick[] {
+  const floor = Math.max(40, primary.matchPercent - 20);
+  const cands = pool.filter((s) => s.shoe.id !== primary.shoe.id && !s.newerVersion && s.matchPercent >= floor).slice(0, 14);
+  const used = new Set<string>();
+  const out: PriorityPick[] = [];
+  const take = (label: string, ok: (s: ScoredShoe) => boolean, rank: (a: ScoredShoe, b: ScoredShoe) => number, why: (s: ScoredShoe) => string) => {
+    const hit = cands.filter((s) => !used.has(s.shoe.id) && ok(s)).sort((a, b) => rank(a, b) || b.score - a.score)[0];
+    if (!hit) return;
+    used.add(hit.shoe.id);
+    out.push({ label, why: why(hit), sc: hit });
+  };
+  const p = primary.shoe;
+  take('SOFTEST RIDE', (s) => s.shoe.cushioning > p.cushioning, (a, b) => b.shoe.cushioning - a.shoe.cushioning, (s) => `Softer: ${s.shoe.cushioning}/10 vs ${p.cushioning}/10`);
+  take('LIGHTEST', (s) => s.shoe.weightGrams <= p.weightGrams - 15, (a, b) => a.shoe.weightGrams - b.shoe.weightGrams, (s) => `Lighter: ${s.shoe.weightGrams} g vs ${p.weightGrams} g`);
+  take('BEST VALUE', (s) => getPriceTier(s.shoe.priceUSD).tier !== getPriceTier(p.priceUSD).tier && s.shoe.priceUSD < p.priceUSD, (a, b) => a.shoe.priceUSD - b.shoe.priceUSD, (s) => `${getPriceTier(s.shoe.priceUSD).label} band vs ${getPriceTier(p.priceUSD).label}`);
+  if (wantsWide || !p.widthOptions) take('WIDE SIZES LISTED', (s) => s.shoe.widthOptions, () => 0, () => 'Wide sizes are listed for this shoe');
+  return out;
+}
+
+// ---------------------------------------------------------------------------
 // The report
 // ---------------------------------------------------------------------------
 
-export async function buildResultsPDF(data: PDFData, options: BuildOptions = {}): Promise<{ doc: jsPDF; stats: { pages: number; photos: number; buyButtons: number } }> {
+/** One button for a shoe card: Amazon when verified, otherwise the honest fallback. */
+function oneButton(d: Doc, x: number, y: number, w: number, h: number, shoe: Shoe, short = false) {
+  const a = getShoeActions(shoe);
+  if (a.buy) button(d, x, y, w, h, short ? (a.buy.label.includes('(') ? "BUY (WOMEN'S)" : 'BUY ON AMAZON') : a.buy.label, a.buy.url, 'primary');
+  else if (a.brandSite) button(d, x, y, w, h, a.brandSite.label, a.brandSite.url, 'muted');
+  else button(d, x, y, w, h, a.review.label, a.review.url, 'secondary');
+}
+
+export async function buildResultsPDF(
+  data: PDFData,
+  options: BuildOptions = {},
+): Promise<{ doc: jsPDF; stats: { pages: number; photos: number; buyButtons: number; shownShoeIds: string[] } }> {
   const get = options.fetchImage ?? defaultFetch;
   const { answers, recommendation: rec, rotation, radarData } = data;
   const slug = data.slug ?? generateSlug(answers);
-  const top = (data.topShoes && data.topShoes.length > 0 ? data.topShoes : scoreShoes(answers)).slice(0, 5);
-  const primary = rotation.primary ?? top[0];
+  const pool = scoreShoes(answers);
+  const lead = data.topShoes && data.topShoes.length > 0 ? data.topShoes : pool;
+  // Best first: the matches the page showed, then the rest of the ranking in the same order.
+  const ordered = [...lead, ...pool.filter((p) => !lead.some((t) => t.shoe.id === p.shoe.id))];
+  const top3 = ordered.slice(0, 3);
+  const top5 = ordered.slice(0, 5);
+  const more = ordered.slice(3, 10);
+  const primary = rotation.primary ?? ordered[0];
   const profile = describeRunnerProfile(answers);
   const who = `${profile.who} | ${profile.distance} | ${profile.terrain}`;
   const safety = getSafetyNotice(answers);
   const reportDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  const wantsWide = answers.footType === 'wide';
+  const priorities = pickByPriority(ordered, ordered[0], wantsWide).slice(0, 4);
+  const gear = selectGear(answers, 6).map(toGearCard);
 
   const d = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4', compress: options.compress ?? true });
   d.setProperties({
@@ -495,12 +673,15 @@ export async function buildResultsPDF(data: PDFData, options: BuildOptions = {})
 
   // ---- load everything the report needs up front (in parallel) ----
   const wanted = new Map<string, Shoe>();
-  for (const s of [primary, rotation.speed, rotation.longRun, ...top]) if (s) wanted.set(s.shoe.id, s.shoe);
-  const [logo, ...photoList] = await Promise.all([
+  for (const s of [primary, rotation.speed, rotation.longRun, ...top5, ...more, ...priorities.map((p) => p.sc)]) if (s) wanted.set(s.shoe.id, s.shoe);
+  const [logo, ...loaded] = await Promise.all([
     get(assetPath('/images/gearuptofit-logo.png')).then((b) => (b ? blobToImg(b) : null)).catch(() => null),
     ...[...wanted.values()].map((shoe) => loadShoePhoto(shoe, get)),
+    ...gear.map((g) => (g.image ? get(g.image).then((b) => (b ? blobToImg(b) : null)).catch(() => null) : Promise.resolve(null))),
   ]);
-  const photos = new Map<string, Img | null>([...wanted.keys()].map((id, i) => [id, photoList[i] ?? null]));
+  const shoeIds = [...wanted.keys()];
+  const photos = new Map<string, Img | null>(shoeIds.map((id, i) => [id, loaded[i] ?? null]));
+  const gearPhotos = gear.map((_, i) => loaded[shoeIds.length + i] ?? null);
   const photoOf = (s: Shoe) => photos.get(s.id) ?? null;
 
   let y = 0;
@@ -513,13 +694,13 @@ export async function buildResultsPDF(data: PDFData, options: BuildOptions = {})
     if (y + h > BOTTOM) newPage();
   };
 
-  let buyButtons = 0;
+  const buyShown = new Set<string>();
   const countBuy = (shoe: Shoe) => {
-    if (getShoeActions(shoe).buy) buyButtons++;
+    if (getShoeActions(shoe).buy) buyShown.add(shoe.id);
   };
 
   // =========================================================================
-  // PAGE 1: cover band, profile, result
+  // PAGE 1: cover band, result, top 3 at a glance
   // =========================================================================
   fill(d, C.band);
   d.rect(0, 0, PW, 46, 'F');
@@ -536,29 +717,8 @@ export async function buildResultsPDF(data: PDFData, options: BuildOptions = {})
   text(d, 'PERSONAL REPORT', M + 28, 12, { size: 7.5, bold: true, color: [240, 110, 115] as RGB, maxW: 90 });
   text(d, 'Your Running Shoe Match', M + 28, 17, { size: 22, bold: true, color: C.white, maxW: CW - 28 });
   text(d, `Made for: ${who}`, M + 28, 28.5, { size: 9, color: [205, 210, 220] as RGB, maxW: CW - 28 });
-  text(d, `${reportDate}  |  RunMatch AI by GearUpToFit`, M + 28, 34.5, { size: 7.5, color: [150, 158, 172] as RGB, maxW: CW - 28 });
+  text(d, `${reportDate}  |  RunMatch AI by GearUpToFit  |  ${shoeDatabase.length} shoes scored`, M + 28, 34.5, { size: 7.5, color: [150, 158, 172] as RGB, maxW: CW - 28 });
   y = 53;
-
-  y = sectionHeading(d, y, 'Your runner profile');
-  const chips: [string, string][] = [
-    ['FOOT TYPE', FOOT_LABEL[answers.footType] ?? answers.footType],
-    ['GAIT', GAIT_LABEL[answers.pronation] ?? answers.pronation],
-    ['WEEKLY VOLUME', `${answers.weeklyMileage} km (${Math.round(answers.weeklyMileage * 0.621)} mi)`],
-    ['RACE DISTANCE', DIST_LABEL[answers.distance] ?? answers.distance],
-    ['TERRAIN', TERRAIN_LABEL[answers.terrain] ?? answers.terrain],
-    ['PACE GOAL', PACE_LABEL[answers.paceGoal] ?? answers.paceGoal],
-    ['BUDGET', budgetText(answers.budget)],
-    ['PAIN / INJURY', safety ? safety.reported.map(cap).join(', ') : 'None reported'],
-  ];
-  const cw = (CW - 3 * 3) / 4;
-  chips.forEach(([label, value], i) => {
-    const cx = M + (i % 4) * (cw + 3);
-    const cy = y + Math.floor(i / 4) * 17.5;
-    box(d, cx, cy, cw, 15, 2, C.panel);
-    text(d, label, cx + 3, cy + 2.6, { size: 6.5, bold: true, color: C.muted, maxW: cw - 6 });
-    text(d, value, cx + 3, cy + 7.2, { size: 9, bold: true, color: C.ink, maxW: cw - 6, maxLines: 2, lh: 1.15 });
-  });
-  y += 38;
 
   y = sectionHeading(d, y, 'Your result');
   text(d, rec.shoeProfile.category, M, y, { size: 15, bold: true, color: C.red, maxW: CW });
@@ -596,10 +756,63 @@ export async function buildResultsPDF(data: PDFData, options: BuildOptions = {})
     y += bh + 5;
   }
 
+  // ---- top 3 at a glance ----
+  const cardH = 92;
+  ensure(14 + cardH + 4);
+  y = sectionHeading(d, y, 'Your top 3 at a glance', 'Ranked by match score. Every photo and Buy button comes from the same Amazon listing.');
+  {
+    const gap = 4;
+    const cwid = (CW - gap * 2) / 3;
+    top3.forEach((sc, i) => {
+      const s = sc.shoe;
+      const x0 = M + i * (cwid + gap);
+      box(d, x0, y, cwid, cardH, 3, C.white, i === 0 ? C.red : C.line);
+      if (i === 0) {
+        fill(d, C.red);
+        d.roundedRect(x0, y, cwid, 2.4, 1.2, 1.2, 'F');
+      }
+      pill(d, x0 + 3, y + 4.6, i === 0 ? '#1 BEST MATCH' : `#${i + 1}`, i === 0 ? C.redSoft : C.panel, i === 0 ? C.redDark : C.muted, 6.2, 4.8);
+      photoFrame(d, x0 + 3, y + 12, cwid - 6, 44, photoOf(s), s);
+      matchBadge(d, x0 + cwid - 10, y + 18.5, 6.4, sc.matchPercent);
+      text(d, s.brand.toUpperCase(), x0 + 4, y + 58.6, { size: 6.4, bold: true, color: C.red, maxW: cwid - 8, maxLines: 1 });
+      text(d, s.model, x0 + 4, y + 62.2, { size: 9.6, bold: true, color: C.ink, maxW: cwid - 8, maxLines: 2, lh: 1.1 });
+      text(d, `${CATEGORY_LABEL[s.category]}  |  ${getPriceTier(s.priceUSD).label}`, x0 + 4, y + 71.6, { size: 6.8, color: C.muted, maxW: cwid - 8, maxLines: 1 });
+      text(d, `${s.cushioning}/10 cushion  |  ${s.dropMM} mm  |  ${s.weightGrams} g`, x0 + 4, y + 75.6, { size: 6.8, bold: true, color: C.text, maxW: cwid - 8, maxLines: 1 });
+      oneButton(d, x0 + 3, y + cardH - 10, cwid - 6, 7.4, s, true);
+      countBuy(s);
+    });
+    y += cardH + 6;
+  }
+  text(d, 'Photos are from the Amazon listing each button opens; the colour you order may differ. Launch price bands, not live prices: Amazon shows today\'s price.', M, y, { size: 6.8, italic: true, color: C.muted, maxW: CW, maxLines: 2 });
+
   // =========================================================================
+  // Your answers, then the #1 match in depth
+  // =========================================================================
+  y += 11;
+  ensure(50);
+  y = sectionHeading(d, y, 'Based on your answers');
+  const chips: [string, string][] = [
+    ['FOOT TYPE', FOOT_LABEL[answers.footType] ?? answers.footType],
+    ['GAIT', GAIT_LABEL[answers.pronation] ?? answers.pronation],
+    ['WEEKLY VOLUME', `${answers.weeklyMileage} km (${Math.round(answers.weeklyMileage * 0.621)} mi)`],
+    ['RACE DISTANCE', DIST_LABEL[answers.distance] ?? answers.distance],
+    ['TERRAIN', TERRAIN_LABEL[answers.terrain] ?? answers.terrain],
+    ['PACE GOAL', PACE_LABEL[answers.paceGoal] ?? answers.paceGoal],
+    ['BUDGET', budgetText(answers.budget)],
+    ['PAIN / INJURY', safety ? safety.reported.map(cap).join(', ') : 'None reported'],
+  ];
+  const cw = (CW - 3 * 3) / 4;
+  chips.forEach(([label, value], i) => {
+    const cx = M + (i % 4) * (cw + 3);
+    const cy = y + Math.floor(i / 4) * 16;
+    box(d, cx, cy, cw, 14, 2, C.panel);
+    text(d, label, cx + 3, cy + 2.4, { size: 6.4, bold: true, color: C.muted, maxW: cw - 6 });
+    text(d, value, cx + 3, cy + 6.8, { size: 8.6, bold: true, color: C.ink, maxW: cw - 6, maxLines: 2, lh: 1.15 });
+  });
+  y += 36;
+
   // #1 MATCH hero card
-  // =========================================================================
-  const heroH = 121;
+  const heroH = 156;
   ensure(heroH + 4);
   {
     const s = primary.shoe;
@@ -614,7 +827,6 @@ export async function buildResultsPDF(data: PDFData, options: BuildOptions = {})
     photoFrame(d, x0 + 8, y + 22, 70, 52, photoOf(s), s);
     matchBadge(d, x0 + 8 + 70 - 2, y + 22 + 6, 8.2, primary.matchPercent);
 
-    // specs 2x2 + price tier on the right
     const rx = x0 + 84;
     const rw = CW - 84 - 6;
     const tier = getPriceTier(s.priceUSD);
@@ -636,10 +848,13 @@ export async function buildResultsPDF(data: PDFData, options: BuildOptions = {})
       text(d, l, sx + 3, sy + 2, { size: 6.4, bold: true, color: C.muted, maxW: sw - 6 });
       text(d, v, sx + 3, sy + 5.8, { size: 9.5, bold: true, color: C.ink, maxW: sw - 6 });
     });
-    text(d, `${tier.range}. Launch price band, not a live price.`, rx, y + 59, { size: 6.8, color: C.muted, maxW: rw, maxLines: 2 });
+    const kindBits = [CATEGORY_LABEL[s.category], supportLabel(s), terrainLabel(s)].filter((b, i, all) => all.findIndex((o) => o.toLowerCase() === b.toLowerCase()) === i);
+    text(d, kindBits.join('  |  '), rx, y + 59, { size: 7.4, bold: true, color: C.text, maxW: rw, maxLines: 1 });
+    text(d, `${tier.range}. Launch price band, not a live price.`, rx, y + 64, { size: 6.8, color: C.muted, maxW: rw, maxLines: 2 });
+    if (photoOf(s) && resolveShoePhoto(s)?.source === 'amazon') text(d, 'Photo: Amazon listing. Colours vary.', x0 + 8, y + 75.4, { size: 6, italic: true, color: C.faint, maxW: 70 });
 
-    // why it scored (left) + watch out (right)
-    const colY = y + 80;
+    // why it scored (left) + check before you buy (right)
+    const colY = y + 82;
     const colW = (CW - 16 - 8) / 2;
     text(d, `WHY IT SCORED ${primary.matchPercent}%`, x0 + 8, colY, { size: 7, bold: true, color: C.muted, maxW: colW });
     // The three strongest contributions plus the weakest factor, so the breakdown is honest, not just flattering.
@@ -659,9 +874,135 @@ export async function buildResultsPDF(data: PDFData, options: BuildOptions = {})
       const hh = text(d, `${BUL}  ${w}`, wx, wy, { size: 7.6, color: C.text, maxW: colW, maxLines: 3, lh: 1.3 });
       wy += hh + 1.2;
     }
+
+    // who it suits / who should look elsewhere
+    const fitY = y + 112;
+    stroke(d, C.line, 0.25);
+    d.line(x0 + 8, fitY - 3, x0 + CW - 8, fitY - 3);
+    const fs = fitSummary(s, answers);
+    text(d, 'WHO IT SUITS', x0 + 8, fitY, { size: 7, bold: true, color: C.green, maxW: colW });
+    text(d, 'WHO SHOULD LOOK ELSEWHERE', wx, fitY, { size: 7, bold: true, color: C.amber, maxW: colW });
+    let ly = fitY + 5;
+    for (const t of fs.suits) ly += text(d, `${BUL}  ${t}`, x0 + 8, ly, { size: 7.4, color: C.text, maxW: colW, maxLines: 2, lh: 1.25 }) + 0.8;
+    let ry = fitY + 5;
+    for (const t of fs.elsewhere) ry += text(d, `${BUL}  ${t}`, wx, ry, { size: 7.4, color: C.text, maxW: colW, maxLines: 2, lh: 1.25 }) + 0.8;
+
     shoeButtons(d, x0 + 8, y + heroH - 13.5, CW - 16, 9, s);
     countBuy(s);
     y += heroH + 8;
+  }
+
+  // =========================================================================
+  // PICK BY PRIORITY
+  // =========================================================================
+  if (priorities.length) {
+    ensure(14 + 62);
+    y = sectionHeading(d, y, 'If one thing matters most', 'Strong matches that beat your #1 on a single point. Each is within 20 points of the top score.');
+    const gap = 3;
+    const n = priorities.length;
+    const pw = Math.min((CW - gap * (n - 1)) / n, 58);
+    if (n < 3) {
+      const nx = M + n * (pw + gap) + 3;
+      text(d, 'Your #1 stays the best overall fit. These are for runners who would trade a little match score for one thing: a softer ride, a lighter shoe, a lower price band or wide sizes.', nx, y + 4, { size: 7.4, italic: true, color: C.muted, maxW: CW - (nx - M), maxLines: 6, lh: 1.35 });
+    }
+    priorities.forEach((p, i) => {
+      const s = p.sc.shoe;
+      const x0 = M + i * (pw + gap);
+      box(d, x0, y, pw, 58, 2.5, C.white, C.line);
+      pill(d, x0 + 2.5, y + 3, p.label, C.greenSoft, C.green, 5.6, 4.4);
+      photoFrame(d, x0 + 2.5, y + 9.5, pw - 5, 24, photoOf(s), s);
+      text(d, `${s.brand} ${s.model}`, x0 + 3, y + 35.6, { size: 7.6, bold: true, color: C.ink, maxW: pw - 6, maxLines: 2, lh: 1.1 });
+      text(d, `${p.sc.matchPercent}% match`, x0 + 3, y + 43.2, { size: 6.8, bold: true, color: scoreColor(p.sc.matchPercent), maxW: pw - 6, maxLines: 1 });
+      text(d, p.why, x0 + 3, y + 46.6, { size: 6.4, color: C.muted, maxW: pw - 6, maxLines: 1 });
+      oneButton(d, x0 + 2.5, y + 51, pw - 5, 5.6, s, true);
+      countBuy(s);
+    });
+    y += 58 + 7;
+  }
+
+  // =========================================================================
+  // COMPARE THE TOP 3
+  // =========================================================================
+  {
+    const cols = top3;
+    const labelW = 30;
+    const colW = (CW - labelW) / cols.length;
+    const rowH = 8.2;
+    const rowsN = 10;
+    ensure(14 + 44 + rowsN * rowH + 36);
+    y = sectionHeading(d, y, 'Your top 3, side by side', 'Winners are marked where one shoe clearly leads. The specs are the maker\'s own and how we scored fit.');
+    // header: photo, name, match
+    cols.forEach((sc, i) => {
+      const x0 = M + labelW + i * colW;
+      photoFrame(d, x0 + 2, y, colW - 4, 30, photoOf(sc.shoe), sc.shoe);
+      matchBadge(d, x0 + colW - 9, y + 6, 6, sc.matchPercent);
+      text(d, sc.shoe.brand.toUpperCase(), x0 + 3, y + 31.6, { size: 6.2, bold: true, color: C.red, maxW: colW - 6, maxLines: 1 });
+      text(d, sc.shoe.model, x0 + 3, y + 35, { size: 8.8, bold: true, color: C.ink, maxW: colW - 6, maxLines: 1 });
+    });
+    y += 42;
+    const edge = (f: (s: Shoe) => number, dir: 'max' | 'min'): boolean[] => {
+      const vals = cols.map((c) => f(c.shoe));
+      const target = dir === 'max' ? Math.max(...vals) : Math.min(...vals);
+      return vals.every((v) => v === target) ? vals.map(() => false) : vals.map((v) => v === target);
+    };
+    interface Row {
+      label: string;
+      value: (sc: ScoredShoe) => string;
+      win?: boolean[];
+      winLabel?: string;
+    }
+    const matchWin = (() => {
+      const v = cols.map((c) => c.matchPercent);
+      const t = Math.max(...v);
+      return v.every((x) => x === t) ? v.map(() => false) : v.map((x) => x === t);
+    })();
+    const rows: Row[] = [
+      { label: 'MATCH', value: (sc) => `${sc.matchPercent}%`, win: matchWin, winLabel: 'TOP' },
+      { label: 'TYPE', value: (sc) => CATEGORY_LABEL[sc.shoe.category] },
+      { label: 'CUSHIONING', value: (sc) => `${sc.shoe.cushioning} / 10`, win: edge((s) => s.cushioning, 'max'), winLabel: 'SOFTEST' },
+      { label: 'HEEL DROP', value: (sc) => `${sc.shoe.dropMM} mm` },
+      { label: 'WEIGHT', value: (sc) => `${sc.shoe.weightGrams} g`, win: edge((s) => s.weightGrams, 'min'), winLabel: 'LIGHTEST' },
+      { label: 'TERRAIN', value: (sc) => terrainLabel(sc.shoe) },
+      { label: 'MODEL YEAR', value: (sc) => (sc.newerVersion ? `${sc.shoe.year} (newer exists)` : String(sc.shoe.year)) },
+      { label: 'PRICE BAND', value: (sc) => getPriceTier(sc.shoe.priceUSD).label, win: edge((s) => s.priceUSD, 'min'), winLabel: 'LOWEST' },
+      { label: 'WIDE SIZES', value: (sc) => (sc.shoe.widthOptions ? 'Listed' : 'Not listed') },
+      { label: 'BEST FOR', value: (sc) => sc.shoe.bestFor.slice(0, 2).map(prettyTag).join(', ') },
+    ];
+    rows.forEach((r, ri) => {
+      if (ri % 2 === 0) box(d, M, y, CW, rowH, 1.6, C.panel);
+      text(d, r.label, M + 3, y + 2.6, { size: 6.6, bold: true, color: C.muted, maxW: labelW - 4 });
+      cols.forEach((sc, i) => {
+        const x0 = M + labelW + i * colW;
+        const isWin = r.win?.[i] ?? false;
+        const val = r.value(sc);
+        text(d, val, x0 + 3, y + 2.2, { size: 8.4, bold: true, color: isWin ? C.green : C.ink, maxW: colW - (isWin ? 24 : 6), maxLines: 1 });
+        if (isWin && r.winLabel) pill(d, x0 + colW - 21, y + 1.4, r.winLabel, C.greenSoft, C.green, 5.4, 4.6);
+      });
+      y += rowH;
+    });
+    y += 5;
+
+    // how to choose between them
+    const [a] = cols;
+    const names = (flags: boolean[]) => cols.filter((_, i) => flags[i]).map((x) => nameOf(x.shoe));
+    const advice: string[] = [];
+    const softW = names(edge((s) => s.cushioning, 'max'));
+    if (softW.length === 1) advice.push(`Choose the ${softW[0]} for the softest ride.`);
+    const lightW = names(edge((s) => s.weightGrams, 'min'));
+    if (lightW.length === 1) advice.push(`Choose the ${lightW[0]} for the lightest, quickest feel.`);
+    const cheapW = names(edge((s) => s.priceUSD, 'min'));
+    if (cheapW.length === 1) advice.push(`Choose the ${cheapW[0]} to keep the cost down.`);
+    const wideSome = cols.filter((x) => x.shoe.widthOptions);
+    if (wideSome.length > 0 && wideSome.length < cols.length) advice.push(`Wide sizes are listed only for the ${wideSome.map((x) => nameOf(x.shoe)).join(' and ')}.`);
+    if (advice.length === 0) advice.push(`These three are very close on the specs we track. Try them on and keep the one that feels best; the ${nameOf(a.shoe)} is the safest starting point.`);
+    const adviceOpts = { size: 8, color: C.text, maxW: CW - 10, lh: 1.35 } as const;
+    const adviceH = 10 + advice.reduce((s, t) => s + textHeight(d, `${BUL}  ${t}`, adviceOpts) + 1.4, 0);
+    ensure(adviceH + 4);
+    box(d, M, y, CW, adviceH, 2.5, C.white, C.line);
+    text(d, 'HOW TO CHOOSE BETWEEN THEM', M + 4, y + 3, { size: 6.8, bold: true, color: C.muted, maxW: 100 });
+    let ay = y + 8.5;
+    for (const t of advice) ay += text(d, `${BUL}  ${t}`, M + 4, ay, adviceOpts) + 1.4;
+    y += adviceH + 7;
   }
 
   // =========================================================================
@@ -717,89 +1058,87 @@ export async function buildResultsPDF(data: PDFData, options: BuildOptions = {})
   y += 27;
 
   // =========================================================================
-  // TOP 5 TABLE (kept on one page so the header row is never orphaned)
+  // MORE STRONG MATCHES (ranks 4 to 10)
   // =========================================================================
-  ensure(18 + 9 + top.length * 28.2 + 42);
-  y = sectionHeading(d, y, 'Your top 5, side by side', 'Ranked by match score. Every row has a thumbnail, the key specs and where to buy or read more.');
-  const col = { n: 8, photo: 26, name: 50, match: 22, cush: 14, drop: 13, wt: 13, buy: 36 };
-  const headH = 8;
-  let cx = M;
-  box(d, M, y, CW, headH, 2, C.band);
-  const heads: [string, number, 'left' | 'center'][] = [
-    ['#', col.n, 'center'],
-    ['', col.photo, 'left'],
-    ['SHOE', col.name, 'left'],
-    ['MATCH', col.match, 'center'],
-    ['CUSH.', col.cush, 'center'],
-    ['DROP', col.drop, 'center'],
-    ['G', col.wt, 'center'],
-    ['WHERE TO BUY', col.buy, 'center'],
-  ];
-  heads.forEach(([h, w, al]) => {
-    if (h) text(d, h, cx, y + 2.4, { size: 6.8, bold: true, color: C.white, align: al, maxW: w });
-    cx += w;
-  });
-  y += headH + 1;
-  const rowH = 27;
-  top.forEach((sc, i) => {
-    ensure(rowH + 2);
-    const s = sc.shoe;
-    if (i % 2 === 0) box(d, M, y, CW, rowH, 2, C.panel);
-    let x = M;
-    text(d, String(i + 1), x, y + rowH / 2 - 3, { size: 12, bold: true, color: i === 0 ? C.red : C.muted, align: 'center', maxW: col.n });
-    x += col.n;
-    photoFrame(d, x, y + 3, col.photo - 2, rowH - 6, photoOf(s), s);
-    x += col.photo;
-    text(d, s.brand.toUpperCase(), x, y + 3.2, { size: 6.4, bold: true, color: C.red, maxW: col.name - 3, maxLines: 1 });
-    text(d, s.model, x, y + 7, { size: 9.2, bold: true, color: C.ink, maxW: col.name - 3, maxLines: 2, lh: 1.12 });
-    const watch = sc.newerVersion ? `A newer version exists: ${nameOf(sc.newerVersion)}.` : firstSentence(sc.watchOuts[0]);
-    if (watch) text(d, watch, x, y + 16, { size: 6.8, italic: true, color: C.amber, maxW: col.name - 3, maxLines: 3, lh: 1.2 });
-    x += col.name;
-    text(d, `${sc.matchPercent}%`, x, y + 5.2, { size: 11.5, bold: true, color: scoreColor(sc.matchPercent), align: 'center', maxW: col.match });
-    bar(d, x + 3, y + 13, col.match - 6, 2, sc.matchPercent, scoreColor(sc.matchPercent));
-    text(d, getPriceTier(s.priceUSD).label, x, y + 17, { size: 6.8, color: C.muted, align: 'center', maxW: col.match });
-    x += col.match;
-    [`${s.cushioning}/10`, `${s.dropMM}`, `${s.weightGrams}`].forEach((v, k) => {
-      const w = [col.cush, col.drop, col.wt][k];
-      text(d, v, x, y + rowH / 2 - 2.4, { size: 8.6, bold: true, color: C.ink, align: 'center', maxW: w });
-      x += w;
+  if (more.length) {
+    const rowH = 22;
+    ensure(14 + 9 + rowH * Math.min(3, more.length) + 4);
+    y = sectionHeading(d, y, `More strong matches (ranks 4 to ${3 + more.length})`, 'The same scoring, further down the list. Each row has the key specs and where to buy or read more.');
+    const col = { n: 8, photo: 22, name: 56, match: 20, cush: 14, drop: 13, wt: 13, buy: 36 };
+    const headH = 7;
+    ensure(headH + rowH + 2);
+    let cx = M;
+    box(d, M, y, CW, headH, 2, C.band);
+    const heads: [string, number, 'left' | 'center'][] = [
+      ['#', col.n, 'center'],
+      ['', col.photo, 'left'],
+      ['SHOE', col.name, 'left'],
+      ['MATCH', col.match, 'center'],
+      ['CUSH.', col.cush, 'center'],
+      ['DROP', col.drop, 'center'],
+      ['G', col.wt, 'center'],
+      ['WHERE TO BUY', col.buy, 'center'],
+    ];
+    heads.forEach(([h, w, al]) => {
+      if (h) text(d, h, cx, y + 2, { size: 6.6, bold: true, color: C.white, align: al, maxW: w });
+      cx += w;
     });
-    // buy column: two stacked buttons
-    const a = getShoeActions(s);
-    const bx = x + 2;
-    const bw = col.buy - 4;
-    if (a.buy) {
-      button(d, bx, y + 3.5, bw, 8.4, a.buy.label.includes('(') ? 'BUY (WOMEN\'S)' : 'BUY ON AMAZON', a.buy.url, 'primary');
-      button(d, bx, y + 14, bw, 8.4, 'REVIEW', a.review.url, 'secondary');
-      countBuy(s);
-    } else {
-      if (a.brandSite) {
-        button(d, bx, y + 3.5, bw, 8.4, 'REVIEW', a.review.url, 'secondary');
-        button(d, bx, y + 14, bw, 8.4, a.brandSite.label, a.brandSite.url, 'muted');
+    y += headH + 1;
+    more.forEach((sc, i) => {
+      ensure(rowH + 2);
+      const s = sc.shoe;
+      if (i % 2 === 0) box(d, M, y, CW, rowH, 2, C.panel);
+      let x = M;
+      text(d, String(i + 4), x, y + rowH / 2 - 2.6, { size: 10.5, bold: true, color: C.muted, align: 'center', maxW: col.n });
+      x += col.n;
+      photoFrame(d, x, y + 2.5, col.photo - 2, rowH - 5, photoOf(s), s);
+      x += col.photo;
+      text(d, s.brand.toUpperCase(), x, y + 2.8, { size: 6.2, bold: true, color: C.red, maxW: col.name - 3, maxLines: 1 });
+      text(d, s.model, x, y + 6.4, { size: 8.8, bold: true, color: C.ink, maxW: col.name - 3, maxLines: 2, lh: 1.1 });
+      const watch = sc.newerVersion ? `A newer version exists: ${nameOf(sc.newerVersion)}.` : `${CATEGORY_LABEL[s.category]}  |  ${getPriceTier(s.priceUSD).label}`;
+      text(d, watch, x, y + 14.8, { size: 6.6, italic: !!sc.newerVersion, color: sc.newerVersion ? C.amber : C.muted, maxW: col.name - 3, maxLines: 2, lh: 1.15 });
+      x += col.name;
+      text(d, `${sc.matchPercent}%`, x, y + 4.4, { size: 10.5, bold: true, color: scoreColor(sc.matchPercent), align: 'center', maxW: col.match });
+      bar(d, x + 3, y + 11.4, col.match - 6, 1.8, sc.matchPercent, scoreColor(sc.matchPercent));
+      x += col.match;
+      [`${s.cushioning}/10`, `${s.dropMM}`, `${s.weightGrams}`].forEach((v, k) => {
+        const w = [col.cush, col.drop, col.wt][k];
+        text(d, v, x, y + rowH / 2 - 2.2, { size: 8.2, bold: true, color: C.ink, align: 'center', maxW: w });
+        x += w;
+      });
+      const a = getShoeActions(s);
+      const bx = x + 2;
+      const bw = col.buy - 4;
+      if (a.buy) {
+        button(d, bx, y + 3, bw, 7.4, a.buy.label.includes('(') ? "BUY (WOMEN'S)" : 'BUY ON AMAZON', a.buy.url, 'primary');
+        button(d, bx, y + 11.6, bw, 7.4, 'REVIEW', a.review.url, 'secondary');
+        countBuy(s);
+      } else if (a.brandSite) {
+        button(d, bx, y + 3, bw, 7.4, 'REVIEW', a.review.url, 'secondary');
+        button(d, bx, y + 11.6, bw, 7.4, a.brandSite.label, a.brandSite.url, 'muted');
       } else {
-        button(d, bx, y + 8.8, bw, 8.4, 'REVIEW', a.review.url, 'secondary');
+        button(d, bx, y + 7.3, bw, 7.4, 'REVIEW', a.review.url, 'secondary');
       }
-    }
-    y += rowH + 1.2;
-  });
-  y += 3;
-  const notes = [
-    'Match: how well the shoe fits your answers across nine weighted factors. It is not a quality score for the shoe.',
-    "Cush.: our own 1-10 cushioning scale, not a lab measurement. Drop: heel height minus forefoot height, in mm. G: weight in grams (men's sample size).",
-    'Price band: the launch price tier. Amazon shows the live price. We never print prices that can go out of date.',
-    'A Buy on Amazon button appears only when we have checked that the listing is this exact model. Where we have not, you get a link to our review and to the maker instead of a guess.',
-  ].map((n) => `${BUL}  ${n}`);
-  const noteOpts = { size: 7.4, color: C.text, maxW: CW - 8, lh: 1.3 } as const;
-  const notesH = 9 + notes.reduce((s, n) => s + textHeight(d, n, noteOpts) + 1.6, 0);
-  ensure(notesH + 4);
-  box(d, M, y, CW, notesH, 2.5, C.white, C.line);
-  text(d, 'HOW TO READ THIS TABLE', M + 4, y + 3, { size: 6.8, bold: true, color: C.muted, maxW: 80 });
-  let ny = y + 8;
-  for (const n of notes) ny += text(d, n, M + 4, ny, noteOpts) + 1.6;
-  y += notesH + 6;
+      y += rowH + 1.2;
+    });
+    y += 3;
+    const notes = [
+      'Match: how well the shoe fits your answers across nine weighted factors. It is not a quality score for the shoe.',
+      "Cush.: our own 1-10 cushioning scale, not a lab measurement. Drop: heel height minus forefoot height, in mm. G: weight in grams (men's sample size).",
+      'A Buy on Amazon button appears only when we have checked that the listing is this exact model. Where we have not, you get a link to our review and to the maker instead of a guess.',
+    ].map((n) => `${BUL}  ${n}`);
+    const noteOpts = { size: 7.2, color: C.text, maxW: CW - 8, lh: 1.3 } as const;
+    const notesH = 9 + notes.reduce((s, n) => s + textHeight(d, n, noteOpts) + 1.4, 0);
+    ensure(notesH + 4);
+    box(d, M, y, CW, notesH, 2.5, C.white, C.line);
+    text(d, 'HOW TO READ THIS TABLE', M + 4, y + 3, { size: 6.8, bold: true, color: C.muted, maxW: 80 });
+    let ny = y + 8;
+    for (const n of notes) ny += text(d, n, M + 4, ny, noteOpts) + 1.4;
+    y += notesH + 6;
+  }
 
   // =========================================================================
-  // FIT, PROFILE, TRAINING
+  // FIT, TRY-ON, SHOE LOG
   // =========================================================================
   ensure(124);
   y = sectionHeading(d, y, 'Trying them on', 'What to check in the shop, based on your answers.');
@@ -835,21 +1174,43 @@ export async function buildResultsPDF(data: PDFData, options: BuildOptions = {})
   checks.forEach((c, i) => text(d, `${BUL}  ${c}`, M + 4, y + 8 + i * 5.8, { size: 7.8, color: C.text, maxW: CW - 8, maxLines: 1 }));
   y += 40;
 
-  // radar + legend
-  ensure(78);
-  y = sectionHeading(d, y, 'What your running demands', 'How much each part of your running asks of a shoe, from 0 to 10.');
-  drawRadar(d, M + 52, y + 33, 24, radarData);
-  const lx = M + 108;
-  let ly = y + 4;
-  radarData.forEach((r) => {
-    text(d, r.axis, lx, ly, { size: 8.2, bold: true, color: C.ink, maxW: 34 });
-    bar(d, lx + 34, ly + 1.7, 30, 2.2, r.value * 10);
-    text(d, `${r.value}/10`, lx + 66, ly, { size: 8, bold: true, color: C.red, maxW: 12 });
-    ly += 8.4;
-  });
-  y += 72;
+  // printable shoe log
+  {
+    const logRows = 6;
+    const rowH = 9;
+    ensure(14 + 8 + logRows * rowH + 12);
+    y = sectionHeading(d, y, 'Your shoe log', `Write down when you start each pair and how far it has gone. Many runners replace shoes ${replacementWindow(answers.weeklyMileage)}.`);
+    const cols = [
+      { h: 'PAIR', w: 66 },
+      { h: 'DATE STARTED', w: 28 },
+      { h: 'PLAN TO REPLACE AT', w: 36 },
+      { h: 'KM SO FAR', w: 22 },
+      { h: 'NOTES', w: 30 },
+    ];
+    box(d, M, y, CW, 7.4, 2, C.band);
+    let x = M;
+    cols.forEach((c) => {
+      text(d, c.h, x + 3, y + 2.2, { size: 6.4, bold: true, color: C.white, maxW: c.w - 4 });
+      x += c.w;
+    });
+    y += 8.4;
+    const named = [...new Map([primary, rotation.speed, rotation.longRun, ...top3].filter((s): s is ScoredShoe => !!s).map((s) => [s.shoe.id, s])).values()].slice(0, 3);
+    for (let r = 0; r < logRows; r++) {
+      if (r % 2 === 0) box(d, M, y, CW, rowH, 1.6, C.panel);
+      const sc = named[r];
+      if (sc) text(d, nameOf(sc.shoe), M + 3, y + 3, { size: 8.2, bold: true, color: C.ink, maxW: cols[0].w - 5, maxLines: 1 });
+      if (sc) text(d, '500-800 km', M + cols[0].w + cols[1].w + 3, y + 3, { size: 8, color: C.muted, maxW: cols[2].w - 5 });
+      stroke(d, C.line, 0.25);
+      let lx = M;
+      cols.forEach((c) => {
+        lx += c.w;
+        if (lx < M + CW - 1) d.line(lx, y + 1, lx, y + rowH - 1);
+      });
+      y += rowH;
+    }
+    y += 6;
+  }
 
-  // training emphasis
   const tips = rec.trainingEmphasis;
   if (tips.length) {
     const th = 12 + tips.reduce((s, t) => s + textHeight(d, t, { size: 8.4, maxW: CW - 16, lh: 1.35 }) + 3, 0);
@@ -866,6 +1227,45 @@ export async function buildResultsPDF(data: PDFData, options: BuildOptions = {})
     });
     y += 6;
   }
+
+  // =========================================================================
+  // COMPLETE YOUR KIT (verified gear, same listing for photo and link)
+  // =========================================================================
+  if (gear.length) {
+    const gh = 70;
+    ensure(14 + gh + 6);
+    y = sectionHeading(d, y, 'Complete your kit', 'Gear picked for your distance and terrain. Each photo and link comes from the same Amazon listing. None of it changes a shoe ranking.');
+    const gap = 4;
+    const gw = (CW - gap * 2) / 3;
+    gear.slice(0, 6).forEach((g, i) => {
+      if (i > 0 && i % 3 === 0) y += gh + 4;
+      if (i % 3 === 0) ensure(gh + 4);
+      const x0 = M + (i % 3) * (gw + gap);
+      box(d, x0, y, gw, gh, 2.5, C.white, C.line);
+      photoFrame(d, x0 + 3, y + 3, gw - 6, 32, gearPhotos[i], { brand: g.brand, model: g.name });
+      text(d, g.name, x0 + 4, y + 37.5, { size: 8.2, bold: true, color: C.ink, maxW: gw - 8, maxLines: 2, lh: 1.1 });
+      text(d, g.why, x0 + 4, y + 46, { size: 6.8, color: C.text, maxW: gw - 8, maxLines: 3, lh: 1.2 });
+      button(d, x0 + 3, y + gh - 10, gw - 6, 7, 'VIEW ON AMAZON', g.url, 'primary');
+    });
+    y += gh + 8;
+  }
+
+  // =========================================================================
+  // PROFILE RADAR, TRAINING
+  // =========================================================================
+  ensure(78);
+  y = sectionHeading(d, y, 'What your running demands', 'How much each part of your running asks of a shoe, from 0 to 10.');
+  drawRadar(d, M + 52, y + 33, 24, radarData);
+  const lx = M + 108;
+  let ly = y + 4;
+  radarData.forEach((r) => {
+    text(d, r.axis, lx, ly, { size: 8.2, bold: true, color: C.ink, maxW: 34 });
+    bar(d, lx + 34, ly + 1.7, 30, 2.2, r.value * 10);
+    text(d, `${r.value}/10`, lx + 66, ly, { size: 8, bold: true, color: C.red, maxW: 12 });
+    ly += 8.4;
+  });
+  y += 72;
+
 
   // =========================================================================
   // READING + HOW IT WAS SCORED + DISCLOSURES
@@ -923,7 +1323,7 @@ export async function buildResultsPDF(data: PDFData, options: BuildOptions = {})
   ensure(40);
   box(d, M, y, CW, 15, 2.5, C.panel);
   text(d, 'AFFILIATE DISCLOSURE', M + 4, y + 2.4, { size: 6.6, bold: true, color: C.muted, maxW: 60 });
-  text(d, 'As an Amazon Associate, GearUpToFit earns from qualifying purchases. Links on "Buy on Amazon" buttons are affiliate links; they cost you nothing extra and do not change any ranking.', M + 4, y + 6.4, { size: 7.2, color: C.text, maxW: CW - 8, maxLines: 2, lh: 1.3 });
+  text(d, 'As an Amazon Associate, GearUpToFit earns from qualifying purchases. Links on "Buy on Amazon" and "View on Amazon" buttons are affiliate links; they cost you nothing extra and do not change any ranking.', M + 4, y + 6.4, { size: 7.2, color: C.text, maxW: CW - 8, maxLines: 2, lh: 1.3 });
   y += 18;
   box(d, M, y, CW, 15, 2.5, C.amberSoft);
   text(d, 'NOT MEDICAL ADVICE', M + 4, y + 2.4, { size: 6.6, bold: true, color: C.amber, maxW: 60 });
@@ -939,7 +1339,16 @@ export async function buildResultsPDF(data: PDFData, options: BuildOptions = {})
     pageFooter(d, p, total, slug);
   }
 
-  return { doc: d, stats: { pages: total, photos: [...photos.values()].filter(Boolean).length, buyButtons } };
+  const shown = new Set<string>(wanted.keys());
+  return {
+    doc: d,
+    stats: {
+      pages: total,
+      photos: [...shown].filter((id) => photos.get(id)).length,
+      buyButtons: buyShown.size,
+      shownShoeIds: [...shown],
+    },
+  };
 }
 
 /** Builds the report and downloads it. */

@@ -144,7 +144,9 @@ export const CATEGORIES: CategoryDef[] = [
     description: 'Top-rated running shoes under $120 for 2026. Real specs, no fluff, free AI quiz to match the right pair to your stride.',
     intro: 'You do not need a $250 super shoe to start running. These sub-$120 picks deliver durable foams, reliable outsoles, and category-leading value.',
     filter: s => s.priceUSD <= 120,
-    sort: byScore(s => 200 - s.priceUSD + s.cushioning),
+    // Value, not "cheapest": the page's own advice is that $90-$130 is the sweet spot and that very cheap pairs are often
+    // last-gen. So: well cushioned, a recent model, wide sizes, and a price close to $100 all count.
+    sort: byScore(s => s.cushioning * 2 + (s.year - 2024) * 1.5 + (s.widthOptions ? 1 : 0) - Math.abs(s.priceUSD - 100) / 15),
     faqs: [
       { question: 'Are cheap running shoes bad?', answer: 'No. Many sub-$120 shoes use the same outsole rubber and similar EVA foams as premium models. They simply skip the carbon plate and PEBA midsole.' },
       { question: 'How much should a beginner spend?', answer: '$90–$130 is the sweet spot. Going under $70 usually means outdated foams or last-gen models with low remaining lifespan.' },

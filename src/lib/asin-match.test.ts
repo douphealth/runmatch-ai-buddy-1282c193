@@ -73,8 +73,12 @@ describe('the ASINs currently cached for our shoes', () => {
   });
 
   it("labels women's listings in the UI and hides the button for cleared shoes", async () => {
-    const { getAmazonLinkForShoe, getAmazonListingNote } = await import('./amazon-link');
-    expect(getAmazonListingNote('on-cloudboom-strike')).toBe("women's version");
+    const { getAmazonLinkForShoe, getAmazonListingNote, isWomensListingTitle } = await import('./amazon-link');
+    // Every cached listing that is women's-only is labelled as such, and no other listing is.
+    for (const [id, e] of Object.entries(cache) as [string, { asin: string | null; title?: string }][]) {
+      if (!e.asin) continue;
+      expect(getAmazonListingNote(id), id).toBe(isWomensListingTitle(e.title) ? "women's version" : null);
+    }
     expect(getAmazonListingNote('brooks-ghost-17')).toBeNull(); // replaced by the men's listing
 
     expect(getAmazonListingNote('nike-pegasus-42')).toBeNull();

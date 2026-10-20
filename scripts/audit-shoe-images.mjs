@@ -61,6 +61,17 @@ for (const [hash, slugs] of byHash) {
     for (const s of slugs) if (!VERIFIED_DUPLICATE_OWNERS.has(s)) unverified.add(s);
   }
 }
+// A shoe in the database with no bundled photo at all has nothing to verify: the UI uses the photo on its Amazon
+// listing (src/lib/amazon-images.ts) and never builds a path to a file that does not exist.
+const bundled = new Set(files.map((f) => f.replace(/\.jpg$/, '')));
+const dbSource = readFileSync(resolve(ROOT, 'src/lib/shoe-database.ts'), 'utf8');
+for (const block of dbSource.split(/(?=\{\s*id:\s*')/g)) {
+  const brand = block.match(/brand:\s*'([^']+)'/)?.[1];
+  const model = block.match(/model:\s*'([^']+)'/)?.[1];
+  if (!brand || !model) continue;
+  const slug = `${brand}-${model}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  if (!bundled.has(slug)) unverified.add(slug);
+}
 unverified.delete('placeholder');
 
 const sorted = [...unverified].sort();

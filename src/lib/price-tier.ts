@@ -35,5 +35,5 @@ export const getPriceTier = (priceUSD: number): PriceTierMeta => {
  * Single source of truth for the database freshness stamp shown across the
  * UI and PDF. Bump this whenever shoeDatabase entries are updated.
  */
-export const SHOE_DATABASE_LAST_UPDATED = '2026-05-04';
-export const SHOE_DATABASE_LAST_UPDATED_LABEL = 'May 2026';
+export const SHOE_DATABASE_LAST_UPDATED = '2026-10-19';
+export const SHOE_DATABASE_LAST_UPDATED_LABEL = 'October 2026';
