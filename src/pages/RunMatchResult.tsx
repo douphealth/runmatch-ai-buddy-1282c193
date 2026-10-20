@@ -72,6 +72,8 @@ const RunMatchResult = () => {
   const [copied, setCopied] = useState(false);
   const [gateOpen, setGateOpen] = useState(false);
   const [pendingDownload, setPendingDownload] = useState(false);
+  // 'download': pressed the PDF button (the report is the point, email optional). 'subscribe': the offer after a download.
+  const [gateMode, setGateMode] = useState<'download' | 'subscribe'>('download');
   // Skip the simulated "AI analysis" loading screen when arriving without
   // ?d= (i.e. direct slug visit from search/social) so crawlers and shared
   // links land on real content immediately.
@@ -193,7 +195,7 @@ const RunMatchResult = () => {
     });
   }, [slug, rotation, answers, searchParams]);
 
-  const runDownload = useCallback(async () => {
+  const runDownload = useCallback(async (email: 'given' | 'skipped' | 'returning' = 'skipped') => {
     if (!answers || !recommendation || !rotation) return;
     const toastId = toast.loading('Building your report with shoe photos...');
     try {
@@ -209,9 +211,20 @@ const RunMatchResult = () => {
         track.pdfDownload({
           slug,
           category: rotation.primary?.shoe?.category,
+          email,
         });
       }
-      toast.success('Your RunMatch Report has been downloaded!', { id: toastId });
+      if (email === 'skipped' && !hasSubscribed()) {
+        // A second, lower-pressure chance right after the visitor has what they came for.
+        toast.success('Your RunMatch Report has been downloaded!', {
+          id: toastId,
+          description: 'Want the free 7-day running tips too?',
+          duration: 14000,
+          action: { label: 'Yes, send them', onClick: () => { setGateMode('subscribe'); setGateOpen(true); } },
+        });
+      } else {
+        toast.success('Your RunMatch Report has been downloaded!', { id: toastId });
+      }
     } catch (err) {
       console.error('[pdf] generation failed', err);
       toast.error('Could not build the report. Please try again.', { id: toastId });
@@ -219,21 +232,21 @@ const RunMatchResult = () => {
   }, [answers, recommendation, rotation, radarData, topShoes, slug]);
 
   const handleDownloadPDF = useCallback(() => {
-    if (hasSubscribed()) { runDownload(); return; }
+    if (hasSubscribed()) { runDownload('returning'); return; }
+    setGateMode('download');
     setPendingDownload(true);
     setGateOpen(true);
   }, [runDownload]);
 
+  // Closing the dialog never blocks the report: the visitor asked for it, the email is only an offer.
   const handleGateClose = useCallback(() => {
     setGateOpen(false);
-    // If the user dismissed the gate, still let them download — we don't
-    // want to break the existing free experience, only nudge for the email.
-    if (pendingDownload) { setPendingDownload(false); runDownload(); }
+    if (pendingDownload) { setPendingDownload(false); runDownload('skipped'); }
   }, [pendingDownload, runDownload]);
 
-  const handleGateUnlock = useCallback(() => {
+  const handleGateUnlock = useCallback((subscribed: boolean) => {
     setGateOpen(false);
-    if (pendingDownload) { setPendingDownload(false); runDownload(); }
+    if (pendingDownload) { setPendingDownload(false); runDownload(subscribed ? 'given' : 'skipped'); }
   }, [pendingDownload, runDownload]);
 
   // Social shares point at the clean result page (no personal answers in the URL).
@@ -788,6 +801,7 @@ const RunMatchResult = () => {
 
         {/* Inline lead capture — non-modal, scroll-revealed, dismissable. */}
         <InlineLeadCard
+          onSubscribed={() => runDownload('given')}
           primaryShoe={primary?.shoe ? `${primary.shoe.brand} ${primary.shoe.model}` : undefined}
           shoeCategory={primary?.shoe?.category}
           weeklyMileage={answers?.weeklyMileage}
@@ -1105,6 +1119,7 @@ const RunMatchResult = () => {
       </main>
       <EmailGate
         open={gateOpen}
+        mode={gateMode}
         onClose={handleGateClose}
         onUnlock={handleGateUnlock}
         primaryShoe={primary?.shoe ? `${primary.shoe.brand} ${primary.shoe.model}` : undefined}
@@ -1121,15 +1136,16 @@ const RunMatchResult = () => {
           <EmailGate
             open={open}
             onClose={close}
-            onUnlock={close}
+            onUnlock={() => { close(); runDownload('given'); }}
             primaryShoe={primary?.shoe ? `${primary.shoe.brand} ${primary.shoe.model}` : undefined}
             shoeCategory={primary?.shoe?.category}
             source="exit_popup"
             weeklyMileage={answers?.weeklyMileage}
             injuries={answers?.injuries}
-            title="Keep your shoe match"
-            subtitle="Email yourself the full PDF report with photos and buy links, plus the 7-day running guide. Free, no spam, unsubscribe in 1 click."
-            ctaLabel="Email Me My Report"
+            title="Get your PDF report + free running tips"
+            subtitle="Sign up and your personalized PDF downloads right away, with the free 7-day running tips by email. Free, unsubscribe in 1 click."
+            benefits={['Your top 3 picks with Amazon photos and links', 'Side-by-side comparison, rotation plan and try-on guide', 'A free 7-day running tips email series']}
+            ctaLabel="Download my PDF + send the tips"
           />
         )}
       </ExitIntent>

@@ -38,6 +38,8 @@ The app is only as trustworthy as its data. These scripts keep it honest. All ru
 
 `src/components/conversion/ExitIntent.tsx` opens the email form on exit intent, after 20 s on a result page, or after 55% scroll (touch screens use the timer and the scroll trigger). It shows at most once per session, never to subscribers, and stays quiet for 7 days after a dismissal. Each opening fires `exit_intent_shown` with a `trigger` parameter so you can see which trigger converts.
 
+**The PDF button and email (`src/components/EmailGate.tsx`, wired in `RunMatchResult.tsx`):** pressing "Get my PDF report" opens a download-first dialog ("Your report is ready"). The big button downloads the PDF with no email; an optional email plus the consent tick also signs the visitor up for the 7-day tips (`brevo-subscribe`, single opt-in, consent required). Closing the dialog (X, Escape, backdrop) downloads too, and a failed sign-up never blocks the PDF. Right after a download without an email, a toast offers the tips ("Yes, send them" opens the subscribe dialog); the exit popup and the inline card also deliver the PDF in the browser after sign-up. **Nothing may claim the report is emailed**: it is built in the browser and the backend cannot attach it (a test fails on "email me my report" style copy). `pdf_download` carries `email: given | skipped | returning` and `email_capture` carries the source, so GA4 shows the real rate (mark both as key events). Returning subscribers (90 days) download at once.
+
 Shoes with no `sourceURL` are labelled "Specs from manufacturer listings · confirm on the brand site" rather than "verified". Add a working manufacturer `sourceURL` + `lastVerified` only after checking the specs against it.
 
 ## Weekly: link health
@@ -49,6 +51,8 @@ Shoes with no `sourceURL` are labelled "Specs from manufacturer listings · conf
 Write research claims **only** in `src/lib/evidence.ts`, at the strength the study supports (observational study → "associated with", never "reduces"). `src/lib/content-guard.test.ts` fails the build if fabricated testimonials, fake counters, wrong citations or treatment prescriptions come back.
 
 ## Changing the scoring
+
+Terrain-aware pace: for a trail runner a trail shoe counts as the daily shoe (or the quick shoe at tempo/race pace), and a road-to-trail hybrid gets 0.6 on terrain, so dedicated trail shoes lead a trail runner's results (`trail-ranking.test.ts`).
 
 Weights and penalties are constants at the top of `src/lib/scoring-engine.ts`; the `/methodology/` page and the "How these shoes are ranked" panel read them from there. Tests pin the injury penalties and the weight total. Changing a weight changes which shoes the ~25 canonical result pages show; `src/lib/result-groups.ts` re-groups near-identical pages automatically at the next build.
 

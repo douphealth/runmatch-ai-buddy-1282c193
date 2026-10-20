@@ -203,7 +203,8 @@ export const track = {
 
   reviewClick: (params: AnalyticsParams) => send('review_click', params),
   affiliateClick: (input: AffiliateClickInput) => send('affiliate_click', buildAffiliateClickParams(input)),
-  pdfDownload: (params: { slug: string; category?: string }) => send('pdf_download', params),
+  /** `email`: 'given' (signed up for the tips), 'skipped' (downloaded without an email) or 'returning' (already subscribed). */
+  pdfDownload: (params: { slug: string; category?: string; email?: 'given' | 'skipped' | 'returning' }) => send('pdf_download', params),
   ctaClick: (label: string, placement: string) => send('cta_click', { label, placement }),
   /** The email popup opened. 	rigger is mouseleave | dwell | scroll | idle. */
   exitIntent: (trigger?: string) => send('exit_intent_shown', trigger ? { trigger } : {}),

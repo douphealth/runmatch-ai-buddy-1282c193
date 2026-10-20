@@ -80,6 +80,8 @@ const hasReportedInjury = (answers: QuizAnswers) => answers.injuries.some((i) =>
 function terrainMatch(userTerrain: string, shoe: Shoe): number {
   const shoeTerrain = shoe.terrain;
   if (userTerrain === 'mixed') return shoeTerrain.length > 1 ? 1 : 0.7;
+  // A road-to-trail hybrid is a fine trail option but not as good as a dedicated trail shoe on real trail.
+  if (userTerrain === 'trail' && shoe.category === 'hybrid') return 0.6;
   if (shoeTerrain.includes(userTerrain as Shoe['terrain'][number])) return 1;
   if (userTerrain === 'track') {
     // No spikes in the database: road racers and speed trainers are what people
@@ -144,12 +146,16 @@ function brandMatch(userBrands: string[], shoeBrand: string): number {
   return userBrands.some((b) => shoeBrand.toLowerCase() === b.toLowerCase()) ? 1 : 0.3;
 }
 
-function paceMatch(userPace: string, shoe: Shoe): number {
+function paceMatch(userPace: string, shoe: Shoe, userTerrain: string): number {
+  // On trail there is no "daily vs speed" trail category: a trail shoe IS the daily shoe, and for tempo/race it is the quick one.
+  // Without this a trail runner at a moderate pace scored every trail shoe 0.5 and a road-to-trail hybrid 1.0.
+  const category: Shoe['category'] =
+    userTerrain === 'trail' && shoe.category === 'trail' ? (userPace === 'tempo' || userPace === 'race' ? 'speed' : 'daily') : shoe.category;
   switch (userPace) {
-    case 'easy': return shoe.category === 'daily' || shoe.category === 'max-cushion' ? 1 : shoe.category === 'trail' ? 0.7 : 0.3;
-    case 'moderate': return shoe.category === 'daily' || shoe.category === 'hybrid' ? 1 : shoe.category === 'speed' ? 0.6 : 0.5;
-    case 'tempo': return shoe.category === 'speed' ? 1 : shoe.category === 'race' ? 0.8 : shoe.category === 'hybrid' ? 0.5 : 0.3;
-    case 'race': return shoe.category === 'race' ? 1 : shoe.category === 'speed' ? 0.7 : 0.2;
+    case 'easy': return category === 'daily' || category === 'max-cushion' ? 1 : category === 'trail' ? 0.7 : 0.3;
+    case 'moderate': return category === 'daily' || category === 'hybrid' ? 1 : category === 'speed' ? 0.6 : 0.5;
+    case 'tempo': return category === 'speed' ? 1 : category === 'race' ? 0.8 : category === 'hybrid' ? 0.5 : 0.3;
+    case 'race': return category === 'race' ? 1 : category === 'speed' ? 0.7 : 0.2;
     default: return 0.5;
   }
 }
@@ -172,7 +178,7 @@ function scoreOne(shoe: Shoe, answers: QuizAnswers, current: Shoe | undefined): 
     injury: injuryMatch(answers.injuries, shoe.injuryFriendly),
     budget: budgetMatch(answers.budget, shoe.priceUSD),
     brand: brandMatch(answers.brand, shoe.brand),
-    pace: paceMatch(answers.paceGoal, shoe),
+    pace: paceMatch(answers.paceGoal, shoe, answers.terrain),
     mileage: mileageMatch(answers.weeklyMileage, shoe),
   };
 

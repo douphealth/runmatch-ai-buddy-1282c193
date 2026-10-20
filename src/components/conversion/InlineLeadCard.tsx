@@ -25,13 +25,15 @@ const STORAGE_KEY = 'gutf_subscribed_v1';
 const SESSION_DISMISS = 'gutf_inline_lead_dismissed_v1';
 
 interface Props {
+  /** Called after a successful sign-up so the page can download the PDF the card promised. */
+  onSubscribed?: () => void;
   primaryShoe?: string;
   shoeCategory?: string;
   weeklyMileage?: number;
   injuries?: string[];
 }
 
-const InlineLeadCard = ({ primaryShoe, shoeCategory, weeklyMileage, injuries }: Props) => {
+const InlineLeadCard = ({ onSubscribed, primaryShoe, shoeCategory, weeklyMileage, injuries }: Props) => {
   const [hidden, setHidden] = useState(() => {
     if (typeof window === 'undefined') return true;
     if (hasSubscribed()) return true;
@@ -51,7 +53,7 @@ const InlineLeadCard = ({ primaryShoe, shoeCategory, weeklyMileage, injuries }: 
       return;
     }
     if (!consent) {
-      toast.error('Please tick the box to receive your PDF and emails');
+      toast.error('Please tick the box to receive the tips emails');
       return;
     }
     setLoading(true);
@@ -75,6 +77,7 @@ const InlineLeadCard = ({ primaryShoe, shoeCategory, weeklyMileage, injuries }: 
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ email: email.trim().toLowerCase(), ts: Date.now() })); } catch { /* storage blocked: signup still succeeded */ }
       track.emailCapture({ source: 'inline_results_card', shoeCategory, marketingConsent: true });
       setDone(true);
+      onSubscribed?.(); // the PDF is built in the browser, so it downloads right now
     } catch (err) {
       console.error(err);
       toast.error('Something went wrong. Please try again.');
@@ -95,7 +98,7 @@ const InlineLeadCard = ({ primaryShoe, shoeCategory, weeklyMileage, injuries }: 
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className="relative max-w-3xl mx-auto my-12"
-      aria-label="Email me the PDF report"
+      aria-label="Get the PDF report and running tips"
     >
       <div className="relative glass rounded-2xl border border-primary/25 p-6 md:p-8 overflow-hidden">
         <div
@@ -125,7 +128,7 @@ const InlineLeadCard = ({ primaryShoe, shoeCategory, weeklyMileage, injuries }: 
                   : 'Want your full shoe match PDF, free?'}
               </h3>
               <p className="text-sm text-muted-foreground leading-snug">
-                Includes your rotation plan and the reasons behind each pick, plus a 7-day running tips email series. Unsubscribe in 1&nbsp;click.
+                Enter your email and it downloads straight away: your top picks, a side-by-side comparison and a rotation plan. You also get a free 7-day running tips email series. Unsubscribe in 1&nbsp;click.
               </p>
             </div>
 
@@ -151,7 +154,7 @@ const InlineLeadCard = ({ primaryShoe, shoeCategory, weeklyMileage, injuries }: 
                   className="mt-0.5 accent-primary"
                 />
                 <span>
-                  Email me the PDF and the 7-day series from GearUpToFit. I can unsubscribe at any time. See the{' '}
+                  Send me the 7-day running tips series from GearUpToFit. I can unsubscribe at any time. See the{' '}
                   <a href="https://gearuptofit.com/privacy-policy/" target="_blank" rel="noopener" className="underline hover:text-primary">privacy policy</a>.
                 </span>
               </label>
@@ -160,7 +163,7 @@ const InlineLeadCard = ({ primaryShoe, shoeCategory, weeklyMileage, injuries }: 
                 disabled={loading}
                 className="h-11 bg-gradient-primary hover:opacity-90 font-bold uppercase tracking-[0.1em] glow-primary whitespace-nowrap"
               >
-                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Email Me My PDF'}
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Get my PDF + tips'}
               </Button>
             </form>
           </div>
@@ -170,8 +173,8 @@ const InlineLeadCard = ({ primaryShoe, shoeCategory, weeklyMileage, injuries }: 
               <CheckCircle2 className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <p className="font-bold uppercase tracking-tight text-sm md:text-base">Check your inbox</p>
-              <p className="text-xs text-muted-foreground">Your PDF is on its way · Day-1 coaching email arrives tomorrow.</p>
+              <p className="font-bold uppercase tracking-tight text-sm md:text-base">You are in!</p>
+              <p className="text-xs text-muted-foreground">Your PDF is downloading · the free 7-day running tips are on their way to your inbox.</p>
             </div>
           </div>
         )}

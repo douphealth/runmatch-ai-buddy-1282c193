@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Lock, CheckCircle2, Loader2, X, Sparkles } from 'lucide-react';
+import { Mail, Lock, CheckCircle2, Loader2, X, Sparkles, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
@@ -9,24 +9,41 @@ import { track } from '@/lib/analytics';
 
 interface EmailGateProps {
   open: boolean;
+  /** The visitor closed the dialog (X, Escape, backdrop). In download mode the page still downloads the report. */
   onClose: () => void;
-  onUnlock: () => void; // called after successful subscribe (or skip)
+  /**
+   * Called when the dialog is done: after a successful sign-up, or in download mode when the visitor downloads
+   * without an email. `subscribed` says whether an address was saved.
+   */
+  onUnlock: (subscribed: boolean) => void;
   primaryShoe?: string;
   shoeCategory?: string;
   weeklyMileage?: number;
   injuries?: string[];
   source?: 'quiz_gate' | 'exit_popup' | 'inline_hero' | 'footer' | 'blog_inline';
+  /**
+   * 'download': the report is the point. One big button downloads it with no email; adding an email (and ticking the
+   * box) also signs the visitor up for the tips. 'subscribe': an email is required (exit popup, post-download offer).
+   */
+  mode?: 'download' | 'subscribe';
   title?: string;
   subtitle?: string;
   ctaLabel?: string;
-  /** Bullet list under the subtitle. Defaults describe the personalised report. */
+  /** Bullet list under the subtitle. */
   benefits?: string[];
 }
 
-const DEFAULT_BENEFITS = [
-  'Full PDF report with your personalised top shoes',
-  'A 2–3 shoe rotation plan and the reasons behind each pick',
-  'A 7-day running tips email series',
+const TIPS_BENEFITS = [
+  'A free 7-day running tips email series',
+  'Practical advice on shoes, training and recovery',
+  'No spam. Unsubscribe in 1 click',
+];
+
+/** What the PDF really contains (see src/lib/pdf-generator.ts). */
+const REPORT_BENEFITS = [
+  'Your top 3 picks with Amazon photos and links',
+  'Side-by-side comparison, shoe rotation plan and try-on guide',
+  'A printable shoe log and gear that suits your running',
 ];
 
 const STORAGE_KEY = 'gutf_subscribed_v1';
@@ -58,6 +75,8 @@ export const hasSubscribed = () => {
 
 export const getSubscribedEmail = () => readRecord()?.email;
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const EmailGate = ({
   open,
   onClose,
@@ -67,11 +86,21 @@ const EmailGate = ({
   weeklyMileage,
   injuries,
   source = 'quiz_gate',
-  title = 'Unlock Your Personalized Shoe Report',
-  subtitle = 'Get your full PDF report, 3-shoe rotation plan, and a free 7-day running coach series — straight to your inbox.',
-  ctaLabel = 'Email Me My Report',
-  benefits = DEFAULT_BENEFITS,
+  mode = 'subscribe',
+  title,
+  subtitle,
+  ctaLabel,
+  benefits,
 }: EmailGateProps) => {
+  const isDownload = mode === 'download';
+  const heading = title ?? (isDownload ? 'Your report is ready' : 'Get the free 7-day running tips');
+  const lead =
+    subtitle ??
+    (isDownload
+      ? 'Download your personalized PDF now. No email needed.'
+      : 'Short, practical emails to help you get the most from your new shoes, training and recovery. Free, unsubscribe in 1 click.');
+  const bullets = benefits ?? (isDownload ? REPORT_BENEFITS : TIPS_BENEFITS);
+
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [consent, setConsent] = useState(false);
@@ -90,14 +119,21 @@ const EmailGate = ({
     return () => document.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
+  const wantsTips = email.trim().length > 0;
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    // Download mode with an empty email is just a download: nothing is asked of the visitor.
+    if (isDownload && !wantsTips) {
+      onUnlock(false);
+      return;
+    }
+    if (!email || !EMAIL_RE.test(email.trim())) {
       toast.error('Please enter a valid email');
       return;
     }
     if (!consent) {
-      toast.error('Please tick the box to receive your report and emails');
+      toast.error(isDownload ? 'Tick the box to get the tips, or clear the email to just download' : 'Please tick the box to receive the emails');
       return;
     }
     setLoading(true);
@@ -122,15 +158,30 @@ const EmailGate = ({
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ email: email.trim().toLowerCase(), ts: Date.now() })); } catch { /* storage unavailable */ }
       // GA4 key event (mark email_capture as a key event in GA4 admin)
       track.emailCapture({ source, shoeCategory, marketingConsent: true });
+      if (isDownload) {
+        toast.success('You are on the list for the 7-day running tips.');
+        onUnlock(true);
+        return;
+      }
       setDone(true);
-      setTimeout(() => { onUnlock(); }, 900);
+      setTimeout(() => { onUnlock(true); }, 900);
     } catch (err) {
       console.error(err);
-      toast.error('Something went wrong. Please try again.');
+      if (isDownload) {
+        // The report must never depend on the sign-up working.
+        toast.error("We couldn't save your email, but your report is downloading.");
+        onUnlock(false);
+      } else {
+        toast.error('Something went wrong. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
   };
+
+  const buttonLabel = isDownload
+    ? wantsTips ? 'Download my PDF + send me the tips' : 'Download my PDF report'
+    : ctaLabel ?? 'Send me the tips';
 
   return (
     <AnimatePresence>
@@ -166,18 +217,20 @@ const EmailGate = ({
               <>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center glow-primary">
-                    <Sparkles className="w-6 h-6 text-primary-foreground" />
+                    {isDownload ? <Download className="w-6 h-6 text-primary-foreground" /> : <Sparkles className="w-6 h-6 text-primary-foreground" />}
                   </div>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Free · 1-click</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+                    {isDownload ? 'Free · instant' : 'Free · 1-click'}
+                  </span>
                 </div>
 
                 <h2 id="email-gate-title" className="text-2xl md:text-[28px] font-bold uppercase leading-tight tracking-tight mb-2">
-                  {title}
+                  {heading}
                 </h2>
-                <p className="text-sm text-muted-foreground mb-5 leading-relaxed">{subtitle}</p>
+                <p className="text-sm text-muted-foreground mb-5 leading-relaxed">{lead}</p>
 
                 <ul className="space-y-2 mb-4 text-xs md:text-sm">
-                  {benefits.map((t) => (
+                  {bullets.map((t) => (
                     <li key={t} className="flex items-start gap-2 text-foreground/90">
                       <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
                       <span>{t}</span>
@@ -186,6 +239,27 @@ const EmailGate = ({
                 </ul>
 
                 <form onSubmit={submit} className="space-y-3">
+                  {isDownload && (
+                    <Button
+                      type="submit"
+                      disabled={loading}
+                      data-testid="gate-primary"
+                      className="w-full h-12 bg-gradient-primary hover:opacity-90 font-bold uppercase tracking-[0.12em] glow-primary"
+                    >
+                      {loading ? (
+                        <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Saving…</>
+                      ) : (
+                        <><Download className="w-4 h-4 mr-2" /> {buttonLabel}</>
+                      )}
+                    </Button>
+                  )}
+
+                  {isDownload && (
+                    <p className="text-[11px] text-muted-foreground text-center pt-1 uppercase tracking-widest">
+                      Optional: also get the free 7-day running tips
+                    </p>
+                  )}
+
                   <Input
                     type="text"
                     placeholder="First name (optional)"
@@ -199,7 +273,7 @@ const EmailGate = ({
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
                     <Input
                       type="email"
-                      required
+                      required={!isDownload}
                       placeholder="you@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value.slice(0, 255))}
@@ -216,23 +290,24 @@ const EmailGate = ({
                       className="mt-0.5 accent-primary"
                     />
                     <span>
-                      Email me my report and the 7-day running tips series from GearUpToFit. I can unsubscribe at any time. By
-                      continuing I accept the{' '}
+                      Send me the 7-day running tips series from GearUpToFit. I can unsubscribe at any time. By ticking I accept the{' '}
                       <a href="https://gearuptofit.com/privacy-policy/" target="_blank" rel="noopener" className="underline hover:text-primary">privacy policy</a>.
                     </span>
                   </label>
 
-                  <Button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full h-12 bg-gradient-primary hover:opacity-90 font-bold uppercase tracking-[0.12em] glow-primary"
-                  >
-                    {loading ? (
-                      <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Sending…</>
-                    ) : (
-                      <><Lock className="w-4 h-4 mr-2" /> {ctaLabel}</>
-                    )}
-                  </Button>
+                  {!isDownload && (
+                    <Button
+                      type="submit"
+                      disabled={loading}
+                      className="w-full h-12 bg-gradient-primary hover:opacity-90 font-bold uppercase tracking-[0.12em] glow-primary"
+                    >
+                      {loading ? (
+                        <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Sending…</>
+                      ) : (
+                        <><Lock className="w-4 h-4 mr-2" /> {buttonLabel}</>
+                      )}
+                    </Button>
+                  )}
 
                   <div className="flex items-center justify-center gap-3 text-[10px] text-muted-foreground/80 uppercase tracking-widest pt-1">
                     <span className="flex items-center gap-1"><Lock className="w-3 h-3" /> Privacy policy linked</span>
@@ -240,13 +315,15 @@ const EmailGate = ({
                     <span>1-click unsubscribe</span>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={onClose}
-                    className="w-full text-[11px] text-muted-foreground/70 hover:text-muted-foreground transition py-1"
-                  >
-                    No thanks, just show my results
-                  </button>
+                  {!isDownload && (
+                    <button
+                      type="button"
+                      onClick={onClose}
+                      className="w-full text-[11px] text-muted-foreground/70 hover:text-muted-foreground transition py-1"
+                    >
+                      No thanks
+                    </button>
+                  )}
                 </form>
               </>
             ) : (
@@ -258,9 +335,9 @@ const EmailGate = ({
                 <div className="w-16 h-16 mx-auto rounded-full bg-primary/15 border-2 border-primary flex items-center justify-center mb-4">
                   <CheckCircle2 className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-bold uppercase mb-2">Check your inbox!</h3>
+                <h3 className="text-xl font-bold uppercase mb-2">You are in!</h3>
                 <p className="text-sm text-muted-foreground">
-                  Your personalized report is on its way.
+                  The free 7-day running tips are on their way to your inbox.
                 </p>
               </motion.div>
             )}
